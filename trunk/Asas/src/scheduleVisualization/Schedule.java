@@ -1,4 +1,4 @@
-package visualizer;
+package scheduleVisualization;
 
 import java.util.Queue;
 import java.util.Vector;
