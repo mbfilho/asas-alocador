@@ -1,18 +1,15 @@
 package validation;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Vector;
-
-import javax.swing.plaf.SliderUI;
 
 import statePersistence.StateService;
 
 import basic.Classroom;
+import basic.NamedEntity;
 import basic.Professor;
 import basic.Class;
 import basic.SlotRange;
-import data.Repository;
 
 public class WarningService {
 	
@@ -21,6 +18,22 @@ public class WarningService {
 	public static final int NO_CONFLICT = 2;
 
 	private StateService stateService = StateService.getInstance();
+	
+	private <T extends NamedEntity> String joinListWithSeparator(Iterable<T> list, String separator){
+		String joined = "", prefix = "";
+		
+		for(NamedEntity item : list){
+			joined += prefix + item.getName();
+			prefix = separator;
+		}
+		return joined;
+	}
+	
+	private <T> Vector<T> intersectLists(Collection<T> listA, Collection<T> listB){
+		Vector<T> resp = new Vector<T>();
+		for(T a : listA) if(listB.contains(a)) resp.add(a);
+		return resp;
+	}
 	
 	public Vector<Warning> checkClassHasProfs(){
 		
@@ -42,6 +55,7 @@ public class WarningService {
 		}
 		return warnings;
 	}
+	
 	public Vector<Warning> checkClassHasRoom(){
 		Vector<Warning> warnings = new Vector<Warning>();
 		
@@ -54,40 +68,21 @@ public class WarningService {
 	
 	public Vector<Warning> checkSameProfConflicts(){
 		Vector<Warning> warnings = new Vector<Warning>();
+		Vector<Class> allClasses = stateService.getCurrentState().classes.all();
 		
-		for(Class c1 : stateService.getCurrentState().classes.all()){
-			for(Class c2 : stateService.getCurrentState().classes.all()){
-				if(c1 == c2) continue;
-				boolean slotsIntersects = false;
-				System.out.println(c1.getId() + " x " + c2.getId());
-				if(c1.getId() == 33 && c2.getId() == 11) System.out.println("AKE! " + slotsIntersects);
-				SlotRange slotIntersection = null;
-				for(SlotRange r1 : c1.getSlots()){
-					for(SlotRange r2 : c2.getSlots()){
-						if(r1.equals(r2)){
-							slotsIntersects = true;
-							slotIntersection = r1;
-							break;
-						}
-					}
-				}
+		for(int i = 0; i < allClasses.size(); ++i){
+			for(int j = i + 1; j < allClasses.size(); ++j){
+				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
 				
-				if(!slotsIntersects) continue;
-				boolean profsIntersects = false;
-				Professor profIntersection = null;
-				for(Professor p1 : c1.getProfessors()){
-					if(c2.getProfessors().contains(p1)){
-						profsIntersects = true;
-						profIntersection = p1;
-						break;
-					}
-				}
+				Vector<SlotRange> slotIntersection = intersectLists(c1.getSlots(), c2.getSlots());
+				if(slotIntersection.isEmpty()) continue;
 				
-				if(profsIntersects){
-					Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
-							.addMessage(profIntersection.getName()).addMessage(slotIntersection.getName());
-					warnings.add(w);
-				}
+				Vector<Professor> profIntersection = intersectLists(c1.getProfessors(), c2.getProfessors());
+				if(profIntersection.isEmpty()) continue;
+				
+				Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
+						.addMessage(joinListWithSeparator(profIntersection, "/")).addMessage(joinListWithSeparator(slotIntersection, "/"));
+				warnings.add(w);
 			}
 		}
 		return warnings;
@@ -95,28 +90,20 @@ public class WarningService {
 	
 	public Vector<Warning> checkSameRoomConflicts(){
 		Vector<Warning> warnings = new Vector<Warning>();
+		Vector<Class> allClasses = stateService.getCurrentState().classes.all();
 		
-		for(Class c1 : stateService.getCurrentState().classes.all()){
-			for(Class c2 : stateService.getCurrentState().classes.all()){
-				if(c2 == c1) continue;
+		for(int i = 0; i < allClasses.size(); ++i){
+			for(int j = i + 1; j < allClasses.size(); ++j){
+				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
 				if(c1.getClassroom() == null || c2.getClassroom() == null) continue;
+				
 				if(c1.getClassroom().equals(c2.getClassroom())){
-					boolean slotsConflicts = false;
-					SlotRange intersection = null;
-					for(SlotRange r1 : c1.getSlots()){
-						for(SlotRange r2 : c2.getSlots()){
-							if(r2.equals(r1)){
-								slotsConflicts = true;
-								intersection = r1;
-								break;
-							}
-						}
-					}
-					if(slotsConflicts){
-						Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
-								.addMessage(c1.getClassroom().getName()).addMessage(intersection.toString());
-						warnings.add(w);
-					}
+					Vector<SlotRange> intersection = intersectLists(c1.getSlots(), c2.getSlots());
+					if(intersection.isEmpty()) continue;
+					
+					Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
+							.addMessage(c1.getClassroom().getName()).addMessage(joinListWithSeparator(intersection, "/"));
+					warnings.add(w);
 				}
 			}
 		}

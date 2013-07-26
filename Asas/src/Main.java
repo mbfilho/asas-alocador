@@ -28,7 +28,7 @@ public class Main {
 		s.classes = classes.data;
 		s.classrooms = classrooms.data;
 		s.professors = professors.data;
-		s.setStateDescription("initial-draft-for-semester-2", "first draft para o 2 semestre", true);
+		s.setStateDescription("initial-draft-for-semester-2", "first draft para o 2 semestre", false);
 		StateService.getInstance().saveNewState(s);
 		//*/
 		VisualizerService service = new VisualizerService();
