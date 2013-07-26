@@ -1,5 +1,6 @@
 package visualizer;
 
+import initial.GroupFormatter;
 import initial.TableFormatter;
 import initial.VisualizerTable;
 
@@ -140,31 +141,7 @@ public class Visualizer extends FrameWithMenu {
 			clearTabs();
 			Vector<Group> groups = visualizerService.groupByClassroom();
 			for(final Group g : groups){
-				Component table = new VisualizerTable(new TableFormatter() {
-					public void formatCell(JLabel cell, int day, int slot) {
-						Vector<ScheduleSlot> scheduled = g.schedule.getSchedule()[slot][day];
-						if(scheduled.size() == 1)
-							cell.setBackground(Color.decode(scheduled.get(0).theClass.getHtmlColor()));
-						else if(scheduled.size() != 0)
-							cell.setBackground(Color.red);
-						
-					}
-
-					public Component getPopupContent(int day, int slot) {
-						JPanel panel = new JPanel();
-						panel.setSize(200, 100);
-						String text = "";
-						Vector<ScheduleSlot> scheduled = g.schedule.getSchedule()[slot][day];
-						if(scheduled.size() == 1)
-							text = scheduled.get(0).theClass.getCode();
-						else if(scheduled.size() != 0){
-							for(ScheduleSlot c : scheduled) text += c.theClass.getCode() + "#";
-						}
-						panel.add(new JLabel(text));
-						return panel;
-					}
-				});
-				
+				Component table = new VisualizerTable(new GroupFormatter(g));
 				tabbedPane.addTab(g.groupName, new JScrollPane(table));
 			}
 		}

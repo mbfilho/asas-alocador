@@ -1,5 +1,6 @@
 package initial;
 
+import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -51,16 +52,16 @@ public class VisualizerTable extends JTable{
 		
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON3){
-					JPopupMenu pop = new JPopupMenu();
-					Point p = e.getPoint();
-					if(p != null){
-						int row = VisualizerTable.this.rowAtPoint(p), col = VisualizerTable.this.columnAtPoint(p);
-						if(col > 0){
-							pop.add(VisualizerTable.this.formatter.getPopupContent(col-1, row));
+				JPopupMenu pop = new JPopupMenu();
+				Point p = e.getPoint();
+				if(p != null){
+					int row = VisualizerTable.this.rowAtPoint(p), col = VisualizerTable.this.columnAtPoint(p);
+					if(col > 0){
+						Component content = VisualizerTable.this.formatter.getPopupContent(col-1, row);
+						if(content != null){
+							pop.add(content);
 							pop.show(VisualizerTable.this, p.x, p.y);
 						}
-						
 					}
 				}
 			}
