@@ -43,8 +43,13 @@ public class GroupFormatter implements TableFormatter {
 	
 	public void formatCell(JLabel cell, int day, int slot) {
 		Vector<ScheduleSlot> scheduled = schedule[slot][day];
-		if(scheduled.size() > 1) cell.setBackground(Color.RED);
-		else if(scheduled.size() == 1) cell.setBackground(Color.decode(scheduled.get(0).theClass.getHtmlColor()));
+		if(scheduled.size() > 1){
+			cell.setBackground(Color.RED);
+			cell.setForeground(Color.white);
+		}else if(scheduled.size() == 1){
+			cell.setBackground(Color.decode(scheduled.get(0).theClass.getHtmlColor()));
+			cell.setToolTipText(scheduled.get(0).theClass.completeName());
+		}
 	}
 
 	public Component getPopupContent(int day, int slot) {

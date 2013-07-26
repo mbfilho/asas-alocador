@@ -13,14 +13,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import utilities.Constants;
+
 public class VisualizationTable extends JTable{
 	private static final long serialVersionUID = -7132674009508957802L;
-	private TableCellRenderer[][] tab = new TableCellRenderer[15][9];
+	private TableCellRenderer[][] tab = new TableCellRenderer[Constants.ROWS][Constants.COLUMNS];
 	private TableFormatter formatter;
 	
 	public VisualizationTable(TableFormatter formatter){
 		this.formatter = formatter;
-		for(int i = 0; i < 15; ++i) for(int j = 0; j < 9; ++j) tab[i][j] = new DefaultTableCellRenderer();
+		for(int i = 0; i < Constants.ROWS; ++i) for(int j = 0; j < Constants.COLUMNS; ++j) 
+			tab[i][j] = new DefaultTableCellRenderer();
+		
 		setRowHeight(50);
 		setModel(new DefaultTableModel(
 			new Object[][] {
@@ -38,17 +42,20 @@ public class VisualizationTable extends JTable{
 				{"18-19", null, null, null, null, null, null, null},
 				{"19-20", null, null, null, null, null, null, null},
 				{"20-21", null, null, null, null, null, null, null},
+				{"21-22", null, null, null, null, null, null, null}
 			},
 			new String[] {
 				"Hor\u00E1rio", "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado"
 			}
 		));
 		setEnabled(false);
-		for(int slot = 0; slot < 15; ++slot){
-			for(int day = 0; day < 7; ++day){
+		for(int slot = 0; slot < Constants.SLOTS; ++slot){
+			for(int day = 0; day < Constants.DAYS; ++day){
 				formatter.formatCell((JLabel)tab[slot][day+1].getTableCellRendererComponent(this, "", false, false, slot, day+1), day, slot);
+				setValueAt(formatter.getCellContent(day, slot), slot, day+1);
 			}
 		}
+		
 		
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
