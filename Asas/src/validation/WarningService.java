@@ -4,6 +4,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javax.swing.plaf.SliderUI;
+
 import statePersistence.StateService;
 
 import basic.Classroom;
@@ -57,6 +59,8 @@ public class WarningService {
 			for(Class c2 : stateService.getCurrentState().classes.all()){
 				if(c1 == c2) continue;
 				boolean slotsIntersects = false;
+				System.out.println(c1.getId() + " x " + c2.getId());
+				if(c1.getId() == 33 && c2.getId() == 11) System.out.println("AKE! " + slotsIntersects);
 				SlotRange slotIntersection = null;
 				for(SlotRange r1 : c1.getSlots()){
 					for(SlotRange r2 : c2.getSlots()){
@@ -68,7 +72,7 @@ public class WarningService {
 					}
 				}
 				
-				if(!slotsIntersects) break;
+				if(!slotsIntersects) continue;
 				boolean profsIntersects = false;
 				Professor profIntersection = null;
 				for(Professor p1 : c1.getProfessors()){
@@ -121,7 +125,7 @@ public class WarningService {
 	
 	public WarningReport getAllWarnings(){
 		if(!stateService.hasValidState()) return new WarningReport();
-		
+
 		WarningReport report = new WarningReport();
 		report.classesWithoutProf.addAll(checkClassHasProfs());
 		report.classesWithoutRoom.addAll(checkClassHasRoom());
