@@ -42,7 +42,7 @@ public class SimpleRepository <T extends NamedEntity> implements Repository<T>, 
 		return get(name) != null;
 	}
 
-	public Collection<T> all() {
+	public Vector<T> all() {
 		return entities;
 	}
 
