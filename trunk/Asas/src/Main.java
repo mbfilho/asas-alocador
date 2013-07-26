@@ -8,10 +8,10 @@ import basic.Classroom;
 import basic.DataValidation;
 import basic.Professor;
 
+import scheduleVisualization.Schedule;
 import statePersistence.State;
 import statePersistence.StateService;
 import validation.WarningService;
-import visualizer.Schedule;
 import visualizer.Visualizer;
 import visualizer.VisualizerService;
 import basic.Class;

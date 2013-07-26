@@ -2,7 +2,7 @@ package htmlGenerator;
 
 import java.util.Vector;
 
-import visualizer.ScheduleSlot;
+import scheduleVisualization.ScheduleSlot;
 
 public class ScheduleTable {
 	private String title;

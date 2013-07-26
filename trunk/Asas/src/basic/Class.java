@@ -142,4 +142,11 @@ public class Class implements NamedEntity, Serializable{
 		Class other = (Class) ot;
 		return id == other.getId();
 	}
+	
+	public String completeName(){
+		String completeName = "";
+		if(code != null && !code.equals("")) completeName = code + " - ";
+		completeName += name;
+		return completeName;
+	}
 }

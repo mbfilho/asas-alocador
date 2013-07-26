@@ -18,7 +18,9 @@ public class SimpleProfessorReader implements DataReader<Professor> {
 		try {
 			Scanner sc = new Scanner(new File(fileName));
 			while(sc.hasNext()){
-				reader.setLine(sc.nextLine(), "#");
+				String line = sc.nextLine();
+				reader.setLine(line, "#");
+				System.out.println(line + " " + line.split("#").length);
 				String name = reader.readString(), email = reader.readString(), cargo = reader.readString();
 				String dpto = reader.readString();
 				boolean temp = reader.readInt() == 1, away = reader.readInt() == 1;

@@ -1,8 +1,7 @@
 package visualizer;
 
-import initial.GroupFormatter;
-import initial.TableFormatter;
-import initial.VisualizerTable;
+
+import groupMaker.Group;
 
 import java.awt.EventQueue;
 
@@ -25,6 +24,9 @@ import org.xhtmlrenderer.resource.XMLResource;
 import org.xhtmlrenderer.simple.FSScrollPane;
 import org.xhtmlrenderer.simple.XHTMLPanel;
 
+import scheduleVisualization.GroupFormatter;
+import scheduleVisualization.TableFormatter;
+import scheduleVisualization.VisualizationTable;
 import statePersistence.State;
 import utilities.SaveHtmlToFile;
 import validation.WarningService;
@@ -141,7 +143,7 @@ public class Visualizer extends FrameWithMenu {
 			clearTabs();
 			Vector<Group> groups = visualizerService.groupByClassroom();
 			for(final Group g : groups){
-				Component table = new VisualizerTable(new GroupFormatter(g));
+				Component table = new VisualizationTable(new GroupFormatter(g));
 				tabbedPane.addTab(g.groupName, new JScrollPane(table));
 			}
 		}
