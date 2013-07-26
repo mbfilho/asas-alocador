@@ -1,8 +1,11 @@
-package visualizer;
+package groupMaker;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Vector;
+
+import scheduleVisualization.Schedule;
+import scheduleVisualization.ScheduleSlot;
 
 public abstract class GenericGroupMaker implements GroupMaker {
 

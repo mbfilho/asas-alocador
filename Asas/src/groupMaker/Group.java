@@ -1,5 +1,7 @@
-package visualizer;
+package groupMaker;
 
+import scheduleVisualization.Schedule;
+import scheduleVisualization.ScheduleSlot;
 import htmlGenerator.ScheduleTable;
 
 public class Group {

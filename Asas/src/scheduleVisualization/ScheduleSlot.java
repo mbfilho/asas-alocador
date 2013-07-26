@@ -1,4 +1,4 @@
-package visualizer;
+package scheduleVisualization;
 import basic.Class;
 
 public class ScheduleSlot {

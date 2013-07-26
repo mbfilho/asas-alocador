@@ -1,4 +1,6 @@
-package visualizer;
+package groupMaker;
+
+import scheduleVisualization.ScheduleSlot;
 
 public class GroupByClassroom extends GenericGroupMaker{
 
