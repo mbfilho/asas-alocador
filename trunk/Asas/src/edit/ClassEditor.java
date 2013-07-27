@@ -1,5 +1,5 @@
 package edit;
-
+/*
 import htmlGenerator.PageWithTables;
 import htmlGenerator.ScheduleTable;
 
@@ -286,3 +286,4 @@ public abstract class ClassEditor extends JFrame{
 		htmlPanel.setDocument(document.getDocument());
 	}
 }
+*/

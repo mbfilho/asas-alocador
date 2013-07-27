@@ -1,14 +1,26 @@
 package groupMaker;
 
+import java.util.HashSet;
+
+import basic.SlotRange;
+
 import scheduleVisualization.ScheduleSlot;
 
 public class GroupByClassroom extends GenericGroupMaker{
 
-	public String getGroupArg(ScheduleSlot scheduled) {
-		return scheduled.theClass.getClassroom().getName(); 
+	public HashSet<String> getGroupArgs(ScheduleSlot scheduled) {
+		HashSet<String> rooms = new HashSet<String>();
+		for(SlotRange slot : scheduled.theClass.getSlots()){
+			if(slot.getClassroom() != null)
+				rooms.add(slot.getClassroom().getName());
+		}
+		return rooms;
 	}
 
 	public boolean canBeGrouped(ScheduleSlot scheduled) {
-		return scheduled.theClass.getClassroom() != null;
+		for(SlotRange slot : scheduled.theClass.getSlots()){
+			if(slot.getClassroom() != null) return true;
+		}
+		return false;
 	}
 }

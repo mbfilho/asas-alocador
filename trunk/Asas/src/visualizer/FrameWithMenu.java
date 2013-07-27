@@ -16,12 +16,7 @@ import statePersistence.StateService;
 import validation.WarningService;
 
 import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Component;
-import javax.swing.SwingConstants;
 
-import edit.ClassEditor;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
@@ -31,6 +26,7 @@ import professors.AddProfessorFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 
+import edit.Editor;
 
 public class FrameWithMenu extends JFrame{
 	protected JMenuBar mainMenuBar;
@@ -96,7 +92,7 @@ public class FrameWithMenu extends JFrame{
 		JMenuItem mntmTurmas = new JMenuItem("Turmas");
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ClassEditor(warningService) {
+				new Editor(warningService) {
 					public void classInformationEdited() {
 						onEditClassInformation();
 					}

@@ -38,12 +38,12 @@ public class SimpleClassReader extends ClassReader {
 		Repository<Class> classes = new ClassRepository();
 		try {
 			Scanner sc = new Scanner(new File(fileName));
-			System.out.println(">>> " + sc.hasNext());
 			while(sc.hasNext()){
 				Class toRead = new Class();
 				String record = sc.nextLine();
 				st = record.split("#");
 				cnt = 0;
+				System.out.println(record);
 				/*
 				for(String tk : st){
 					System.out.print("|"+tk+"|");
@@ -61,7 +61,6 @@ public class SimpleClassReader extends ClassReader {
 						toRead.addProfessor(professors.get(profName));
 				}
 				toRead.setCh(readDouble());
-				toRead.setClassroom(classrooms.get(readString()));
 			//	System.out.println(toRead.getName() + " | P. count: " + toRead.getProfessors().size() + " Ch: " + toRead.getCh() + " room: " + toRead.getClassroom());
 				toRead.setCcSemester(readInt());
 				toRead.setEcSemester(readInt());
@@ -72,7 +71,8 @@ public class SimpleClassReader extends ClassReader {
 				for(int i = 0; i < slotsCount; ++i){
 					int desc[] = new int[3];
 					for(int j = 0; j < 3; ++j) desc[j] = Integer.parseInt(readString());
-					for(int j = desc[1]; j <= desc[2]; ++j) toRead.addSlot(new SlotRange(desc[0], j));
+					String room = readString();
+					for(int j = desc[1]; j <= desc[2]; ++j) toRead.addSlot(new SlotRange(desc[0], j, classrooms.get(room)));
 //					System.out.println(toRead.getName() + " > " + desc[0] + " " + desc[1] + " " + desc[2] + " size: " + toRead.getSlots().size());
 				}
 				toRead.setCh2(readInt());

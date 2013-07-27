@@ -12,6 +12,11 @@ import java.util.Vector;
 
 import javax.swing.Timer;
 
+import basic.Classroom;
+import basic.Professor;
+
+import data.SimpleRepository;
+
 import exceptions.StateIOException;
 
 public class StateService {
