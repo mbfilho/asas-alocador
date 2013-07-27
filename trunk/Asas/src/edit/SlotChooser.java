@@ -132,7 +132,7 @@ public abstract class SlotChooser extends JFrame {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Vector<SlotRange> selected = new Vector<SlotRange>();
-				int ini = ((int) iniHour.getValue()) - 7, end = ((int) endHour.getValue()) - 7;
+				int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 7;
 				while(ini < end){
 					NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
 					SlotRange slot = new SlotRange(days.getSelectedIndex(), ini, (Classroom) obj.data); 
