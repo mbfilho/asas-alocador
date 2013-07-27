@@ -1,6 +1,7 @@
 package groupMaker;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map.Entry;
 import java.util.Vector;
 
@@ -10,7 +11,7 @@ import scheduleVisualization.ScheduleSlot;
 public abstract class GenericGroupMaker implements GroupMaker {
 
 	public abstract boolean canBeGrouped(ScheduleSlot scheduled);
-	public abstract String getGroupArg(ScheduleSlot scheduled);
+	public abstract HashSet<String> getGroupArgs(ScheduleSlot scheduled);
 	
 	public Vector<Group> makeGroup(Schedule schedule) {
 		HashMap<String, Schedule> map = new HashMap<String, Schedule>();
@@ -19,11 +20,14 @@ public abstract class GenericGroupMaker implements GroupMaker {
 			for(int day = 0; day < 7; ++day){
 				for(ScheduleSlot scheduled : week[slot][day]){
 					if(!canBeGrouped(scheduled)) continue;
-					String name = getGroupArg(scheduled);
+					HashSet<String> names = getGroupArgs(scheduled);
 					
-					if(!map.containsKey(name))
-						map.put(name, new Schedule());
-					map.get(name).addScheduleSlot(scheduled, slot, day);
+					for(String name : names){
+						if(!map.containsKey(name))
+							map.put(name, new Schedule());
+						
+						map.get(name).addScheduleSlot(scheduled, slot, day);
+					}
 				}
 			}
 		}

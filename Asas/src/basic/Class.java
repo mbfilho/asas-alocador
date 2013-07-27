@@ -5,10 +5,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 public class Class implements NamedEntity, Serializable{
+	private static final long serialVersionUID = -4317770498263255354L;
+	
 	private String name;
 	private Vector<Professor> professors;
 	private double ch;
-	private Classroom classroom;
 	private int ccSemester, ecSemester;
 	private String course;
 	private Vector<SlotRange> slots;
@@ -28,14 +29,6 @@ public class Class implements NamedEntity, Serializable{
 
 	public void setCh(double ch) {
 		this.ch = ch;
-	}
-
-	public Classroom getClassroom() {
-		return classroom;
-	}
-
-	public void setClassroom(Classroom classroom) {
-		this.classroom = classroom;
 	}
 
 	public int getCcSemester() {

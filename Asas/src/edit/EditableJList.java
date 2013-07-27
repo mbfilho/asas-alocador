@@ -1,4 +1,4 @@
-package visualizer;
+package edit;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,7 +17,6 @@ import javax.swing.JScrollPane;
 import basic.NamedEntity;
 import basic.SlotRange;
 
-import edit.NamedPair;
 
 abstract class SelectElements<T extends NamedEntity> extends JFrame {
 	private JList<NamedPair<T>> list;
@@ -57,17 +56,17 @@ abstract class SelectElements<T extends NamedEntity> extends JFrame {
 public class EditableJList<T extends NamedEntity> extends JPanel{
 	private DefaultListModel<NamedPair<T>> model;
 	private JList<NamedPair<T>> list;
-	private JButton addButton;
+	protected JButton addButton;
 	private JButton removeButton;
 	private JLabel titleLabel;
-	private ActionListener changeListener;
+	protected ActionListener changeListener;
 	
-	public EditableJList(String title, Iterable<T> alObjs){
+	public EditableJList(String title, Iterable<T> allObjs){
 		this.setLayout(null);
 		this.setSize(370, 140);
 		
 		model = new DefaultListModel();
-		configureElements(title, alObjs);
+		configureElements(title, allObjs);
 	}
 	
 	public void clear(){
