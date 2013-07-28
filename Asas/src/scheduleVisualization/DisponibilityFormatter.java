@@ -27,6 +27,7 @@ public class DisponibilityFormatter implements TableFormatter{
 	
 	public void formatCell(JLabel cell, int day, int slot) {
 		Color cellColor = Color.green;
+		System.out.println(theClass);
 		if(!warningService.isClassroomFree(theClass.getId(), theClassroom, new SlotRange(day, slot, null)))
 			cellColor = Color.yellow;
 		for(Professor p : theClass.getProfessors()){
