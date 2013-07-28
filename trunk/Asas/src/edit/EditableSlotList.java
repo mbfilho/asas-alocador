@@ -4,19 +4,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Vector;
 
+import javax.swing.JComboBox;
+
+import validation.WarningService;
+
 import basic.Classroom;
 import basic.SlotRange;
+import basic.Class;
 
 public class EditableSlotList extends EditableJList<SlotRange> {
 
-	public EditableSlotList(String title, final Vector<Classroom> allRooms) {
+	public EditableSlotList(String title, final WarningService service, final JComboBox<NamedPair<Class>> classesToSelect) {
 		super(title, null);
 		
 		for(ActionListener al : addButton.getActionListeners()) addButton.removeActionListener(al);
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
-				System.out.println("Sim");
-				new SlotChooser(allRooms) {
+				NamedPair<Class> pair = (NamedPair<Class>) classesToSelect.getSelectedItem();
+				new SlotChooser(service, pair.data) {
 					public void onChooseSlot(Vector<SlotRange> chosen) {
 						addElements(chosen);
 						changeListener.actionPerformed(e);

@@ -1,10 +1,11 @@
 package groupMaker;
 
+import basic.NamedEntity;
 import scheduleVisualization.Schedule;
 import scheduleVisualization.ScheduleSlot;
 import htmlGenerator.ScheduleTable;
 
-public class Group {
+public class Group implements NamedEntity{
 	public Schedule schedule;
 	public String groupName;
 	
@@ -31,5 +32,9 @@ public class Group {
 			}
 		}
 		return table;
+	}
+
+	public String getName() {
+		return groupName;
 	}
 }

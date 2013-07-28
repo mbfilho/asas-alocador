@@ -107,7 +107,7 @@ public class Visualizer extends FrameWithMenu {
 				refreshTable();
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Salas"}));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Salas", "Professores"}));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
@@ -139,13 +139,18 @@ public class Visualizer extends FrameWithMenu {
 	}
 	
 	private void refreshTable(){
+		clearTabs();
+		Vector<Group> groups = null;
+		
 		if(comboBox.getSelectedItem().equals("Salas")){
-			clearTabs();
-			Vector<Group> groups = visualizerService.groupByClassroom();
-			for(final Group g : groups){
-				Component table = new VisualizationTable(new GroupFormatter(g));
-				tabbedPane.addTab(g.groupName, new JScrollPane(table));
-			}
+			groups = visualizerService.groupByClassroom();
+		}else if(comboBox.getSelectedItem().equals("Professores")){
+			groups = visualizerService.groupByProfessor();
+		}
+		
+		for(final Group g : groups){
+			Component table = new VisualizationTable(new GroupFormatter(g));
+			tabbedPane.addTab(g.groupName, new JScrollPane(table));
 		}
 	}
 	

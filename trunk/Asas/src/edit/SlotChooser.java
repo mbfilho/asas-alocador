@@ -1,47 +1,53 @@
 package edit;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
-import java.awt.Component;
 import java.util.Collection;
 import java.util.Vector;
 
-import javax.swing.Box;
+import basic.Class;
+
 import javax.swing.JButton;
 
+import statePersistence.StateService;
 import utilities.Constants;
+import validation.WarningService;
+
 import javax.swing.DefaultComboBoxModel;
 
 import basic.Classroom;
-import basic.NamedEntity;
 import basic.SlotRange;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public abstract class SlotChooser extends JFrame {
 
 	private static final long serialVersionUID = -2203432919581579448L;
 	private JPanel contentPane;
-
-	/**
-	 * Create the frame.
-	 */
-	public SlotChooser(Collection<Classroom> allRooms) {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 398, 208);
+	private DefaultComboBoxModel<NamedPair<Classroom>> classroomCBModel;
+	private WarningService warningService;
+	private Class selectedClass;
+	private JSpinner endHour, iniHour;
+	private JComboBox<NamedPair<Classroom>> classrooms;
+	private JComboBox<String> days;
+	
+	private void configureElements(){
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -59,11 +65,10 @@ public abstract class SlotChooser extends JFrame {
 		gbc_lblSala.gridx = 1;
 		gbc_lblSala.gridy = 0;
 		contentPane.add(lblSala, gbc_lblSala);
-		
-		final JComboBox<NamedPair<Classroom>> classrooms = new JComboBox<NamedPair<Classroom>>();
-		Vector<NamedPair<Classroom>> namedItens = new Vector<NamedPair<Classroom>>();
-		for(Classroom r : allRooms) namedItens.add(new NamedPair<Classroom>(r.getName(), r));
-		classrooms.setModel(new DefaultComboBoxModel(namedItens.toArray()));
+
+		classrooms = new JComboBox<NamedPair<Classroom>>();
+		classroomCBModel = new DefaultComboBoxModel<NamedPair<Classroom>>(); 
+		classrooms.setModel(classroomCBModel);
 		GridBagConstraints gbc_classrooms = new GridBagConstraints();
 		gbc_classrooms.insets = new Insets(0, 0, 5, 0);
 		gbc_classrooms.gridwidth = 6;
@@ -80,7 +85,7 @@ public abstract class SlotChooser extends JFrame {
 		gbc_lblDia.gridy = 1;
 		contentPane.add(lblDia, gbc_lblDia);
 		
-		final JComboBox<String> days = new JComboBox<String>();
+		days = new JComboBox<String>();
 		days.setModel(new DefaultComboBoxModel(Constants.days));
 		GridBagConstraints gbc_days = new GridBagConstraints();
 		gbc_days.gridwidth = 5;
@@ -98,7 +103,12 @@ public abstract class SlotChooser extends JFrame {
 		gbc_lblDas.gridy = 2;
 		contentPane.add(lblDas, gbc_lblDas);
 		
-		final JSpinner iniHour = new JSpinner();
+		iniHour = new JSpinner();
+		iniHour.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				updateClassroomsDisponibility();
+			}
+		});
 		iniHour.setModel(new SpinnerNumberModel(7, 7, 21, 1));
 		GridBagConstraints gbc_iniHour = new GridBagConstraints();
 		gbc_iniHour.insets = new Insets(0, 0, 5, 5);
@@ -113,7 +123,12 @@ public abstract class SlotChooser extends JFrame {
 		gbc_lblH.gridy = 2;
 		contentPane.add(lblH, gbc_lblH);
 		
-		final JSpinner endHour = new JSpinner();
+		endHour = new JSpinner();
+		endHour.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				updateClassroomsDisponibility();
+			}
+		});
 		endHour.setModel(new SpinnerNumberModel(8, 8, 22, 1));
 		GridBagConstraints gbc_endHour = new GridBagConstraints();
 		gbc_endHour.insets = new Insets(0, 0, 5, 5);
@@ -131,14 +146,7 @@ public abstract class SlotChooser extends JFrame {
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Vector<SlotRange> selected = new Vector<SlotRange>();
-				int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 7;
-				while(ini < end){
-					NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
-					SlotRange slot = new SlotRange(days.getSelectedIndex(), ini, (Classroom) obj.data); 
-					selected.add(slot);
-					++ini;
-				}
+				Vector<SlotRange> selected = getSelectedSlots();
 				if(!selected.isEmpty())	onChooseSlot(selected);
 			}
 		});
@@ -162,8 +170,46 @@ public abstract class SlotChooser extends JFrame {
 		gbc_btnCancelar.gridx = 3;
 		gbc_btnCancelar.gridy = 3;
 		contentPane.add(btnCancelar, gbc_btnCancelar);
+	}
 		
+	public SlotChooser(WarningService warning, Class selectedClass) {
+		this.warningService = warning;
+		this.selectedClass = selectedClass;
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 398, 208);
+		configureElements();
+		updateClassroomsDisponibility();
 		setVisible(true);
+	}
+	
+	private Vector<SlotRange> getSelectedSlots(){
+		Vector<SlotRange> selected = new Vector<SlotRange>();
+		int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 7;
+		while(ini < end){
+			NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
+			SlotRange slot = new SlotRange(days.getSelectedIndex(), ini, obj == null ? null : (Classroom) obj.data); 
+			selected.add(slot);
+			++ini;
+		}	
+		return selected;
+	}
+	
+	private void updateClassroomsDisponibility(){
+		Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
+		classroomCBModel.removeAllElements();
+		
+		for(Classroom r : allRooms){
+			String fontColor = "green";
+			for(SlotRange slot : getSelectedSlots()){
+				if(!warningService.isClassroomFree(selectedClass.getId(), r, slot)){
+					fontColor = "red";
+					break;
+				}
+			}
+			classroomCBModel.addElement((new NamedPair<Classroom>("<html><p style='color:" + fontColor + "'>"+r.getName()+"</p></html>", r)));
+		}
+		
 	}
 
 	public abstract void onChooseSlot(Vector<SlotRange> chosen);

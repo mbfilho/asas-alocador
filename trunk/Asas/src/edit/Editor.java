@@ -227,7 +227,7 @@ public abstract class Editor extends JFrame {
 		gbc_profList.gridy = 6;
 		contentPane.add(professorList, gbc_profList);
 		
-		slotList = new EditableSlotList("Horários", currentState.classrooms.all());
+		slotList = new EditableSlotList("Horários", warningService, classesComboBox);
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
 		gbc_slotList.gridwidth = 6;
 		gbc_slotList.fill = GridBagConstraints.BOTH;
