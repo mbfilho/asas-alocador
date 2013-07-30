@@ -1,6 +1,5 @@
 package edit;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -33,6 +32,7 @@ import statePersistence.State;
 import statePersistence.StateService;
 import validation.WarningService;
 import javax.swing.JScrollPane;
+import javax.swing.JButton;
 
 public abstract class Editor extends JFrame {
 
@@ -77,18 +77,19 @@ public abstract class Editor extends JFrame {
 	 * Create the frame.
 	 */
 	private WarningService warningService;
+	private JButton btnOk;
 	public Editor(WarningService warningService) {
 		this.warningService = warningService;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 658, 490);
+		setBounds(100, 100, 658, 579);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{95, 0, 44, 0, 47, 161, 302, 0};
-		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 162, 0};
+		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 95, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		lblSelecioneUmaDisciplina = new JLabel("Selecione uma disciplina:");
@@ -103,7 +104,7 @@ public abstract class Editor extends JFrame {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
 		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
-		gbc_tabbedPane.gridheight = 8;
+		gbc_tabbedPane.gridheight = 9;
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 6;
 		gbc_tabbedPane.gridy = 0;
@@ -236,6 +237,21 @@ public abstract class Editor extends JFrame {
 		gbc_slotList.gridy = 7;
 		contentPane.add(slotList, gbc_slotList);
 		
+		btnOk = new JButton("Ok");
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveChanges();
+				classInformationEdited();
+				dispose();
+			}
+		});
+		GridBagConstraints gbc_btnOk = new GridBagConstraints();
+		gbc_btnOk.anchor = GridBagConstraints.SOUTH;
+		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
+		gbc_btnOk.gridx = 0;
+		gbc_btnOk.gridy = 8;
+		contentPane.add(btnOk, gbc_btnOk);
+		
 		configureElementsActions();
 		setVisible(true);
 	}
@@ -250,7 +266,6 @@ public abstract class Editor extends JFrame {
 		classesComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				setSelectedClass(((NamedPair<Class>)classesComboBox.getSelectedItem()).data);
-				System.out.println("sim");
 			}
 		});
 		
@@ -273,7 +288,7 @@ public abstract class Editor extends JFrame {
 		toBeSeted.setCourse(courseText.getText());
 		
 		toBeSeted.setProfessors(professorList.getItens());
-		toBeSeted.setSlots(slotList.getItens());	
+		toBeSeted.setSlots(slotList.getItens());
 	}
 	
 	private void saveChanges(){
@@ -315,5 +330,4 @@ public abstract class Editor extends JFrame {
 	}
 	
 	public abstract void classInformationEdited();
-	
 }

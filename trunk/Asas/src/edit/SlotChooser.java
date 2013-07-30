@@ -87,6 +87,11 @@ public abstract class SlotChooser extends JFrame {
 		
 		days = new JComboBox<String>();
 		days.setModel(new DefaultComboBoxModel(Constants.days));
+		days.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				updateClassroomsDisponibility();
+			}
+		});
 		GridBagConstraints gbc_days = new GridBagConstraints();
 		gbc_days.gridwidth = 5;
 		gbc_days.insets = new Insets(0, 0, 5, 5);
@@ -196,20 +201,25 @@ public abstract class SlotChooser extends JFrame {
 	}
 	
 	private void updateClassroomsDisponibility(){
-		Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
-		classroomCBModel.removeAllElements();
+		if(classroomCBModel.getSize() == 0){
+			Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
+			for(Classroom room : allRooms) classroomCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
+		}
 		
-		for(Classroom r : allRooms){
+		for(int i = 0; i < classroomCBModel.getSize(); ++i){
+			Classroom room = classroomCBModel.getElementAt(i).data;
 			String fontColor = "green";
+			
 			for(SlotRange slot : getSelectedSlots()){
-				if(!warningService.isClassroomFree(selectedClass.getId(), r, slot)){
+				if(!warningService.isClassroomFree(selectedClass.getId(), room, slot)){
 					fontColor = "red";
 					break;
 				}
 			}
-			classroomCBModel.addElement((new NamedPair<Classroom>("<html><p style='color:" + fontColor + "'>"+r.getName()+"</p></html>", r)));
+			
+			classroomCBModel.getElementAt(i).name = "<html><p style='color:" + fontColor + "'>"+room.getName()+"</p></html>";
 		}
-		
+		classrooms.repaint();
 	}
 
 	public abstract void onChooseSlot(Vector<SlotRange> chosen);
