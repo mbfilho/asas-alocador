@@ -28,10 +28,10 @@ public class DisponibilityFormatter implements TableFormatter{
 	public void formatCell(JLabel cell, int day, int slot) {
 		Color cellColor = Color.green;
 		System.out.println(theClass);
-		if(!warningService.isClassroomFree(theClass.getId(), theClassroom, new SlotRange(day, slot, null)))
+		if(!warningService.isClassroomFree(theClass.getId(), theClassroom, new SlotRange(day, slot, slot + 1, null)))
 			cellColor = Color.yellow;
 		for(Professor p : theClass.getProfessors()){
-			if(!warningService.isProfessorFree(theClass.getId(), p, new SlotRange(day, slot, null)))
+			if(!warningService.isProfessorFree(theClass.getId(), p, new SlotRange(day, slot, slot + 1, null)))
 				cellColor = Color.red;
 		}
 		

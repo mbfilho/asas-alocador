@@ -72,8 +72,7 @@ public class SimpleClassReader extends ClassReader {
 					int desc[] = new int[3];
 					for(int j = 0; j < 3; ++j) desc[j] = Integer.parseInt(readString());
 					String room = readString();
-					for(int j = desc[1]; j <= desc[2]; ++j) toRead.addSlot(new SlotRange(desc[0], j, classrooms.get(room)));
-//					System.out.println(toRead.getName() + " > " + desc[0] + " " + desc[1] + " " + desc[2] + " size: " + toRead.getSlots().size());
+					toRead.addSlot(new SlotRange(desc[0], desc[1], desc[2], classrooms.get(room)));
 				}
 				toRead.setCh2(readInt());
 				classes.addInOrder(toRead);

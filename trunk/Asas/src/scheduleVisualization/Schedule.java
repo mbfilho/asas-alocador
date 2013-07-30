@@ -23,10 +23,11 @@ public class Schedule {
 	}
 	
 	public void addClass(Class theClass){
-		ScheduleSlot slot = new ScheduleSlot(theClass);
+		ScheduleSlot scheduleSlot = new ScheduleSlot(theClass);
 		
 		for(SlotRange range : theClass.getSlots()){
-			addScheduleSlot(slot, range.getSlot(), range.getDay());
+			for(int slot = range.getStartSlot(); slot <= range.getEndSlot(); ++slot)
+				addScheduleSlot(scheduleSlot, slot, range.getDay());
 		}
 	}
 }
