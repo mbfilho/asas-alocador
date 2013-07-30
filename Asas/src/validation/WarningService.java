@@ -128,7 +128,7 @@ public class WarningService {
 		for(Class c : stateService.getCurrentState().classes.all()){
 			if(c.getId() == classIdToIgnore) continue;
 			for(SlotRange s : c.getSlots()){
-				if(s.getDay() == slot.getDay() && s.getSlot() == slot.getSlot() && s.getClassroom() == room)
+				if(s.getDay() == slot.getDay() && s.intersects(slot) &&  s.getClassroom() == room)
 					return false;
 			}
 		}
@@ -141,7 +141,7 @@ public class WarningService {
 			if(!c.getProfessors().contains(prof)) continue;
 			
 			for(SlotRange s : c.getSlots()){
-				if(s.getDay() == slot.getDay() && s.getSlot() == slot.getSlot())
+				if(s.getDay() == slot.getDay() && s.intersects(slot))
 					return false;
 			}
 		}

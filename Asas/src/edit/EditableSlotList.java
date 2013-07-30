@@ -22,8 +22,8 @@ public class EditableSlotList extends EditableJList<SlotRange> {
 			public void actionPerformed(final ActionEvent e) {
 				NamedPair<Class> pair = (NamedPair<Class>) classesToSelect.getSelectedItem();
 				new SlotChooser(service, pair.data) {
-					public void onChooseSlot(Vector<SlotRange> chosen) {
-						addElements(chosen);
+					public void onChooseSlot(SlotRange chosen) {
+						addElement(chosen);
 						changeListener.actionPerformed(e);
 					}
 				};

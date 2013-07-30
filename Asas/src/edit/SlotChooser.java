@@ -151,8 +151,8 @@ public abstract class SlotChooser extends JFrame {
 		JButton btnOk = new JButton("Ok");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Vector<SlotRange> selected = getSelectedSlots();
-				if(!selected.isEmpty())	onChooseSlot(selected);
+				SlotRange selected = getSelectedSlot();
+				if(selected.isValid()) onChooseSlot(selected);
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
@@ -188,16 +188,11 @@ public abstract class SlotChooser extends JFrame {
 		setVisible(true);
 	}
 	
-	private Vector<SlotRange> getSelectedSlots(){
-		Vector<SlotRange> selected = new Vector<SlotRange>();
+	private SlotRange getSelectedSlot(){
 		int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 7;
-		while(ini < end){
-			NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
-			SlotRange slot = new SlotRange(days.getSelectedIndex(), ini, obj == null ? null : (Classroom) obj.data); 
-			selected.add(slot);
-			++ini;
-		}	
-		return selected;
+		NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
+		SlotRange range = new SlotRange(days.getSelectedIndex(), ini, end, obj == null ? null : (Classroom) obj.data);
+		return range;
 	}
 	
 	private void updateClassroomsDisponibility(){
@@ -209,12 +204,10 @@ public abstract class SlotChooser extends JFrame {
 		for(int i = 0; i < classroomCBModel.getSize(); ++i){
 			Classroom room = classroomCBModel.getElementAt(i).data;
 			String fontColor = "green";
-			
-			for(SlotRange slot : getSelectedSlots()){
-				if(!warningService.isClassroomFree(selectedClass.getId(), room, slot)){
-					fontColor = "red";
-					break;
-				}
+			SlotRange slot = getSelectedSlot();
+			if(!warningService.isClassroomFree(selectedClass.getId(), room, slot)){
+				fontColor = "red";
+				break;
 			}
 			
 			classroomCBModel.getElementAt(i).name = "<html><p style='color:" + fontColor + "'>"+room.getName()+"</p></html>";
@@ -222,5 +215,5 @@ public abstract class SlotChooser extends JFrame {
 		classrooms.repaint();
 	}
 
-	public abstract void onChooseSlot(Vector<SlotRange> chosen);
+	public abstract void onChooseSlot(SlotRange chosen);
 }
