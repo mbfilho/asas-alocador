@@ -189,7 +189,7 @@ public abstract class SlotChooser extends JFrame {
 	}
 	
 	private SlotRange getSelectedSlot(){
-		int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 7;
+		int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 8;
 		NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
 		SlotRange range = new SlotRange(days.getSelectedIndex(), ini, end, obj == null ? null : (Classroom) obj.data);
 		return range;
