@@ -58,12 +58,15 @@ public class WarningService {
 	
 	public Vector<Warning> checkClassHasRoom(){
 		Vector<Warning> warnings = new Vector<Warning>();
-		/*
 		for(Class c : stateService.getCurrentState().classes.all()){
-			if(c.getClassroom() == null)
-				warnings.add(new Warning().addMessage(c.getName()));
+			Vector<SlotRange> slotsWithoutRoom = new Vector<SlotRange>();
+			for(SlotRange range : c.getSlots()){
+				if(range.getClassroom() == null) slotsWithoutRoom.add(range);
+			}
+			if(!slotsWithoutRoom.isEmpty())
+				warnings.add(new Warning().addMessage(c.getName()).addMessage(joinListWithSeparator(slotsWithoutRoom, "/")));
 		}
-		*/
+		
 		return warnings;
 	}
 	
@@ -75,7 +78,10 @@ public class WarningService {
 			for(int j = i + 1; j < allClasses.size(); ++j){
 				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
 				
-				Vector<SlotRange> slotIntersection = intersectLists(c1.getSlots(), c2.getSlots());
+				Vector<SlotRange> slotIntersection = new Vector<SlotRange>();
+				for(SlotRange r1 : c1.getSlots()) for(SlotRange r2 : c2.getSlots()){
+					if(r1.intersects(r2)) slotIntersection.add(r1.intersection(r2));
+				}
 				if(slotIntersection.isEmpty()) continue;
 				
 				Vector<Professor> profIntersection = intersectLists(c1.getProfessors(), c2.getProfessors());
@@ -92,23 +98,26 @@ public class WarningService {
 	public Vector<Warning> checkSameRoomConflicts(){
 		Vector<Warning> warnings = new Vector<Warning>();
 		Vector<Class> allClasses = stateService.getCurrentState().classes.all();
-		/*
+
 		for(int i = 0; i < allClasses.size(); ++i){
 			for(int j = i + 1; j < allClasses.size(); ++j){
 				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
-				if(c1.getClassroom() == null || c2.getClassroom() == null) continue;
 				
-				if(c1.getClassroom().equals(c2.getClassroom())){
-					Vector<SlotRange> intersection = intersectLists(c1.getSlots(), c2.getSlots());
-					if(intersection.isEmpty()) continue;
-					
-					Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
-							.addMessage(c1.getClassroom().getName()).addMessage(joinListWithSeparator(intersection, "/"));
-					warnings.add(w);
+				for(SlotRange r1 : c1.getSlots()){
+					if(r1.getClassroom() == null) continue;
+					for(SlotRange r2 : c2.getSlots()){
+						if(r2.getClassroom() != r1.getClassroom()) continue;
+						SlotRange interseption = r1.intersection(r2);
+						if(!interseption.isValid()) continue;
+						
+						Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
+								.addMessage(r1.getClassroom().getName()).addMessage(interseption.getName());
+						warnings.add(w);
+					}
 				}
+				
 			}
 		}
-		*/
 		return warnings;
 	}
 	
@@ -149,18 +158,18 @@ public class WarningService {
 	}
 
 	public int hasConflit(SlotRange query, Class current) {
-		/*
+		if(query.getClassroom() == null) throw new RuntimeException();
+		
 		for(Class other : stateService.getCurrentState().classes.all()){
 			if(other.equals(current)) continue;
 			for(Professor p : current.getProfessors()){
 				if(other.getProfessors().contains(p) && other.getSlots().contains(query)) return SAME_PROFESSOR;
-				
-				if(other.getClassroom() == current.getClassroom() && current.getClassroom() != null){
-					if(other.getSlots().contains(query)) return SAME_ROOM;
-				}
+			}
+			
+			for(SlotRange range : other.getSlots()){
+				if(range.intersects(query) && range.getClassroom() == query.getClassroom()) return SAME_ROOM;
 			}
 		}
-		*/
 		return NO_CONFLICT;
 	}
 	

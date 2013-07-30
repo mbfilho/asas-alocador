@@ -62,8 +62,12 @@ public class SlotRange implements NamedEntity, Serializable{
 		return start <= end;
 	}
 	
-	public String getName() {
+	public String getNameWithoutRoom(){
 		return toString();
+	}
+	
+	public String getName() {
+		return toString() + (room == null ? "" : " Sala " + room.getName());
 	}
 	
 	public Classroom getClassroom(){
