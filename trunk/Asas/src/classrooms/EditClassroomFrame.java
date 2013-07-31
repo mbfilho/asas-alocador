@@ -10,9 +10,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JComboBox;
 
+import classEditor.NamedPair;
+
 import basic.Classroom;
 
-import edit.NamedPair;
 
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -20,7 +21,6 @@ import java.awt.event.ActionListener;
 
 public class EditClassroomFrame extends ClassroomFramePattern {
 	private static final long serialVersionUID = -1080535206754133507L;
-	private StateService stateService;
 	private JComboBox classrooms;
 	private DefaultComboBoxModel<NamedPair<Classroom>> classroomsCBModel;
 	
@@ -30,13 +30,10 @@ public class EditClassroomFrame extends ClassroomFramePattern {
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0};
 		setTitle("Editar Sala");
 		
-		stateService = StateService.getInstance();
 		classroomsCBModel = new DefaultComboBoxModel<NamedPair<Classroom>>();
 		classroomsCBModel.addElement(new NamedPair<Classroom>("Selecione uma sala.", null));
-		if(stateService.hasValidState()){
-			for(Classroom room : stateService.getCurrentState().classrooms.all())
-				classroomsCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
-		}
+		for(Classroom room : classroomService.all())
+			classroomsCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
 		classrooms = new JComboBox(classroomsCBModel);
 		classrooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -67,11 +64,11 @@ public class EditClassroomFrame extends ClassroomFramePattern {
 	
 	public void onOkButton() {
 		Classroom toEdit = getSelectedClassroom();
-		if(toEdit != null && stateService.hasValidState()){
+		if(toEdit != null){
 			Classroom values = getClassroomFromFields();
 			toEdit.setCapacity(values.getCapacity());
 			toEdit.setName(values.getName());
-			stateService.getCurrentState().classrooms.update(toEdit);
+			classroomService.update(toEdit);
 		}
 		dispose();
 	}

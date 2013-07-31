@@ -1,4 +1,4 @@
-package edit;
+package classEditor;
 
 public class NamedPair <T>{
 	public String name;

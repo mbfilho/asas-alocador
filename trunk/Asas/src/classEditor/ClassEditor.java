@@ -1,4 +1,4 @@
-package edit;
+package classEditor;
 
 import java.awt.EventQueue;
 
@@ -28,13 +28,15 @@ import basic.SlotRange;
 import scheduleVisualization.DisponibilityFormatter;
 import scheduleVisualization.TableFormatter;
 import scheduleVisualization.VisualizationTable;
+import services.ClassService;
+import services.ProfessorService;
 import statePersistence.State;
 import statePersistence.StateService;
 import validation.WarningService;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
-public abstract class Editor extends JFrame {
+public abstract class ClassEditor extends JFrame {
 
 	private static final long serialVersionUID = 679979857489504936L;
 	private JPanel contentPane;
@@ -54,7 +56,8 @@ public abstract class Editor extends JFrame {
 	private JLabel lblPerodo;
 	private JComboBox classesComboBox;
 	private JLabel lblNome;
-
+	private ClassService classService;
+	private ProfessorService professorService;
 	/**
 	 * Launch the application.
 	 */
@@ -62,7 +65,7 @@ public abstract class Editor extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Editor frame = new Editor(new WarningService()) {
+					ClassEditor frame = new ClassEditor(new WarningService()) {
 						public void classInformationEdited() {}
 					};
 					frame.setVisible(true);
@@ -78,8 +81,11 @@ public abstract class Editor extends JFrame {
 	 */
 	private WarningService warningService;
 	private JButton btnOk;
-	public Editor(WarningService warningService) {
+	public ClassEditor(WarningService warningService) {
+		classService = new ClassService();
 		this.warningService = warningService;
+		professorService = new ProfessorService();
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 658, 579);
 		contentPane = new JPanel();
@@ -110,8 +116,7 @@ public abstract class Editor extends JFrame {
 		gbc_tabbedPane.gridy = 0;
 		contentPane.add(tabbedPane, gbc_tabbedPane);
 		
-		State currentState = StateService.getInstance().getCurrentState();
-		Vector<NamedPair<Class>> classesData = createNamedPairs(currentState.classes.all());
+		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
 		classesData.add(0, new NamedPair<Class>("Selecione uma disciplina", null));
 		classesComboBox = new JComboBox<NamedPair<Class>>(classesData);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -219,7 +224,7 @@ public abstract class Editor extends JFrame {
 		contentPane.add(courseText, gbc_txtCourse);
 		courseText.setColumns(10);
 		
-		professorList = new EditableJList<Professor>("Professores", currentState.professors.all());
+		professorList = new EditableJList<Professor>("Professores", professorService.all());
 		GridBagConstraints gbc_profList = new GridBagConstraints();
 		gbc_profList.gridwidth = 6;
 		gbc_profList.fill = GridBagConstraints.BOTH;
@@ -294,7 +299,7 @@ public abstract class Editor extends JFrame {
 	private void saveChanges(){
 		Class selected = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
 		setValuesToClass(selected);
-		StateService.getInstance().getCurrentState().classes.update(selected);
+		classService.update(selected);
 	}
 	
 	private void fillWithSelectedClass(Class selected){

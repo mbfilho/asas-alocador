@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import services.ProfessorService;
 import statePersistence.StateService;
 
 import basic.Professor;
@@ -39,7 +40,7 @@ public abstract class ProfessorFramePattern extends JFrame {
 	private JLabel lblName;
 	private JLabel lblDpto;
 	private JTextField txtDpto;
-	protected Repository<Professor> professors;
+	protected ProfessorService professorService;
 	
 	/**
 	 * Launch the application.
@@ -70,8 +71,7 @@ public abstract class ProfessorFramePattern extends JFrame {
 	 */
 	
 	public ProfessorFramePattern() {
-		if(StateService.getInstance().hasValidState())
-			this.professors = StateService.getInstance().getCurrentState().professors;
+		professorService = new ProfessorService();
 		configureElements();
 	}
 

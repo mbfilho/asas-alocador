@@ -1,4 +1,4 @@
-package edit;
+package classEditor;
 
 import javax.swing.JFrame;
 import javax.swing.JList;

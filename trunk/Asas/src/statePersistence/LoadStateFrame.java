@@ -5,7 +5,8 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import edit.NamedPair;
+import classEditor.NamedPair;
+
 import exceptions.StateIOException;
 
 public class LoadStateFrame extends ChooseStateFrame {

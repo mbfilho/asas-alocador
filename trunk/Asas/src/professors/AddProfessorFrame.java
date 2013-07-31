@@ -12,7 +12,7 @@ public class AddProfessorFrame extends ProfessorFramePattern{
 
 	protected void onOkButton() {
 		Professor toAdd = new Professor(getNameText(), getEmailText(), getCargoText(),  getDptoText(), isTemp(), isAway());
-		professors.addInOrder(toAdd);
+		professorService.add(toAdd);
 		setVisible(false);
 	}
 }
