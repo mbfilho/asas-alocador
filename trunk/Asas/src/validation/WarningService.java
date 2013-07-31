@@ -133,30 +133,6 @@ public class WarningService {
 		return report;
 	}
 	
-	public boolean isClassroomFree(int classIdToIgnore, Classroom room, SlotRange slot){
-		for(Class c : stateService.getCurrentState().classes.all()){
-			if(c.getId() == classIdToIgnore) continue;
-			for(SlotRange s : c.getSlots()){
-				if(s.getDay() == slot.getDay() && s.intersects(slot) &&  s.getClassroom() == room)
-					return false;
-			}
-		}
-		return true;
-	}
-	
-	public boolean isProfessorFree(int classIdToIgnore, Professor prof, SlotRange slot){
-		for(Class c : stateService.getCurrentState().classes.all()){
-			if(c.getId() == classIdToIgnore) continue;
-			if(!c.getProfessors().contains(prof)) continue;
-			
-			for(SlotRange s : c.getSlots()){
-				if(s.getDay() == slot.getDay() && s.intersects(slot))
-					return false;
-			}
-		}
-		return true;
-	}
-
 	public int hasConflit(SlotRange query, Class current) {
 		if(query.getClassroom() == null) throw new RuntimeException();
 		

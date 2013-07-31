@@ -1,5 +1,6 @@
 package scheduleVisualization;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
@@ -9,12 +10,13 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.border.Border;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
 import utilities.Constants;
-
+	
 public class VisualizationTable extends JTable{
 	private static final long serialVersionUID = -7132674009508957802L;
 	private TableCellRenderer[][] tab = new TableCellRenderer[Constants.ROWS][Constants.COLUMNS];
@@ -22,10 +24,20 @@ public class VisualizationTable extends JTable{
 	
 	public VisualizationTable(TableFormatter formatter){
 		this.formatter = formatter;
-		for(int i = 0; i < Constants.ROWS; ++i) for(int j = 0; j < Constants.COLUMNS; ++j) 
-			tab[i][j] = new DefaultTableCellRenderer();
+		for(int i = 0; i < Constants.ROWS; ++i) for(int j = 0; j < Constants.COLUMNS; ++j){ 
+			tab[i][j] = new DefaultTableCellRenderer(){
+				public Component getTableCellRendererComponent(JTable table, Object value,
+                        boolean isSelected, boolean hasFocus, int row, int column) {
+					setText(value == null ? "" : value.toString());
+					return this;
+				}
+			};
+		}
 		
 		setRowHeight(50);
+		String[] columns = new String[] {
+				"Hor\u00E1rio", "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado"
+			};
 		setModel(new DefaultTableModel(
 			new Object[][] {
 				{"7-8", null, null, null, null, null, null, null},
@@ -44,18 +56,16 @@ public class VisualizationTable extends JTable{
 				{"20-21", null, null, null, null, null, null, null},
 				{"21-22", null, null, null, null, null, null, null}
 			},
-			new String[] {
-				"Hor\u00E1rio", "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado"
-			}
+			columns
 		));
 		setEnabled(false);
+		
 		for(int slot = 0; slot < Constants.SLOTS; ++slot){
 			for(int day = 0; day < Constants.DAYS; ++day){
 				formatter.formatCell((JLabel)tab[slot][day+1].getTableCellRendererComponent(this, "", false, false, slot, day+1), day, slot);
 				setValueAt(formatter.getCellContent(day, slot), slot, day+1);
 			}
 		}
-		
 		
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -78,4 +88,6 @@ public class VisualizationTable extends JTable{
 	public TableCellRenderer getCellRenderer(int row, int column){
 		return tab[row][column];
 	}
+	
+	
 }

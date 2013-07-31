@@ -21,6 +21,7 @@ import basic.Class;
 
 import javax.swing.JButton;
 
+import services.ConflictService;
 import statePersistence.StateService;
 import utilities.Constants;
 import validation.WarningService;
@@ -47,6 +48,7 @@ public abstract class SlotChooser extends JFrame {
 	private JComboBox<NamedPair<Classroom>> classrooms;
 	private JComboBox<String> days;
 	private SlotRange slotToEdit;
+	private ConflictService conflictService;
 	
 	private void configureElements(){
 		contentPane = new JPanel();
@@ -188,6 +190,9 @@ public abstract class SlotChooser extends JFrame {
 		contentPane.add(btnCancelar, gbc_btnCancelar);
 	}
 	
+	/**
+	 * @wbp.parser.constructor
+	 */
 	public SlotChooser (WarningService warning, Class selectedClass){
 		this(warning, selectedClass, null);
 	}
@@ -195,6 +200,7 @@ public abstract class SlotChooser extends JFrame {
 	public SlotChooser(WarningService warning, Class selectedClass, SlotRange toEdit) {
 		this.slotToEdit = toEdit;
 		this.warningService = warning;
+		conflictService = new ConflictService();
 		this.selectedClass = selectedClass;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -245,7 +251,7 @@ public abstract class SlotChooser extends JFrame {
 			Classroom room = classroomCBModel.getElementAt(i).data;
 			String fontColor = "green";
 			SlotRange slot = getSelectedSlot();
-			if(!warningService.isClassroomFree(selectedClass.getId(), room, slot)){
+			if(!conflictService.isClassroomFreeForThisClass(selectedClass, room, slot)){
 				fontColor = "red";
 				break;
 			}

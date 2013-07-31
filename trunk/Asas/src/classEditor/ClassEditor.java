@@ -1,7 +1,9 @@
 package classEditor;
 
+import java.awt.Color;
 import java.awt.EventQueue;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -328,7 +330,7 @@ public abstract class ClassEditor extends JFrame {
 		tabbedPane.removeAll();
 		
 		for(Classroom r : rooms){
-			TableFormatter formatter = new DisponibilityFormatter(r, selected, warningService);
+			TableFormatter formatter = new DisponibilityFormatter(r, selected);
 			VisualizationTable table = new VisualizationTable(formatter);
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}

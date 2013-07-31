@@ -94,6 +94,7 @@ public class FrameWithMenu extends JFrame{
 		menuBar.add(mnEditar);
 		
 		JMenuItem mntmTurmas = new JMenuItem("Turmas");
+		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new ClassEditor(warningService) {
