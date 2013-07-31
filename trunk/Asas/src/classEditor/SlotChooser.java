@@ -163,6 +163,7 @@ public abstract class SlotChooser extends JFrame {
 						onChooseSlot(slotToEdit);
 					}else onChooseSlot(selected);
 				}
+				dispose();
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();

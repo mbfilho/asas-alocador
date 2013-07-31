@@ -33,9 +33,13 @@ public class EditableSlotList extends EditableJList<SlotRange> {
 		list.addMouseListener(new MouseAdapter() {
 			  public void mouseClicked(java.awt.event.MouseEvent arg){
 				  if(arg.getClickCount() == 2){
-					  NamedPair<Class> pair = (NamedPair<Class>) classesToSelect.getSelectedItem();
-					  new SlotChooser(service, pair.data, list.getSelectedValue().data) {
+					  final NamedPair<Class> pair = (NamedPair<Class>) classesToSelect.getSelectedItem();
+					  final NamedPair<SlotRange> selectedSlotRange = list.getSelectedValue();
+					  
+					  new SlotChooser(service, pair.data, selectedSlotRange.data) {
 						public void onChooseSlot(SlotRange chosen) {
+							selectedSlotRange.name = chosen.getName();
+							changeListener.actionPerformed(null);
 							list.repaint();
 						}
 					};
