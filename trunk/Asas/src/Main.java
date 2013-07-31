@@ -1,3 +1,5 @@
+import java.text.Collator;
+
 import data.Repository;
 import data.SimpleClassReader;
 import data.SimpleClassRoomReader;
@@ -19,6 +21,8 @@ import basic.Class;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
+		Collator.getInstance().setStrength(Collator.SECONDARY);
+		
 		/*
 		DataValidation<Repository<Professor>> professors = new SimpleProfessorReader().read();
 		DataValidation<Repository<Classroom>> classrooms = new SimpleClassRoomReader().read();

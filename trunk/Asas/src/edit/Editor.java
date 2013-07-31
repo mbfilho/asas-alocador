@@ -265,7 +265,7 @@ public abstract class Editor extends JFrame {
 		
 		classesComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				setSelectedClass(((NamedPair<Class>)classesComboBox.getSelectedItem()).data);
+				fillWithSelectedClass(((NamedPair<Class>)classesComboBox.getSelectedItem()).data);
 			}
 		});
 		
@@ -297,7 +297,7 @@ public abstract class Editor extends JFrame {
 		StateService.getInstance().getCurrentState().classes.update(selected);
 	}
 	
-	private void setSelectedClass(Class selected){
+	private void fillWithSelectedClass(Class selected){
 		if(selected == null) return;
 		
 		nameText.setText(selected.getName());

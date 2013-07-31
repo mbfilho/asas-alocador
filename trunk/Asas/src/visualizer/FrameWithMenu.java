@@ -21,7 +21,11 @@ import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
 
+import classrooms.AddClassroomFrame;
+import classrooms.EditClassroomFrame;
+
 import professors.AddProfessorFrame;
+import professors.EditProfessorFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
@@ -99,6 +103,33 @@ public class FrameWithMenu extends JFrame{
 				};
 			}
 		});
+		
+		JMenuItem mntmProfessores = new JMenuItem("Professores");
+		mntmProfessores.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new EditProfessorFrame(){
+					protected void onOkButton(){
+						super.onOkButton();
+						onEditProfessorInformation();
+					}
+				};
+			}
+		});
+		
+		mnEditar.add(mntmProfessores);
+		
+		JMenuItem mntmSalas = new JMenuItem("Salas");
+		mntmSalas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new EditClassroomFrame(){
+					public void onOkButton(){
+						super.onOkButton();
+						onEditClassroomInformation();
+					}
+				};
+			}
+		});
+		mnEditar.add(mntmSalas);
 		mnEditar.add(mntmTurmas);
 		
 		JMenu mnAdicionar = new JMenu("Adicionar");
@@ -111,6 +142,14 @@ public class FrameWithMenu extends JFrame{
 			}
 		});
 		mnAdicionar.add(mntmProfessor);
+		
+		JMenuItem mntmSala = new JMenuItem("Sala");
+		mntmSala.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddClassroomFrame();
+			}
+		});
+		mnAdicionar.add(mntmSala);
 		
 		warningMenuItem = new JMenu("Alertas");
 		menuBar.add(warningMenuItem);
@@ -136,6 +175,15 @@ public class FrameWithMenu extends JFrame{
 		String text = "Alertas";
 		if(count != 0) text += "(" + count + ")";
 		warningMenuItem.setText(text);
+	}
+	
+	protected void onEditProfessorInformation(){
+		
+	}
+	
+	//ao editar informações de uma sala
+	protected void onEditClassroomInformation(){
+		updateWarningCountText();
 	}
 	
 	//ao carregar um estado previamente salvo

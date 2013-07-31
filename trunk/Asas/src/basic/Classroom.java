@@ -9,6 +9,20 @@ public class Classroom implements NamedEntity, Serializable{
 	private int capacity;
 	
 	public Classroom(String name){
+		this(name, -1);
+	}
+	
+	public Classroom(String name, int cap){
+		this.name = name;
+		this.capacity = cap;
+	}
+	
+	public Classroom(String name, String cap){
+		try{
+			capacity = Integer.parseInt(cap);
+		}catch(NumberFormatException ex){
+			capacity = -1;
+		}
 		this.name = name;
 	}
 	
@@ -22,5 +36,9 @@ public class Classroom implements NamedEntity, Serializable{
 	
 	public int getCapacity(){
 		return capacity;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 }
