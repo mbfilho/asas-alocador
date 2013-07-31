@@ -24,6 +24,10 @@ public class SlotRange implements NamedEntity, Serializable{
 	public static SlotRange emptyRange(){
 		return _emptyRange;
 	}
+	
+	public static SlotRange singleSlotRange(int day, int slot){
+		return new SlotRange(day, slot, slot, null);
+	}
 
 	public void setDay(int day){
 		this.day = day;

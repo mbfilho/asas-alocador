@@ -40,6 +40,9 @@ public class Main {
 		StateService.getInstance().save();
 		System.out.println(StateService.getInstance().getCurrentState().classes.all().size());
 		//*/
+		StateService st = StateService.getInstance();
+		st.setCurrentState(st.allStates().get(0));
+		
 		VisualizerService service = new VisualizerService();
 		WarningService warningService = new WarningService();
 		new Visualizer(service, warningService);
