@@ -26,6 +26,30 @@ public class Professor implements NamedEntity, Serializable{
 		return name;
 	}
 
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setCargo(String cargo) {
+		this.cargo = cargo;
+	}
+
+	public void setDpto(String dpto) {
+		this.dpto = dpto;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public void setTemporary(boolean temporary) {
+		this.temporary = temporary;
+	}
+
+	public void setAway(boolean away) {
+		this.away = away;
+	}
+
 	public String getCargo() {
 		return cargo;
 	}

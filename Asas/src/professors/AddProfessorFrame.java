@@ -10,7 +10,7 @@ public class AddProfessorFrame extends ProfessorFramePattern{
 		setTitle("Adicionar professor");
 	}
 
-	protected void onSaveButton() {
+	protected void onOkButton() {
 		Professor toAdd = new Professor(getNameText(), getEmailText(), getCargoText(),  getDptoText(), isTemp(), isAway());
 		professors.addInOrder(toAdd);
 		setVisible(false);

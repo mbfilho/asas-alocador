@@ -2,6 +2,7 @@ package visualizer;
 
 
 import groupMaker.Group;
+import groupMaker.GroupingMethods;
 
 import java.awt.EventQueue;
 
@@ -45,7 +46,6 @@ import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
 public class Visualizer extends FrameWithMenu {
-
 	/**
 	 * Launch the application.
 	 */
@@ -65,7 +65,7 @@ public class Visualizer extends FrameWithMenu {
 	/**
 	 * Create the frame.
 	 */
-	private JComboBox comboBox;
+	private JComboBox grouping;
 	private VisualizerService visualizerService;
 	private WarningService warningService;
 	private JTabbedPane tabbedPane;
@@ -101,19 +101,19 @@ public class Visualizer extends FrameWithMenu {
 		gbc_lblAgrupamento.gridy = 1;
 		getContentPane().add(lblAgrupamento, gbc_lblAgrupamento);
 		
-		comboBox = new JComboBox();
-		comboBox.addActionListener(new ActionListener() {
+		grouping = new JComboBox();
+		grouping.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refreshTable();
 			}
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Salas", "Professores"}));
+		grouping.setModel(new DefaultComboBoxModel(GroupingMethods.getAllMethods()));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_comboBox.gridx = 1;
 		gbc_comboBox.gridy = 1;
-		getContentPane().add(comboBox, gbc_comboBox);
+		getContentPane().add(grouping, gbc_comboBox);
 		
 		JButton btnNewButton = new JButton("Salvar HTML");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -142,9 +142,9 @@ public class Visualizer extends FrameWithMenu {
 		clearTabs();
 		Vector<Group> groups = null;
 		
-		if(comboBox.getSelectedItem().equals("Salas")){
+		if(grouping.getSelectedItem() == GroupingMethods.CLASSROOM){
 			groups = visualizerService.groupByClassroom();
-		}else if(comboBox.getSelectedItem().equals("Professores")){
+		}else if(grouping.getSelectedItem() == GroupingMethods.PROFESSOR){
 			groups = visualizerService.groupByProfessor();
 		}
 		
@@ -166,8 +166,19 @@ public class Visualizer extends FrameWithMenu {
 	}
 	
 	//ao editar informações de uma turma
-	public void onEditClassInformation() {
+	protected void onEditClassInformation() {
 		super.onEditClassInformation();
 		refreshTable();
 	}
+	
+	protected void onEditProfessorInformation(){
+		super.onEditProfessorInformation();
+		if(grouping.getSelectedItem() == GroupingMethods.PROFESSOR) refreshTable();
+	}
+	
+	protected void onEditClassroomInformation(){
+		super.onEditClassInformation();
+		if(grouping.getSelectedItem() == GroupingMethods.CLASSROOM) refreshTable();
+	}
+	
 }
