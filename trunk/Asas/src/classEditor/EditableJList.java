@@ -55,7 +55,7 @@ abstract class SelectElements<T extends NamedEntity> extends JFrame {
 
 public class EditableJList<T extends NamedEntity> extends JPanel{
 	private DefaultListModel<NamedPair<T>> model;
-	private JList<NamedPair<T>> list;
+	protected JList<NamedPair<T>> list;
 	protected JButton addButton;
 	private JButton removeButton;
 	private JLabel titleLabel;

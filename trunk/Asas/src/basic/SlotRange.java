@@ -24,13 +24,25 @@ public class SlotRange implements NamedEntity, Serializable{
 	public static SlotRange emptyRange(){
 		return _emptyRange;
 	}
+
+	public void setDay(int day){
+		this.day = day;
+	}
 	
 	public int getDay(){
 		return day;
 	}
 	
+	public void setStartSlot(int st){
+		this.start = st;
+	}
+	
 	public int getStartSlot(){
 		return start;
+	}
+	
+	public void setEndSlot(int end){
+		this.end = end;
 	}
 	
 	public int getEndSlot(){
@@ -72,5 +84,9 @@ public class SlotRange implements NamedEntity, Serializable{
 	
 	public Classroom getClassroom(){
 		return room;
+	}
+	
+	public void setClassroom(Classroom room){
+		this.room = room;
 	}
 }
