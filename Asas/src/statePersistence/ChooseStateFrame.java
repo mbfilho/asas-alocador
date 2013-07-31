@@ -10,9 +10,11 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import javax.swing.JList;
 import java.awt.Insets;
+
+import classEditor.NamedPair;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
-import edit.NamedPair;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;

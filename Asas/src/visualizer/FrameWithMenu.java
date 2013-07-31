@@ -21,6 +21,7 @@ import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
 
+import classEditor.ClassEditor;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
 
@@ -30,7 +31,6 @@ import professors.EditProfessorFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 
-import edit.Editor;
 
 public class FrameWithMenu extends JFrame{
 	protected JMenuBar mainMenuBar;
@@ -96,7 +96,7 @@ public class FrameWithMenu extends JFrame{
 		JMenuItem mntmTurmas = new JMenuItem("Turmas");
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Editor(warningService) {
+				new ClassEditor(warningService) {
 					public void classInformationEdited() {
 						onEditClassInformation();
 					}

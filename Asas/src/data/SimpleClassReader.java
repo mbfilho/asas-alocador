@@ -5,6 +5,9 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
+import services.ClassService;
+import statePersistence.StateService;
+
 import basic.Class;
 import basic.Classroom;
 import basic.DataValidation;
@@ -17,10 +20,6 @@ public class SimpleClassReader extends ClassReader {
 	private String[] st;
 	int cnt;
 	
-	public SimpleClassReader(Repository<Professor> professors,Repository<Classroom> rooms) {
-		super(professors, rooms);
-	}
-
 	private String readString(){
 		return st[cnt++];
 	}
@@ -35,7 +34,8 @@ public class SimpleClassReader extends ClassReader {
 	
 	public DataValidation<Repository<Class>> read() throws InvalidInputException {
 		Vector<String> errors = new Vector<String>();
-		Repository<Class> classes = new ClassRepository();
+		ClassService service = new ClassService();
+		
 		try {
 			Scanner sc = new Scanner(new File(fileName));
 			while(sc.hasNext()){
@@ -58,7 +58,7 @@ public class SimpleClassReader extends ClassReader {
 					if(!professors.exists(profName))
 						errors.add("Na disciplina: " + toRead.getName() + " professor " + profName + " não cadastrado.");
 					else
-						toRead.addProfessor(professors.get(profName));
+						toRead.addProfessor(professors.getByName(profName));
 				}
 				toRead.setCh(readDouble());
 			//	System.out.println(toRead.getName() + " | P. count: " + toRead.getProfessors().size() + " Ch: " + toRead.getCh() + " room: " + toRead.getClassroom());
@@ -72,16 +72,16 @@ public class SimpleClassReader extends ClassReader {
 					int desc[] = new int[3];
 					for(int j = 0; j < 3; ++j) desc[j] = Integer.parseInt(readString());
 					String room = readString();
-					toRead.addSlot(new SlotRange(desc[0], desc[1], desc[2], classrooms.get(room)));
+					toRead.addSlot(new SlotRange(desc[0], desc[1], desc[2], classrooms.getByName(room)));
 				}
 				toRead.setCh2(readInt());
-				classes.addInOrder(toRead);
+				service.add(toRead);
 			}
 		} catch (FileNotFoundException e) {
 			errors.add("O arquivo \"" + fileName + "\" não foi encontrado.");
 		}
 		
-		return new DataValidation(classes, errors);
+		return new DataValidation(StateService.getInstance().getCurrentState().classes, errors);
 	}
 
 }

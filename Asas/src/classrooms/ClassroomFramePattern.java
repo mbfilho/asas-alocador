@@ -18,12 +18,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
+import services.ClassroomService;
+
 public abstract class ClassroomFramePattern extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtCap;
-
+	protected ClassroomService classroomService;
 	/**
 	 * Launch the application.
 	 */
@@ -47,6 +49,8 @@ public abstract class ClassroomFramePattern extends JFrame {
 	 * Create the frame.
 	 */
 	public ClassroomFramePattern() {
+		classroomService = new ClassroomService();
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 350, 176);

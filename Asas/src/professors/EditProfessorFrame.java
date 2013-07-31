@@ -12,19 +12,18 @@ import java.util.Collection;
 
 import javax.swing.JLabel;
 
+import classEditor.NamedPair;
+
 import statePersistence.StateService;
 
-import edit.NamedPair;
 
 import basic.Professor;
 
 public class EditProfessorFrame extends ProfessorFramePattern {
 	private DefaultComboBoxModel<NamedPair<Professor>> professorCBModel;
 	JComboBox<NamedPair<Professor>> professors;
-	private StateService stateService;
 	
 	public EditProfessorFrame() {
-		stateService = StateService.getInstance();
 		GridBagLayout gridBagLayout = (GridBagLayout) getContentPane().getLayout();
 		gridBagLayout.rowHeights = new int[]{52, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
@@ -39,10 +38,8 @@ public class EditProfessorFrame extends ProfessorFramePattern {
 		
 		professorCBModel = new DefaultComboBoxModel<NamedPair<Professor>>();
 		professorCBModel.addElement(new NamedPair<Professor>("Selecione um professor.", null));
-		if(StateService.getInstance().hasValidState()){
-			Collection<Professor> allProfs = StateService.getInstance().getCurrentState().professors.all();
-			for(Professor p : allProfs) professorCBModel.addElement(new NamedPair<Professor>(p.getName(), p));
-		}
+		Collection<Professor> allProfs = professorService.all();
+		for(Professor p : allProfs) professorCBModel.addElement(new NamedPair<Professor>(p.getName(), p));
 		professors = new JComboBox<NamedPair<Professor>>(professorCBModel);
 		professors.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -87,7 +84,7 @@ public class EditProfessorFrame extends ProfessorFramePattern {
 		Professor toEdit = getSelectedProfessor();
 		if(toEdit != null){
 			editWithFieldValues(toEdit);
-			stateService.getCurrentState().professors.update(toEdit);
+			professorService.update(toEdit);
 		}
 		setVisible(false);
 	}
