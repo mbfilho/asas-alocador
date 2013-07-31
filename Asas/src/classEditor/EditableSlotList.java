@@ -2,13 +2,13 @@ package classEditor;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 
 import validation.WarningService;
 
-import basic.Classroom;
 import basic.SlotRange;
 import basic.Class;
 
@@ -28,6 +28,19 @@ public class EditableSlotList extends EditableJList<SlotRange> {
 					}
 				};
 			}
+		});
+		
+		list.addMouseListener(new MouseAdapter() {
+			  public void mouseClicked(java.awt.event.MouseEvent arg){
+				  if(arg.getClickCount() == 2){
+					  NamedPair<Class> pair = (NamedPair<Class>) classesToSelect.getSelectedItem();
+					  new SlotChooser(service, pair.data, list.getSelectedValue().data) {
+						public void onChooseSlot(SlotRange chosen) {
+							list.repaint();
+						}
+					};
+				  }
+			  }
 		});
 	}
 

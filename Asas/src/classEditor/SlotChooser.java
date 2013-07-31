@@ -46,6 +46,7 @@ public abstract class SlotChooser extends JFrame {
 	private JSpinner endHour, iniHour;
 	private JComboBox<NamedPair<Classroom>> classrooms;
 	private JComboBox<String> days;
+	private SlotRange slotToEdit;
 	
 	private void configureElements(){
 		contentPane = new JPanel();
@@ -152,7 +153,16 @@ public abstract class SlotChooser extends JFrame {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				SlotRange selected = getSelectedSlot();
-				if(selected.isValid()) onChooseSlot(selected);
+				
+				if(selected.isValid()){
+					if(isEditingExistingSlot()){
+						slotToEdit.setClassroom(selected.getClassroom());
+						slotToEdit.setDay(selected.getDay());
+						slotToEdit.setStartSlot(selected.getStartSlot());
+						slotToEdit.setEndSlot(selected.getEndSlot());
+						onChooseSlot(slotToEdit);
+					}else onChooseSlot(selected);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
@@ -176,8 +186,13 @@ public abstract class SlotChooser extends JFrame {
 		gbc_btnCancelar.gridy = 3;
 		contentPane.add(btnCancelar, gbc_btnCancelar);
 	}
-		
-	public SlotChooser(WarningService warning, Class selectedClass) {
+	
+	public SlotChooser (WarningService warning, Class selectedClass){
+		this(warning, selectedClass, null);
+	}
+	
+	public SlotChooser(WarningService warning, Class selectedClass, SlotRange toEdit) {
+		this.slotToEdit = toEdit;
 		this.warningService = warning;
 		this.selectedClass = selectedClass;
 		setResizable(false);
@@ -185,7 +200,31 @@ public abstract class SlotChooser extends JFrame {
 		setBounds(100, 100, 398, 208);
 		configureElements();
 		updateClassroomsDisponibility();
+		fillWithSelectedSlot();
 		setVisible(true);
+	}
+	
+	private void selectClassroom(Classroom room){
+		for(int i = 0; i < classroomCBModel.getSize(); ++i){
+			NamedPair<Classroom> pair = classroomCBModel.getElementAt(i);
+			if(pair.data == room){
+				classrooms.setSelectedItem(pair);
+				break;
+			}
+		}
+	}
+	
+	private boolean isEditingExistingSlot(){
+		return slotToEdit != null;
+	}
+	
+	private void fillWithSelectedSlot(){
+		if(isEditingExistingSlot()){
+			selectClassroom(slotToEdit.getClassroom());
+			iniHour.setValue(slotToEdit.getStartSlot() + 7);
+			endHour.setValue(slotToEdit.getEndSlot() + 8);
+			days.setSelectedIndex(slotToEdit.getDay());
+		}
 	}
 	
 	private SlotRange getSelectedSlot(){
