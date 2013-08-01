@@ -1,5 +1,9 @@
 package data;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
 import java.util.Vector;
 
 import services.ClassroomService;
@@ -13,11 +17,21 @@ public class SimpleClassRoomReader implements DataReader<Classroom> {
 
 	public DataValidation<Repository<Classroom>> read() throws InvalidInputException {
 		ClassroomService service = new ClassroomService();
-		service.add(new Classroom("Área II"));
-		service.add(new Classroom("CTG"));
-		for(int i = 1; i < 10; ++i) service.add(new Classroom("" + i));
-		for(int i = 90; i < 95; ++i) service.add(new Classroom("" + i));
-		
+		try {
+			Scanner sc = new Scanner(new File("classrooms.in"));
+			LineReader reader = new LineReader();
+			
+			while(sc.hasNext()){
+				String line = sc.nextLine();
+				reader.setLine(line, "#");
+				System.out.println(line + "|" + line.split("#").length + "|");
+				Classroom room = new Classroom(reader.readString(), reader.readIntOrDefault(1000000000));
+				service.add(room);
+			}
+			sc.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 		return new DataValidation(StateService.getInstance().getCurrentState().classrooms);
 	}
 }
