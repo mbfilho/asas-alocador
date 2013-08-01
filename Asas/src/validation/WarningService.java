@@ -1,8 +1,11 @@
 package validation;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Vector;
 
+import services.ClassService;
+import services.ProfessorService;
 import statePersistence.StateService;
 
 import basic.Classroom;
@@ -12,12 +15,14 @@ import basic.Class;
 import basic.SlotRange;
 
 public class WarningService {
-	
-	public static final int SAME_ROOM = 0;
-	public static final int SAME_PROFESSOR = 1;
-	public static final int NO_CONFLICT = 2;
-
 	private StateService stateService = StateService.getInstance();
+	private ClassService classService;
+	private ProfessorService professorService;
+	
+	public WarningService(){
+		classService = new ClassService();
+		professorService = new ProfessorService();
+	}
 	
 	private <T extends NamedEntity> String joinListWithSeparator(Iterable<T> list, String separator){
 		String joined = "", prefix = "";
@@ -121,6 +126,19 @@ public class WarningService {
 		return warnings;
 	}
 	
+	public Vector<Warning> checkProfessorsWithoutClasses(){
+		HashSet<Professor> allocatedProfessors = new HashSet<Professor>();
+		Vector<Warning> warnings = new Vector<Warning>();
+		for(Class c : classService.all()){
+			for(Professor p : c.getProfessors()) allocatedProfessors.add(p);
+		}
+		for(Professor p : professorService.all()){
+			if(!allocatedProfessors.contains(p) && !p.isAway()) 
+				warnings.add(new Warning().addMessage(p.getName()));
+		}
+		return warnings;
+	}
+	
 	public WarningReport getAllWarnings(){
 		if(!stateService.hasValidState()) return new WarningReport();
 
@@ -130,23 +148,8 @@ public class WarningService {
 		report.classesWithoutSlots.addAll(checkClassHasSlot());
 		report.classesWithSameProf.addAll(checkSameProfConflicts());
 		report.classesWithSameRoom.addAll(checkSameRoomConflicts());
+		report.professorsWithoutClass.addAll(checkProfessorsWithoutClasses());
 		return report;
-	}
-	
-	public int hasConflit(SlotRange query, Class current) {
-		if(query.getClassroom() == null) throw new RuntimeException();
-		
-		for(Class other : stateService.getCurrentState().classes.all()){
-			if(other.equals(current)) continue;
-			for(Professor p : current.getProfessors()){
-				if(other.getProfessors().contains(p) && other.getSlots().contains(query)) return SAME_PROFESSOR;
-			}
-			
-			for(SlotRange range : other.getSlots()){
-				if(range.intersects(query) && range.getClassroom() == query.getClassroom()) return SAME_ROOM;
-			}
-		}
-		return NO_CONFLICT;
 	}
 	
 }

@@ -179,7 +179,7 @@ public class FrameWithMenu extends JFrame{
 	}
 	
 	protected void onEditProfessorInformation(){
-		
+		updateWarningCountText();
 	}
 	
 	//ao editar informações de uma sala
