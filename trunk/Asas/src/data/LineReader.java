@@ -13,6 +13,14 @@ public class LineReader {
 		return st[cnt++];
 	}
 	
+	public int readIntOrDefault(int def){
+		try{
+			return readInt();
+		}catch(NumberFormatException ex){
+			return def;
+		}
+	}
+	
 	public int readInt(){
 		return Integer.parseInt(readString());
 	}

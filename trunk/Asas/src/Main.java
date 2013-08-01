@@ -1,3 +1,4 @@
+import java.io.File;
 import java.text.Collator;
 
 import data.Repository;
@@ -10,7 +11,6 @@ import basic.Classroom;
 import basic.DataValidation;
 import basic.Professor;
 
-import scheduleVisualization.Schedule;
 import statePersistence.State;
 import statePersistence.StateService;
 import validation.WarningService;
@@ -24,6 +24,8 @@ public class Main {
 		Collator.getInstance().setStrength(Collator.SECONDARY);
 		
 		/*
+		File tmp = new File("config.asas");
+		if(tmp.exists()) tmp.delete();
 		State s = new State();
 		s.professors = new SimpleRepository<Professor>();
 		s.classrooms = new SimpleRepository<Classroom>();
