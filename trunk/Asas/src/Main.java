@@ -23,7 +23,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		Collator.getInstance().setStrength(Collator.SECONDARY);
 		
-		/*
+		//*
 		File tmp = new File("config.asas");
 		if(tmp.exists()) tmp.delete();
 		State s = new State();
@@ -38,9 +38,7 @@ public class Main {
 		DataValidation<Repository<Professor>> professors = new SimpleProfessorReader().read();
 		DataValidation<Repository<Classroom>> classrooms = new SimpleClassRoomReader().read();
 		DataValidation<Repository<Class>> classes = new SimpleClassReader().read();
-		System.out.println(professors.data.all().size() + " " + classes.data.all().size() +  " " + classrooms.data.all().size());
 		StateService.getInstance().save();
-		System.out.println(StateService.getInstance().getCurrentState().classes.all().size());
 		//*/
 		StateService st = StateService.getInstance();
 		st.setCurrentState(st.allStates().get(0));
