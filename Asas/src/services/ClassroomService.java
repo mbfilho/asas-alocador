@@ -2,7 +2,10 @@ package services;
 
 import java.util.Collection;
 
+import javax.swing.text.SimpleAttributeSet;
+
 import data.Repository;
+import data.SimpleRepository;
 
 import basic.Classroom;
 import statePersistence.StateService;
@@ -16,7 +19,8 @@ public class ClassroomService {
 	}
 	
 	private Repository<Classroom> list(){
-		return stateService.getCurrentState().classrooms;
+		if(stateService.hasValidState()) return stateService.getCurrentState().classrooms;
+		else return new SimpleRepository();
 	}
 	
 	public void add(Classroom room){

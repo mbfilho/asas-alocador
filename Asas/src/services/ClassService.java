@@ -3,6 +3,7 @@ package services;
 import java.util.Collection;
 
 import data.Repository;
+import data.SimpleRepository;
 import statePersistence.StateService;
 import basic.Class;
 
@@ -15,7 +16,8 @@ public class ClassService {
 	}
 	
 	private Repository<Class> list(){
-		return stateService.getCurrentState().classes;
+		if(stateService.hasValidState()) return stateService.getCurrentState().classes;
+		else return new SimpleRepository();
 	}
 	
 	public int cont(){

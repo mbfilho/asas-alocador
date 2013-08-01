@@ -38,36 +38,35 @@ import validation.WarningService;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
-public abstract class ClassEditor extends JFrame {
+public abstract class EditClassFrame extends JFrame {
 
 	private static final long serialVersionUID = 679979857489504936L;
-	private JPanel contentPane;
-	private JTextField nameText;
-	private JTextField codeText;
-	private JTextField ccText;
-	private JTextField ecText;
-	private JTextField courseText;
-	private JLabel lblEc;
-	private JLabel lblCc;
-	private JLabel lblSelecioneUmaDisciplina;
-	private JLabel lblCurso;
-	private EditableJList<SlotRange> slotList;
-	private EditableJList<Professor> professorList;
-	private JTabbedPane tabbedPane;
-	private JLabel lblCdigo;
-	private JLabel lblPerodo;
 	private JComboBox classesComboBox;
-	private JLabel lblNome;
-	private ClassService classService;
-	private ProfessorService professorService;
-	/**
-	 * Launch the application.
-	 */
+	protected JPanel contentPane;
+	protected JTextField nameText;
+	protected JTextField codeText;
+	protected JTextField ccText;
+	protected JTextField ecText;
+	protected JTextField courseText;
+	protected JLabel lblEc;
+	protected JLabel lblCc;
+	protected JLabel lblSelecioneUmaDisciplina;
+	protected JLabel lblCurso;
+	protected EditableJList<SlotRange> slotList;
+	protected EditableJList<Professor> professorList;
+	protected JTabbedPane tabbedPane;
+	protected JLabel lblCdigo;
+	protected JLabel lblPerodo;
+	protected JLabel lblNome;
+	protected ClassService classService;
+	protected ProfessorService professorService;
+	protected JButton btnOk;
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					ClassEditor frame = new ClassEditor(new WarningService()) {
+					EditClassFrame frame = new EditClassFrame(new WarningService()) {
 						public void classInformationEdited() {}
 					};
 					frame.setVisible(true);
@@ -81,11 +80,8 @@ public abstract class ClassEditor extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	private WarningService warningService;
-	private JButton btnOk;
-	public ClassEditor(WarningService warningService) {
+	public EditClassFrame(final WarningService warningService) {
 		classService = new ClassService();
-		this.warningService = warningService;
 		professorService = new ProfessorService();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -99,6 +95,17 @@ public abstract class ClassEditor extends JFrame {
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
+		
+		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
+		classesData.add(0, new NamedPair<Class>("Selecione uma disciplina", null));
+		classesComboBox = new JComboBox<NamedPair<Class>>(classesData);
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 6;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 0;
+		gbc_comboBox.gridy = 1;
+		contentPane.add(classesComboBox, gbc_comboBox);
 		
 		lblSelecioneUmaDisciplina = new JLabel("Selecione uma disciplina:");
 		GridBagConstraints gbc_lblSelecioneUmaDisciplina = new GridBagConstraints();
@@ -117,18 +124,7 @@ public abstract class ClassEditor extends JFrame {
 		gbc_tabbedPane.gridx = 6;
 		gbc_tabbedPane.gridy = 0;
 		contentPane.add(tabbedPane, gbc_tabbedPane);
-		
-		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
-		classesData.add(0, new NamedPair<Class>("Selecione uma disciplina", null));
-		classesComboBox = new JComboBox<NamedPair<Class>>(classesData);
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 6;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 0;
-		gbc_comboBox.gridy = 1;
-		contentPane.add(classesComboBox, gbc_comboBox);
-		
+				
 		lblNome = new JLabel("Nome");
 		GridBagConstraints gbc_lblNome = new GridBagConstraints();
 		gbc_lblNome.anchor = GridBagConstraints.WEST;
@@ -182,7 +178,6 @@ public abstract class ClassEditor extends JFrame {
 		contentPane.add(lblCc, gbc_lblCc);
 		
 		ccText = new JTextField();
-		ccText.setText("cc");
 		GridBagConstraints gbc_txtCc = new GridBagConstraints();
 		gbc_txtCc.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCc.fill = GridBagConstraints.HORIZONTAL;
@@ -235,7 +230,13 @@ public abstract class ClassEditor extends JFrame {
 		gbc_profList.gridy = 6;
 		contentPane.add(professorList, gbc_profList);
 		
-		slotList = new EditableSlotList("Horários", warningService, classesComboBox);
+		slotList = new EditableSlotList("Horários", warningService){
+			public Class getSelectedClass() {
+				Class dummy = new Class();
+				dummy.setId(-1);
+				return dummy;
+			}
+		};
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
 		gbc_slotList.gridwidth = 6;
 		gbc_slotList.fill = GridBagConstraints.BOTH;
@@ -248,7 +249,6 @@ public abstract class ClassEditor extends JFrame {
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveChanges();
-				classInformationEdited();
 				dispose();
 			}
 		});
@@ -257,7 +257,7 @@ public abstract class ClassEditor extends JFrame {
 		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 8;
-		contentPane.add(btnOk, gbc_btnOk);
+		contentPane.add(btnOk, gbc_btnOk);	
 		
 		configureElementsActions();
 		setVisible(true);
@@ -279,12 +279,12 @@ public abstract class ClassEditor extends JFrame {
 		professorList.addActionListener(updateTableOnChange);
 		slotList.addActionListener(updateTableOnChange);
 	}
-
-	private <T extends NamedEntity> Vector<NamedPair<T>> createNamedPairs(Collection<T> objs){
-		Vector<NamedPair<T>> namedPairs = new Vector<NamedPair<T>>();
-		for(T obj : objs)
-			namedPairs.add(new NamedPair<T>(obj.getName(), obj));
-		return namedPairs;
+	
+	private void saveChanges(){
+		Class selected = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
+		setValuesToClass(selected);
+		classService.update(selected);
+		classInformationEdited();
 	}
 	
 	private void setValuesToClass(Class toBeSeted){
@@ -296,12 +296,6 @@ public abstract class ClassEditor extends JFrame {
 		
 		toBeSeted.setProfessors(professorList.getItens());
 		toBeSeted.setSlots(slotList.getItens());
-	}
-	
-	private void saveChanges(){
-		Class selected = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
-		setValuesToClass(selected);
-		classService.update(selected);
 	}
 	
 	private void fillWithSelectedClass(Class selected){
@@ -336,5 +330,12 @@ public abstract class ClassEditor extends JFrame {
 		}
 	}
 	
+	private <T extends NamedEntity> Vector<NamedPair<T>> createNamedPairs(Collection<T> objs){
+		Vector<NamedPair<T>> namedPairs = new Vector<NamedPair<T>>();
+		for(T obj : objs)
+			namedPairs.add(new NamedPair<T>(obj.getName(), obj));
+		return namedPairs;
+	}
+		
 	public abstract void classInformationEdited();
 }

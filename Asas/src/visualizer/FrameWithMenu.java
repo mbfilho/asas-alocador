@@ -21,7 +21,8 @@ import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
 
-import classEditor.ClassEditor;
+import classEditor.AddClassFrame;
+import classEditor.EditClassFrame;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
 
@@ -97,7 +98,7 @@ public class FrameWithMenu extends JFrame{
 		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new ClassEditor(warningService) {
+				new EditClassFrame(warningService) {
 					public void classInformationEdited() {
 						onEditClassInformation();
 					}
@@ -151,6 +152,18 @@ public class FrameWithMenu extends JFrame{
 			}
 		});
 		mnAdicionar.add(mntmSala);
+		
+		JMenuItem mntmTurma = new JMenuItem("Turma");
+		mntmTurma.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new AddClassFrame(warningService){
+					public void onAddClass() {
+						onEditClassInformation();
+					}
+				};
+			}
+		});
+		mnAdicionar.add(mntmTurma);
 		
 		warningMenuItem = new JMenu("Alertas");
 		menuBar.add(warningMenuItem);
