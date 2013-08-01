@@ -1,8 +1,10 @@
 package services;
 
 import java.util.Collection;
+import java.util.Vector;
 
 import data.Repository;
+import data.SimpleRepository;
 import basic.Professor;
 import statePersistence.StateService;
 
@@ -15,7 +17,8 @@ public class ProfessorService {
 	}
 	
 	private Repository<Professor> list(){
-		return stateService.getCurrentState().professors;
+		if(stateService.hasValidState()) return stateService.getCurrentState().professors;
+		else return new SimpleRepository<Professor>();
 	}
 	
 	public void update(Professor prof){
