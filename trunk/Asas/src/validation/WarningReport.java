@@ -8,6 +8,7 @@ public class WarningReport {
 	public Vector<Warning> classesWithoutProf;
 	public Vector<Warning> classesWithSameProf;
 	public Vector<Warning> classesWithSameRoom;
+	public Vector<Warning> professorsWithoutClass;
 	
 	public WarningReport(){
 		classesWithoutProf = new Vector<Warning>();
@@ -15,6 +16,7 @@ public class WarningReport {
 		classesWithoutRoom = new Vector<Warning>();
 		classesWithSameProf = new Vector<Warning>();
 		classesWithSameRoom = new Vector<Warning>();
+		professorsWithoutClass = new Vector<Warning>();
 	}
 
 	private String generateHtmlTable(String head, Vector<Warning> war){
@@ -36,6 +38,7 @@ public class WarningReport {
 		html += generateHtmlTable("Turmas sem horário", classesWithoutSlots);
 		html += generateHtmlTable("Turmas sem sala", classesWithoutRoom);
 		html += generateHtmlTable("Turmas sem professor", classesWithoutProf);
+		html += generateHtmlTable("Professores desalocados", professorsWithoutClass);
 		html += generateHtmlTable("Turmas conflitantes: mesmo horário e professor", classesWithSameProf);
 		html +=  generateHtmlTable("Turmas conflitantes: mesmo horário e sala", classesWithSameRoom);
 		html += "</body></html>";
@@ -46,6 +49,6 @@ public class WarningReport {
 	public int getWarningCount(){
 		return classesWithoutSlots.size() + classesWithoutRoom.size() + 
 				classesWithSameProf.size() + classesWithSameRoom.size() +
-				classesWithoutProf.size();
+				classesWithoutProf.size() + professorsWithoutClass.size();
 	}
 }
