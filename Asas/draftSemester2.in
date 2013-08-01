@@ -7,13 +7,13 @@ Introdução à computação (EC)#1#Cristiano Araújo#0,5#-1#1#IF668#Graduação
 Álgebra para computação (EC)#1#Adriano Lorena#1#-1#1#MA531#Graduação#2#3#6#7#D-004#5#8#9#D-004#75
 Matemática discreta  (CC)#1#Anjolina Grisi de Oliveira#1#1#-1#IF670#Graduação#2#3#8#9#D-003#5#6#7#D-003#75
 Matemática discreta  (EC)#1#Juliano Iyoda#1#-1#1#IF670#Graduação#2#3#8#9#D-004#5#6#7#D-004#75
-Cálculo 1#1#Professor Externo 1#1#1#1#MA530#Graduação#2#3#1#2##5#3#4##60
+Cálculo 1#1#Professor Externo 1#1#1#1#MA530#Graduação#2#3#1#2#Area II#5#3#4#Area II#60
 Algoritmos e Estruturas de Dados (EC)#1#Liliane Salgado#1#-1#2#IF672#Graduação#2#2#1#2#D-003#4#3#4#D-003#75
 Algoritmos e Estruturas de Dados (CC)#2#Kátia Guimarães#Paulo Fonseca#1#2#-1#IF672#Graduação#2#2#1#2##4#3#4##75
 Probabilidade e estatística (CC)#1#Renata Rodrigues de Souza#1#2#-1#ET586#Graduação#2#2#3#4#D-004#5#1#2#D-004#75
 Física para computação#1#Professor Externo 2#1#2#-1#FI582#Graduação#2#1#8#9#D-218#3#8#9#D-218#75
-Física 1#1#Professor Externo 3#1#-1#2##Graduação#2#1#3#4##5#1#2##60
-Cálculo 2#1#Professor Externo 4#1#-1#2##Graduação#2#3#8#9##5#8#9##60
+Física 1#1#Professor Externo 3#1#-1#2##Graduação#2#1#3#4#Area II#5#1#2#Area II#60
+Cálculo 2#1#Professor Externo 4#1#-1#2##Graduação#2#3#8#9#Area II#5#8#9#Area II#60
 Sistemas digitais (CC)#1#Manoel Eusébio de Lima#1#2#-1#IF675#Graduação#2#3#1#2#D-004#5#3#4#D-004#75
 Sistemas digitais (EC)#1#Abel Guilhermino#1#-1#2#IF675#Graduação#2#3#1#2#D-003#5#3#4#D-003#75
 Lógica (CC)#1#Ruy Barreto de Queiroz#1#2#-1#IF673#Graduação#2#1#1#2#D-004#4#1#2#D-004#75
@@ -27,8 +27,8 @@ Infra-estrutura de hardware (EC)#1#Edna Barros#1#3#3#IF674#Graduação#2#1#8#9#D
 Infra-estrutura de comunicação (CC)#1#Paulo Gonçalves#1#3#5#IF678#Graduação#2#3#6#7#D-005#5#8#9#D-005#75
 Infra-estrutura de comunicação (EC)#1#José Suruagy Monteiro#1#3#5#IF678#Graduação#2#3#6#7#D-002#5#8#9#D-002#75
 Inglês para computação, turma 1#1#Professor Externo 5#1#3#6#LE530#Graduação#0#75
-Física 2#1#Professor Externo 6#1#-1#3##Graduação#2#1#6#7##3#8#9##60
-Cálculo 3A#1#Professor Externo 7#1#-1#3#MA532#Graduação#2#1#1#2##3#3#4##60
+Física 2#1#Professor Externo 6#1#-1#3##Graduação#2#1#6#7#Area II#3#8#9#Area II#60
+Cálculo 3A#1#Professor Externo 7#1#-1#3#MA532#Graduação#2#1#1#2#Area II#3#3#4#Area II#60
 Processamento gráfico#1#Silvio Melo#0,5#4#-1#IF680#Graduação#1#4#1#2#D-002#45
 Interfaces usuario-máquina#1#Alex Sandro Gomes#0,5#4#-1#IF681#Graduação#1#1#3#4#D-002#45
 Informática Teórica (EC)#2#Anjolina Grisi de Oliveira#Paulo Fonseca#1#4#6#IF689#Graduação#2#2#1#2##5#1#2##75
@@ -42,8 +42,8 @@ Sistemas inteligentes (EC)#2#Germano Vasconcelos#Ricardo Prudêncio#1#-1#8##Grad
 Métodos numéricos computacionais#1#Ricardo Martins#1#-1#4##Graduação#2#1#1#2#D-003#3#3#4#D-003#75
 Interface hardware-software#1#Sérgio Queiroz#1#-1#4##Graduação#2#2#8#9#D-001#4#6#7#D-001#75
 Probabilidade e estatística (EC)#1#Marcília Campos#1#-1#4##Graduação#2#2#6#7#D-002#4#8#9#D-002#75
-Física 3#1#Professor Externo 8#1#-1#4##Graduação#2#1#3#4##3#1#2##60
-Física Experimental#1#Professor Externo 9#1#-1#4##Graduação#1#5#1#4##45
+Física 3#1#Professor Externo 8#1#-1#4##Graduação#2#1#3#4#Area II#3#1#2#Area II#60
+Física Experimental#1#Professor Externo 9#1#-1#4##Graduação#1#5#1#4#Area II#45
 Projeto de desenvolvimento (CC)#1#Geber Ramalho#1#5#-1#IF683#Graduação#2#1#1#2#D-001#3#3#4#D-001#75
 Projeto de desenvolvimento (EC)#1#Cristiano Araújo#1#-1#7#IF683#Graduação#2#1#1#2#D-220#3#3#4#D-220#75
 Introdução à multimídia (CC)#1#Daniel#0,5#5#-1#IF687#Graduação#1#3#1#2#D-001#45
@@ -57,12 +57,12 @@ História e futuro da computação (CC)#1#Daniel#0,5#5#-1#IF690#Graduação#1#5#
 História e futuro da computação (EC)#1#Daniel#0,5#-1#5#IF690#Graduação#1#5#6#7#D-002#45
 Sinais e Sistemas (EC)#1#Divanilson Campelo#1#-1#5##Graduação#2#1#6#7#D-002#3#8#9#D-002#75
 Circuitos#0#1#-1#5##Graduação#0#75
-Dispositivos Semicondutores#0#1#-1#6##CTG#2#3#3#4##5#3#4##75
+Dispositivos Semicondutores#0#1#-1#6##CTG#2#3#3#4#CTG#5#3#4#CTG#75
 Eletromagnetismo#1#Odilon Pereira-Filho#1#-1#6##Graduação#2#1#3#4#D-220#4#3#4#D-220#75
 Servomecanismo#1#Carlos Mello#1#-1#7##Graduação#2#1#6#7##4#6#7##75
 Eletrônica#1#Manoel Eusébio de Lima#0,5#-1#7#ES238#Graduação#1#3#3#4#D-218#75
 Eletrônica#1#Manoel Eusébio de Lima#0,5#-1#7#ES238#Graduação#1#5#1#2#D-218#75
-Princípios de Comunicação#0#1#-1#8##CTG#2#1#2#3##4#2#4##75
+Princípios de Comunicação#0#1#-1#8##CTG#2#1#2#3#CTG#4#2#4#CTG#75
 Estágio (CC)#1#George Darmiton#0,5#-1#-1##Graduação#0#75
 Trabalho de graduação#0#1#-1#-1##Graduação#2#2#11#12#D-002#3#11#12#D-002#75
 Matemática discreta  (SI)#1#Juliano Iyoda#1#-1#-1##Graduação#2#2#12#13#D-001#5#10#11#D-001#75
