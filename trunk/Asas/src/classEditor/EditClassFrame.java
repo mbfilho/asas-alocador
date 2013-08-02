@@ -37,6 +37,7 @@ import statePersistence.StateService;
 import validation.WarningService;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JSplitPane;
 
 public abstract class EditClassFrame extends JFrame {
 
@@ -91,9 +92,9 @@ public abstract class EditClassFrame extends JFrame {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{95, 0, 44, 0, 47, 161, 302, 0};
-		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 95, 0};
-		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 95, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
@@ -254,10 +255,10 @@ public abstract class EditClassFrame extends JFrame {
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.anchor = GridBagConstraints.SOUTH;
-		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
+		gbc_btnOk.insets = new Insets(0, 0, 5, 5);
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 8;
-		contentPane.add(btnOk, gbc_btnOk);	
+		contentPane.add(btnOk, gbc_btnOk);
 		
 		configureElementsActions();
 		setVisible(true);
@@ -266,6 +267,7 @@ public abstract class EditClassFrame extends JFrame {
 	private void configureElementsActions() {
 		ActionListener updateTableOnChange = new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("Chamou!");
 				generateDisponibilityTable();
 			}
 		};
@@ -317,7 +319,10 @@ public abstract class EditClassFrame extends JFrame {
 	}
 	
 	private void generateDisponibilityTable(){
-		Class selected = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
+		Class selected = new Class(), fromCBox = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;//
+		setValuesToClass(selected);
+		if(fromCBox != null) selected.setId(fromCBox.getId());
+		
 		Iterable<SlotRange> slots = slotList.getItens();
 		HashSet<Classroom> rooms = new HashSet<Classroom>();
 		for(SlotRange s : slots) if(s.getClassroom() != null) rooms.add(s.getClassroom());

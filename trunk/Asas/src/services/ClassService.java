@@ -6,8 +6,9 @@ import data.Repository;
 import data.SimpleRepository;
 import statePersistence.StateService;
 import basic.Class;
+import basic.ElectiveClass;
 
-public class ClassService {
+public class ClassService extends BasicService{
 
 	private StateService stateService;
 
@@ -17,15 +18,11 @@ public class ClassService {
 	
 	private Repository<Class> list(){
 		if(stateService.hasValidState()) return stateService.getCurrentState().classes;
-		else return new SimpleRepository();
-	}
-	
-	public int cont(){
-		return all().size();
+		else return new SimpleRepository<Class>();
 	}
 	
 	public void add(Class c){
-		c.setId(cont());
+		c.setId(getCurrentId());
 		c.setColor(generateColor());
 		//System.out.println(c.getName() + " " + c.getId() +  " " + c.getHtmlColor());
 		list().addInOrder(c);
@@ -66,6 +63,10 @@ public class ClassService {
 			
 		}
 		return color;
+	}
+
+	public void remove(ElectiveClass ec) {
+		list().remove(ec);
 	}
 	
 }

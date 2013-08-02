@@ -7,7 +7,7 @@ import data.Repository;
 import data.SimpleRepository;
 import statePersistence.StateService;
 
-public class ElectiveClassService {
+public class ElectiveClassService extends BasicService{
 
 	private StateService stateService;
 	
@@ -25,6 +25,7 @@ public class ElectiveClassService {
 	}
 	
 	public void add(ElectiveClass toAdd){
+		toAdd.setId(getCurrentId());
 		list().addInOrder(toAdd);
 	}
 	

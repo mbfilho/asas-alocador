@@ -7,6 +7,7 @@ import java.util.Vector;
 import services.ClassService;
 import services.ProfessorService;
 import statePersistence.StateService;
+import utilities.StringUtil;
 
 import basic.Classroom;
 import basic.NamedEntity;
@@ -23,17 +24,7 @@ public class WarningService {
 		classService = new ClassService();
 		professorService = new ProfessorService();
 	}
-	
-	private <T extends NamedEntity> String joinListWithSeparator(Iterable<T> list, String separator){
-		String joined = "", prefix = "";
 		
-		for(NamedEntity item : list){
-			joined += prefix + item.getName();
-			prefix = separator;
-		}
-		return joined;
-	}
-	
 	private <T> Vector<T> intersectLists(Collection<T> listA, Collection<T> listB){
 		Vector<T> resp = new Vector<T>();
 		for(T a : listA) if(listB.contains(a)) resp.add(a);
@@ -69,7 +60,7 @@ public class WarningService {
 				if(range.getClassroom() == null) slotsWithoutRoom.add(range);
 			}
 			if(!slotsWithoutRoom.isEmpty())
-				warnings.add(new Warning().addMessage(c.getName()).addMessage(joinListWithSeparator(slotsWithoutRoom, "/")));
+				warnings.add(new Warning().addMessage(c.getName()).addMessage(StringUtil.joinListWithSeparator(slotsWithoutRoom, "/")));
 		}
 		
 		return warnings;
@@ -93,7 +84,7 @@ public class WarningService {
 				if(profIntersection.isEmpty()) continue;
 				
 				Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
-						.addMessage(joinListWithSeparator(profIntersection, "/")).addMessage(joinListWithSeparator(slotIntersection, "/"));
+						.addMessage(StringUtil.joinListWithSeparator(profIntersection, "/")).addMessage(StringUtil.joinListWithSeparator(slotIntersection, "/"));
 				warnings.add(w);
 			}
 		}
