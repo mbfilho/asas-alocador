@@ -72,11 +72,6 @@ public class SimpleClassReader extends ClassReader {
 					for(int j = 0; j < 3; ++j) desc[j] = Integer.parseInt(readString());
 					String room = readString();
 					toRead.addSlot(new SlotRange(desc[0], desc[1], desc[2], classrooms.getByName(room)));
-					
-					if(toRead.getName().equals("Cálculo numérico, turma 2")){
-						
-						System.out.println(" > " + room + " $ " + classrooms.getByName(room));
-					}
 				}
 				toRead.setCh2(readInt());
 				service.add(toRead);

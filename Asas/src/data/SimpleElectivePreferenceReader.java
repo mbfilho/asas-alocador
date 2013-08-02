@@ -3,6 +3,7 @@ package data;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.Vector;
 
 import services.ClassService;
 import services.ElectiveClassService;
@@ -41,8 +42,14 @@ public class SimpleElectivePreferenceReader implements DataReader<ElectiveClassP
 				}
 				int slotCnt = reader.readInt();
 				for(int i = 0; i < slotCnt; ++i){
-					int dia = reader.readInt(), ini = reader.readInt(), fim = reader.readInt();
-					pref.addSlotRange(new SlotRange(dia, ini, fim, null));
+					int meetings = reader.readInt();
+					Vector<SlotRange> horarios = new Vector<SlotRange>();
+					
+					for(int j = 0; j < meetings; ++j){
+						int dia = reader.readInt(), ini = reader.readInt(), fim = reader.readInt();
+						horarios.add(new SlotRange(dia, ini, fim, null));
+					}
+					pref.addSlotRange(horarios);
 				}
 				
 				service.add(pref);

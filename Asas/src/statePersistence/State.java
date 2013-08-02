@@ -20,6 +20,7 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Professor> professors;
 	public Repository<ElectiveClass> elective;
 	public Repository<ElectiveClassPreferences> electivePreferences;
+	private int _currentId;
 	
 	public State(){
 		classes = new SimpleRepository<Class>();
@@ -27,6 +28,7 @@ public class State implements NamedEntity, Serializable{
 		professors = new SimpleRepository<Professor>();
 		elective = new SimpleRepository<ElectiveClass>();
 		electivePreferences =  new SimpleRepository<ElectiveClassPreferences>();
+		_currentId = 1;
 	}
 	
 	public String getName() {
@@ -35,5 +37,9 @@ public class State implements NamedEntity, Serializable{
 
 	public void setStateDescription(String name, String desc, boolean isDraft) {
 		description = new StateDescription(name, desc, isDraft);
+	}
+	
+	public int getId(){
+		return _currentId++;
 	}
 }

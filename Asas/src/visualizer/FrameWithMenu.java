@@ -7,12 +7,17 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
+import services.AllocationService;
+import services.ElectivePreferencesService;
 import statePersistence.LoadStateFrame;
 import statePersistence.ChangeStateListener;
 import statePersistence.NewStateFrame;
 import statePersistence.State;
 import statePersistence.StateService;
+import utilities.StringUtil;
 import validation.WarningService;
 
 import java.awt.GridBagLayout;
@@ -20,6 +25,13 @@ import java.awt.GridBagLayout;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
+
+import allocation.AllocationResult;
+import allocation.Allocator;
+import allocation.DefaultAllocator;
+import basic.ElectiveClassPreferences;
+import basic.Professor;
+import basic.SlotRange;
 
 import classEditor.AddClassFrame;
 import classEditor.EditClassFrame;
@@ -31,6 +43,7 @@ import professors.EditProfessorFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.util.Vector;
 
 
 public class FrameWithMenu extends JFrame{
@@ -176,6 +189,47 @@ public class FrameWithMenu extends JFrame{
 			}
 		});
 		warningMenuItem.add(mntmMostrar);
+		
+		JMenu mnEltivas = new JMenu("Eletivas");
+		menuBar.add(mnEltivas);
+		
+		JMenuItem mntmprovisrioVer = new JMenuItem("(provisório) Ver");
+		mntmprovisrioVer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				JTextPane panel = new JTextPane();
+				panel.setContentType("text/html");
+				ElectivePreferencesService service = new ElectivePreferencesService();
+				panel.setText(service.getHtmlTableForPreferences(service.all()));
+				frame.getContentPane().add(new JScrollPane(panel));
+				frame.setVisible(true);
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+			}
+		});
+		mnEltivas.add(mntmprovisrioVer);
+		
+		JMenuItem mntmAlocar = new JMenuItem("Alocar");
+		mntmAlocar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int op = JOptionPane.showConfirmDialog(FrameWithMenu.this, "Essa opção desalocará as disciplinas eletivas já alocadas.\nDeseja continuar?");
+				if(op == JOptionPane.YES_OPTION){
+					Allocator aloc = new DefaultAllocator();
+					AllocationResult result = aloc.allocate(true);
+
+					JFrame frame = new JFrame();
+					JTextPane panel = new JTextPane();
+					panel.setContentType("text/html");
+					panel.setText(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
+					frame.getContentPane().add(new JScrollPane(panel));
+					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+					frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
+					frame.setVisible(true);
+					frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
+				}
+			}
+		});
+		mnEltivas.add(mntmAlocar);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0};

@@ -13,7 +13,6 @@ import java.awt.GridBagLayout;
 import java.util.Date;
 
 import javax.swing.JTextField;
-import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
 
 public class NewStateFrame extends ChooseStateFrame{
@@ -67,7 +66,6 @@ public class NewStateFrame extends ChooseStateFrame{
 		gbc_textField.gridy = 0;
 		panel.add(nameText, gbc_textField);
 		nameText.setColumns(10);
-		getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{nameText, descTextScrollPanel, listScrollPane, draftCheck}));
 		setVisible(true);
 	}
 
