@@ -59,7 +59,7 @@ public class NewStateFrame extends ChooseStateFrame{
 		gbc_lblNome.gridy = 0;
 		panel.add(lblNome, gbc_lblNome);
 		
-		String suggested = new Date(System.currentTimeMillis()).toString().replace(" ", "-");
+		String suggested = new Date(System.currentTimeMillis()).toString().replace(" ", "_").replace(":", "-");
 		nameText = new JTextField(suggested);
 		GridBagConstraints gbc_textField = new GridBagConstraints();
 		gbc_textField.fill = GridBagConstraints.BOTH;
