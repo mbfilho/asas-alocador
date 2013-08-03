@@ -13,4 +13,9 @@ public class StringUtil {
 		return joined;
 	}
 	
+	public static String truncate(String arg, int chars){
+		String suffix = chars < arg.length() ? "..." : "";
+		return arg.substring(0, Math.min(chars, arg.length())) + suffix;
+	}
+	
 }

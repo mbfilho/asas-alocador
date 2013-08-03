@@ -17,6 +17,10 @@ public class Schedule {
 	public Vector<ScheduleSlot>[][] getSchedule(){
 		return schedule;
 	}
+	
+	public void addScheduleSlot(ScheduleSlot scheduled, SlotRange range){
+		for(int i = range.getStartSlot(); i <= range.getEndSlot(); ++i) addScheduleSlot(scheduled, i, range.getDay());
+	}
 		
 	public void addScheduleSlot(ScheduleSlot scheduled, int slot, int day){
 		schedule[slot][day].add(scheduled);
