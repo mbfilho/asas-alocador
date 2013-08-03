@@ -1,43 +1,30 @@
 package visualizer;
 
 
+import groupMaker.ClassFilter;
+import groupMaker.FilterApplier;
+import groupMaker.FilterChooser;
 import groupMaker.Group;
-import groupMaker.GroupingMethods;
 
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import java.awt.GridBagLayout;
-import javax.swing.JComboBox;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.xhtmlrenderer.resource.XMLResource;
-import org.xhtmlrenderer.simple.FSScrollPane;
-import org.xhtmlrenderer.simple.XHTMLPanel;
-
 import scheduleVisualization.GroupFormatter;
-import scheduleVisualization.TableFormatter;
 import scheduleVisualization.VisualizationTable;
 import statePersistence.State;
-import utilities.SaveHtmlToFile;
 import validation.WarningService;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.Vector;
 
 import javax.swing.JSeparator;
@@ -46,6 +33,9 @@ import javax.swing.JButton;
 import javax.swing.JTabbedPane;
 
 public class Visualizer extends FrameWithMenu {
+	private static final long serialVersionUID = -6441797946984712515L;
+	private FilterChooser filterChooser;
+	
 	/**
 	 * Launch the application.
 	 */
@@ -53,7 +43,7 @@ public class Visualizer extends FrameWithMenu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Visualizer frame = new Visualizer(new VisualizerService(), new WarningService());
+					Visualizer frame = new Visualizer(new WarningService());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -65,88 +55,44 @@ public class Visualizer extends FrameWithMenu {
 	/**
 	 * Create the frame.
 	 */
-	private JComboBox grouping;
-	private VisualizerService visualizerService;
-	private WarningService warningService;
 	private JTabbedPane tabbedPane;
 	
-	public Visualizer(VisualizerService vService, WarningService warningService) {
+	public Visualizer(WarningService warningService) {
 		super(warningService);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setTitle("Visualizar");
-		this.warningService = warningService;
-		visualizerService = vService;
 		
-		setBounds(100, 100, 450, 300);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{147, 208, 55, 0};
-		gridBagLayout.rowHeights = new int[]{0, 22, 183, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{21, 0};
+		gridBagLayout.rowHeights = new int[]{115, 217, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		JSeparator separator = new JSeparator();
-		GridBagConstraints gbc_separator = new GridBagConstraints();
-		gbc_separator.insets = new Insets(0, 0, 5, 5);
-		gbc_separator.gridx = 0;
-		gbc_separator.gridy = 0;
-		getContentPane().add(separator, gbc_separator);
-		
-		JLabel lblAgrupamento = new JLabel("Agrupamento:");
-		GridBagConstraints gbc_lblAgrupamento = new GridBagConstraints();
-		gbc_lblAgrupamento.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAgrupamento.anchor = GridBagConstraints.WEST;
-		gbc_lblAgrupamento.gridx = 0;
-		gbc_lblAgrupamento.gridy = 1;
-		getContentPane().add(lblAgrupamento, gbc_lblAgrupamento);
-		
-		grouping = new JComboBox();
-		grouping.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		filterChooser = new FilterChooser() {
+			public void onChangeFilter(ClassFilter newFilter) {
 				refreshTable();
 			}
-		});
-		grouping.setModel(new DefaultComboBoxModel(GroupingMethods.getAllMethods()));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 1;
-		getContentPane().add(grouping, gbc_comboBox);
-		
-		JButton btnNewButton = new JButton("Salvar HTML");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			//	SaveHtmlToFile.SaveHtml(visualizerService.groupByClassroom());
-			}
-		});
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.insets = new Insets(0, 0, 5, 0);
-		gbc_btnNewButton.gridx = 2;
-		gbc_btnNewButton.gridy = 1;
-		getContentPane().add(btnNewButton, gbc_btnNewButton);
+		};
+		GridBagConstraints gbc_filterChooser = new GridBagConstraints();
+		gbc_filterChooser.gridx = 0;
+		gbc_filterChooser.gridy = 0;
+		gbc_filterChooser.weightx = 500;
+		getContentPane().add(filterChooser, gbc_filterChooser);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.gridwidth = 3;
-		gbc_tabbedPane.insets = new Insets(0, 0, 0, 5);
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 0;
-		gbc_tabbedPane.gridy = 2;
+		gbc_tabbedPane.gridy = 1;
 		getContentPane().add(tabbedPane, gbc_tabbedPane);
 		setVisible(true);
 	}
 	
 	private void refreshTable(){
 		clearTabs();
-		Vector<Group> groups = null;
-		
-		if(grouping.getSelectedItem() == GroupingMethods.CLASSROOM){
-			groups = visualizerService.groupByClassroom();
-		}else if(grouping.getSelectedItem() == GroupingMethods.PROFESSOR){
-			groups = visualizerService.groupByProfessor();
-		}
+		Vector<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
 		
 		for(final Group g : groups){
 			Component table = new VisualizationTable(new GroupFormatter(g));
@@ -173,12 +119,12 @@ public class Visualizer extends FrameWithMenu {
 	
 	protected void onEditProfessorInformation(){
 		super.onEditProfessorInformation();
-		if(grouping.getSelectedItem() == GroupingMethods.PROFESSOR) refreshTable();
+		refreshTable();
 	}
 	
 	protected void onEditClassroomInformation(){
 		super.onEditClassInformation();
-		if(grouping.getSelectedItem() == GroupingMethods.CLASSROOM) refreshTable();
+		refreshTable();
 	}
 	
 }

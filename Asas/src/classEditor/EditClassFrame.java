@@ -1,6 +1,7 @@
 package classEditor;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
@@ -34,6 +35,7 @@ import services.ClassService;
 import services.ProfessorService;
 import statePersistence.State;
 import statePersistence.StateService;
+import utilities.StringUtil;
 import validation.WarningService;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -92,9 +94,9 @@ public abstract class EditClassFrame extends JFrame {
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{95, 0, 44, 0, 47, 161, 302, 0};
-		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 95, 0, 0};
-		gbl_contentPane.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 95, 0};
+		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
@@ -119,7 +121,6 @@ public abstract class EditClassFrame extends JFrame {
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.insets = new Insets(0, 0, 5, 0);
 		gbc_tabbedPane.gridheight = 9;
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 6;
@@ -255,7 +256,7 @@ public abstract class EditClassFrame extends JFrame {
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.anchor = GridBagConstraints.SOUTH;
-		gbc_btnOk.insets = new Insets(0, 0, 5, 5);
+		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 8;
 		contentPane.add(btnOk, gbc_btnOk);
@@ -338,7 +339,7 @@ public abstract class EditClassFrame extends JFrame {
 	private <T extends NamedEntity> Vector<NamedPair<T>> createNamedPairs(Collection<T> objs){
 		Vector<NamedPair<T>> namedPairs = new Vector<NamedPair<T>>();
 		for(T obj : objs)
-			namedPairs.add(new NamedPair<T>(obj.getName(), obj));
+			namedPairs.add(new NamedPair<T>(StringUtil.truncate(obj.getName(), 70), obj));
 		return namedPairs;
 	}
 		

@@ -19,7 +19,6 @@ import statePersistence.State;
 import statePersistence.StateService;
 import validation.WarningService;
 import visualizer.Visualizer;
-import visualizer.VisualizerService;
 import basic.Class;
 
 public class Main {
@@ -50,8 +49,7 @@ public class Main {
 		StateService st = StateService.getInstance();
 		st.setCurrentState(st.allStates().get(0));
 		
-		VisualizerService service = new VisualizerService();
 		WarningService warningService = new WarningService();
-		new Visualizer(service, warningService);
+		new Visualizer(warningService);
 	}
 }
