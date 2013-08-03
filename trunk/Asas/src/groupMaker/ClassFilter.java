@@ -32,6 +32,7 @@ public class ClassFilter {
 
 	public boolean isInRole(Class c){
 		if(professor != null &&  !c.getProfessors().contains(professor)) return false;
+		if(semester != -1 && c.getCcSemester() != semester && c.getEcSemester() != semester) return false;
 		return true;
 	}
 }

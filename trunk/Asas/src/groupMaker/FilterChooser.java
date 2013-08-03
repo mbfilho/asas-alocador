@@ -54,7 +54,7 @@ public abstract class FilterChooser extends JPanel {
 		Vector<NamedPair<Professor>> professors = new Vector<NamedPair<Professor>>();
 		ProfessorService profService = new ProfessorService();
 		for(Professor p : profService.all()) professors.add(new NamedPair<Professor>(p.getName(), p));
-		profCBox = new JComboBox(professors);
+		profCBox = new JComboBox<NamedPair<Professor>>(professors);
 		profCBox.setEnabled(false);
 		profCBox.addActionListener(onChangeFilter);
 		GridBagConstraints gbc_profCBox = new GridBagConstraints();
@@ -64,7 +64,7 @@ public abstract class FilterChooser extends JPanel {
 		gbc_profCBox.gridy = 0;
 		add(profCBox, gbc_profCBox);
 		
-		areaCBox = new JComboBox();
+		areaCBox = new JComboBox<NamedPair<String>>();
 		areaCBox.setEnabled(false);
 		areaCBox.addActionListener(onChangeFilter);
 		GridBagConstraints gbc_profileCBox = new GridBagConstraints();
@@ -74,7 +74,9 @@ public abstract class FilterChooser extends JPanel {
 		gbc_profileCBox.gridy = 0;
 		add(areaCBox, gbc_profileCBox);
 		
-		periodoCBox = new JComboBox();
+		Vector<NamedPair<String>> periodos = new Vector<NamedPair<String>>();
+		for(int i = 1; i <= 10; ++i) periodos.add(new NamedPair<String>(i + "", i + ""));
+		periodoCBox = new JComboBox<NamedPair<String>>(periodos);
 		periodoCBox.setEnabled(false);
 		periodoCBox.addActionListener(onChangeFilter);
 		GridBagConstraints gbc_periodoCBox = new GridBagConstraints();
