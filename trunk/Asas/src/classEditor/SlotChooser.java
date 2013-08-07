@@ -246,14 +246,13 @@ public abstract class SlotChooser extends JFrame {
 			Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
 			for(Classroom room : allRooms) classroomCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
 		}
-		
+
 		for(int i = 0; i < classroomCBModel.getSize(); ++i){
 			Classroom room = classroomCBModel.getElementAt(i).data;
 			String fontColor = "green";
 			SlotRange slot = getSelectedSlot();
 			if(!conflictService.isClassroomFreeForThisClass(selectedClass, room, slot)){
 				fontColor = "red";
-				break;
 			}
 			
 			classroomCBModel.getElementAt(i).name = "<html><p style='color:" + fontColor + "'>"+room.getName()+"</p></html>";

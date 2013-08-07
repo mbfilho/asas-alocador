@@ -123,13 +123,11 @@ public abstract class FilterChooser extends JPanel {
 		gbc_periodoCheck.gridx = 3;
 		gbc_periodoCheck.gridy = 1;
 		add(periodoCheck, gbc_periodoCheck);
-		
-		refresh();
-
 	}
 	
 	private <T> T getSelectedItem(JComboBox<NamedPair<T>> box){
 		NamedPair<T> pair = (NamedPair<T>) box.getSelectedItem();
+		if(pair == null) return null;
 		return pair.data;
 	}
 	
@@ -144,9 +142,17 @@ public abstract class FilterChooser extends JPanel {
 	public abstract void onChangeFilter(ClassFilter newFilter);
 
 	public void refresh() {
+		Professor selected = getSelectedItem(profCBox);
 		DefaultComboBoxModel<NamedPair<Professor>> model = (DefaultComboBoxModel) profCBox.getModel();
 		model.removeAllElements();
 		ProfessorService profService = new ProfessorService();
-		for(Professor p : profService.all()) model.addElement(new NamedPair<Professor>(p.getName(), p)); 
+		NamedPair<Professor> newSelected = null;
+		for(Professor p : profService.all()){
+			NamedPair<Professor> toAdd = new NamedPair<Professor>(p.getName(), p);
+			if(p == selected) newSelected = toAdd;
+			model.addElement(toAdd);
+		}
+		
+		profCBox.setSelectedItem(newSelected);
 	}
 }
