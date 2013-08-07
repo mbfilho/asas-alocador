@@ -9,17 +9,20 @@ import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 
 import utilities.Constants;
+import basic.Class;
+import basic.Professor;
+import basic.SlotRange;
 
 public class GroupFormatter implements TableFormatter {
 
-	private Group group;
 	private Vector<ScheduleSlot> schedule[][]; 
 	private JPanel popups[][];
 	
 	public GroupFormatter(Group g){
-		group = g;
 		schedule = g.schedule.getSchedule();
 		popups = new JPanel[Constants.SLOTS][Constants.DAYS];
 		createPopups();
@@ -27,15 +30,28 @@ public class GroupFormatter implements TableFormatter {
 	
 	private void createPopups(){
 		for(int s = 0; s < Constants.SLOTS; ++s){
-			for(int d = 0; d < Constants.DAYS; ++d) if(schedule[s][d].size() > 1){
-				Vector<ScheduleSlot> scheduled = schedule[s][d];
-				JPanel panel = popups[s][d] = new JPanel();
-				panel.setLayout(new GridLayout(1+scheduled.size(), 1));
-				panel.add(new JLabel("Turmas conflitantes:"));
-				for(ScheduleSlot ss : scheduled){
-					JLabel turma = new JLabel(ss.theClass.completeName());
-					turma.setForeground(Color.decode(ss.theClass.getHtmlColor()));
-					panel.add(turma);
+			for(int d = 0; d < Constants.DAYS; ++d){
+				if(schedule[s][d].size() > 1){
+					Vector<ScheduleSlot> scheduled = schedule[s][d];
+					JPanel panel = popups[s][d] = new JPanel();
+					panel.setLayout(new GridLayout(1+scheduled.size(), 1));
+					panel.add(new JLabel("Turmas conflitantes:"));
+					for(ScheduleSlot ss : scheduled){
+						JLabel turma = new JLabel(ss.theClass.completeName());
+						turma.setForeground(Color.decode(ss.theClass.getHtmlColor()));
+						panel.add(turma);
+					}
+				}else if(schedule[s][d].size() == 1){
+					Class scheduled = schedule[s][d].firstElement().theClass;
+					JPanel panel = popups[s][d] = new JPanel();
+					panel.setLayout(new GridLayout(5 + scheduled.getProfessors().size() + scheduled.getSlots().size(), 1));
+					panel.add(new JLabel(scheduled.completeName()));
+					panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+					panel.add(new JLabel("Professores:"));
+					for(Professor p : scheduled.getProfessors()) panel.add(new JLabel(p.getName()));
+					panel.add(new JSeparator(SwingConstants.HORIZONTAL));
+					panel.add(new JLabel("Horários:"));
+					for(SlotRange r : scheduled.getSlots())	panel.add(new JLabel(r.getName()));
 				}
 			}
 		}

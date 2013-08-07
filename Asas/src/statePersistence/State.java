@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import services.ElectivePreferencesService;
 
+import allocation.AllocationResult;
 import basic.Class;
 import basic.Classroom;
 import basic.ElectiveClass;
@@ -20,6 +21,7 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Professor> professors;
 	public Repository<ElectiveClass> elective;
 	public Repository<ElectiveClassPreferences> electivePreferences;
+	
 	private int _currentId;
 	
 	public State(){
