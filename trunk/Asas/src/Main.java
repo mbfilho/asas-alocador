@@ -47,7 +47,7 @@ public class Main {
 		StateService.getInstance().save();
 		//*/
 		StateService st = StateService.getInstance();
-		st.setCurrentState(st.allStates().get(0));
+		//st.setCurrentState(st.allStates().get(0));
 		
 		WarningService warningService = new WarningService();
 		new Visualizer(warningService);

@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -51,10 +53,8 @@ public abstract class FilterChooser extends JPanel {
 		gbc_lblFiltros.gridy = 0;
 		add(lblFiltros, gbc_lblFiltros);
 		
-		Vector<NamedPair<Professor>> professors = new Vector<NamedPair<Professor>>();
-		ProfessorService profService = new ProfessorService();
-		for(Professor p : profService.all()) professors.add(new NamedPair<Professor>(p.getName(), p));
-		profCBox = new JComboBox<NamedPair<Professor>>(professors);
+
+		profCBox = new JComboBox<NamedPair<Professor>>();
 		profCBox.setEnabled(false);
 		profCBox.addActionListener(onChangeFilter);
 		GridBagConstraints gbc_profCBox = new GridBagConstraints();
@@ -123,6 +123,8 @@ public abstract class FilterChooser extends JPanel {
 		gbc_periodoCheck.gridx = 3;
 		gbc_periodoCheck.gridy = 1;
 		add(periodoCheck, gbc_periodoCheck);
+		
+		refresh();
 
 	}
 	
@@ -140,4 +142,11 @@ public abstract class FilterChooser extends JPanel {
 	}
 	
 	public abstract void onChangeFilter(ClassFilter newFilter);
+
+	public void refresh() {
+		DefaultComboBoxModel<NamedPair<Professor>> model = (DefaultComboBoxModel) profCBox.getModel();
+		model.removeAllElements();
+		ProfessorService profService = new ProfessorService();
+		for(Professor p : profService.all()) model.addElement(new NamedPair<Professor>(p.getName(), p)); 
+	}
 }

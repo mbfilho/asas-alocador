@@ -108,10 +108,11 @@ public class Visualizer extends FrameWithMenu {
 	//ao carregar um estado previamente salvo
 	protected void onLoadNewState(State s){
 		super.onLoadNewState(s);
+		filterChooser.refresh();
 		refreshTable();
 	}
 	
-	//ao editar informações de uma turma
+	//ao editar informaÃ§Ãµes de uma turma
 	protected void onEditClassInformation() {
 		super.onEditClassInformation();
 		refreshTable();
@@ -119,6 +120,7 @@ public class Visualizer extends FrameWithMenu {
 	
 	protected void onEditProfessorInformation(){
 		super.onEditProfessorInformation();
+		filterChooser.refresh();
 		refreshTable();
 	}
 	
