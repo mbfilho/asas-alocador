@@ -234,9 +234,7 @@ public abstract class EditClassFrame extends JFrame {
 		
 		slotList = new EditableSlotList("Horários", warningService){
 			public Class getSelectedClass() {
-				Class dummy = new Class();
-				dummy.setId(-1);
-				return dummy;
+				return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
 			}
 		};
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
