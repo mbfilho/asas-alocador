@@ -38,7 +38,8 @@ public class GroupFormatter implements TableFormatter {
 					panel.add(new JLabel("Turmas conflitantes:"));
 					for(ScheduleSlot ss : scheduled){
 						JLabel turma = new JLabel(ss.theClass.completeName());
-						turma.setForeground(Color.decode(ss.theClass.getHtmlColor()));
+						turma.setOpaque(true);
+						turma.setBackground(ss.theClass.getColor());
 						panel.add(turma);
 					}
 				}else if(schedule[s][d].size() == 1){
@@ -63,7 +64,7 @@ public class GroupFormatter implements TableFormatter {
 			cell.setBackground(Color.RED);
 			cell.setForeground(Color.white);
 		}else if(scheduled.size() == 1){
-			cell.setBackground(Color.decode(scheduled.get(0).theClass.getHtmlColor()));
+			cell.setBackground(scheduled.get(0).theClass.getColor());
 			cell.setToolTipText(scheduled.get(0).theClass.completeName());
 		}
 	}

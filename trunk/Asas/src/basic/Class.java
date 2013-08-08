@@ -1,5 +1,6 @@
 package basic;
 
+import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Vector;
@@ -15,7 +16,7 @@ public class Class implements NamedEntity, Serializable{
 	private Vector<SlotRange> slots;
 	private int ch2;
 	private String code;
-	private String color;
+	private Color color;
 	private int id;
 	
 	public Class(){
@@ -115,12 +116,16 @@ public class Class implements NamedEntity, Serializable{
 		for(SlotRange s : newSlots) slots.add(s);
 	}
 
-	public void setColor(String color){
+	public void setColor(Color color){
 		this.color = color;
 	}
 	
-	public String getHtmlColor() {
-		return "#" + color;
+	public Color getColor(){
+		return color;
+	}
+	
+	public String getHtmlColor(){
+		return String.format("#%02x%02x%02x", color.getRed(), color.getGreen(), color.getBlue());
 	}
 	
 	public void setId(int i){

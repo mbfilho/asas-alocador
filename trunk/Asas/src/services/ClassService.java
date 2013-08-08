@@ -1,5 +1,6 @@
 package services;
 
+import java.awt.Color;
 import java.util.Collection;
 
 import data.Repository;
@@ -11,7 +12,9 @@ import basic.ElectiveClass;
 public class ClassService extends BasicService{
 
 	private StateService stateService;
-
+	private final Color BASE_COLOR = Color.white;
+	private double MIN_COLOR_DISTANCE = 0.3;
+			
 	public ClassService(){
 		stateService = StateService.getInstance();
 	}
@@ -24,7 +27,6 @@ public class ClassService extends BasicService{
 	public void add(Class c){
 		c.setId(getCurrentId());
 		c.setColor(generateColor());
-		//System.out.println(c.getName() + " " + c.getId() +  " " + c.getHtmlColor());
 		list().addInOrder(c);
 	}
 	
@@ -36,28 +38,34 @@ public class ClassService extends BasicService{
 		return list().all();
 	}
 	
-	private double getDist(String c1, String c2){
+	private double getColorDistance(Color c1, Color c2){
 		double dist = 0;
-		for(int i = 0; i < 3; ++i){
-			int v1 = Integer.parseInt(c1.substring(2*i, 2*i+1),16);
-			int v2 = Integer.parseInt(c2.substring(2*i, 2*i+1),16);
-			dist += (v2 - v1) * (v2 - v1);
-		}
+		int v1[] = {c1.getRed(), c1.getGreen(), c1.getBlue()};
+		int v2[] = {c2.getRed(), c2.getGreen(), c2.getBlue()};
+		
+		for(int i = 0; i < 3; ++i)
+			dist += (v2[i] - v1[i]) * (v2[i] - v1[i]);
+		
 		dist /= 255*Math.sqrt(3);
 		return dist;	
 	}
 	
-	private String generateColor(){
-		String color = "";
+	private Color generateColor(){
+		Color color = null;
+		int base[] = {BASE_COLOR.getRed(), BASE_COLOR.getGreen(), BASE_COLOR.getBlue()};
+		int rgb[] = new int[3]; 
+		
 		for(int lim = 0; lim < 100; ++lim){
-			color = "";
 			for(int i = 0; i < 3; ++i)
-				color += String.format("%02x", (int) (Math.random() * 255));
+				rgb[i] = (int) (base[i] + Math.random() * 255) / 2;
 			
-			if(getDist(color, "ff0000") < 0.2) continue;
+			color = new Color(rgb[0], rgb[1], rgb[2]);
+			
+			if(getColorDistance(color, Color.red) < MIN_COLOR_DISTANCE) continue;
+			if(getColorDistance(color, Color.white) < MIN_COLOR_DISTANCE) continue;
 			
 			for(Class c : all()){
-				if(getDist(c.getHtmlColor().replace("#", ""), color) > 0.2) 
+				if(getColorDistance(c.getColor(), color) > MIN_COLOR_DISTANCE) 
 					return color;
 			}
 			
