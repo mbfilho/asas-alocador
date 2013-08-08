@@ -52,7 +52,8 @@ public class SimpleElectivePreferenceReader implements DataReader<ElectiveClassP
 					pref.addSlotRange(horarios);
 				}
 				
-				service.add(pref);
+				if(!service.existPreference(pref.getElectiveClass())) 
+					service.add(pref);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
