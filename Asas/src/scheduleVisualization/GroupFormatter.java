@@ -51,7 +51,7 @@ public class GroupFormatter implements TableFormatter {
 					for(Professor p : scheduled.getProfessors()) panel.add(new JLabel(p.getName()));
 					panel.add(new JSeparator(SwingConstants.HORIZONTAL));
 					panel.add(new JLabel("Horários:"));
-					for(SlotRange r : scheduled.getSlots())	panel.add(new JLabel(r.getName()));
+					for(SlotRange r : scheduled.getSlots())	panel.add(new JLabel(r.toString()));
 				}
 			}
 		}

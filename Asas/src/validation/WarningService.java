@@ -107,7 +107,7 @@ public class WarningService {
 						if(!interseption.isValid()) continue;
 						
 						Warning w = new Warning().addMessage(c1.getName()).addMessage(c2.getName())
-								.addMessage(r1.getClassroom().getName()).addMessage(interseption.getName());
+								.addMessage(r1.getClassroom().getName()).addMessage(interseption.toString());
 						warnings.add(w);
 					}
 				}

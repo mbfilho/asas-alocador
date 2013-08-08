@@ -90,7 +90,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 	private void configureElements(String title, final Iterable<T> objs) {
 		int y = 0, space = 10, height = 20;
 		titleLabel = new JLabel(title);
-		titleLabel.setBounds(0, y, 100, height);
+		titleLabel.setBounds(0, y, 250, height);
 		add(titleLabel);
 		
 		y += height + space;
