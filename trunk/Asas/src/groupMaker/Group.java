@@ -37,4 +37,8 @@ public class Group implements NamedEntity{
 	public String getName() {
 		return groupName;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		throw new CloneNotSupportedException();
+	}
 }

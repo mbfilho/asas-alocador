@@ -41,4 +41,8 @@ public class Classroom implements NamedEntity, Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		throw new CloneNotSupportedException();
+	}
 }

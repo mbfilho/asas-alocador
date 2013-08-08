@@ -4,8 +4,9 @@ import java.io.Serializable;
 import java.util.Vector;
 
 import utilities.Constants;
+import utilities.MyCloneable;
 
-public class SlotRange implements NamedEntity, Serializable{
+public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	private static SlotRange _emptyRange = new SlotRange(-1, -1, -2, null);
 	
 	private static final long serialVersionUID = 7748615816585085336L;
@@ -92,5 +93,9 @@ public class SlotRange implements NamedEntity, Serializable{
 	
 	public void setClassroom(Classroom room){
 		this.room = room;
+	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
 	}
 }

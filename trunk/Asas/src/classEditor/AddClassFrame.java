@@ -212,11 +212,10 @@ public abstract class AddClassFrame extends JFrame{
 		gbc_slotList.gridy = 6;
 		contentPane.add(slotList, gbc_slotList);
 		
-		btnOk = new JButton("Ok");
+		btnOk = new JButton("Salvar");
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveChanges();
-				dispose();
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
@@ -235,8 +234,8 @@ public abstract class AddClassFrame extends JFrame{
 				generateDisponibilityTable();
 			}
 		};
-		professorList.addActionListener(updateTableOnChange);
-		slotList.addActionListener(updateTableOnChange);
+		professorList.setChangeListener(updateTableOnChange);
+		slotList.setChangeListener(updateTableOnChange);
 	}
 
 	protected void saveChanges(){

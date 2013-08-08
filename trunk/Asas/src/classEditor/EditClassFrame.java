@@ -83,10 +83,18 @@ public abstract class EditClassFrame extends JFrame {
 	/**
 	 * Create the frame.
 	 */
+	
 	public EditClassFrame(final WarningService warningService) {
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		
+		configureElements(warningService);
+		
+		configureElementsActions();
+		setVisible(true);
+	}
+
+	private void configureElements(final WarningService warningService) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 658, 579);
 		contentPane = new JPanel();
@@ -245,28 +253,19 @@ public abstract class EditClassFrame extends JFrame {
 		gbc_slotList.gridy = 7;
 		contentPane.add(slotList, gbc_slotList);
 		
-		btnOk = new JButton("Ok");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				saveChanges();
-				dispose();
-			}
-		});
+		btnOk = new JButton("Salvar");
+		
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
 		gbc_btnOk.anchor = GridBagConstraints.SOUTH;
 		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 8;
 		contentPane.add(btnOk, gbc_btnOk);
-		
-		configureElementsActions();
-		setVisible(true);
 	}
 	
 	private void configureElementsActions() {
 		ActionListener updateTableOnChange = new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("Chamou!");
 				generateDisponibilityTable();
 			}
 		};
@@ -277,8 +276,14 @@ public abstract class EditClassFrame extends JFrame {
 			}
 		});
 		
-		professorList.addActionListener(updateTableOnChange);
-		slotList.addActionListener(updateTableOnChange);
+		btnOk.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveChanges();
+			}
+		});
+		
+		professorList.setChangeListener(updateTableOnChange);
+		slotList.setChangeListener(updateTableOnChange);
 	}
 	
 	private void saveChanges(){
