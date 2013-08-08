@@ -26,7 +26,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		Collator.getInstance().setStrength(Collator.SECONDARY);
 		
-		//*
+		/*
 		File tmp = new File("config.asas");
 		if(tmp.exists()) tmp.delete();
 		State s = new State();

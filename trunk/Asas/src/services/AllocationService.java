@@ -21,6 +21,9 @@ public class AllocationService {
 	
 	public boolean canAllocate(ElectiveClass electiveClass,	Vector<SlotRange> meetings) {
 		for(SlotRange r : meetings){
+			if(r.getClassroom().getName().compareToIgnoreCase("Area II") == 0) return false;
+			if(r.getClassroom().getName().compareToIgnoreCase("CTG") == 0) return false;
+			
 			if(!conflictService.areProfessorsOfThisClassAvailable(electiveClass, r)) return false;
 			if(!conflictService.isClassroomFreeForThisClass(electiveClass, r.getClassroom(), r)) return false;
 		}

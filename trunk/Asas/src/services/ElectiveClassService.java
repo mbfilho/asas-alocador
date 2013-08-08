@@ -33,4 +33,5 @@ public class ElectiveClassService extends BasicService{
 		for(ElectiveClass c : all()) if(c.getName().equals(name)) return c;
 		return null;
 	}
+	
 }

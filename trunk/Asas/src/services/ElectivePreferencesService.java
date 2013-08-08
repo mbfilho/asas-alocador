@@ -3,6 +3,7 @@ package services;
 import java.util.Collection;
 import java.util.Vector;
 
+import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.Professor;
 import basic.SlotRange;
@@ -51,6 +52,11 @@ public class ElectivePreferencesService{
 		}
 		text += "</table></html>";
 		return text;
+	}
+	
+	public boolean existPreference(ElectiveClass cls){
+		for(ElectiveClassPreferences pref : all()) if(pref.getElectiveClass() == cls) return true;
+		return false;
 	}
 	
 }

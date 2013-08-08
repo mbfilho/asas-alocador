@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
@@ -242,7 +243,7 @@ public abstract class EditClassFrame extends JFrame {
 		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
 			public Class getSelectedClass() {
-				return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
+				return getSelectedClass();
 			}
 		};
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
@@ -261,6 +262,24 @@ public abstract class EditClassFrame extends JFrame {
 		gbc_btnOk.gridx = 0;
 		gbc_btnOk.gridy = 8;
 		contentPane.add(btnOk, gbc_btnOk);
+		
+		JButton btnRemover = new JButton("Remover");
+		btnRemover.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(getSelectedClass() == null) return;
+				
+				int op = JOptionPane.showConfirmDialog(EditClassFrame.this, "Tem certeza que deseja excluir a turma \"" + getSelectedClass() + "\"?");
+				if(op == JOptionPane.OK_OPTION){
+					
+				}
+			}
+		});
+		GridBagConstraints gbc_btnRemover = new GridBagConstraints();
+		gbc_btnRemover.anchor = GridBagConstraints.SOUTH;
+		gbc_btnRemover.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRemover.gridx = 4;
+		gbc_btnRemover.gridy = 8;
+		contentPane.add(btnRemover, gbc_btnRemover);
 	}
 	
 	private void configureElementsActions() {
@@ -272,7 +291,7 @@ public abstract class EditClassFrame extends JFrame {
 		
 		classesComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				fillWithSelectedClass(((NamedPair<Class>)classesComboBox.getSelectedItem()).data);
+				fillWithSelectedClass(getSelectedClass());
 			}
 		});
 		
@@ -286,8 +305,12 @@ public abstract class EditClassFrame extends JFrame {
 		slotList.setChangeListener(updateTableOnChange);
 	}
 	
+	private Class getSelectedClass(){
+		return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
+	}
+	
 	private void saveChanges(){
-		Class selected = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
+		Class selected = getSelectedClass();
 		setValuesToClass(selected);
 		classService.update(selected);
 		classInformationEdited();
@@ -323,7 +346,7 @@ public abstract class EditClassFrame extends JFrame {
 	}
 	
 	private void generateDisponibilityTable(){
-		Class selected = new Class(), fromCBox = ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;//
+		Class selected = new Class(), fromCBox = getSelectedClass();
 		setValuesToClass(selected);
 		if(fromCBox != null) selected.setId(fromCBox.getId());
 		
