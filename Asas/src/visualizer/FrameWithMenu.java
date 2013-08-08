@@ -212,24 +212,40 @@ public class FrameWithMenu extends JFrame{
 		JMenuItem mntmAlocar = new JMenuItem("Alocar");
 		mntmAlocar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int op = JOptionPane.showConfirmDialog(FrameWithMenu.this, "Essa opção desalocará as disciplinas eletivas já alocadas.\nDeseja continuar?");
-				if(op == JOptionPane.YES_OPTION){
-					Allocator aloc = new DefaultAllocator();
-					AllocationResult result = aloc.allocate(true);
+				Allocator aloc = new DefaultAllocator();
+				AllocationResult result = aloc.allocate(true);
 
-					JFrame frame = new JFrame();
-					JTextPane panel = new JTextPane();
-					panel.setContentType("text/html");
-					panel.setText(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
-					frame.getContentPane().add(new JScrollPane(panel));
-					frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-					frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
-					frame.setVisible(true);
-					frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
-				}
+				JFrame frame = new JFrame();
+				JTextPane panel = new JTextPane();
+				panel.setContentType("text/html");
+				panel.setText(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
+				frame.getContentPane().add(new JScrollPane(panel));
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
+				frame.setVisible(true);
+				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
+				onEditClassInformation();
 			}
 		});
 		mnEltivas.add(mntmAlocar);
+		
+		JMenuItem mntmLimparAlocao = new JMenuItem("Limpar Alocação");
+		mntmLimparAlocao.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int op = JOptionPane.showConfirmDialog(
+							FrameWithMenu.this,
+							"Essa ação irá apagar a alocação de todas as disciplinas eletivas,\n" +
+							"inclusive as feitas manualmente. Deseja continuar?",
+							"Confirmar desalocação de disciplinas eletivas",
+							JOptionPane.YES_NO_OPTION
+						);
+				if(op == JOptionPane.YES_OPTION){
+					new AllocationService().clearAllocation();
+					onEditClassInformation();
+				}
+			}
+		});
+		mnEltivas.add(mntmLimparAlocao);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0};
