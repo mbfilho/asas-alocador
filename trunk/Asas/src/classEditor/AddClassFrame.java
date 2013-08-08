@@ -200,6 +200,7 @@ public abstract class AddClassFrame extends JFrame{
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
 			public Class getSelectedClass() {
 				Class dummy = new Class();
+				setValuesToClass(dummy);
 				dummy.setId(-1);
 				return dummy;
 			}

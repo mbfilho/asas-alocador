@@ -146,4 +146,10 @@ public class Class implements NamedEntity, Serializable{
 	public Object clone() throws CloneNotSupportedException{
 		throw new CloneNotSupportedException();
 	}
+	
+	public Vector<Classroom> getAllRooms(){
+		Vector<Classroom> rooms = new Vector<Classroom>();
+		for(SlotRange r : getSlots()) if(r.getClassroom() != null) rooms.add(r.getClassroom());
+		return rooms;
+	}
 }

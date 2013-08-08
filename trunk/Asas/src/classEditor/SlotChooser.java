@@ -190,9 +190,6 @@ public abstract class SlotChooser extends JFrame {
 		contentPane.add(btnCancelar, gbc_btnCancelar);
 	}
 	
-	/**
-	 * @wbp.parser.constructor
-	 */
 	public SlotChooser (WarningService warning, Class selectedClass){
 		this(warning, selectedClass, null);
 	}
@@ -206,8 +203,14 @@ public abstract class SlotChooser extends JFrame {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 398, 208);
 		configureElements();
-		updateClassroomsDisponibility();
-		fillWithSelectedSlot();
+		initClassroomBox();
+		
+		if(isEditingExistingSlot()) fillWithSelectedSlot();
+		else{
+			Vector<Classroom> rooms = selectedClass.getAllRooms();
+			if(!rooms.isEmpty()) selectClassroom(rooms.firstElement());
+		}
+		
 		setVisible(true);
 	}
 	
@@ -226,12 +229,10 @@ public abstract class SlotChooser extends JFrame {
 	}
 	
 	private void fillWithSelectedSlot(){
-		if(isEditingExistingSlot()){
-			selectClassroom(slotToEdit.getClassroom());
-			iniHour.setValue(slotToEdit.getStartSlot() + 7);
-			endHour.setValue(slotToEdit.getEndSlot() + 8);
-			days.setSelectedIndex(slotToEdit.getDay());
-		}
+		selectClassroom(slotToEdit.getClassroom());
+		iniHour.setValue(slotToEdit.getStartSlot() + 7);
+		endHour.setValue(slotToEdit.getEndSlot() + 8);
+		days.setSelectedIndex(slotToEdit.getDay());
 	}
 	
 	private SlotRange getSelectedSlot(){
@@ -242,22 +243,25 @@ public abstract class SlotChooser extends JFrame {
 	}
 	
 	private void updateClassroomsDisponibility(){
-		if(classroomCBModel.getSize() == 0){
-			Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
-			for(Classroom room : allRooms) classroomCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
-		}
-
 		for(int i = 0; i < classroomCBModel.getSize(); ++i){
 			Classroom room = classroomCBModel.getElementAt(i).data;
+			if(room == null) continue;
+			
 			String fontColor = "green";
 			SlotRange slot = getSelectedSlot();
-			if(!conflictService.isClassroomFreeForThisClass(selectedClass, room, slot)){
+			if(!conflictService.isClassroomFreeForThisClass(selectedClass, room, slot))
 				fontColor = "red";
-			}
 			
 			classroomCBModel.getElementAt(i).name = "<html><p style='color:" + fontColor + "'>"+room.getName()+"</p></html>";
 		}
 		classrooms.repaint();
+	}
+
+	private void initClassroomBox() {
+		Collection<Classroom> allRooms = StateService.getInstance().getCurrentState().classrooms.all();
+		classroomCBModel.addElement(new NamedPair<Classroom>("Escolher depois...", null));
+		for(Classroom room : allRooms) classroomCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
+		updateClassroomsDisponibility();
 	}
 
 	public abstract void onChooseSlot(SlotRange chosen);
