@@ -14,6 +14,8 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import utilities.MyCloneable;
+
 import basic.NamedEntity;
 import basic.SlotRange;
 
@@ -81,7 +83,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		for(T obj : objs) addElement(obj);
 	}
 	
-	public void addActionListener(ActionListener listener){
+	public void setChangeListener(ActionListener listener){
 		changeListener = listener;
 	}
 	
@@ -115,9 +117,9 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 				new SelectElements<T>(objs) {
 					public void OnSelect(Vector<T> selecteds) {
 						addElements(selecteds);
+						changeListener.actionPerformed(null);
 					}
 				};
-				changeListener.actionPerformed(e);
 			}
 		});
 		add(addButton);

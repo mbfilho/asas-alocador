@@ -44,4 +44,8 @@ public class State implements NamedEntity, Serializable{
 	public int getId(){
 		return _currentId++;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		throw new CloneNotSupportedException();
+	}
 }

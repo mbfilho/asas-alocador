@@ -142,4 +142,8 @@ public class Class implements NamedEntity, Serializable{
 		completeName += name;
 		return completeName;
 	}
+	
+	public Object clone() throws CloneNotSupportedException{
+		throw new CloneNotSupportedException();
+	}
 }

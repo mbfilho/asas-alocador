@@ -48,4 +48,7 @@ public class ElectiveClassPreferences implements NamedEntity, Serializable{
 		return theClass.getName();
 	}
 	
+	public Object clone() throws CloneNotSupportedException{
+		return super.clone();
+	}
 }
