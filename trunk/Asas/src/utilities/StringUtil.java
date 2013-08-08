@@ -3,11 +3,11 @@ package utilities;
 import basic.NamedEntity;
 
 public class StringUtil {
-	public static <T extends NamedEntity> String joinListWithSeparator(Iterable<T> list, String separator){
+	public static <T> String joinListWithSeparator(Iterable<T> list, String separator){
 		String joined = "", prefix = "";
 		
-		for(NamedEntity item : list){
-			joined += prefix + item.getName();
+		for(T item : list){
+			joined += prefix + item.toString();
 			prefix = separator;
 		}
 		return joined;

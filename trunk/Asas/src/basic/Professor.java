@@ -75,4 +75,8 @@ public class Professor implements NamedEntity, Serializable, MyCloneable{
 	public Object clone() throws CloneNotSupportedException{
 		throw new CloneNotSupportedException();
 	}
+	
+	public String toString(){
+		return getName();
+	}
 }

@@ -240,7 +240,7 @@ public abstract class EditClassFrame extends JFrame {
 		gbc_profList.gridy = 6;
 		contentPane.add(professorList, gbc_profList);
 		
-		slotList = new EditableSlotList("Horários", warningService){
+		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
 			public Class getSelectedClass() {
 				return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
 			}

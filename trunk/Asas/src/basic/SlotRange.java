@@ -84,7 +84,7 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	}
 	
 	public String getName() {
-		return toString() + (room == null ? "" : " Sala " + room.getName());
+		return toString() + "  - " + (room == null ? "Sem Sala" : "Sala " + room.getName());
 	}
 	
 	public Classroom getClassroom(){
