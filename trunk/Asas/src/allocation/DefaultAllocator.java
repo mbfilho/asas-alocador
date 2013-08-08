@@ -31,8 +31,6 @@ public class DefaultAllocator implements Allocator {
 	}
 	
 	public AllocationResult allocate(boolean onlyInPreferedSlots) {
-		service.clearAllocation();
-		
 		AllocationResult result = new AllocationResult();
 		Vector<Classroom> orderedRooms = new Vector<Classroom>(roomService.all());
 		Collections.sort(orderedRooms, new Comparator<Classroom>() {

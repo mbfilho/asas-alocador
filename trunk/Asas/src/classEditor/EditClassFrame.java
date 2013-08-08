@@ -268,9 +268,16 @@ public abstract class EditClassFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(getSelectedClass() == null) return;
 				
-				int op = JOptionPane.showConfirmDialog(EditClassFrame.this, "Tem certeza que deseja excluir a turma \"" + getSelectedClass() + "\"?");
-				if(op == JOptionPane.OK_OPTION){
-					
+				int op = JOptionPane.showConfirmDialog(
+							EditClassFrame.this, 
+							"Tem certeza que deseja excluir a turma \"" + getSelectedClass() + "\"?",
+							"Confirmar exclusão de turma",
+							JOptionPane.YES_NO_OPTION
+						);
+				if(op == JOptionPane.YES_OPTION){
+					classService.remove(getSelectedClass());
+					classesComboBox.removeItem(classesComboBox.getSelectedItem());
+					saveChanges();
 				}
 			}
 		});
@@ -311,8 +318,10 @@ public abstract class EditClassFrame extends JFrame {
 	
 	private void saveChanges(){
 		Class selected = getSelectedClass();
-		setValuesToClass(selected);
-		classService.update(selected);
+		if(selected != null){
+			setValuesToClass(selected);
+			classService.update(selected);
+		} 
 		classInformationEdited();
 	}
 	
@@ -328,21 +337,35 @@ public abstract class EditClassFrame extends JFrame {
 	}
 	
 	private void fillWithSelectedClass(Class selected){
-		if(selected == null) return;
-		
-		nameText.setText(selected.getName());
-		codeText.setText(selected.getCode());
-		ccText.setText(selected.getCcSemester() == -1 ? "" : selected.getCcSemester() + "");
-		ecText.setText(selected.getEcSemester() == -1 ? "" : selected.getEcSemester() + "");
-		courseText.setText(selected.getCourse());
+		if(selected == null)
+			clearFields();
+		else{
+			nameText.setText(selected.getName());
+			codeText.setText(selected.getCode());
+			ccText.setText(selected.getCcSemester() == -1 ? "" : selected.getCcSemester() + "");
+			ecText.setText(selected.getEcSemester() == -1 ? "" : selected.getEcSemester() + "");
+			courseText.setText(selected.getCourse());
+			
+			slotList.clear();
+			slotList.addElements(selected.getSlots());
+	
+			professorList.clear();
+			professorList.addElements(selected.getProfessors());
+			
+			generateDisponibilityTable();
+		}
+	}
+	
+	private void clearFields(){
+		nameText.setText("");
+		codeText.setText("");
+		ccText.setText("");
+		ecText.setText("");
+		courseText.setText("");
 		
 		slotList.clear();
-		slotList.addElements(selected.getSlots());
-
 		professorList.clear();
-		professorList.addElements(selected.getProfessors());
-		
-		generateDisponibilityTable();
+		tabbedPane.removeAll();
 	}
 	
 	private void generateDisponibilityTable(){

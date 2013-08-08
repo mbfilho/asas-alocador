@@ -73,7 +73,7 @@ public class ClassService extends BasicService{
 		return color;
 	}
 
-	public void remove(ElectiveClass ec) {
+	public void remove(Class ec) {
 		list().remove(ec);
 	}
 	
