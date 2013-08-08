@@ -270,7 +270,7 @@ public abstract class EditClassFrame extends JFrame {
 				
 				int op = JOptionPane.showConfirmDialog(
 							EditClassFrame.this, 
-							"Tem certeza que deseja excluir a turma \"" + getSelectedClass() + "\"?",
+							"Tem certeza que deseja excluir a turma \"" + getSelectedClass().getName() + "\"?",
 							"Confirmar exclusão de turma",
 							JOptionPane.YES_NO_OPTION
 						);
