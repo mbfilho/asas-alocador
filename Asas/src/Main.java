@@ -36,7 +36,7 @@ public class Main {
 		s = StateService.getInstance().getCurrentState();
 		
 		DataValidation<Repository<Professor>> professors = new SimpleProfessorReader().read();
-		DataValidation<Repository<Classroom>> classrooms = new SimpleClassRoomReader().read();
+		DataValidation<Repository<Classroom>> classrooms = new SimpleClassRoomReader().read(); 
 		DataValidation<Repository<Class>> classes = new SimpleClassReader().read();
 		DataValidation<Repository<ElectiveClass>> electives = new SimpleElectiveReader().read();
 		
