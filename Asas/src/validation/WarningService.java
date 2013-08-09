@@ -91,6 +91,12 @@ public class WarningService {
 		return warnings;
 	}
 	
+	//@TODO tratar isso direito
+	private boolean ignoreRoom(Classroom room){
+		return room.getName().compareToIgnoreCase("Area ii") == 0
+				|| room.getName().compareToIgnoreCase("ctg") == 0;
+	}
+	
 	public Vector<Warning> checkSameRoomConflicts(){
 		Vector<Warning> warnings = new Vector<Warning>();
 		Vector<Class> allClasses = stateService.getCurrentState().classes.all();
@@ -100,9 +106,9 @@ public class WarningService {
 				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
 				
 				for(SlotRange r1 : c1.getSlots()){
-					if(r1.getClassroom() == null) continue;
+					if(r1.getClassroom() == null || ignoreRoom(r1.getClassroom())) continue;
 					for(SlotRange r2 : c2.getSlots()){
-						if(r2.getClassroom() != r1.getClassroom()) continue;
+						if(r2.getClassroom() != r1.getClassroom() || ignoreRoom(r1.getClassroom())) continue;
 						SlotRange interseption = r1.intersection(r2);
 						if(!interseption.isValid()) continue;
 						
