@@ -26,8 +26,16 @@ public class ClassFilter {
 		this.professor = professor;
 	}
 
+	public Professor getProfessor(){
+		return this.professor; 
+	}
+	
 	public void setArea(String area) {
 		this.area = area;
+	}
+	
+	public boolean isFilteringByProfessor(){
+		return professor != null;
 	}
 
 	public boolean isInRole(Class c){
