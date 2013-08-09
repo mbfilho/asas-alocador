@@ -46,6 +46,17 @@ public class FilterApplier {
 		for(Entry<String, Schedule> pair : groupsByRoom.entrySet())
 			groups.add(new Group(pair.getValue(), pair.getKey()));
 		
+		
+		//@TODO isso eh uma gambiarra! 
+		if(filter.isFilteringByProfessor()){
+			Schedule professorSchedule = new Schedule();
+			for(Class c : classService.all()){
+				if(!filter.isInRole(c)) continue;
+				professorSchedule.addClass(c);
+			}
+			Group professorSum = new Group(professorSchedule, filter.getProfessor().getName());
+			groups.add(professorSum);
+		}
 		return groups;
 	}
 }
