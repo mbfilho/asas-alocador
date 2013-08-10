@@ -3,7 +3,7 @@ package warnings;
 import java.io.Serializable;
 import basic.NamedEntity;
 
-public abstract class _Warning implements Serializable, NamedEntity{
+public abstract class Warning implements Serializable, NamedEntity{
 	
 	public abstract String getMessage();
 	public abstract boolean equals(Object obj);

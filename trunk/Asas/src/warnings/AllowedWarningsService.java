@@ -19,21 +19,21 @@ public class AllowedWarningsService {
 		return ColorUtil.mixColors(Color.yellow, Color.white);
 	}
 	
-	private Repository<_Warning> list(){
+	private Repository<Warning> list(){
 		if(stateService.hasValidState()) return stateService.getCurrentState().allowedWarnings;
-		else return new SimpleRepository<_Warning>();
+		else return new SimpleRepository<Warning>();
 	}
 	
-	public void allow(_Warning w){
+	public void allow(Warning w){
 		if(!isAllowed(w))
 			list().addInOrder(w);
 	}
 	
-	public void disallow(_Warning w){
+	public void disallow(Warning w){
 		list().remove(w);
 	}
 	
-	public boolean isAllowed(_Warning w){
+	public boolean isAllowed(Warning w){
 		return list().all().contains(w);
 	}
 }

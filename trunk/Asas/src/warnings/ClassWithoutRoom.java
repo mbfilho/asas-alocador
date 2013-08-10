@@ -8,7 +8,7 @@ import utilities.StringUtil;
 import basic.SlotRange;
 import basic.Class;
 
-public class ClassWithoutRoom extends _Warning {
+public class ClassWithoutRoom extends Warning {
 
 	private Class theClass;
 	private Vector<SlotRange> slots;

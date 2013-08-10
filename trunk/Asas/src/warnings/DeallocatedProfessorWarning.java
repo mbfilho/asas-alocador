@@ -2,7 +2,7 @@ package warnings;
 
 import basic.Professor;
 
-public class DeallocatedProfessorWarning extends _Warning{
+public class DeallocatedProfessorWarning extends Warning{
 
 	private Professor professor;
 	

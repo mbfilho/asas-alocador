@@ -9,7 +9,7 @@ import basic.Class;
 import basic.Professor;
 import basic.SlotRange;
 
-public class SameProfessorsWarning extends _Warning{
+public class SameProfessorsWarning extends Warning{
 
 	private Class oneClass, otherClass;
 	private Vector<Professor> professors;
@@ -23,7 +23,7 @@ public class SameProfessorsWarning extends _Warning{
 	}
 	
 	public String getMessage() {
-		return String.format("Professor(es) <b>%s</b> nas turmas <b>%s</b> e <b>%s</b> no(s) mesmo(s) horário(s) %s",
+		return String.format("<html>Professor(es) <b>%s</b> nas turmas <b>%s</b> e <b>%s</b>, <b>%s</b></html>",
 					StringUtil.joinListWithSeparator(professors, "/"), 
 					oneClass.getName(), 
 					otherClass.getName(),
