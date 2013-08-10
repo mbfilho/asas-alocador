@@ -2,6 +2,7 @@ package statePersistence;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -129,6 +130,7 @@ public class StateService {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(stateDescription.getFile()));
 			State tmp = (State) in.readObject();
 			in.close();
+			
 			return tmp; 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

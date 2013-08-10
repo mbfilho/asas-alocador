@@ -4,7 +4,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.TreeSet;
 import java.util.Vector;
 
 
@@ -12,10 +14,6 @@ public class Main implements Iterable<Integer> {
 	
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException {
-		Main x = new Main();
-		for(Integer h : x){
-			
-		}
 	}
 
 	public Iterator<Integer> iterator() {

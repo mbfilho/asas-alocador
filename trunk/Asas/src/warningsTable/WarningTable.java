@@ -10,7 +10,7 @@ import javax.swing.table.TableCellEditor;
 import warnings.AllowedWarningsService;
 import warnings.Warning;
 
-public class WarningTable extends JTable {
+public abstract class WarningTable extends JTable {
 	private static final long serialVersionUID = -6035225065621591680L;
 	private WarningTableModel model;
 	private AllowedWarningsService allowService;
@@ -20,9 +20,14 @@ public class WarningTable extends JTable {
 	}
 	
 	public WarningTable(Vector<Warning> warnings){
-		super(new WarningTableModel(new AllowedWarningsService(), warnings));
-		model = (WarningTableModel) getModel();
-		allowService = model.allowedService;
+		allowService = new AllowedWarningsService();
+		model = new WarningTableModel(allowService, warnings) {
+			public void onChangeWarningAllowance() {
+				WarningTable.this.onChangeWarningAllowance();
+			}
+		};
+		setModel(model);
+		
 		getColumnModel().getColumn(0).setPreferredWidth(700);
 		getColumnModel().getColumn(1).setPreferredWidth(30);
 		
@@ -41,4 +46,6 @@ public class WarningTable extends JTable {
 	public void addWarning(Warning warning){
 		model.addWarning(warning);
 	}
+	
+	public abstract void onChangeWarningAllowance();
 }

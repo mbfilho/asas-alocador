@@ -141,7 +141,14 @@ public class WarningGeneratorService {
 	}
 	
 	public int notAllowedWarningsCount(){
-		return 0;
+		int cont = 0;
+		for(NamedPair<Vector<Warning>> warningList : getAllWarnings().getAllReports()){
+			for(Warning w : warningList.data){
+				if(!allowedWarningService.isAllowed(w)) ++cont;
+			}
+		}
+		
+		return cont;
 	}
 	
 	public WarningReport getAllWarnings(){
