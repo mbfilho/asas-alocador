@@ -9,7 +9,7 @@ import javax.swing.table.AbstractTableModel;
 import warnings.AllowedWarningsService;
 import warnings.Warning;
 
-public class WarningTableModel extends AbstractTableModel{
+public abstract class WarningTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = 1L;
 	private Class[] columnTypes;
 	private Vector<Warning> warnings;
@@ -60,6 +60,7 @@ public class WarningTableModel extends AbstractTableModel{
 			else allowedService.disallow(warnings.get(row));
 			
 			sortByAllowance();
+			onChangeWarningAllowance();
 		}
 		fireTableDataChanged();
 	}
@@ -76,5 +77,7 @@ public class WarningTableModel extends AbstractTableModel{
 		if(columnIndex == 0) return warnings.get(rowIndex);
 		else return allowedService.isAllowed(warnings.get(rowIndex));
 	}
+	
+	public abstract void onChangeWarningAllowance();
 }
 

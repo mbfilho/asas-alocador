@@ -191,7 +191,11 @@ public class FrameWithMenu extends JFrame{
 				
 				JTabbedPane pane = new JTabbedPane();
 				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
-					WarningTable table = new WarningTable(report.data);
+					WarningTable table = new WarningTable(report.data){
+						public void onChangeWarningAllowance() {
+							onEditWarningInformation();
+						}
+					};
 					pane.addTab(report.name, new JScrollPane(table));
 				}
 				
@@ -272,20 +276,36 @@ public class FrameWithMenu extends JFrame{
 		warningMenuItem.setText(text);
 	}
 	
+	/**
+	 * Ao autorizar/desautorizar um alerta
+	 */
+	protected void onEditWarningInformation(){
+		updateWarningCountText();
+	}
+	/**
+		Ao editar informações de um professor
+	 */
 	protected void onEditProfessorInformation(){
 		updateWarningCountText();
 	}
-	
-	//ao editar informações de uma sala
+	/**
+	 *Ao editar informações de uma sala 
+	 */
 	protected void onEditClassroomInformation(){
 		updateWarningCountText();
 	}
 	
-	//ao carregar um estado previamente salvo
+	/**
+	 * Ao carregar um estado previamente salvo 
+	 * @param s - O estado carregado
+	 */
 	protected void onLoadNewState(State s){
 		updateWarningCountText();
 	}
-	//ao editar informações de uma turma
+	
+	/**
+	 *Ao editar informações de uma turma 
+	 */
 	protected void onEditClassInformation() {
 		updateWarningCountText();
 	}
