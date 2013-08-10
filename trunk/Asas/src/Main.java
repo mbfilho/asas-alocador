@@ -1,6 +1,9 @@
 import java.io.File;
 import java.text.Collator;
 
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
+
 import data.Repository;
 import data.SimpleClassReader;
 import data.SimpleClassRoomReader;
@@ -23,8 +26,22 @@ import basic.Class;
 
 public class Main {
 
+	private static void setLookAndFeel(){
+		try {
+		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+		        if ("Nimbus".equals(info.getName())) {
+		            UIManager.setLookAndFeel(info.getClassName());
+		            break;
+		        }
+		    }
+		} catch (Exception e) {
+		    // If Nimbus is not available, you can set the GUI to another look and feel.
+		}	
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Collator.getInstance().setStrength(Collator.SECONDARY);
+		setLookAndFeel();
 		
 		/*
 		File tmp = new File("config.asas");

@@ -3,6 +3,7 @@ package statePersistence;
 import java.io.Serializable;
 
 import services.ElectivePreferencesService;
+import warnings._Warning;
 
 import allocation.AllocationResult;
 import basic.Class;
@@ -21,6 +22,7 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Professor> professors;
 	public Repository<ElectiveClass> elective;
 	public Repository<ElectiveClassPreferences> electivePreferences;
+	public Repository<_Warning> allowedWarnings;
 	
 	private int _currentId;
 	
@@ -30,6 +32,7 @@ public class State implements NamedEntity, Serializable{
 		professors = new SimpleRepository<Professor>();
 		elective = new SimpleRepository<ElectiveClass>();
 		electivePreferences =  new SimpleRepository<ElectiveClassPreferences>();
+		allowedWarnings = new SimpleRepository<_Warning>();
 		_currentId = 1;
 	}
 	
