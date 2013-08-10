@@ -20,8 +20,8 @@ import javax.swing.JScrollPane;
 
 import scheduleVisualization.GroupFormatter;
 import scheduleVisualization.VisualizationTable;
+import services.WarningGeneratorService;
 import statePersistence.State;
-import validation.WarningService;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -43,7 +43,7 @@ public class Visualizer extends FrameWithMenu {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Visualizer frame = new Visualizer(new WarningService());
+					Visualizer frame = new Visualizer(new WarningGeneratorService());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -57,7 +57,7 @@ public class Visualizer extends FrameWithMenu {
 	 */
 	private JTabbedPane tabbedPane;
 	
-	public Visualizer(WarningService warningService) {
+	public Visualizer(WarningGeneratorService warningService) {
 		super(warningService);
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setTitle("Visualizar");

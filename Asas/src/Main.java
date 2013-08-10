@@ -18,9 +18,9 @@ import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.Professor;
 
+import services.WarningGeneratorService;
 import statePersistence.State;
 import statePersistence.StateService;
-import validation.WarningService;
 import visualizer.Visualizer;
 import basic.Class;
 
@@ -66,7 +66,7 @@ public class Main {
 		StateService st = StateService.getInstance();
 		//st.setCurrentState(st.allStates().get(0));
 		
-		WarningService warningService = new WarningService();
+		WarningGeneratorService warningService = new WarningGeneratorService();
 		new Visualizer(warningService);
 	}
 }

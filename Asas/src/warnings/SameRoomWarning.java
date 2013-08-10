@@ -8,7 +8,7 @@ import basic.Classroom;
 import basic.Class;
 import basic.SlotRange;
 
-public class SameRoomWarning extends _Warning {
+public class SameRoomWarning extends Warning {
 
 	private Classroom theRoom;
 	private Class oneClass, anotherClass;

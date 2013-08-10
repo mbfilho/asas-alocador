@@ -34,10 +34,11 @@ import scheduleVisualization.TableFormatter;
 import scheduleVisualization.VisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
+import services.WarningGeneratorService;
 import statePersistence.State;
 import statePersistence.StateService;
 import utilities.StringUtil;
-import validation.WarningService;
+
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JSplitPane;
@@ -70,7 +71,7 @@ public abstract class EditClassFrame extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					EditClassFrame frame = new EditClassFrame(new WarningService()) {
+					EditClassFrame frame = new EditClassFrame(new WarningGeneratorService()) {
 						public void classInformationEdited() {}
 					};
 					frame.setVisible(true);
@@ -85,7 +86,7 @@ public abstract class EditClassFrame extends JFrame {
 	 * Create the frame.
 	 */
 	
-	public EditClassFrame(final WarningService warningService) {
+	public EditClassFrame(final WarningGeneratorService warningService) {
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		
@@ -95,7 +96,7 @@ public abstract class EditClassFrame extends JFrame {
 		setVisible(true);
 	}
 
-	private void configureElements(final WarningService warningService) {
+	private void configureElements(final WarningGeneratorService warningService) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 658, 579);
 		contentPane = new JPanel();

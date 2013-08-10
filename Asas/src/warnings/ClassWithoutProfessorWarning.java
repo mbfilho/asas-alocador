@@ -2,7 +2,7 @@ package warnings;
 
 import basic.Class;
 
-public class ClassWithoutProfessorWarning extends _Warning{
+public class ClassWithoutProfessorWarning extends Warning{
 	private Class theClass;
 	
 	public ClassWithoutProfessorWarning(Class c){

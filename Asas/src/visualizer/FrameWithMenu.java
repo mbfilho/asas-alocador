@@ -13,16 +13,14 @@ import javax.swing.JTextPane;
 
 import services.AllocationService;
 import services.ElectivePreferencesService;
+import services.WarningGeneratorService;
 import statePersistence.LoadStateFrame;
 import statePersistence.ChangeStateListener;
 import statePersistence.NewStateFrame;
 import statePersistence.State;
 import statePersistence.StateService;
-import utilities.StringUtil;
-import validation.WarningService;
-import warnings.TheService;
-import warnings.WarningTable;
-import warnings._Warning;
+import warnings.Warning;
+import warningsTable.WarningTable;
 
 import java.awt.GridBagLayout;
 
@@ -33,9 +31,6 @@ import javax.swing.KeyStroke;
 import allocation.AllocationResult;
 import allocation.Allocator;
 import allocation.DefaultAllocator;
-import basic.ElectiveClassPreferences;
-import basic.Professor;
-import basic.SlotRange;
 
 import classEditor.AddClassFrame;
 import classEditor.EditClassFrame;
@@ -56,10 +51,10 @@ public class FrameWithMenu extends JFrame{
 	protected JMenu stateMenu;
 	protected JMenuItem loadState;
 	protected JMenuItem saveState;
-	private WarningService warningService;
+	private WarningGeneratorService warningService;
 	private JMenu warningMenuItem;
 	
-	public FrameWithMenu(WarningService service) {
+	public FrameWithMenu(WarningGeneratorService service) {
 		warningService = service;
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -186,25 +181,16 @@ public class FrameWithMenu extends JFrame{
 		warningMenuItem = new JMenu("Alertas");
 		menuBar.add(warningMenuItem);
 		
-		JMenuItem mntmMostrar = new JMenuItem("Mostrar");
-		mntmMostrar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String text = warningService.getAllWarnings().generateHtml();
-				new WarningReportFrame(text);
-			}
-		});
-		warningMenuItem.add(mntmMostrar);
-		
-		JMenuItem mntmProvisorio = new JMenuItem("Provisorio");
+		JMenuItem mntmProvisorio = new JMenuItem("Mostar");
 		mntmProvisorio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame();
 				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				TheService service = new TheService();
+				WarningGeneratorService service = new WarningGeneratorService();
 				
 				JTabbedPane pane = new JTabbedPane();
-				for(NamedPair<Vector<_Warning>> report : service.getAllWarnings().getAllReports()){
+				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
 					WarningTable table = new WarningTable(report.data);
 					pane.addTab(report.name, new JScrollPane(table));
 				}
@@ -280,7 +266,7 @@ public class FrameWithMenu extends JFrame{
 	}
 
 	private void updateWarningCountText(){
-		int count = warningService.getAllWarnings().getWarningCount();
+		int count = warningService.notAllowedWarningsCount();
 		String text = "Alertas";
 		if(count != 0) text += "(" + count + ")";
 		warningMenuItem.setText(text);

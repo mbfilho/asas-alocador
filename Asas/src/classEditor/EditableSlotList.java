@@ -7,7 +7,8 @@ import java.util.Vector;
 
 import javax.swing.JComboBox;
 
-import validation.WarningService;
+import services.WarningGeneratorService;
+
 
 import basic.SlotRange;
 import basic.Class;
@@ -16,7 +17,7 @@ public abstract class EditableSlotList extends EditableJList<SlotRange> {
 
 	public abstract Class getSelectedClass();
 	
-	public EditableSlotList(String title, final WarningService service) {
+	public EditableSlotList(String title, final WarningGeneratorService service) {
 		super(title, null);
 		
 		for(ActionListener al : addButton.getActionListeners()) addButton.removeActionListener(al);

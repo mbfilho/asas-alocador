@@ -2,23 +2,14 @@ package scheduleVisualization;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Cursor;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
-import javax.swing.border.Border;
-import javax.swing.border.LineBorder;
 
 import services.ConflictService;
-import validation.WarningService;
 import basic.Class;
 import basic.Classroom;
 import basic.Professor;

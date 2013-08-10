@@ -24,7 +24,7 @@ import scheduleVisualization.TableFormatter;
 import scheduleVisualization.VisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
-import validation.WarningService;
+import services.WarningGeneratorService;
 
 import basic.Classroom;
 import basic.NamedEntity;
@@ -53,7 +53,7 @@ public abstract class AddClassFrame extends JFrame{
 	protected ProfessorService professorService;
 	protected JButton btnOk;
 	
-	public AddClassFrame(WarningService warningService) {
+	public AddClassFrame(WarningGeneratorService warningService) {
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		if(professorService == null) throw new RuntimeException();
@@ -71,7 +71,7 @@ public abstract class AddClassFrame extends JFrame{
 		toBeSeted.setSlots(slotList.getItens());
 	}
 
-	private void configureElements(WarningService warningService) {
+	private void configureElements(WarningGeneratorService warningService) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 658, 579);
 		contentPane = new JPanel();

@@ -1,9 +1,9 @@
 package warnings;
 
-import warnings._Warning;
+import warnings.Warning;
 import basic.Class;
 
-public class ClassWithoutSlotWarning extends _Warning {
+public class ClassWithoutSlotWarning extends Warning {
 
 	private Class theClass;
 	

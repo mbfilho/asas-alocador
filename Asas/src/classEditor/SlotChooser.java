@@ -22,9 +22,9 @@ import basic.Class;
 import javax.swing.JButton;
 
 import services.ConflictService;
+import services.WarningGeneratorService;
 import statePersistence.StateService;
 import utilities.Constants;
-import validation.WarningService;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -42,7 +42,7 @@ public abstract class SlotChooser extends JFrame {
 	private static final long serialVersionUID = -2203432919581579448L;
 	private JPanel contentPane;
 	private DefaultComboBoxModel<NamedPair<Classroom>> classroomCBModel;
-	private WarningService warningService;
+	private WarningGeneratorService warningService;
 	private Class selectedClass;
 	private JSpinner endHour, iniHour;
 	private JComboBox<NamedPair<Classroom>> classrooms;
@@ -190,11 +190,11 @@ public abstract class SlotChooser extends JFrame {
 		contentPane.add(btnCancelar, gbc_btnCancelar);
 	}
 	
-	public SlotChooser (WarningService warning, Class selectedClass){
+	public SlotChooser (WarningGeneratorService warning, Class selectedClass){
 		this(warning, selectedClass, null);
 	}
 	
-	public SlotChooser(WarningService warning, Class selectedClass, SlotRange toEdit) {
+	public SlotChooser(WarningGeneratorService warning, Class selectedClass, SlotRange toEdit) {
 		this.slotToEdit = toEdit;
 		this.warningService = warning;
 		conflictService = new ConflictService();
