@@ -8,6 +8,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 
 import services.AllocationService;
@@ -19,6 +20,9 @@ import statePersistence.State;
 import statePersistence.StateService;
 import utilities.StringUtil;
 import validation.WarningService;
+import warnings.TheService;
+import warnings.WarningTable;
+import warnings._Warning;
 
 import java.awt.GridBagLayout;
 
@@ -35,6 +39,7 @@ import basic.SlotRange;
 
 import classEditor.AddClassFrame;
 import classEditor.EditClassFrame;
+import classEditor.NamedPair;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
 
@@ -189,6 +194,26 @@ public class FrameWithMenu extends JFrame{
 			}
 		});
 		warningMenuItem.add(mntmMostrar);
+		
+		JMenuItem mntmProvisorio = new JMenuItem("Provisorio");
+		mntmProvisorio.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				TheService service = new TheService();
+				
+				JTabbedPane pane = new JTabbedPane();
+				for(NamedPair<Vector<_Warning>> report : service.getAllWarnings().getAllReports()){
+					WarningTable table = new WarningTable(report.data);
+					pane.addTab(report.name, new JScrollPane(table));
+				}
+				
+				frame.add(new JScrollPane(pane));
+				frame.setVisible(true);
+			}
+		});
+		warningMenuItem.add(mntmProvisorio);
 		
 		JMenu mnEltivas = new JMenu("Eletivas");
 		menuBar.add(mnEltivas);
