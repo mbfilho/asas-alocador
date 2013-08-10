@@ -244,7 +244,7 @@ public abstract class EditClassFrame extends JFrame {
 		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
 			public Class getSelectedClass() {
-				return getSelectedClass();
+				return getSelectedClassInCBox();
 			}
 		};
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
@@ -267,16 +267,16 @@ public abstract class EditClassFrame extends JFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(getSelectedClass() == null) return;
+				if(getSelectedClassInCBox() == null) return;
 				
 				int op = JOptionPane.showConfirmDialog(
 							EditClassFrame.this, 
-							"Tem certeza que deseja excluir a turma \"" + getSelectedClass().getName() + "\"?",
+							"Tem certeza que deseja excluir a turma \"" + getSelectedClassInCBox().getName() + "\"?",
 							"Confirmar exclusão de turma",
 							JOptionPane.YES_NO_OPTION
 						);
 				if(op == JOptionPane.YES_OPTION){
-					classService.remove(getSelectedClass());
+					classService.remove(getSelectedClassInCBox());
 					classesComboBox.removeItem(classesComboBox.getSelectedItem());
 					saveChanges();
 				}
@@ -299,7 +299,7 @@ public abstract class EditClassFrame extends JFrame {
 		
 		classesComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				fillWithSelectedClass(getSelectedClass());
+				fillWithSelectedClass(getSelectedClassInCBox());
 			}
 		});
 		
@@ -313,12 +313,12 @@ public abstract class EditClassFrame extends JFrame {
 		slotList.setChangeListener(updateTableOnChange);
 	}
 	
-	private Class getSelectedClass(){
+	private Class getSelectedClassInCBox(){
 		return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
 	}
 	
 	private void saveChanges(){
-		Class selected = getSelectedClass();
+		Class selected = getSelectedClassInCBox();
 		if(selected != null){
 			setValuesToClass(selected);
 			classService.update(selected);
@@ -370,7 +370,7 @@ public abstract class EditClassFrame extends JFrame {
 	}
 	
 	private void generateDisponibilityTable(){
-		Class selected = new Class(), fromCBox = getSelectedClass();
+		Class selected = new Class(), fromCBox = getSelectedClassInCBox();
 		setValuesToClass(selected);
 		if(fromCBox != null) selected.setId(fromCBox.getId());
 		
