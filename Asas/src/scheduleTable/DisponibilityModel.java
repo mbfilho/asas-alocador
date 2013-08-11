@@ -118,6 +118,7 @@ public class DisponibilityModel extends GeneralScheduleModel {
 	}
 	
 	private String abbreviate(String s){
+		if(true) return s;
 		String names[] = s.split(" "), name = names[0];
 		if(names.length > 1) name += " " + names[1].substring(0, Math.min(4, names[1].length())) + ".";
 		return name;
