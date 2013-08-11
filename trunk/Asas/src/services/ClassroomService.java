@@ -2,8 +2,6 @@ package services;
 
 import java.util.Collection;
 
-import javax.swing.text.SimpleAttributeSet;
-
 import data.Repository;
 import data.SimpleRepository;
 

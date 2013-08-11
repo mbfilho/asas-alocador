@@ -8,7 +8,6 @@ import data.SimpleRepository;
 import statePersistence.StateService;
 import utilities.ColorUtil;
 import basic.Class;
-import basic.ElectiveClass;
 
 public class ClassService extends BasicService{
 

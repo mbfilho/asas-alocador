@@ -1,9 +1,5 @@
 package htmlGenerator;
 
-import java.util.Vector;
-
-import scheduleVisualization.ScheduleSlot;
-
 public class ScheduleTable {
 	private String title;
 	private String slots[][];

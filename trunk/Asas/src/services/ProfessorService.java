@@ -1,8 +1,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.Vector;
-
 import data.Repository;
 import data.SimpleRepository;
 import basic.Professor;

@@ -14,10 +14,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import utilities.MyCloneable;
-
 import basic.NamedEntity;
-import basic.SlotRange;
 
 
 abstract class SelectElements<T extends NamedEntity> extends JFrame {

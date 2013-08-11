@@ -1,7 +1,5 @@
 package utilities;
 
-import basic.NamedEntity;
-
 public class StringUtil {
 	public static <T> String joinListWithSeparator(Iterable<T> list, String separator){
 		String joined = "", prefix = "";

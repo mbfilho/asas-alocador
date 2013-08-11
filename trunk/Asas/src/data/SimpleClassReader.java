@@ -9,9 +9,7 @@ import services.ClassService;
 import statePersistence.StateService;
 
 import basic.Class;
-import basic.Classroom;
 import basic.DataValidation;
-import basic.Professor;
 import basic.SlotRange;
 import exceptions.InvalidInputException;
 
@@ -76,11 +74,12 @@ public class SimpleClassReader extends ClassReader {
 				toRead.setCh2(readInt());
 				service.add(toRead);
 			}
+			sc.close();
 		} catch (FileNotFoundException e) {
 			errors.add("O arquivo \"" + fileName + "\" não foi encontrado.");
 		}
 		
-		return new DataValidation(StateService.getInstance().getCurrentState().classes, errors);
+		return new DataValidation<Repository<Class>>(StateService.getInstance().getCurrentState().classes, errors);
 	}
 
 }

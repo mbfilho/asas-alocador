@@ -4,6 +4,10 @@ import java.awt.Color;
 
 public class ColorUtil {
 
+	public static Color mixWithWhite(Color c){
+		return mixColors(c, Color.white);
+	}
+	
 	public static Color mixColors(Color ... colors) {
 		float r = 0, g = 0, b = 0;
 		for(Color c : colors){

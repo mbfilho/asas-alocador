@@ -4,9 +4,7 @@ import services.ClassroomService;
 import services.ProfessorService;
 import exceptions.InvalidInputException;
 import basic.Class;
-import basic.Classroom;
 import basic.DataValidation;
-import basic.Professor;
 
 public abstract class ClassReader implements DataReader<Class> {
 

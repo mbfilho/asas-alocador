@@ -9,8 +9,6 @@ import java.awt.Insets;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
 import services.ProfessorService;
 
 import basic.Professor;
@@ -143,7 +141,7 @@ public abstract class FilterChooser extends JPanel {
 
 	public void refresh() {
 		Professor selected = getSelectedItem(profCBox);
-		DefaultComboBoxModel<NamedPair<Professor>> model = (DefaultComboBoxModel) profCBox.getModel();
+		DefaultComboBoxModel<NamedPair<Professor>> model = (DefaultComboBoxModel<NamedPair<Professor>>) profCBox.getModel();
 		model.removeAllElements();
 		ProfessorService profService = new ProfessorService();
 		NamedPair<Professor> newSelected = null;

@@ -2,7 +2,6 @@ package statePersistence;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -12,11 +11,6 @@ import java.io.ObjectOutputStream;
 import java.util.Vector;
 
 import javax.swing.Timer;
-
-import basic.Classroom;
-import basic.Professor;
-
-import data.SimpleRepository;
 
 import exceptions.StateIOException;
 

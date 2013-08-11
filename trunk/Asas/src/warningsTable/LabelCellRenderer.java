@@ -7,8 +7,8 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
+import services.AllowedWarningsService;
 import utilities.ColorUtil;
-import warnings.AllowedWarningsService;
 import warnings.Warning;
 
 public class LabelCellRenderer extends JLabel implements TableCellRenderer{

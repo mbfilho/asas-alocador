@@ -1,11 +1,8 @@
 package classrooms;
 
-import statePersistence.StateService;
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JComboBox;

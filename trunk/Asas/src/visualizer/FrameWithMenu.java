@@ -47,6 +47,10 @@ import java.util.Vector;
 
 
 public class FrameWithMenu extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5703181522055851320L;
 	protected JMenuBar mainMenuBar;
 	protected JMenu stateMenu;
 	protected JMenuItem loadState;
@@ -112,6 +116,11 @@ public class FrameWithMenu extends JFrame{
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditClassFrame(warningService) {
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 3952554516836477307L;
+
 					public void classInformationEdited() {
 						onEditClassInformation();
 					}
@@ -123,6 +132,11 @@ public class FrameWithMenu extends JFrame{
 		mntmProfessores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditProfessorFrame(){
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 364796446171271423L;
+
 					protected void onOkButton(){
 						super.onOkButton();
 						onEditProfessorInformation();
@@ -137,6 +151,11 @@ public class FrameWithMenu extends JFrame{
 		mntmSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditClassroomFrame(){
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1646934026564171682L;
+
 					public void onOkButton(){
 						super.onOkButton();
 						onEditClassroomInformation();
@@ -170,6 +189,11 @@ public class FrameWithMenu extends JFrame{
 		mntmTurma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AddClassFrame(warningService){
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 6365362038635115524L;
+
 					public void onAddClass() {
 						onEditClassInformation();
 					}
@@ -192,6 +216,11 @@ public class FrameWithMenu extends JFrame{
 				JTabbedPane pane = new JTabbedPane();
 				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
 					WarningTable table = new WarningTable(report.data){
+						/**
+						 * 
+						 */
+						private static final long serialVersionUID = 1175048516009507514L;
+
 						public void onChangeWarningAllowance() {
 							onEditWarningInformation();
 						}

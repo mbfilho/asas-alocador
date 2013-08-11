@@ -1,6 +1,5 @@
 package data;
 
-import java.util.Collection;
 import java.util.Vector;
 
 import basic.NamedEntity;

@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
-import services.ClassService;
 import services.ElectiveClassService;
 import services.ElectivePreferencesService;
 import services.ProfessorService;
@@ -14,7 +13,6 @@ import exceptions.InvalidInputException;
 import basic.DataValidation;
 import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
-import basic.Class;
 import basic.SlotRange;
 
 //@TODO Esse código não deve existir
@@ -55,6 +53,7 @@ public class SimpleElectivePreferenceReader implements DataReader<ElectiveClassP
 				if(!service.existPreference(pref.getElectiveClass())) 
 					service.add(pref);
 			}
+			sc.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,4 @@
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.text.Collator;
 
 import javax.swing.UIManager;
@@ -12,7 +10,6 @@ import data.SimpleClassRoomReader;
 import data.SimpleElectivePreferenceReader;
 import data.SimpleElectiveReader;
 import data.SimpleProfessorReader;
-import data.SimpleRepository;
 
 import basic.Classroom;
 import basic.DataValidation;
@@ -65,7 +62,7 @@ public class Main {
 		
 		StateService.getInstance().save();
 		//*/
-		StateService st = StateService.getInstance();
+		//StateService st = StateService.getInstance();
 		//st.setCurrentState(st.allStates().get(0));
 		
 		WarningGeneratorService warningService = new WarningGeneratorService();

@@ -5,6 +5,8 @@ import groupMaker.ClassFilter;
 import groupMaker.FilterApplier;
 import groupMaker.FilterChooser;
 import groupMaker.Group;
+import groupMaker.ProfessorGroup;
+import groupMaker.RoomGroup;
 
 import java.awt.EventQueue;
 
@@ -13,24 +15,21 @@ import java.awt.GridBagLayout;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
-import scheduleVisualization.GroupFormatter;
-import scheduleVisualization.VisualizationTable;
+import scheduleTable.GeneralGroupModel;
+import scheduleTable.GroupByClassroomModel;
+import scheduleTable.GroupByProfessorModel;
+import scheduleTable.ScheduleVisualizationTable;
 import services.WarningGeneratorService;
 import statePersistence.State;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 import java.util.Vector;
 
-import javax.swing.JSeparator;
 import java.awt.Frame;
-import javax.swing.JButton;
 import javax.swing.JTabbedPane;
+
 
 public class Visualizer extends FrameWithMenu {
 	private static final long serialVersionUID = -6441797946984712515L;
@@ -95,7 +94,14 @@ public class Visualizer extends FrameWithMenu {
 		Vector<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
 		
 		for(final Group g : groups){
-			Component table = new VisualizationTable(new GroupFormatter(g));
+			GeneralGroupModel tableModel = null;
+			
+			if(g instanceof RoomGroup){
+				tableModel = new GroupByClassroomModel(g.schedule.getSchedule(), ((RoomGroup)g).theRoom);
+			}else if(g instanceof ProfessorGroup){
+				tableModel = new GroupByProfessorModel(g.schedule.getSchedule(), ((ProfessorGroup) g).theProfessor);
+			}
+			Component table = new ScheduleVisualizationTable(tableModel);
 			tabbedPane.addTab(g.groupName, new JScrollPane(table));
 		}
 	}
@@ -103,6 +109,11 @@ public class Visualizer extends FrameWithMenu {
 	
 	private void clearTabs(){
 		tabbedPane.removeAll();
+	}
+	
+	protected void onEditWarningInformation(){
+		super.onEditWarningInformation();
+		refreshTable();
 	}
 	
 	//ao carregar um estado previamente salvo
