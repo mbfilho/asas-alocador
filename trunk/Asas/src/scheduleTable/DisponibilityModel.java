@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import services.ConflictService;
 import utilities.ColorUtil;
 import utilities.Constants;
+import utilities.Pair;
 
 import basic.Classroom;
 import basic.Class;
@@ -49,9 +50,10 @@ public class DisponibilityModel extends GeneralScheduleModel {
 				cellState[row][col].setBackColor(Color.white);
 				
 				if(conflictService.isClassInThisRoomAtThisSlot(theClass, new SlotRange(day, slot, slot, theClassroom))){
-					cellState[row][col].setBorder(ColorUtil.mixWithWhite(Color.blue), 3);
 					if(state == NO_CONFLICT) 
 						cellState[row][col].setBackColor(ColorUtil.mixWithWhite(Color.blue));
+					else
+						cellState[row][col].setBorder(ColorUtil.mixWithWhite(Color.blue), 3);
 				}
 				
 				if(state != NO_CONFLICT) cellState[row][col].setBackColor(Color.orange);
@@ -61,10 +63,11 @@ public class DisponibilityModel extends GeneralScheduleModel {
 	
 	private String getCellContent(int day, int slot, int state) {
 		if(state == PROFESSOR_CONFLICT_ONLY){
-			Vector<Professor> profsConflicteds = conflictService.getUnavailableProfessorsOfThisClass(theClass, SlotRange.singleSlotRange(day, slot));
+			Vector<Pair<Professor, Class>> profsConflicteds = 
+					conflictService.getUnavailableProfessorsOfThisClass(theClass, SlotRange.singleSlotRange(day, slot));
 			String content = "<html>";
-			for(Professor p : profsConflicteds){
-				content += "<p style=\"color:black\">" + abbreviate(p.getName()) + "</p>";
+			for(Pair<Professor, Class> pair : profsConflicteds){
+				content += "<p style=\"color:black\">" + abbreviate(pair.first.getName()) + "</p>";
 			}
 			content += "</html>";
 			return content;
@@ -94,9 +97,10 @@ public class DisponibilityModel extends GeneralScheduleModel {
 		}
 		if(state != NO_CONFLICT){
 			if((state & PROFESSOR_CONFLICT_ONLY) != 0){
-				Vector<Professor> profs = conflictService.getUnavailableProfessorsOfThisClass(theClass, SlotRange.singleSlotRange(day, slot));
+				Vector<Pair<Professor, Class>> profs = conflictService.getUnavailableProfessorsOfThisClass(theClass, SlotRange.singleSlotRange(day, slot));
 				menu.add(createColoredLabel("Conflito do(s) Professor(es):", Color.red));
-				for(Professor p : profs) menu.add(createColoredLabel("- " + p.getName(), Color.black));
+				for(Pair<Professor, Class> pair : profs) 
+					menu.add(createColoredLabel("- " + pair.first.getName() + " [" + pair.second.completeName() + "]", Color.black));
 				rows += 1 + profs.size();
 			}
 			if((state & ROOM_OCCUPIED_ONLY) != 0){

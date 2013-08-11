@@ -18,7 +18,7 @@ public class ClassroomService {
 	
 	private Repository<Classroom> list(){
 		if(stateService.hasValidState()) return stateService.getCurrentState().classrooms;
-		else return new SimpleRepository();
+		else return new SimpleRepository<Classroom>();
 	}
 	
 	public void add(Classroom room){

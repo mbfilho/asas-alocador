@@ -40,7 +40,7 @@ import javax.swing.JButton;
 public abstract class EditClassFrame extends JFrame {
 
 	private static final long serialVersionUID = 679979857489504936L;
-	private JComboBox classesComboBox;
+	private JComboBox<NamedPair<Class>> classesComboBox;
 	protected JPanel contentPane;
 	protected JTextField nameText;
 	protected JTextField codeText;
@@ -66,6 +66,8 @@ public abstract class EditClassFrame extends JFrame {
 			public void run() {
 				try {
 					EditClassFrame frame = new EditClassFrame(new WarningGeneratorService()) {
+						private static final long serialVersionUID = 264055421810856038L;
+
 						public void classInformationEdited() {}
 					};
 					frame.setVisible(true);
@@ -237,6 +239,8 @@ public abstract class EditClassFrame extends JFrame {
 		contentPane.add(professorList, gbc_profList);
 		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
+			private static final long serialVersionUID = 7730149789169337564L;
+
 			public Class getSelectedClass() {
 				return getSelectedClassInCBox();
 			}
@@ -307,6 +311,7 @@ public abstract class EditClassFrame extends JFrame {
 		slotList.setChangeListener(updateTableOnChange);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Class getSelectedClassInCBox(){
 		return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
 	}
@@ -373,10 +378,19 @@ public abstract class EditClassFrame extends JFrame {
 		for(SlotRange s : slots) if(s.getClassroom() != null) rooms.add(s.getClassroom());
 		tabbedPane.removeAll();
 		
+		ScheduleVisualizationTable table;
+		
 		for(Classroom r : rooms){
-			ScheduleVisualizationTable table = new ScheduleVisualizationTable(new DisponibilityModel(selected, r));
+			table = new ScheduleVisualizationTable(new DisponibilityModel(selected, r));
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
+		
+		if(rooms.isEmpty()){
+			Classroom dummyRoom = new Classroom("", -1);
+			table = new ScheduleVisualizationTable(new DisponibilityModel(selected, dummyRoom));
+			tabbedPane.addTab("Turma sem sala", new JScrollPane(table));
+		}
+		
 	}
 	
 	private <T extends NamedEntity> Vector<NamedPair<T>> createNamedPairs(Collection<T> objs){
