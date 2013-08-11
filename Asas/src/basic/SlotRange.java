@@ -1,8 +1,6 @@
 package basic;
 
 import java.io.Serializable;
-import java.util.Vector;
-
 import utilities.Constants;
 import utilities.MyCloneable;
 
@@ -97,5 +95,9 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	
 	public Object clone() throws CloneNotSupportedException{
 		return super.clone();
+	}
+
+	public boolean covers(SlotRange slot) {
+		return intersection(slot).equals(slot);
 	}
 }

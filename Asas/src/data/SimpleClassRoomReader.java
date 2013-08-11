@@ -1,11 +1,8 @@
 package data;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
-import java.util.Vector;
-
 import services.ClassroomService;
 import statePersistence.StateService;
 
@@ -32,6 +29,6 @@ public class SimpleClassRoomReader implements DataReader<Classroom> {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		return new DataValidation(StateService.getInstance().getCurrentState().classrooms);
+		return new DataValidation<Repository<Classroom>>(StateService.getInstance().getCurrentState().classrooms);
 	}
 }

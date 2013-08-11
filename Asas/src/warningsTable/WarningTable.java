@@ -7,7 +7,8 @@ import java.util.Vector;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
-import warnings.AllowedWarningsService;
+import services.AllowedWarningsService;
+
 import warnings.Warning;
 
 public abstract class WarningTable extends JTable {

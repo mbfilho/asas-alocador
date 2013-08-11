@@ -1,6 +1,5 @@
 package allocation;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
@@ -10,7 +9,6 @@ import services.ClassroomService;
 import services.ElectivePreferencesService;
 
 import basic.Classroom;
-import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.SlotRange;
 

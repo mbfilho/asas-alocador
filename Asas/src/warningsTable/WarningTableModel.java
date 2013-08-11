@@ -6,7 +6,8 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import warnings.AllowedWarningsService;
+import services.AllowedWarningsService;
+
 import warnings.Warning;
 
 public abstract class WarningTableModel extends AbstractTableModel{

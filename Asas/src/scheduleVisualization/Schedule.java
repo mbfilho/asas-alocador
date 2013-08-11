@@ -1,6 +1,5 @@
 package scheduleVisualization;
 
-import java.util.Queue;
 import java.util.Vector;
 import basic.Class;
 import basic.SlotRange;

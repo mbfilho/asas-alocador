@@ -9,20 +9,21 @@ import scheduleVisualization.ScheduleSlot;
 import services.ClassService;
 
 import basic.Class;
+import basic.Classroom;
 import basic.SlotRange;
 
 public class FilterApplier {
 
 	private ClassService classService;
-	private HashMap<String, Schedule> groupsByRoom;
+	private HashMap<Classroom, Schedule> groupsByRoom;
 	
 	public FilterApplier(){
 		classService = new ClassService();
-		groupsByRoom = new HashMap<String, Schedule>();
+		groupsByRoom = new HashMap<Classroom, Schedule>();
 	}
 
 	private void addToMap(SlotRange r, Class c){
-		String key = r.getClassroom().getName();
+		Classroom key = r.getClassroom();
 		if(!groupsByRoom.containsKey(key)) groupsByRoom.put(key, new Schedule());
 		groupsByRoom.get(key).addScheduleSlot(new ScheduleSlot(c), r);
 	}
@@ -43,8 +44,8 @@ public class FilterApplier {
 		}
 		
 		Vector<Group> groups = new Vector<Group>(); 
-		for(Entry<String, Schedule> pair : groupsByRoom.entrySet())
-			groups.add(new Group(pair.getValue(), pair.getKey()));
+		for(Entry<Classroom, Schedule> pair : groupsByRoom.entrySet())
+			groups.add(new RoomGroup(pair.getValue(), pair.getKey()));
 		
 		
 		//@TODO isso eh uma gambiarra! 
@@ -54,7 +55,7 @@ public class FilterApplier {
 				if(!filter.isInRole(c)) continue;
 				professorSchedule.addClass(c);
 			}
-			Group professorSum = new Group(professorSchedule, filter.getProfessor().getName());
+			ProfessorGroup professorSum = new ProfessorGroup(professorSchedule, filter.getProfessor());
 			groups.add(professorSum);
 		}
 		return groups;

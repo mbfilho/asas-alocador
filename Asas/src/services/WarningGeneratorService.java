@@ -1,7 +1,5 @@
 package services;
 
-import java.awt.Color;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -14,8 +12,6 @@ import basic.Class;
 
 import statePersistence.StateService;
 import utilities.CollectionUtil;
-import utilities.StringUtil;
-import warnings.AllowedWarningsService;
 import warnings.ClassWithoutProfessorWarning;
 import warnings.ClassWithoutRoom;
 import warnings.ClassWithoutSlotWarning;
@@ -30,7 +26,7 @@ public class WarningGeneratorService {
 	private StateService stateService = StateService.getInstance();
 	private ClassService classService;
 	private ProfessorService professorService;
-	private AllowedWarningsService allowedWarningService;
+	protected AllowedWarningsService allowedWarningService;
 	
 	public WarningGeneratorService(){
 		classService = new ClassService();
@@ -44,10 +40,13 @@ public class WarningGeneratorService {
 				|| room.getName().compareToIgnoreCase("ctg") == 0;
 	}
 	
-	public Vector<Warning> checkSameRoomConflicts(){
+	public Vector<Warning> getSameRoomConflicts(){
+		return getSameRoomConflicts(new Vector<Class>(classService.all()));
+	}
+	
+	protected Vector<Warning> getSameRoomConflicts(Vector<Class> allClasses){
 		Vector<Warning> warnings = new Vector<Warning>();
-		Vector<Class> allClasses = stateService.getCurrentState().classes.all();
-
+		
 		for(int i = 0; i < allClasses.size(); ++i){
 			for(int j = i + 1; j < allClasses.size(); ++j){
 				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
@@ -81,9 +80,13 @@ public class WarningGeneratorService {
 		return warnings;
 	}
 	
-	public Vector<Warning> checkSameProfConflicts(){
+	
+	public Vector<Warning> getSameProfConflicts(){
+		return getSameProfConflicts(new Vector<Class>(classService.all()));
+	}
+	
+	protected Vector<Warning> getSameProfConflicts(Vector<Class> allClasses){
 		Vector<Warning> warnings = new Vector<Warning>();
-		Vector<Class> allClasses = new Vector<Class>(classService.all());
 		
 		for(int i = 0; i < allClasses.size(); ++i){
 			for(int j = i + 1; j < allClasses.size(); ++j){
@@ -154,9 +157,9 @@ public class WarningGeneratorService {
 	public WarningReport getAllWarnings(){
 		WarningReport report = new WarningReport();
 		
-		report.addReport("Mesma sala e horário", checkSameRoomConflicts());
+		report.addReport("Mesma sala e horário", getSameRoomConflicts());
 		report.addReport("Professores desalocados", checkProfessorsWithoutClasses());
-		report.addReport("Mesmos professores e horários", checkSameProfConflicts());
+		report.addReport("Mesmos professores e horários", getSameProfConflicts());
 		report.addReport("Turmas sem professor", checkClassHasProfs());
 		report.addReport("Turmas sem horário", checkClassHasSlot());
 		report.addReport("Turmas sem sala", checkClassHasRoom());

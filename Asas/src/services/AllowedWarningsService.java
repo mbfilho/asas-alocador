@@ -1,4 +1,4 @@
-package warnings;
+package services;
 
 import java.awt.Color;
 
@@ -7,6 +7,7 @@ import data.SimpleRepository;
 
 import statePersistence.StateService;
 import utilities.ColorUtil;
+import warnings.Warning;
 
 public class AllowedWarningsService {
 	private StateService stateService;
@@ -16,7 +17,7 @@ public class AllowedWarningsService {
 	}
 	
 	public static Color getAllowedWarningColor(){
-		return ColorUtil.mixColors(Color.yellow, Color.white);
+		return ColorUtil.mixWithWhite(Color.yellow);
 	}
 	
 	private Repository<Warning> list(){

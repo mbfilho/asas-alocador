@@ -2,7 +2,6 @@ package data;
 
 import java.io.Serializable;
 import java.text.Collator;
-import java.util.Collection;
 import java.util.Vector;
 
 import basic.NamedEntity;

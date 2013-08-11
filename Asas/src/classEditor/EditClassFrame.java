@@ -1,10 +1,7 @@
 package classEditor;
 
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,19 +26,16 @@ import basic.NamedEntity;
 import basic.Professor;
 import basic.SlotRange;
 
-import scheduleVisualization.DisponibilityFormatter;
-import scheduleVisualization.TableFormatter;
-import scheduleVisualization.VisualizationTable;
+import scheduleTable.DisponibilityModel;
+import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
-import statePersistence.State;
-import statePersistence.StateService;
 import utilities.StringUtil;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.JSplitPane;
+
 
 public abstract class EditClassFrame extends JFrame {
 
@@ -380,8 +374,7 @@ public abstract class EditClassFrame extends JFrame {
 		tabbedPane.removeAll();
 		
 		for(Classroom r : rooms){
-			TableFormatter formatter = new DisponibilityFormatter(r, selected);
-			VisualizationTable table = new VisualizationTable(formatter);
+			ScheduleVisualizationTable table = new ScheduleVisualizationTable(new DisponibilityModel(selected, r));
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
 	}

@@ -5,12 +5,9 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.HashSet;
-import java.util.Vector;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -19,15 +16,14 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import scheduleVisualization.DisponibilityFormatter;
-import scheduleVisualization.TableFormatter;
-import scheduleVisualization.VisualizationTable;
+
+import scheduleTable.DisponibilityModel;
+import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
 
 import basic.Classroom;
-import basic.NamedEntity;
 import basic.Professor;
 import basic.SlotRange;
 import basic.Class;
@@ -253,8 +249,7 @@ public abstract class AddClassFrame extends JFrame{
 		tabbedPane.removeAll();
 		
 		for(Classroom r : rooms){
-			TableFormatter formatter = new DisponibilityFormatter(r, selected);
-			VisualizationTable table = new VisualizationTable(formatter);
+			ScheduleVisualizationTable table = new ScheduleVisualizationTable(new DisponibilityModel(selected, r));
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
 	}

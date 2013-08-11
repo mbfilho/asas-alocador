@@ -1,5 +1,4 @@
 package professors;
-import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
@@ -7,15 +6,11 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.lang.Thread.State;
 import java.util.Collection;
 
 import javax.swing.JLabel;
 
 import classEditor.NamedPair;
-
-import statePersistence.StateService;
-
 
 import basic.Professor;
 

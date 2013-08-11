@@ -2,10 +2,8 @@ package statePersistence;
 
 import java.io.Serializable;
 
-import services.ElectivePreferencesService;
 import warnings.Warning;
 
-import allocation.AllocationResult;
 import basic.Class;
 import basic.Classroom;
 import basic.ElectiveClass;

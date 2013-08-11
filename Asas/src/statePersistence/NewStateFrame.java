@@ -13,7 +13,6 @@ import java.awt.GridBagLayout;
 import java.util.Date;
 
 import javax.swing.JTextField;
-import java.awt.Component;
 
 public class NewStateFrame extends ChooseStateFrame{
 	private static final long serialVersionUID = 8910633735786246632L;

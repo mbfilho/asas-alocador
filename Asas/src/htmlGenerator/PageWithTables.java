@@ -9,7 +9,7 @@ public class PageWithTables {
 	private int height, width;
 	
 	public PageWithTables(int width, int height){
-		tables = new Vector();
+		tables = new Vector<ScheduleTable>();
 		styles = new Vector();
 		this.height = height;
 		this.width = width;
