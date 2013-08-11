@@ -20,7 +20,7 @@ public class ScheduleVisualizationTable extends JTable{
 			getColumnModel().getColumn(i).setCellRenderer(render);
 		
 		setRowHeight(50);
-		
+		setEnabled(false);
 		//*
 		addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {

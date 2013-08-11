@@ -30,8 +30,10 @@ public class LabelCellRenderer extends JLabel implements TableCellRenderer{
 		if(column == 0){
 			setHorizontalAlignment(SwingConstants.CENTER);
 			setFont(new Font(defaultFont.getName(), Font.BOLD, 14));
-		}else
+		}else{
 			setFont(defaultFont);
+			setHorizontalAlignment(SwingConstants.LEFT);
+		}
 		
 		setBorder(state.getBorder() == null ? defaultBorder : state.getBorder());
 		setToolTipText(state.getTooltip());
