@@ -14,10 +14,11 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import utilities.DisposableOnEscFrame;
 import basic.NamedEntity;
 
 
-abstract class SelectElements<T extends NamedEntity> extends JFrame {
+abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFrame {
 	private JList<NamedPair<T>> list;
 	
 	public abstract void OnSelect(Vector<T> selecteds);

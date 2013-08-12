@@ -38,7 +38,7 @@ public abstract class FilterChooser extends JPanel {
 		};
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 713, 163, 173, 0};
-		gridBagLayout.rowHeights = new int[]{39, 0, 0};
+		gridBagLayout.rowHeights = new int[]{29, 15, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);

@@ -5,21 +5,27 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import services.ProfessorService;
+import utilities.DisposableOnEscFrame;
+
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public abstract class ProfessorFramePattern extends JFrame {
+public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
 
 	private static final long serialVersionUID = -1767573745824744588L;
 	private JPanel contentPane;
@@ -36,30 +42,6 @@ public abstract class ProfessorFramePattern extends JFrame {
 	private JTextField txtDpto;
 	protected ProfessorService professorService;
 	
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ProfessorFramePattern frame = new ProfessorFramePattern() {
-						/**
-						 * 
-						 */
-						private static final long serialVersionUID = -7312919083991397938L;
-
-						protected void onOkButton() {
-						}
-					};
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */

@@ -64,7 +64,7 @@ public class Visualizer extends FrameWithMenu {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{21, 0};
-		gridBagLayout.rowHeights = new int[]{115, 217, 0};
+		gridBagLayout.rowHeights = new int[]{60, 217, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);

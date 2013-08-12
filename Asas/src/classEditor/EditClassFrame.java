@@ -1,15 +1,18 @@
 package classEditor;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JTabbedPane;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JLabel;
+
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,19 +28,19 @@ import basic.Classroom;
 import basic.NamedEntity;
 import basic.Professor;
 import basic.SlotRange;
-
 import scheduleTable.DisponibilityModel;
 import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
+import utilities.DisposableOnEscFrame;
 import utilities.StringUtil;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
 
-public abstract class EditClassFrame extends JFrame {
+public abstract class EditClassFrame extends DisposableOnEscFrame {
 
 	private static final long serialVersionUID = 679979857489504936L;
 	private JComboBox<NamedPair<Class>> classesComboBox;
@@ -60,28 +63,7 @@ public abstract class EditClassFrame extends JFrame {
 	protected ClassService classService;
 	protected ProfessorService professorService;
 	protected JButton btnOk;
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditClassFrame frame = new EditClassFrame(new WarningGeneratorService()) {
-						private static final long serialVersionUID = 264055421810856038L;
-
-						public void classInformationEdited() {}
-					};
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
-	
+		
 	public EditClassFrame(final WarningGeneratorService warningService) {
 		classService = new ClassService();
 		professorService = new ProfessorService();

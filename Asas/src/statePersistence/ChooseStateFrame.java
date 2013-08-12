@@ -1,32 +1,36 @@
 package statePersistence;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
+
 import javax.swing.JList;
+
 import java.awt.Insets;
 
 import classEditor.NamedPair;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
-
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+
+import utilities.DisposableOnEscFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public abstract class ChooseStateFrame extends JFrame {
+public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 
 	private JPanel contentPane;
 	protected JTextArea description = new JTextArea();
@@ -38,24 +42,7 @@ public abstract class ChooseStateFrame extends JFrame {
 	protected JList<NamedPair<StateDescription>> stateList;
 	private DefaultListModel<NamedPair<StateDescription>> stateListModel;
 	private JLabel stateListLabel;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ChooseStateFrame frame = new ChooseStateFrame(){
-						protected void onOkButton() {
-						}
-					};
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Create the frame.
