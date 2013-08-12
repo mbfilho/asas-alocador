@@ -9,16 +9,22 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextPane;
 
+import reportsDto.ProfessorWorkload;
 import services.AllocationService;
+import services.ElectiveClassService;
 import services.ElectivePreferencesService;
+import services.ReportService;
 import services.WarningGeneratorService;
 import statePersistence.LoadStateFrame;
 import statePersistence.ChangeStateListener;
 import statePersistence.NewStateFrame;
 import statePersistence.State;
 import statePersistence.StateService;
+import utilities.DisposableOnEscFrame;
+import utilities.HtmlTableFrame;
 import warnings.Warning;
 import warningsTable.WarningTable;
 
@@ -31,18 +37,17 @@ import javax.swing.KeyStroke;
 import allocation.AllocationResult;
 import allocation.Allocator;
 import allocation.DefaultAllocator;
-
 import classEditor.AddClassFrame;
 import classEditor.EditClassFrame;
 import classEditor.NamedPair;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
-
 import professors.AddProfessorFrame;
 import professors.EditProfessorFrame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -116,9 +121,6 @@ public class FrameWithMenu extends JFrame{
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditClassFrame(warningService) {
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 3952554516836477307L;
 
 					public void classInformationEdited() {
@@ -132,9 +134,6 @@ public class FrameWithMenu extends JFrame{
 		mntmProfessores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditProfessorFrame(){
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 364796446171271423L;
 
 					protected void onOkButton(){
@@ -151,9 +150,6 @@ public class FrameWithMenu extends JFrame{
 		mntmSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditClassroomFrame(){
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 1646934026564171682L;
 
 					public void onOkButton(){
@@ -189,9 +185,6 @@ public class FrameWithMenu extends JFrame{
 		mntmTurma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new AddClassFrame(warningService){
-					/**
-					 * 
-					 */
 					private static final long serialVersionUID = 6365362038635115524L;
 
 					public void onAddClass() {
@@ -205,10 +198,10 @@ public class FrameWithMenu extends JFrame{
 		warningMenuItem = new JMenu("Alertas");
 		menuBar.add(warningMenuItem);
 		
-		JMenuItem mntmProvisorio = new JMenuItem("Mostar");
-		mntmProvisorio.addActionListener(new ActionListener() {
+		JMenuItem mntmShowWarnings = new JMenuItem("Mostar");
+		mntmShowWarnings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame();
+				JFrame frame = new DisposableOnEscFrame();
 				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				WarningGeneratorService service = new WarningGeneratorService();
@@ -216,9 +209,6 @@ public class FrameWithMenu extends JFrame{
 				JTabbedPane pane = new JTabbedPane();
 				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
 					WarningTable table = new WarningTable(report.data){
-						/**
-						 * 
-						 */
 						private static final long serialVersionUID = 1175048516009507514L;
 
 						public void onChangeWarningAllowance() {
@@ -228,30 +218,23 @@ public class FrameWithMenu extends JFrame{
 					pane.addTab(report.name, new JScrollPane(table));
 				}
 				
-				frame.add(new JScrollPane(pane));
+				frame.getContentPane().add(new JScrollPane(pane));
 				frame.setVisible(true);
 			}
 		});
-		warningMenuItem.add(mntmProvisorio);
+		warningMenuItem.add(mntmShowWarnings);
 		
-		JMenu mnEltivas = new JMenu("Eletivas");
+		JMenu mnEltivas = new JMenu("Eletivas(provisório)");
 		menuBar.add(mnEltivas);
 		
-		JMenuItem mntmprovisrioVer = new JMenuItem("(provisório) Ver");
-		mntmprovisrioVer.addActionListener(new ActionListener() {
+		JMenuItem mntmVer = new JMenuItem("Ver");
+		mntmVer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new JFrame();
-				JTextPane panel = new JTextPane();
-				panel.setContentType("text/html");
 				ElectivePreferencesService service = new ElectivePreferencesService();
-				panel.setText(service.getHtmlTableForPreferences(service.all()));
-				frame.getContentPane().add(new JScrollPane(panel));
-				frame.setVisible(true);
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+				new HtmlTableFrame(service.getHtmlTableForPreferences(service.all()));
 			}
 		});
-		mnEltivas.add(mntmprovisrioVer);
+		mnEltivas.add(mntmVer);
 		
 		JMenuItem mntmAlocar = new JMenuItem("Alocar");
 		mntmAlocar.addActionListener(new ActionListener() {
@@ -259,14 +242,7 @@ public class FrameWithMenu extends JFrame{
 				Allocator aloc = new DefaultAllocator();
 				AllocationResult result = aloc.allocate(true);
 
-				JFrame frame = new JFrame();
-				JTextPane panel = new JTextPane();
-				panel.setContentType("text/html");
-				panel.setText(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
-				frame.getContentPane().add(new JScrollPane(panel));
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				frame.setDefaultCloseOperation(DISPOSE_ON_CLOSE);	
-				frame.setVisible(true);
+				JFrame frame = new HtmlTableFrame(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
 				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
 				onEditClassInformation();
 			}
@@ -290,6 +266,42 @@ public class FrameWithMenu extends JFrame{
 			}
 		});
 		mnEltivas.add(mntmLimparAlocao);
+		
+		JMenuItem mntmVerNoAlocadas = new JMenuItem("Ver não alocadas");
+		mntmVerNoAlocadas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ElectivePreferencesService prefService = new ElectivePreferencesService();
+				AllocationResult allocResult = new AllocationService().getCurrentElectiveAllocation();
+				String htmlText = prefService.getHtmlTableForPreferences(allocResult.notAllocated);
+				JFrame frame = new HtmlTableFrame(htmlText);
+				frame.setTitle("Turmas não alocadas (" + allocResult.notAllocated.size() + ")");
+			}
+		});
+		mnEltivas.add(mntmVerNoAlocadas);
+		
+		JMenu mnRelatrios = new JMenu("Relatórios");
+		menuBar.add(mnRelatrios);
+		
+		JMenuItem mntmWorkload = new JMenuItem("Carga Horária");
+		mntmWorkload.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ReportService reportService = new ReportService();
+				List<ProfessorWorkload> workload = reportService.calculateProfessorWorkload();
+				Object rowData[][] = new Object[workload.size()][2];
+				int row = 0;
+				for(ProfessorWorkload load : workload){
+					rowData[row][0] = load.professor.getName();
+					rowData[row++][1] = load.workload;
+				}
+				JTable table = new JTable(rowData, new String[]{"Professor", "Carga Horária"});
+				JFrame frame = new DisposableOnEscFrame();
+				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				frame.getContentPane().add(new JScrollPane(table));
+				frame.setVisible(true);
+			}
+		});
+		mnRelatrios.add(mntmWorkload);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0};

@@ -12,4 +12,11 @@ public class ElectiveClass extends Class {
 		this.alias = alias;
 	}
 
+	public boolean hasClassroom() {
+		for(SlotRange slot : getSlots()){
+			if(slot.getClassroom() != null) return true;
+		}
+		return false;
+	}
+
 }

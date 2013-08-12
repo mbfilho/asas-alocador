@@ -16,19 +16,18 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-
 import scheduleTable.DisponibilityModel;
 import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
-
+import utilities.DisposableOnEscFrame;
 import basic.Classroom;
 import basic.Professor;
 import basic.SlotRange;
 import basic.Class;
 
-public abstract class AddClassFrame extends JFrame{
+public abstract class AddClassFrame extends DisposableOnEscFrame{
 	private static final long serialVersionUID = 679979857489504936L;
 	protected JPanel contentPane;
 	protected JTextField nameText;

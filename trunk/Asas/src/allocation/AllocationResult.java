@@ -13,4 +13,5 @@ public class AllocationResult {
 		allocated = new Vector<ElectiveClass>();
 		notAllocated = new Vector<ElectiveClassPreferences>();
 	}
+
 }

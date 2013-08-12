@@ -14,6 +14,8 @@ import data.Repository;
 import data.SimpleRepository;
 
 public class State implements NamedEntity, Serializable{
+	private static final long serialVersionUID = 4973989156840803066L;
+	
 	public StateDescription description;
 	public Repository<Class> classes;
 	public Repository<Classroom> classrooms;

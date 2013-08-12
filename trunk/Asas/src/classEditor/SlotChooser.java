@@ -3,13 +3,17 @@ package classEditor;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
 
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
 import javax.swing.JSpinner;
 import javax.swing.JComboBox;
+
 import java.util.Collection;
 import java.util.Vector;
 
@@ -21,6 +25,7 @@ import services.ConflictService;
 import services.WarningGeneratorService;
 import statePersistence.StateService;
 import utilities.Constants;
+import utilities.DisposableOnEscFrame;
 
 import javax.swing.DefaultComboBoxModel;
 
@@ -29,16 +34,16 @@ import basic.SlotRange;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 
-public abstract class SlotChooser extends JFrame {
+public abstract class SlotChooser extends DisposableOnEscFrame {
 
 	private static final long serialVersionUID = -2203432919581579448L;
 	private JPanel contentPane;
 	private DefaultComboBoxModel<NamedPair<Classroom>> classroomCBModel;
-	private WarningGeneratorService warningService;
 	private Class selectedClass;
 	private JSpinner endHour, iniHour;
 	private JComboBox<NamedPair<Classroom>> classrooms;
@@ -192,7 +197,6 @@ public abstract class SlotChooser extends JFrame {
 	
 	public SlotChooser(WarningGeneratorService warning, Class selectedClass, SlotRange toEdit) {
 		this.slotToEdit = toEdit;
-		this.warningService = warning;
 		conflictService = new ConflictService();
 		this.selectedClass = selectedClass;
 		setResizable(false);

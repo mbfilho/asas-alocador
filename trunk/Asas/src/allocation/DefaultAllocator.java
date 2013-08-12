@@ -30,6 +30,8 @@ public class DefaultAllocator implements Allocator {
 	
 	public AllocationResult allocate(boolean onlyInPreferedSlots) {
 		AllocationResult result = new AllocationResult();
+		service.clearNotAllocated();
+		
 		Vector<Classroom> orderedRooms = new Vector<Classroom>(roomService.all());
 		Collections.sort(orderedRooms, new Comparator<Classroom>() {
 			public int compare(Classroom o1, Classroom o2) {
@@ -38,17 +40,20 @@ public class DefaultAllocator implements Allocator {
 		});
 		
 		for(ElectiveClassPreferences pref : prefService.all()){
-			boolean allocated = false;
+			boolean allocated = service.isAllocated(pref.getElectiveClass());
 			
 			for(Classroom r : orderedRooms){
-				if(allocated) break;
+				if(allocated){
+					result.allocated.add(pref.getElectiveClass());
+					break;
+				}
+				
 				if(r.getCapacity() < pref.getStudentCount()) continue;
 				
 				for(Vector<SlotRange> meetings : pref.getSlots()){
 					selectRoomForMeetings(meetings, r);
 					
 					if(service.canAllocate(pref.getElectiveClass(), meetings)){
-						result.allocated.add(pref.getElectiveClass());
 						service.allocate(pref.getElectiveClass(), meetings);
 						allocated = true;
 						break;
@@ -58,7 +63,10 @@ public class DefaultAllocator implements Allocator {
 				}
 			}
 			
-			if(!allocated) result.notAllocated.add(pref);
+			if(!allocated){
+				result.notAllocated.add(pref);
+				service.allocate(pref.getElectiveClass(), pref.getSlots().firstElement());
+			}
 		}
 		return result;
 	}

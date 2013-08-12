@@ -7,8 +7,11 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import basic.Classroom;
+
 import java.awt.GridBagLayout;
+
 import javax.swing.JLabel;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -18,8 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 
 import services.ClassroomService;
+import utilities.DisposableOnEscFrame;
 
-public abstract class ClassroomFramePattern extends JFrame {
+public abstract class ClassroomFramePattern extends DisposableOnEscFrame {
 
 	private JPanel contentPane;
 	private JTextField txtNome;
