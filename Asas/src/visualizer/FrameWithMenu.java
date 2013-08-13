@@ -120,9 +120,7 @@ public class FrameWithMenu extends JFrame{
 		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditClassFrame(warningService) {
-					private static final long serialVersionUID = 3952554516836477307L;
-
+				new EditClassFrame() {
 					public void classInformationEdited() {
 						onEditClassInformation();
 					}

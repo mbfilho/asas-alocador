@@ -1,6 +1,11 @@
 package warnings;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
+
+import classEditor.InitialEditState;
+import classEditor.NamedPair;
 
 import utilities.CollectionUtil;
 
@@ -52,5 +57,17 @@ public class SameRoomWarning extends Warning {
 				CollectionUtil.equalsWithoutOrder(getClasses(), other.getClasses())
 				&& other.getSlotRange().equals(slotRange);
 				
+	}
+
+	public List<NamedPair<Class>> getSolutionList(){
+		List<NamedPair<Class>> solutions = new LinkedList<NamedPair<Class>>();
+		solutions.add(new NamedPair<Class>("Editar " + oneClass.getName() + "...", oneClass));
+		solutions.add(new NamedPair<Class>("Editar " + anotherClass.getName() + "...", anotherClass));
+		return solutions;
+	}
+	
+	public InitialEditState getInfoToSolve(Class selected) {
+		InitialEditState state = new InitialEditState(selected);
+		return state;
 	}
 }

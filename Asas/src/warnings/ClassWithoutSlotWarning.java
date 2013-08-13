@@ -1,10 +1,15 @@
 package warnings;
 
+import java.util.LinkedList;
+import java.util.List;
+
+import classEditor.InitialEditState;
+import classEditor.NamedPair;
 import warnings.Warning;
 import basic.Class;
 
 public class ClassWithoutSlotWarning extends Warning {
-
+	private static final long serialVersionUID = -5954713850002032549L;
 	private Class theClass;
 	
 	public ClassWithoutSlotWarning(Class c){
@@ -24,6 +29,17 @@ public class ClassWithoutSlotWarning extends Warning {
 		ClassWithoutSlotWarning other = (ClassWithoutSlotWarning) obj;
 		
 		return theClass == other.getTheClass();
+	}
+	
+	public InitialEditState getInfoToSolve(Class selected) {
+		InitialEditState initialState = new InitialEditState(selected);
+		return initialState;
+	}
+
+	public List<NamedPair<Class>> getSolutionList() {
+		List<NamedPair<Class>> solutions = new LinkedList<NamedPair<Class>>();
+		solutions.add(new NamedPair<Class>("Editar " + theClass.getName() + " ...", theClass));
+		return solutions;
 	}
 
 }

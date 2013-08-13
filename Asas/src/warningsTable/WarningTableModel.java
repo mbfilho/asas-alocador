@@ -11,11 +11,12 @@ import services.AllowedWarningsService;
 import warnings.Warning;
 
 public abstract class WarningTableModel extends AbstractTableModel{
+	public static final int WARNING_COLUMN = 0;
 	private static final long serialVersionUID = 1L;
 	private Class[] columnTypes;
 	private Vector<Warning> warnings;
 	private String[] columnHeaders;
-	AllowedWarningsService allowedService;
+	private AllowedWarningsService allowedService;
 	
 	public WarningTableModel(AllowedWarningsService allowed,  Vector<Warning> warnings){
 		columnHeaders = new String[]{"Mensagem", "Autorizar?"};
@@ -51,7 +52,7 @@ public abstract class WarningTableModel extends AbstractTableModel{
 	}
 	
 	public boolean isCellEditable(int row, int col){
-		return col != 0;
+		return col != WARNING_COLUMN;
 	}
 	
 	public void setValueAt(Object obj, int row, int col){
@@ -75,7 +76,7 @@ public abstract class WarningTableModel extends AbstractTableModel{
 	}
 
 	public Object getValueAt(int rowIndex, int columnIndex) {
-		if(columnIndex == 0) return warnings.get(rowIndex);
+		if(columnIndex == WARNING_COLUMN) return warnings.get(rowIndex);
 		else return allowedService.isAllowed(warnings.get(rowIndex));
 	}
 	

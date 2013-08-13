@@ -1,6 +1,11 @@
 package warnings;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
+
+import classEditor.InitialEditState;
+import classEditor.NamedPair;
 
 import utilities.CollectionUtil;
 import utilities.StringUtil;
@@ -39,6 +44,17 @@ public class ClassWithoutRoom extends Warning {
 		
 		return theClass == other.getTheClass()
 				&& CollectionUtil.equalsWithoutOrder(slots, other.getSlots());
+	}
+	
+	public InitialEditState getInfoToSolve(Class selected) {
+		InitialEditState initialState = new InitialEditState(selected);
+		return initialState;
+	}
+
+	public List<NamedPair<Class>> getSolutionList() {
+		List<NamedPair<Class>> solutions = new LinkedList<NamedPair<Class>>();
+		solutions.add(new NamedPair<Class>("Editar " + theClass.getName() + " ...", theClass));
+		return solutions;
 	}
 
 }
