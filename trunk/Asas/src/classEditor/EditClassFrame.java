@@ -1,5 +1,6 @@
 package classEditor;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -64,14 +65,35 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 	protected ProfessorService professorService;
 	protected JButton btnOk;
 		
-	public EditClassFrame(final WarningGeneratorService warningService) {
+	public EditClassFrame(){
+		this(null);
+	}
+	
+	public EditClassFrame(InitialEditState initialState) {
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		
-		configureElements(warningService);
-		
+		configureElements(new WarningGeneratorService());
 		configureElementsActions();
+		setupInitialState(initialState);
 		setVisible(true);
+	}
+
+	private <T extends NamedPair>void setSelectedValue(JComboBox<T> cbox, Object value){
+		ComboBoxModel<T> model = cbox.getModel();
+		
+		for(int i = 0; i < model.getSize(); ++i){
+			NamedPair pair = model.getElementAt(i);
+			if(pair.data == value){
+				cbox.setSelectedIndex(i);
+				break;
+			}
+		}
+	}
+	
+	private void setupInitialState(InitialEditState initialState) {
+		if(initialState == null) return;
+		setSelectedValue(classesComboBox, initialState.theClass);
 	}
 
 	private void configureElements(final WarningGeneratorService warningService) {

@@ -1,6 +1,11 @@
 package warnings;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
+
+import classEditor.InitialEditState;
+import classEditor.NamedPair;
 
 import utilities.CollectionUtil;
 import utilities.StringUtil;
@@ -11,6 +16,8 @@ import basic.SlotRange;
 
 public class SameProfessorsWarning extends Warning{
 
+	private static final long serialVersionUID = -151872803891658353L;
+	
 	private Class oneClass, otherClass;
 	private Vector<Professor> professors;
 	private Vector<SlotRange> slots;
@@ -52,6 +59,18 @@ public class SameProfessorsWarning extends Warning{
 		return 	CollectionUtil.equalsWithoutOrder(getClasses(), other.getClasses())
 				&& CollectionUtil.equalsWithoutOrder(professors, other.getProfessors())
 				&& CollectionUtil.equalsWithoutOrder(slots, other.getSlots());
+	}
+
+	public InitialEditState getInfoToSolve(Class selected) {
+		InitialEditState initialState = new InitialEditState(selected);
+		return initialState;
+	}
+
+	public List<NamedPair<Class>> getSolutionList() {
+		List<NamedPair<Class>> solutions = new LinkedList<NamedPair<Class>>();
+		solutions.add(new NamedPair<Class>("Editar " + oneClass.getName() + " ...", oneClass));
+		solutions.add(new NamedPair<Class>("Editar " + otherClass.getName() + " ...", otherClass));
+		return solutions;
 	}
 
 }
