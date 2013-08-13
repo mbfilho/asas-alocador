@@ -1,5 +1,7 @@
 package scheduleTable;
 
+import groupMaker.Group;
+
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.util.Vector;
@@ -9,6 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
+import scheduleVisualization.Schedule;
 import scheduleVisualization.ScheduleSlot;
 import utilities.Constants;
 import basic.Class;
@@ -18,16 +21,23 @@ import basic.SlotRange;
 public class GeneralGroupModel extends GeneralScheduleModel{
 	private static final long serialVersionUID = 4209162051390757299L;
 
+	public GeneralGroupModel(Group g){
+		configureTable(g.schedule.getSchedule());
+	}
+	
+	public GeneralGroupModel(){}
+	
 	protected void configureTable(Vector<ScheduleSlot> schedule[][]){
 		buildTable(schedule);
 		buildPopups(schedule);	
 	}
 	
-	protected void solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column){
+	protected boolean solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column){
 		cellState[row][column].setBackColor(Color.yellow);
 		cellState[row][column].setFontColor(Color.black);
 		cellState[row][column].setValue("Conflitos autorizados.");
 		cellState[row][column].setTooltip("Conflitos autorizados.");
+		return false;
 	}
 	
 	protected void buildPopups(Vector<ScheduleSlot> schedule[][]){
@@ -35,29 +45,50 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 			for(int d = 0; d < Constants.DAYS; ++d){
 				if(schedule[s][d].size() > 1){
 					Vector<ScheduleSlot> scheduled = schedule[s][d];
-					JPanel panel = popups[s][d] = new JPanel();
-					panel.setLayout(new GridLayout(1+scheduled.size(), 1));
-					panel.add(new JLabel("Turmas conflitantes:"));
-					for(ScheduleSlot ss : scheduled){
-						JLabel turma = new JLabel(ss.theClass.completeName());
-						turma.setOpaque(true);
-						turma.setBackground(ss.theClass.getColor());
-						panel.add(turma);
-					}
+					popups[s][d] = new JPanel(new GridLayout());
+					popups[s][d].add(new JLabel("Turmas conflitantes:"));
+					
+					for(ScheduleSlot slot : scheduled)
+						addClassInfoToPanel(slot.theClass, popups[s][d]);
+					
 				}else if(schedule[s][d].size() == 1){
 					Class scheduled = schedule[s][d].firstElement().theClass;
-					JPanel panel = popups[s][d] = new JPanel();
-					panel.setLayout(new GridLayout(5 + scheduled.getProfessors().size() + scheduled.getSlots().size(), 1));
-					panel.add(new JLabel(scheduled.completeName()));
-					panel.add(new JSeparator(SwingConstants.HORIZONTAL));
-					panel.add(new JLabel("Professores:"));
-					for(Professor p : scheduled.getProfessors()) panel.add(new JLabel(p.getName()));
-					panel.add(new JSeparator(SwingConstants.HORIZONTAL));
-					panel.add(new JLabel("Horários:"));
-					for(SlotRange r : scheduled.getSlots())	panel.add(new JLabel(r.getName()));
+					popups[s][d] = new JPanel(new GridLayout());
+					addClassInfoToPanel(scheduled, popups[s][d]);
 				}
 			}
 		}
+	}
+
+	private JLabel createColoredLabel(String text, Color c){
+		JLabel label = new JLabel(text);
+		label.setBackground(c);
+		label.setOpaque(true);
+		return label;
+	}
+	
+	private JLabel createTitleLabel(String text, Color c){
+		return createColoredLabel("<html><b>" + text + "</b></html>", c);
+	}
+	
+	private void addSeparatorToPanel(JPanel thePanel){
+		thePanel.add(new JSeparator(SwingConstants.HORIZONTAL));
+	}
+	
+	private void addClassInfoToPanel(Class theClass, JPanel thePanel){
+		GridLayout layout = (GridLayout) thePanel.getLayout();
+		int rows = 6 + theClass.getProfessors().size() + theClass.getSlots().size();
+		layout.setRows(layout.getRows() + rows);
+		addSeparatorToPanel(thePanel);
+		thePanel.add(createTitleLabel(theClass.completeName(), theClass.getColor()));
+		addSeparatorToPanel(thePanel);
+		thePanel.add(createTitleLabel("Professores:", theClass.getColor()));
+		for(Professor p : theClass.getProfessors()) 
+			thePanel.add(createColoredLabel(p.getName(), theClass.getColor()));
+		addSeparatorToPanel(thePanel);
+		thePanel.add(createTitleLabel("Horários:", theClass.getColor()));
+		for(SlotRange r : theClass.getSlots())	
+			thePanel.add(createColoredLabel(r.getName(), theClass.getColor()));
 	}
 	
 	protected void buildTable(Vector<ScheduleSlot> schedule[][]){
@@ -67,10 +98,11 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 				cellState[row][column].setValue("");
 				
 				if(schedule[i][j].size() > 1){
-					cellState[row][column].setBackColor(Color.red);
-					cellState[row][column].setFontColor(Color.white);
-					cellState[row][column].setValue("Conflito. Clique aqui.");
-					solveConflict(schedule[i][j], row, column);
+					if(!solveConflict(schedule[i][j], row, column)){
+						cellState[row][column].setBackColor(Color.red);
+						cellState[row][column].setFontColor(Color.white);
+						cellState[row][column].setValue("Conflito. Clique aqui.");
+					}
 				}else if(schedule[i][j].size() == 1){
 					Class theClass = schedule[i][j].firstElement().theClass; 
 					cellState[row][column].setBackColor(theClass.getColor());

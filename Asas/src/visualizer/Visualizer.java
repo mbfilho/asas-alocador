@@ -25,6 +25,7 @@ import scheduleTable.ScheduleVisualizationTable;
 import services.WarningGeneratorService;
 import statePersistence.State;
 
+import java.util.List;
 import java.util.Vector;
 
 import java.awt.Frame;
@@ -91,7 +92,7 @@ public class Visualizer extends FrameWithMenu {
 	
 	private void refreshTable(){
 		clearTabs();
-		Vector<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
+		List<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
 		
 		for(final Group g : groups){
 			GeneralGroupModel tableModel = null;
@@ -100,6 +101,8 @@ public class Visualizer extends FrameWithMenu {
 				tableModel = new GroupByClassroomModel(g.schedule.getSchedule(), ((RoomGroup)g).theRoom);
 			}else if(g instanceof ProfessorGroup){
 				tableModel = new GroupByProfessorModel(g.schedule.getSchedule(), ((ProfessorGroup) g).theProfessor);
+			}else{
+				tableModel = new GeneralGroupModel(g);
 			}
 			Component table = new ScheduleVisualizationTable(tableModel);
 			tabbedPane.addTab(g.groupName, new JScrollPane(table));

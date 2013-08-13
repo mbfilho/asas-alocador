@@ -10,5 +10,9 @@ public class ProfessorGroup extends Group{
 		super(schedule, prof.getName());
 		theProfessor = prof;
 	}
+	
+	public ProfessorGroup(Professor prof){
+		this(new Schedule(), prof);
+	}
 
 }

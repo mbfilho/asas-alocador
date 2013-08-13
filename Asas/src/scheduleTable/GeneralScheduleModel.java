@@ -29,7 +29,7 @@ public class GeneralScheduleModel extends AbstractTableModel{
 	}
 	
 	private void configSlotsColumn(){
-		for(int i = 7; i <= 21; ++i){
+		for(int i = Constants.FIRST_INITIAL_HOUR; i <= Constants.LAST_INITIAL_HOUR; ++i){
 			cellState[i-7][0].setValue(String.format("%d-%d", i, i+1));
 			cellState[i-7][0].setBackColor(ColorUtil.mixColors(Color.gray, Color.white, Color.white));
 			cellState[i-7][0].setFontColor(Color.black);
