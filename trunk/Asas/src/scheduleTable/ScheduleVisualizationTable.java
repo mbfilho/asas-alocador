@@ -5,6 +5,7 @@ import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
@@ -31,7 +32,7 @@ public class ScheduleVisualizationTable extends JTable{
 					if(col > 0){
 						Component content = model.getPopupContent(row, col);
 						if(content != null){
-							pop.add(content);
+							pop.add(new JScrollPane(content));
 							pop.show(ScheduleVisualizationTable.this, p.x, p.y);
 						}
 					}

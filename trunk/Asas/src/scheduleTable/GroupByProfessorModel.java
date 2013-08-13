@@ -20,13 +20,15 @@ public class GroupByProfessorModel extends GeneralGroupModel {
 		configureTable(schedule);
 	}
 	
-	protected void solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column) {
+	protected boolean solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column) {
 		Vector<Class> classes = getClassesFromConflictingScheduleSlot(conflictingScheduleSlots);
 		SlotRange range = SlotRange.singleSlotRange(column - 1, row);
 		
-		if(!notAllowedService.hasNotAllowedSameProfessorWarnings(classes, theProfessor, range))
+		if(!notAllowedService.hasNotAllowedSameProfessorWarnings(classes, theProfessor, range)){
 			super.solveConflict(conflictingScheduleSlots, row, column);
-		
+			return true;
+		}
+		return false;
 	}
 
 }

@@ -1,6 +1,8 @@
 package scheduleVisualization;
 
 import java.util.Vector;
+
+import utilities.Constants;
 import basic.Class;
 import basic.SlotRange;
 
@@ -8,8 +10,8 @@ public class Schedule {
 	private Vector<ScheduleSlot> schedule[][];
 	
 	public Schedule(){
-		schedule = new Vector[15][7];
-		for(int i = 0; i < schedule.length; ++i) for(int j = 0; j < 7; ++j)
+		schedule = new Vector[Constants.SLOTS][Constants.DAYS];
+		for(int i = 0; i < schedule.length; ++i) for(int j = 0; j < Constants.DAYS; ++j)
 			schedule[i][j] = new Vector<ScheduleSlot>();
 	}
 	

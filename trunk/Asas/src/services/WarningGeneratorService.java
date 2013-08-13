@@ -54,7 +54,7 @@ public class WarningGeneratorService {
 				for(SlotRange r1 : c1.getSlots()){
 					if(r1.getClassroom() == null || ignoreRoom(r1.getClassroom())) continue;
 					for(SlotRange r2 : c2.getSlots()){
-						if(r2.getClassroom() != r1.getClassroom() || ignoreRoom(r1.getClassroom())) continue;
+						if(r2.getClassroom() != r1.getClassroom()) continue;
 						SlotRange interseption = r1.intersection(r2);
 						if(!interseption.isValid()) continue;
 						
