@@ -3,19 +3,21 @@ package classEditor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
 import services.WarningGeneratorService;
 
 
 import basic.SlotRange;
 import basic.Class;
 
-public abstract class EditableSlotList extends EditableJList<SlotRange> {
+public abstract class EditableSlotList extends EditableJList<SlotRange>{
 
 	public abstract Class getSelectedClass();
 	
 	public EditableSlotList(String title, final WarningGeneratorService service) {
 		super(title, null);
-		
 		for(ActionListener al : addButton.getActionListeners()) addButton.removeActionListener(al);
 		addButton.addActionListener(new ActionListener() {
 			public void actionPerformed(final ActionEvent e) {
@@ -51,5 +53,4 @@ public abstract class EditableSlotList extends EditableJList<SlotRange> {
 			e.printStackTrace();
 		}
 	}
-
 }

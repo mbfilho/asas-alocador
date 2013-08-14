@@ -86,10 +86,7 @@ public class Visualizer extends FrameWithMenu {
 	//ao carregar um estado previamente salvo
 	protected void onLoadNewState(State s){
 		super.onLoadNewState(s);
-		System.out.println("ONCE, VIS 89");
-		long t1 = System.currentTimeMillis();
 		panelWithTable.update();
-		System.out.println("To update: " + (System.currentTimeMillis() - t1));
 	}
 	
 	//ao editar informaÃ§Ãµes de uma turma

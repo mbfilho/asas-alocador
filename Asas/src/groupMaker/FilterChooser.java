@@ -40,10 +40,14 @@ public abstract class FilterChooser extends JPanel {
 	public static int ALL = PROFESSOR | AREA | SEMESTER | ROOM;
 	private int configuration;
 	
+	//TODO:Será que existe uma maneira melhor de fazer isso?
+	private boolean _updatingProgrammatically;
+	
 	public abstract void onChangeFilter(ClassFilter newFilter);
 
 	public FilterChooser(){
 		this(ALL, null);
+		_updatingProgrammatically = false;
 	}
 	
 	public FilterChooser(int configuration, InitialFilterConfiguration initialConfiguration) {
@@ -64,17 +68,19 @@ public abstract class FilterChooser extends JPanel {
 		gbc_lblFiltros.gridy = 0;
 		add(lblFiltros, gbc_lblFiltros);
 		
+		int column = 1;
+		
 		if(isProfessorFilteringEnabled())
-			configureProfessor();
+			configureProfessor(column++);
 		
 		if(isAreaFilteringEnabled())
-			configureArea();
-		
-		if(isSemesterFilteringEnabled())
-			configureSemester();
+			configureArea(column++);
 		
 		if(isRoomFilteringEnabled())
-			configureRoom();
+			configureRoom(column++);
+
+		if(isSemesterFilteringEnabled())
+			configureSemester(column++);
 		
 		setupInitialConfiguration(initialConfiguration);
 		addDataChangeListeners();//importante que fique por ultimo
@@ -83,7 +89,8 @@ public abstract class FilterChooser extends JPanel {
 	private void addDataChangeListeners() {
 		ActionListener onChangeFilter = new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				onChangeFilter(getFilter());
+				if(!_updatingProgrammatically)
+					onChangeFilter(getFilter());
 			}
 		};	
 		
@@ -133,7 +140,7 @@ public abstract class FilterChooser extends JPanel {
 		}
 	}
 
-	private void configureRoom(){
+	private void configureRoom(int column){
 		ClassroomService roomService = new ClassroomService();
 		Vector<NamedPair<Classroom>> rooms = GuiUtil.createNamedPairs(roomService.all());
 
@@ -144,14 +151,14 @@ public abstract class FilterChooser extends JPanel {
 		
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
 		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 3;
+		gbc_comboBox.gridx = column;
 		gbc_comboBox.gridy = 0;
 		add(roomCBox, gbc_comboBox);
 		
 		roomCheck = new JCheckBox("Sala");
 		GridBagConstraints gbc_chckbxSala = new GridBagConstraints();
 		gbc_chckbxSala.insets = new Insets(0, 0, 0, 5);
-		gbc_chckbxSala.gridx = 3;
+		gbc_chckbxSala.gridx = column;
 		gbc_chckbxSala.gridy = 1;
 		add(roomCheck, gbc_chckbxSala);
 		roomCheck.addActionListener(new ActionListener() {
@@ -161,7 +168,7 @@ public abstract class FilterChooser extends JPanel {
 		});
 	}
 	
-	private void configureSemester(){
+	private void configureSemester(int column){
 		Vector<NamedPair<String>> periodos = new Vector<NamedPair<String>>();
 		for(int i = 1; i <= 10; ++i) periodos.add(new NamedPair<String>(i + "", i + ""));
 		periodoCBox = new JComboBox<NamedPair<String>>(periodos);
@@ -170,7 +177,7 @@ public abstract class FilterChooser extends JPanel {
 		GridBagConstraints gbc_periodoCBox = new GridBagConstraints();
 		gbc_periodoCBox.insets = new Insets(0, 0, 5, 0);
 		gbc_periodoCBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_periodoCBox.gridx = 4;
+		gbc_periodoCBox.gridx = column;
 		gbc_periodoCBox.gridy = 0;
 		add(periodoCBox, gbc_periodoCBox);
 		
@@ -183,19 +190,19 @@ public abstract class FilterChooser extends JPanel {
 		});
 		
 		GridBagConstraints gbc_periodoCheck = new GridBagConstraints();
-		gbc_periodoCheck.gridx = 4;
+		gbc_periodoCheck.gridx = column;
 		gbc_periodoCheck.gridy = 1;
 		add(periodoCheck, gbc_periodoCheck);
 	}
 	
-	private void configureArea(){
+	private void configureArea(int column){
 		areaCBox = new JComboBox<NamedPair<String>>();
 		areaCBox.setEnabled(false);
 		
 		GridBagConstraints gbc_profileCBox = new GridBagConstraints();
 		gbc_profileCBox.insets = new Insets(0, 0, 5, 5);
 		gbc_profileCBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_profileCBox.gridx = 2;
+		gbc_profileCBox.gridx = column;
 		gbc_profileCBox.gridy = 0;
 		add(areaCBox, gbc_profileCBox);
 		
@@ -208,13 +215,13 @@ public abstract class FilterChooser extends JPanel {
 		});
 		GridBagConstraints gbc_areaCheck = new GridBagConstraints();
 		gbc_areaCheck.insets = new Insets(0, 0, 0, 5);
-		gbc_areaCheck.gridx = 2;
+		gbc_areaCheck.gridx = column;
 		gbc_areaCheck.gridy = 1;
 		add(areaCheck, gbc_areaCheck);
 
 	}
 	
-	private void configureProfessor(){
+	private void configureProfessor(int column){
 		ProfessorService profService = new ProfessorService();
 		Vector<NamedPair<Professor>> professors = GuiUtil.createNamedPairs(profService.all());
 		
@@ -223,7 +230,7 @@ public abstract class FilterChooser extends JPanel {
 		GridBagConstraints gbc_profCBox = new GridBagConstraints();
 		gbc_profCBox.insets = new Insets(0, 0, 5, 5);
 		gbc_profCBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_profCBox.gridx = 1;
+		gbc_profCBox.gridx = column;
 		gbc_profCBox.gridy = 0;
 		add(profCBox, gbc_profCBox);
 
@@ -236,7 +243,7 @@ public abstract class FilterChooser extends JPanel {
 		
 		GridBagConstraints gbc_profCheck = new GridBagConstraints();
 		gbc_profCheck.insets = new Insets(0, 0, 0, 5);
-		gbc_profCheck.gridx = 1;
+		gbc_profCheck.gridx = column;
 		gbc_profCheck.gridy = 1;
 		add(profCheck, gbc_profCheck);
 	}
@@ -290,8 +297,11 @@ public abstract class FilterChooser extends JPanel {
 	}
 	
 	public void refresh() {
+		_updatingProgrammatically = true;
 		refreshProfessors();
 		refreshRooms();
+		_updatingProgrammatically = false;
+		onChangeFilter(getFilter());
 	}
 	
 }

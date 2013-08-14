@@ -14,6 +14,10 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
+
 import utilities.DisposableOnEscFrame;
 import basic.NamedEntity;
 

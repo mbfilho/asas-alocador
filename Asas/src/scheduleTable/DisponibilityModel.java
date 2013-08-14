@@ -1,6 +1,7 @@
 package scheduleTable;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.Vector;
 
@@ -44,7 +45,6 @@ public class DisponibilityModel extends GeneralScheduleModel {
 		for(int slot = 0; slot < Constants.SLOTS; ++slot){
 			for(int day = 0; day < Constants.DAYS; ++day){
 				int row = slot, col = day + 1, state = calculateConflictState(day, slot);
-				popups[slot][day] = createPopup(day, slot, state);
 				cellState[row][col].setValue(getCellContent(day, slot, state));
 				cellState[row][col].setFontColor(Color.black);
 				cellState[row][col].setBackColor(Color.white);
@@ -115,6 +115,12 @@ public class DisponibilityModel extends GeneralScheduleModel {
 			return menu;
 		}
 		return null;
+	}
+	
+	public Component getPopupContent(int row, int column) {
+		int day = column-1, slot = row;
+		int state = calculateConflictState(day, slot);
+		return createPopup(day, slot, state);
 	}
 	
 	private String abbreviate(String s){

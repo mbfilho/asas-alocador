@@ -16,6 +16,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
+
 import scheduleTable.DisponibilityModel;
 import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
@@ -27,7 +31,7 @@ import basic.Professor;
 import basic.SlotRange;
 import basic.Class;
 
-public abstract class AddClassFrame extends DisposableOnEscFrame{
+public abstract class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 	private static final long serialVersionUID = 679979857489504936L;
 	protected JPanel contentPane;
 	protected JTextField nameText;
@@ -49,6 +53,8 @@ public abstract class AddClassFrame extends DisposableOnEscFrame{
 	protected JButton btnOk;
 	
 	public AddClassFrame(WarningGeneratorService warningService) {
+		RegistrationCentral.register(this);
+		
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		if(professorService == null) throw new RuntimeException();
@@ -261,4 +267,8 @@ public abstract class AddClassFrame extends DisposableOnEscFrame{
 	}
 	
 	public abstract void onAddClass();
+
+	public void onDataUpdate(UpdateDescription desc) {
+		generateDisponibilityTable();
+	}
 }

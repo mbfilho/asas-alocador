@@ -45,6 +45,8 @@ import utilities.StringUtil;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
+import dataUpdateSystem.RegistrationCentral;
+
 
 public abstract class EditClassFrame extends DisposableOnEscFrame {
 
@@ -93,37 +95,14 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 	private void createAdditionalWindows(InitialEditState initialState){
 		InitialFilterConfiguration initialFiltering = initialState.deriveInitialFilterConfiguration();
 		
-		createSemesterWindow(initialFiltering);
-		createClassroomWindow(initialFiltering);
-		createProfessorWindow(initialFiltering);
+		new AdditionalVisualizationFrame("Disponibilidade de professores.",	FilterChooser.PROFESSOR, 
+				initialFiltering, 0);
+		new AdditionalVisualizationFrame("Alocação de semestre", FilterChooser.SEMESTER,
+				initialFiltering, 1);
+		new AdditionalVisualizationFrame("Disponibilidade de Salas.", FilterChooser.ROOM, 
+				initialFiltering, 2);
 	}
 	
-	private JFrame createBasicAdditionalFrame(){
-		JFrame frame = new DisposableOnEscFrame();
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frame.setBounds(30, 30, 500, 500);
-		frame.setVisible(true);
-		return frame;
-	}
-
-	private void createProfessorWindow(InitialFilterConfiguration initialFiltering) {
-		JFrame frame = createBasicAdditionalFrame();
-		frame.setTitle("Disponibilidade de professores.");
-		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.PROFESSOR, initialFiltering));
-	}
-
-	private void createClassroomWindow(InitialFilterConfiguration initialFiltering) {
-		JFrame frame = createBasicAdditionalFrame();
-		frame.setTitle("Disponibilidade de Salas");
-		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.ROOM, initialFiltering)); 
-	}
-
-	private void createSemesterWindow(InitialFilterConfiguration initialFiltering) {
-		JFrame frame = createBasicAdditionalFrame();
-		frame.setTitle("Alocação de semestre");
-		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.SEMESTER, initialFiltering));		
-	}
-
 	private void configureElements(final WarningGeneratorService warningService) {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 658, 579);
@@ -349,6 +328,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 			setValuesToClass(selected);
 			classService.update(selected);
 		} 
+		RegistrationCentral.houveUpdate();
 		classInformationEdited();
 	}
 	
