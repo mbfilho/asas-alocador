@@ -63,9 +63,13 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 		return day == ot.getDay() && start == ot.getStartSlot() && end == ot.getEndSlot();
 	}
 
+	private Classroom notNullValue(Classroom a, Classroom b){
+		return a == null ? b : a;
+	}
+	
 	public SlotRange intersection(SlotRange ot){
 		if(day != ot.day) return emptyRange();
-		return new SlotRange(day, Math.max(start, ot.start), Math.min(end, ot.end), null);
+		return new SlotRange(day, Math.max(start, ot.start), Math.min(end, ot.end), notNullValue(room, ot.room));
 	}
 	
 	public boolean intersects(SlotRange ot){

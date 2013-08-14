@@ -3,6 +3,8 @@ package warnings;
 import java.util.LinkedList;
 import java.util.List;
 
+import utilities.CollectionUtil;
+
 import classEditor.InitialEditState;
 import classEditor.NamedPair;
 import basic.Class;
@@ -31,7 +33,8 @@ public class ClassWithoutProfessorWarning extends Warning{
 	}
 
 	public InitialEditState getInfoToSolve(Class selected) {
-		InitialEditState initialState = new InitialEditState(selected);
+		InitialEditState initialState = 
+				new InitialEditState(selected, CollectionUtil.firstOrDefault(selected.getAllRooms()), null);
 		return initialState;
 	}
 

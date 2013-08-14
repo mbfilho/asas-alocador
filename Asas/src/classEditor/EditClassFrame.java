@@ -1,5 +1,8 @@
 package classEditor;
 
+import groupMaker.FilterChooser;
+import groupMaker.InitialFilterConfiguration;
+
 import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -30,11 +33,13 @@ import basic.NamedEntity;
 import basic.Professor;
 import basic.SlotRange;
 import scheduleTable.DisponibilityModel;
+import scheduleTable.FilteredScheduleVisualization;
 import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
 import utilities.DisposableOnEscFrame;
+import utilities.GuiUtil;
 import utilities.StringUtil;
 
 import javax.swing.JScrollPane;
@@ -78,22 +83,45 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		setupInitialState(initialState);
 		setVisible(true);
 	}
-
-	private <T extends NamedPair>void setSelectedValue(JComboBox<T> cbox, Object value){
-		ComboBoxModel<T> model = cbox.getModel();
-		
-		for(int i = 0; i < model.getSize(); ++i){
-			NamedPair pair = model.getElementAt(i);
-			if(pair.data == value){
-				cbox.setSelectedIndex(i);
-				break;
-			}
-		}
-	}
 	
 	private void setupInitialState(InitialEditState initialState) {
 		if(initialState == null) return;
-		setSelectedValue(classesComboBox, initialState.theClass);
+		GuiUtil.setSelectedValue(classesComboBox, initialState.theClass);
+		createAdditionalWindows(initialState);
+	}
+	
+	private void createAdditionalWindows(InitialEditState initialState){
+		InitialFilterConfiguration initialFiltering = initialState.deriveInitialFilterConfiguration();
+		
+		createSemesterWindow(initialFiltering);
+		createClassroomWindow(initialFiltering);
+		createProfessorWindow(initialFiltering);
+	}
+	
+	private JFrame createBasicAdditionalFrame(){
+		JFrame frame = new DisposableOnEscFrame();
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setBounds(30, 30, 500, 500);
+		frame.setVisible(true);
+		return frame;
+	}
+
+	private void createProfessorWindow(InitialFilterConfiguration initialFiltering) {
+		JFrame frame = createBasicAdditionalFrame();
+		frame.setTitle("Disponibilidade de professores.");
+		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.PROFESSOR, initialFiltering));
+	}
+
+	private void createClassroomWindow(InitialFilterConfiguration initialFiltering) {
+		JFrame frame = createBasicAdditionalFrame();
+		frame.setTitle("Disponibilidade de Salas");
+		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.ROOM, initialFiltering)); 
+	}
+
+	private void createSemesterWindow(InitialFilterConfiguration initialFiltering) {
+		JFrame frame = createBasicAdditionalFrame();
+		frame.setTitle("Alocação de semestre");
+		frame.setContentPane(new FilteredScheduleVisualization(FilterChooser.SEMESTER, initialFiltering));		
 	}
 
 	private void configureElements(final WarningGeneratorService warningService) {
@@ -109,7 +137,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		Vector<NamedPair<Class>> classesData = createNamedPairs(classService.all());
+		Vector<NamedPair<Class>> classesData = GuiUtil.createNamedPairs(classService.all());
 		classesData.add(0, new NamedPair<Class>("Selecione uma disciplina", null));
 		classesComboBox = new JComboBox<NamedPair<Class>>(classesData);
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -246,7 +274,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 			private static final long serialVersionUID = 7730149789169337564L;
 
 			public Class getSelectedClass() {
-				return getSelectedClassInCBox();
+				return GuiUtil.getSelectedItem(classesComboBox);
 			}
 		};
 		GridBagConstraints gbc_slotList = new GridBagConstraints();
@@ -269,16 +297,16 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		JButton btnRemover = new JButton("Remover");
 		btnRemover.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(getSelectedClassInCBox() == null) return;
+				if(GuiUtil.getSelectedItem(classesComboBox) == null) return;
 				
 				int op = JOptionPane.showConfirmDialog(
 							EditClassFrame.this, 
-							"Tem certeza que deseja excluir a turma \"" + getSelectedClassInCBox().getName() + "\"?",
+							"Tem certeza que deseja excluir a turma \"" + GuiUtil.getSelectedItem(classesComboBox).getName() + "\"?",
 							"Confirmar exclusão de turma",
 							JOptionPane.YES_NO_OPTION
 						);
 				if(op == JOptionPane.YES_OPTION){
-					classService.remove(getSelectedClassInCBox());
+					classService.remove(GuiUtil.getSelectedItem(classesComboBox));
 					classesComboBox.removeItem(classesComboBox.getSelectedItem());
 					saveChanges();
 				}
@@ -301,7 +329,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		
 		classesComboBox.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				fillWithSelectedClass(getSelectedClassInCBox());
+				fillWithSelectedClass(GuiUtil.getSelectedItem(classesComboBox));
 			}
 		});
 		
@@ -315,13 +343,8 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		slotList.setChangeListener(updateTableOnChange);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Class getSelectedClassInCBox(){
-		return ((NamedPair<Class>)classesComboBox.getSelectedItem()).data;
-	}
-	
 	private void saveChanges(){
-		Class selected = getSelectedClassInCBox();
+		Class selected = GuiUtil.getSelectedItem(classesComboBox);
 		if(selected != null){
 			setValuesToClass(selected);
 			classService.update(selected);
@@ -373,7 +396,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 	}
 	
 	private void generateDisponibilityTable(){
-		Class selected = new Class(), fromCBox = getSelectedClassInCBox();
+		Class selected = new Class(), fromCBox = GuiUtil.getSelectedItem(classesComboBox);
 		setValuesToClass(selected);
 		if(fromCBox != null) selected.setId(fromCBox.getId());
 		
@@ -397,12 +420,5 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		
 	}
 	
-	private <T extends NamedEntity> Vector<NamedPair<T>> createNamedPairs(Collection<T> objs){
-		Vector<NamedPair<T>> namedPairs = new Vector<NamedPair<T>>();
-		for(T obj : objs)
-			namedPairs.add(new NamedPair<T>(StringUtil.truncate(obj.getName(), 70), obj));
-		return namedPairs;
-	}
-		
 	public abstract void classInformationEdited();
 }

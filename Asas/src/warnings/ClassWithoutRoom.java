@@ -47,7 +47,8 @@ public class ClassWithoutRoom extends Warning {
 	}
 	
 	public InitialEditState getInfoToSolve(Class selected) {
-		InitialEditState initialState = new InitialEditState(selected);
+		InitialEditState initialState = 
+				new InitialEditState(selected, null, CollectionUtil.firstOrDefault(selected.getProfessors()));
 		return initialState;
 	}
 

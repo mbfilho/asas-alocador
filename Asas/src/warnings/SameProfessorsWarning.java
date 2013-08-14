@@ -11,6 +11,7 @@ import utilities.CollectionUtil;
 import utilities.StringUtil;
 
 import basic.Class;
+import basic.Classroom;
 import basic.Professor;
 import basic.SlotRange;
 
@@ -61,8 +62,15 @@ public class SameProfessorsWarning extends Warning{
 				&& CollectionUtil.equalsWithoutOrder(slots, other.getSlots());
 	}
 
+	private Classroom getFirstRoomInConflictedSlots(){
+		for(SlotRange slot : slots){
+			if(slot.getClassroom() != null) return slot.getClassroom();
+		}
+		return null;
+	}
 	public InitialEditState getInfoToSolve(Class selected) {
-		InitialEditState initialState = new InitialEditState(selected);
+		InitialEditState initialState = 
+				new InitialEditState(selected, getFirstRoomInConflictedSlots(), professors.firstElement());
 		return initialState;
 	}
 

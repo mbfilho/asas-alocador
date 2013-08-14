@@ -67,7 +67,8 @@ public class SameRoomWarning extends Warning {
 	}
 	
 	public InitialEditState getInfoToSolve(Class selected) {
-		InitialEditState state = new InitialEditState(selected);
+		InitialEditState state = 
+				new InitialEditState(selected, theRoom, CollectionUtil.firstOrDefault(selected.getProfessors()));
 		return state;
 	}
 }
