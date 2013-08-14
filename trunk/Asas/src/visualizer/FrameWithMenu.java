@@ -339,6 +339,7 @@ public class FrameWithMenu extends JFrame{
 	 * @param s - O estado carregado
 	 */
 	protected void onLoadNewState(State s){
+		System.out.println("ONCE, FWM 342");
 		updateWarningCountText();
 	}
 	

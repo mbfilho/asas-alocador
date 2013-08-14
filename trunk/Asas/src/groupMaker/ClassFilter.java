@@ -13,16 +13,11 @@ public class ClassFilter {
 
 	private int semester;
 	private Professor professor;
+	private Classroom classroom;
 	private String area;
 	
-	public ClassFilter(String semester, Professor prof, String area){
-		setSemester(semester);
-		setProfessor(prof);
-		setArea(area);
-	}
-	
 	public ClassFilter(){
-		this(null, null, null);
+		semester = -1;
 	}
 	
 	public void setSemester(String semester) {
@@ -41,12 +36,12 @@ public class ClassFilter {
 		this.area = area;
 	}
 	
-	public boolean isFilteringByProfessor(){
-		return professor != null;
+	public void setRoom(Classroom theRoom) {
+		this.classroom = theRoom;
 	}
-
+	
 	public boolean isEmptyFilter(){
-		return professor == null && semester == -1;
+		return professor == null && semester == -1 && classroom == null;
 	}
 	
 	/**
@@ -62,6 +57,8 @@ public class ClassFilter {
 			groups.add(new Group(semester + "(CC)"));
 		if(semester != -1 && thisClass.getEcSemester() == semester) 
 			groups.add(new Group(semester + " (EC)"));
+		if(classroom != null)
+			groups.add(new RoomGroup(classroom));
 		
 		if(isEmptyFilter()){
 			HashSet<Classroom> rooms = new HashSet<Classroom>();

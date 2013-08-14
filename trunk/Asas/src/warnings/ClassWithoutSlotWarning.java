@@ -5,6 +5,7 @@ import java.util.List;
 
 import classEditor.InitialEditState;
 import classEditor.NamedPair;
+import utilities.CollectionUtil;
 import warnings.Warning;
 import basic.Class;
 
@@ -32,7 +33,8 @@ public class ClassWithoutSlotWarning extends Warning {
 	}
 	
 	public InitialEditState getInfoToSolve(Class selected) {
-		InitialEditState initialState = new InitialEditState(selected);
+		InitialEditState initialState = 
+				new InitialEditState(selected, null, CollectionUtil.firstOrDefault(selected.getProfessors()));
 		return initialState;
 	}
 

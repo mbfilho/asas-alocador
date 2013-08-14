@@ -13,4 +13,13 @@ public class CollectionUtil {
 	public static <T> boolean equalsWithoutOrder(Collection<T> listA, Collection<T> listB){
 		return listA.containsAll(listB) && listB.containsAll(listA);
 	}
+	
+	public static <T> T firstOrDefault(Collection<T> theCollection, T defaultValue){
+		if(theCollection.isEmpty()) return defaultValue;
+		return theCollection.iterator().next();
+	}
+	
+	public static <T> T firstOrDefault(Collection<T> theCollection){
+		return firstOrDefault(theCollection, null);
+	}
 }
