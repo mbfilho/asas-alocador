@@ -3,6 +3,7 @@ package scheduleTable;
 import groupMaker.Group;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.Vector;
 
@@ -11,7 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import scheduleVisualization.Schedule;
 import scheduleVisualization.ScheduleSlot;
 import utilities.Constants;
 import basic.Class;
@@ -20,16 +20,18 @@ import basic.SlotRange;
 
 public class GeneralGroupModel extends GeneralScheduleModel{
 	private static final long serialVersionUID = 4209162051390757299L;
-
+	protected Vector<ScheduleSlot> theSchedule[][];
+	
 	public GeneralGroupModel(Group g){
+		this.theSchedule = g.schedule.getSchedule();
 		configureTable(g.schedule.getSchedule());
 	}
 	
 	public GeneralGroupModel(){}
 	
 	protected void configureTable(Vector<ScheduleSlot> schedule[][]){
+		this.theSchedule = schedule;
 		buildTable(schedule);
-		buildPopups(schedule);	
 	}
 	
 	protected boolean solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column){
@@ -40,24 +42,28 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 		return false;
 	}
 	
-	protected void buildPopups(Vector<ScheduleSlot> schedule[][]){
-		for(int s = 0; s < Constants.SLOTS; ++s){
-			for(int d = 0; d < Constants.DAYS; ++d){
-				if(schedule[s][d].size() > 1){
-					Vector<ScheduleSlot> scheduled = schedule[s][d];
-					popups[s][d] = new JPanel(new GridLayout());
-					popups[s][d].add(new JLabel("Turmas conflitantes:"));
-					
-					for(ScheduleSlot slot : scheduled)
-						addClassInfoToPanel(slot.theClass, popups[s][d]);
-					
-				}else if(schedule[s][d].size() == 1){
-					Class scheduled = schedule[s][d].firstElement().theClass;
-					popups[s][d] = new JPanel(new GridLayout());
-					addClassInfoToPanel(scheduled, popups[s][d]);
-				}
-			}
+	private JPanel buildPopupForSlot(int slot, int day){
+		JPanel panel = null;
+		
+		if(theSchedule[slot][day].size() > 1){
+			Vector<ScheduleSlot> scheduled = theSchedule[slot][day];
+			panel = new JPanel(new GridLayout());
+			panel.add(new JLabel("Turmas conflitantes:"));
+			
+			for(ScheduleSlot slotScheduled : scheduled)
+				addClassInfoToPanel(slotScheduled.theClass, panel);
+			
+		}else if(theSchedule[slot][day].size() == 1){
+			Class scheduled = theSchedule[slot][day].firstElement().theClass;
+			panel = new JPanel(new GridLayout());
+			addClassInfoToPanel(scheduled, panel);
 		}
+		
+		return panel;
+	}
+	
+	public Component getPopupContent(int row, int column) {
+		return buildPopupForSlot(row, column-1);
 	}
 
 	private JLabel createColoredLabel(String text, Color c){

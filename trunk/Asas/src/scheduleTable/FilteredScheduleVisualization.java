@@ -70,15 +70,12 @@ public class FilteredScheduleVisualization extends JPanel {
 	}
 	
 	private void refreshTable(){
-		System.out.println("Refreshing...");
-		long t1 = System.currentTimeMillis();
 		getSelectedTitle();
 		clearTabs();
 		List<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
 		Component tabToSelect = null;
 		for(final Group g : groups){
 			GeneralGroupModel tableModel = null;
-			
 			if(g instanceof RoomGroup){
 				tableModel = new GroupByClassroomModel(g.schedule.getSchedule(), ((RoomGroup)g).theRoom);
 			}else if(g instanceof ProfessorGroup){
@@ -95,7 +92,6 @@ public class FilteredScheduleVisualization extends JPanel {
 		
 		if(tabToSelect != null)
 			tabbedPane.setSelectedComponent(tabToSelect);
-		System.out.println("Refreshed in: " + (System.currentTimeMillis() - t1));
 	}
 	
 	public void update(){

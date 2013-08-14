@@ -10,7 +10,6 @@ import utilities.Constants;
 
 public class GeneralScheduleModel extends AbstractTableModel{
 	protected CellState cellState[][];
-	protected JPanel popups[][];
 	private String[] columnsNames;
 	
 	public GeneralScheduleModel(){
@@ -18,8 +17,6 @@ public class GeneralScheduleModel extends AbstractTableModel{
 		for(int i = 0; i < Constants.ROWS; ++i)
 			for(int j = 0; j < Constants.COLUMNS; ++j)
 				cellState[i][j] = new CellState();
-		
-		popups = new JPanel[Constants.SLOTS][Constants.DAYS];
 		
 		columnsNames = new String[] {
 				"Hor\u00E1rio", "Domingo", "Segunda", "Ter\u00E7a", "Quarta", "Quinta", "Sexta", "S\u00E1bado"
@@ -52,9 +49,8 @@ public class GeneralScheduleModel extends AbstractTableModel{
 	public Object getValueAt(int rowIndex, int columnIndex) {
 		return cellState[rowIndex][columnIndex];
 	}
-
+	
 	public Component getPopupContent(int row, int column) {
-		if(column == 0) return null;
-		return popups[row][column-1];
+		return null;
 	}
 }

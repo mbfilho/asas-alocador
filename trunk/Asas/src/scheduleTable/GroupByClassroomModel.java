@@ -14,6 +14,7 @@ public class GroupByClassroomModel extends GeneralGroupModel{
 	private NotAllowedWarningsService notAllowedService;
 	
 	public GroupByClassroomModel(Vector<ScheduleSlot> schedule[][], Classroom room){
+		theSchedule = schedule;
 		theRoom = room;
 		notAllowedService = new NotAllowedWarningsService();
 		configureTable(schedule);
