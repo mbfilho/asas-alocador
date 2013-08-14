@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import dataUpdateSystem.RegistrationCentral;
 import exceptions.StateIOException;
 
 import java.awt.GridBagConstraints;
@@ -17,11 +18,9 @@ import javax.swing.JTextField;
 public class NewStateFrame extends ChooseStateFrame{
 	private static final long serialVersionUID = 8910633735786246632L;
 	private JTextField nameText;
-	private ChangeStateListener creationListener;
 	
-	public NewStateFrame(ChangeStateListener creationListener) {
+	public NewStateFrame() {
 		super();
-		this.creationListener = creationListener;
 		setEditable(true);
 		setTitle("Criar novo estado");
 		setBounds(100, 100, 264, 497);
@@ -85,7 +84,7 @@ public class NewStateFrame extends ChooseStateFrame{
 				stateService.saveNewState(base);
 				stateService.setCurrentState(base.description);
 				setVisible(false);
-				creationListener.onChangeState(stateService.getCurrentState());
+				RegistrationCentral.houveUpdate("Novo estado criado");
 			} catch (StateIOException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
 				e1.printStackTrace();

@@ -10,8 +10,13 @@ public class RegistrationCentral {
 		registeredCustomers.add(customer);
 	}
 	
-	public static void houveUpdate(){
-		System.out.println("Houve update: " + registeredCustomers.size());
+	public static void unregister(Updatable customer){
+		System.out.println("Unregistering: " + customer);
+		registeredCustomers.remove(customer);
+	}
+	
+	public static void houveUpdate(String desc){
+		System.out.println("Houve: " + desc + "> " + registeredCustomers.size());
 		for(Updatable up : registeredCustomers)
 			up.onDataUpdate(null);
 	}

@@ -32,32 +32,19 @@ import java.util.Vector;
 import java.awt.Frame;
 import javax.swing.JTabbedPane;
 
+import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
 
-public class Visualizer extends FrameWithMenu {
+
+public class Visualizer extends FrameWithMenu implements Updatable{
 	private static final long serialVersionUID = -6441797946984712515L;
 	private FilteredScheduleVisualization panelWithTable;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Visualizer frame = new Visualizer(new WarningGeneratorService());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
-	/**
-	 * Create the frame.
-	 */
-	
 	public Visualizer(WarningGeneratorService warningService) {
 		super(warningService);
+		RegistrationCentral.register(this);
+		
 		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setTitle("Visualizar");
 		
@@ -77,32 +64,22 @@ public class Visualizer extends FrameWithMenu {
 		setVisible(true);
 	}
 	
+	public void dispose(){
+		super.dispose();
+		panelWithTable.dispose();
+		RegistrationCentral.unregister(this);
+	}
 	
 	protected void onEditWarningInformation(){
 		super.onEditWarningInformation();
-		panelWithTable.update();
 	}
 	
 	//ao carregar um estado previamente salvo
 	protected void onLoadNewState(State s){
 		super.onLoadNewState(s);
-		panelWithTable.update();
-	}
-	
-	//ao editar informaÃ§Ãµes de uma turma
-	protected void onEditClassInformation() {
-		super.onEditClassInformation();
-		panelWithTable.update();
 	}
 	
 	protected void onEditProfessorInformation(){
 		super.onEditProfessorInformation();
-		panelWithTable.update();
 	}
-	
-	protected void onEditClassroomInformation(){
-		super.onEditClassInformation();
-		panelWithTable.update();
-	}
-	
 }

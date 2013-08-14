@@ -5,18 +5,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import classEditor.NamedPair;
+import dataUpdateSystem.RegistrationCentral;
 
 import exceptions.StateIOException;
 
 public class LoadStateFrame extends ChooseStateFrame {
 	private static final long serialVersionUID = -8927467849438582539L;
 	
-	private ChangeStateListener loadStateListener;
-	
-	public LoadStateFrame(ChangeStateListener loadListener){
+	public LoadStateFrame(){
 		setEditable(false);
 		setVisible(true);
-		this.loadStateListener = loadListener;
 		
 		stateList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
@@ -54,7 +52,7 @@ public class LoadStateFrame extends ChooseStateFrame {
 			StateService service = StateService.getInstance(); 
 			try {
 				service.setCurrentState(getSelected().data);
-				loadStateListener.onChangeState(service.getCurrentState());
+				RegistrationCentral.houveUpdate("Novo estado");
 				this.dispose();
 			} catch (StateIOException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
