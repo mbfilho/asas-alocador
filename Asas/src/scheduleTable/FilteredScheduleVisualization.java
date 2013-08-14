@@ -18,7 +18,12 @@ import java.util.List;
 import java.awt.GridBagConstraints;
 
 
-public class FilteredScheduleVisualization extends JPanel {
+/**
+ * Não precisa ser Updatable
+ * @author mbof
+ *
+ */
+public class FilteredScheduleVisualization extends JPanel{
 	private static final long serialVersionUID = -1937501007426648998L;
 	private FilterChooser filterChooser;
 	private JTabbedPane tabbedPane;
@@ -52,6 +57,7 @@ public class FilteredScheduleVisualization extends JPanel {
 				refreshTable();
 			}
 		};
+		
 		GridBagConstraints gbc_filterChooser = new GridBagConstraints();
 		gbc_filterChooser.gridx = 0;
 		gbc_filterChooser.gridy = 0;
@@ -94,10 +100,7 @@ public class FilteredScheduleVisualization extends JPanel {
 			tabbedPane.setSelectedComponent(tabToSelect);
 	}
 	
-	public void update(){
-		filterChooser.refresh();
+	public void dispose(){
+		filterChooser.dispose();
 	}
-	
-	
-
 }

@@ -31,7 +31,7 @@ import basic.Professor;
 import basic.SlotRange;
 import basic.Class;
 
-public abstract class AddClassFrame extends DisposableOnEscFrame implements Updatable{
+public class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 	private static final long serialVersionUID = 679979857489504936L;
 	protected JPanel contentPane;
 	protected JTextField nameText;
@@ -57,7 +57,6 @@ public abstract class AddClassFrame extends DisposableOnEscFrame implements Upda
 		
 		classService = new ClassService();
 		professorService = new ProfessorService();
-		if(professorService == null) throw new RuntimeException();
 		configureElements(warningService);
 	}
 	
@@ -218,6 +217,7 @@ public abstract class AddClassFrame extends DisposableOnEscFrame implements Upda
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveChanges();
+				RegistrationCentral.houveUpdate("Turma adicionada");
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();
@@ -243,7 +243,6 @@ public abstract class AddClassFrame extends DisposableOnEscFrame implements Upda
 	protected void saveChanges(){
 		Class selected = getClassFromFields();
 		classService.add(selected);
-		onAddClass();
 	}
 	
 	private void generateDisponibilityTable(){
@@ -266,8 +265,6 @@ public abstract class AddClassFrame extends DisposableOnEscFrame implements Upda
 		return filledClass;
 	}
 	
-	public abstract void onAddClass();
-
 	public void onDataUpdate(UpdateDescription desc) {
 		generateDisponibilityTable();
 	}

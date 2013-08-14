@@ -10,16 +10,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextPane;
 
 import reportsDto.ProfessorWorkload;
 import services.AllocationService;
-import services.ElectiveClassService;
 import services.ElectivePreferencesService;
 import services.ReportService;
 import services.WarningGeneratorService;
 import statePersistence.LoadStateFrame;
-import statePersistence.ChangeStateListener;
 import statePersistence.NewStateFrame;
 import statePersistence.State;
 import statePersistence.StateService;
@@ -30,6 +27,9 @@ import warningsTable.WarningTable;
 
 import java.awt.GridBagLayout;
 
+import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
@@ -51,7 +51,7 @@ import java.util.List;
 import java.util.Vector;
 
 
-public class FrameWithMenu extends JFrame{
+public class FrameWithMenu extends JFrame implements Updatable{
 	/**
 	 * 
 	 */
@@ -76,22 +76,14 @@ public class FrameWithMenu extends JFrame{
 		mntmCarregar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mntmCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new LoadStateFrame(new ChangeStateListener() {
-					public void onChangeState(State loaded) {
-						onLoadNewState(loaded);
-					}
-				});
+				new LoadStateFrame();
 			}
 		});
 		
 		JMenuItem mntmNovaAlocao = new JMenuItem("Nova alocação");
 		mntmNovaAlocao.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new NewStateFrame(new ChangeStateListener() {
-					public void onChangeState(State loaded) {
-						onLoadNewState(loaded);
-					}
-				});
+				new NewStateFrame();
 			}
 		});
 		mntmNovaAlocao.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
@@ -120,11 +112,7 @@ public class FrameWithMenu extends JFrame{
 		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditClassFrame() {
-					public void classInformationEdited() {
-						onEditClassInformation();
-					}
-				};
+				new EditClassFrame();
 			}
 		});
 		
@@ -182,13 +170,7 @@ public class FrameWithMenu extends JFrame{
 		JMenuItem mntmTurma = new JMenuItem("Turma");
 		mntmTurma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddClassFrame(warningService){
-					private static final long serialVersionUID = 6365362038635115524L;
-
-					public void onAddClass() {
-						onEditClassInformation();
-					}
-				};
+				new AddClassFrame(warningService);
 			}
 		});
 		mnAdicionar.add(mntmTurma);
@@ -242,7 +224,7 @@ public class FrameWithMenu extends JFrame{
 
 				JFrame frame = new HtmlTableFrame(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
 				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
-				onEditClassInformation();
+				RegistrationCentral.houveUpdate("Alocação de eletivas realizada");
 			}
 		});
 		mnEltivas.add(mntmAlocar);
@@ -259,7 +241,7 @@ public class FrameWithMenu extends JFrame{
 						);
 				if(op == JOptionPane.YES_OPTION){
 					new AllocationService().clearAllocation();
-					onEditClassInformation();
+					RegistrationCentral.houveUpdate("Alocação de eletivas defeita.");
 				}
 			}
 		});
@@ -339,14 +321,10 @@ public class FrameWithMenu extends JFrame{
 	 * @param s - O estado carregado
 	 */
 	protected void onLoadNewState(State s){
-		System.out.println("ONCE, FWM 342");
 		updateWarningCountText();
 	}
 	
-	/**
-	 *Ao editar informações de uma turma 
-	 */
-	protected void onEditClassInformation() {
+	public void onDataUpdate(UpdateDescription desc) {
 		updateWarningCountText();
 	}
 }

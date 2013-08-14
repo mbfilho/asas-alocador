@@ -29,26 +29,25 @@ import javax.swing.JTextField;
 
 import basic.Class;
 import basic.Classroom;
-import basic.NamedEntity;
 import basic.Professor;
 import basic.SlotRange;
 import scheduleTable.DisponibilityModel;
-import scheduleTable.FilteredScheduleVisualization;
 import scheduleTable.ScheduleVisualizationTable;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
 import utilities.DisposableOnEscFrame;
 import utilities.GuiUtil;
-import utilities.StringUtil;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
 import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
 
 
-public abstract class EditClassFrame extends DisposableOnEscFrame {
+public class EditClassFrame extends DisposableOnEscFrame implements Updatable{
 
 	private static final long serialVersionUID = 679979857489504936L;
 	private JComboBox<NamedPair<Class>> classesComboBox;
@@ -77,6 +76,8 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 	}
 	
 	public EditClassFrame(InitialEditState initialState) {
+		RegistrationCentral.register(this);
+		
 		classService = new ClassService();
 		professorService = new ProfessorService();
 		
@@ -328,8 +329,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 			setValuesToClass(selected);
 			classService.update(selected);
 		} 
-		RegistrationCentral.houveUpdate();
-		classInformationEdited();
+		RegistrationCentral.houveUpdate("Edição de turma");
 	}
 	
 	private void setValuesToClass(Class toBeSeted){
@@ -400,5 +400,7 @@ public abstract class EditClassFrame extends DisposableOnEscFrame {
 		
 	}
 	
-	public abstract void classInformationEdited();
+	public void onDataUpdate(UpdateDescription desc){
+		generateDisponibilityTable();
+	}
 }

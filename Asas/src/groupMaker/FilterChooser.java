@@ -19,13 +19,16 @@ import basic.NamedEntity;
 import basic.Professor;
 
 import classEditor.NamedPair;
+import dataUpdateSystem.RegistrationCentral;
+import dataUpdateSystem.Updatable;
+import dataUpdateSystem.UpdateDescription;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
 import java.util.Vector;
 
-public abstract class FilterChooser extends JPanel {
+public abstract class FilterChooser extends JPanel implements Updatable{
 	private static final long serialVersionUID = 6925830056459127771L;
 	
 	private JComboBox<NamedPair<String>> areaCBox;
@@ -47,11 +50,12 @@ public abstract class FilterChooser extends JPanel {
 
 	public FilterChooser(){
 		this(ALL, null);
-		_updatingProgrammatically = false;
 	}
 	
 	public FilterChooser(int configuration, InitialFilterConfiguration initialConfiguration) {
+		_updatingProgrammatically = false;
 		this.configuration = configuration;
+		RegistrationCentral.register(this);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 507, 163, 308, 173, 0};
@@ -85,6 +89,7 @@ public abstract class FilterChooser extends JPanel {
 		setupInitialConfiguration(initialConfiguration);
 		addDataChangeListeners();//importante que fique por ultimo
 	}
+	
 	
 	private void addDataChangeListeners() {
 		ActionListener onChangeFilter = new ActionListener(){
@@ -302,6 +307,14 @@ public abstract class FilterChooser extends JPanel {
 		refreshRooms();
 		_updatingProgrammatically = false;
 		onChangeFilter(getFilter());
+	}
+
+	public void onDataUpdate(UpdateDescription desc) {
+		refresh();
+	}
+	
+	public void dispose(){
+		RegistrationCentral.unregister(this);
 	}
 	
 }
