@@ -10,10 +10,14 @@ import javax.swing.KeyStroke;
 
 public class DisposableOnEscFrame extends JFrame{
 
+	private static final long serialVersionUID = 8227084079529788625L;
+
 	public DisposableOnEscFrame() {
 		KeyStroke escapeKeyStroke = KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false);
 		AbstractAction escapeAction = new AbstractAction() {
-		    public void actionPerformed(ActionEvent e) {
+			private static final long serialVersionUID = 5525788963509917486L;
+
+			public void actionPerformed(ActionEvent e) {
 		        dispose();
 		    }
 		}; 

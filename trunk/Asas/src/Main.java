@@ -52,13 +52,13 @@ public class Main {
 		StateService.getInstance().setCurrentState(s.description);
 		s = StateService.getInstance().getCurrentState();
 		
-		DataValidation<Repository<Professor>> professors = new SimpleProfessorReader().read();
-		DataValidation<Repository<Classroom>> classrooms = new SimpleClassRoomReader().read(); 
-		DataValidation<Repository<Class>> classes = new SimpleClassReader().read();
-		DataValidation<Repository<ElectiveClass>> electives = new SimpleElectiveReader().read();
+		DataValidation<Repository<Professor>> professors = new FileProfessorReader().read();
+		DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read(); 
+		DataValidation<Repository<Class>> classes = new FileClassReader().read();
+		DataValidation<Repository<ElectiveClass>> electives = new FileElectiveReader().read();
 		
 		//this code should not exist!
-		DataValidation<Repository<ElectiveClassPreferences>> prefs = new SimpleElectivePreferenceReader().read();
+		DataValidation<Repository<ElectiveClassPreferences>> prefs = new FileElectivePreferenceReader().read();
 		System.out.println("Prefs: " + prefs.data.all().size());
 		
 		StateService.getInstance().save();
