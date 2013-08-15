@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.Serializable;
 
 public class StateDescription implements Serializable{
-
+	private static final long serialVersionUID = 1380469572798348853L;
 	private String name;
 	private String description;
 	private boolean draft;

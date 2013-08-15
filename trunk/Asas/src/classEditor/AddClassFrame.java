@@ -53,7 +53,7 @@ public class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 	protected JButton btnOk;
 	
 	public AddClassFrame(WarningGeneratorService warningService) {
-		RegistrationCentral.register(this);
+		RegistrationCentral.signIn(this);
 		
 		classService = new ClassService();
 		professorService = new ProfessorService();
@@ -217,7 +217,7 @@ public class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				saveChanges();
-				RegistrationCentral.houveUpdate("Turma adicionada");
+				RegistrationCentral.registerUpdate("Turma adicionada");
 			}
 		});
 		GridBagConstraints gbc_btnOk = new GridBagConstraints();

@@ -84,7 +84,7 @@ public class NewStateFrame extends ChooseStateFrame{
 				stateService.saveNewState(base);
 				stateService.setCurrentState(base.description);
 				setVisible(false);
-				RegistrationCentral.houveUpdate("Novo estado criado");
+				RegistrationCentral.registerUpdate("Novo estado criado");
 			} catch (StateIOException e1) {
 				JOptionPane.showMessageDialog(this, e1.getMessage());
 				e1.printStackTrace();
