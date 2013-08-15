@@ -7,7 +7,7 @@ import data.SimpleRepository;
 
 import statePersistence.StateService;
 import utilities.ColorUtil;
-import warnings.Warning;
+import warnings.types.Warning;
 
 public class AllowedWarningsService {
 	private StateService stateService;

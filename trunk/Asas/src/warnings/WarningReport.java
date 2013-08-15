@@ -1,22 +1,24 @@
 package warnings;
 
-import java.util.Vector;
+import java.util.List;
 
-import classEditor.NamedPair;
+import warnings.types.Warning;
+
 
 public class WarningReport {
-
-	private Vector<NamedPair<Vector<Warning>>> reports;
+	private String title;
+	private List<Warning> warnings;
 	
-	public WarningReport(){
-		reports = new Vector<NamedPair<Vector<Warning>>>();
+	public WarningReport(String title, List<Warning> wars){
+		this.title = title;
+		this.warnings = wars;
 	}
 	
-	public void addReport(String title, Vector<Warning> wars){
-		reports.add(new NamedPair<Vector<Warning>>(title, wars));
+	public List<Warning> getAllWarnings(){
+		return warnings;
 	}
 	
-	public Vector<NamedPair<Vector<Warning>>> getAllReports(){
-		return reports;
+	public String getTitle(){
+		return title;
 	}
 }

@@ -6,14 +6,14 @@ import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
 
-import scheduleTable.FilteredScheduleVisualization;
+import schedule.FilteredScheduleVisualizer;
 import services.WarningGeneratorService;
 
 import java.awt.Frame;
 
 public class Visualizer extends FrameWithMenu{
 	private static final long serialVersionUID = -6441797946984712515L;
-	private FilteredScheduleVisualization panelWithTable;
+	private FilteredScheduleVisualizer panelWithTable;
 
 	public Visualizer(WarningGeneratorService warningService) {
 		super(warningService);
@@ -29,7 +29,7 @@ public class Visualizer extends FrameWithMenu{
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		panelWithTable = new FilteredScheduleVisualization();
+		panelWithTable = new FilteredScheduleVisualizer();
 		GridBagConstraints gbc_panelWithTable = new GridBagConstraints();
 		gbc_panelWithTable.fill = GridBagConstraints.BOTH;
 		gbc_panelWithTable.gridy = 0;
