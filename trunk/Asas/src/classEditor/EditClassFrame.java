@@ -1,7 +1,7 @@
 package classEditor;
 
-import groupMaker.FilterChooser;
-import groupMaker.InitialFilterConfiguration;
+import group.filtering.FilterChooser;
+import group.filtering.InitialFilterConfiguration;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -29,8 +29,8 @@ import basic.Class;
 import basic.Classroom;
 import basic.Professor;
 import basic.SlotRange;
-import scheduleTable.DisponibilityModel;
-import scheduleTable.ScheduleVisualizationTable;
+import schedule.table.ScheduleVisualizationTable;
+import schedule.table.models.DisponibilityModel;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;
@@ -74,6 +74,7 @@ public class EditClassFrame extends DisposableOnEscFrame implements Updatable{
 	}
 	
 	public EditClassFrame(InitialEditState initialState) {
+		setTitle("Edição de disciplinas/turmas");
 		RegistrationCentral.signIn(this);
 		
 		classService = new ClassService();
