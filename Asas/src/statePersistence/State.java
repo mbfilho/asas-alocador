@@ -2,7 +2,7 @@ package statePersistence;
 
 import java.io.Serializable;
 
-import warnings.Warning;
+import warnings.types.Warning;
 
 import basic.Class;
 import basic.Classroom;

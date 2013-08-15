@@ -7,9 +7,9 @@ import basic.Class;
 import basic.Professor;
 import basic.SlotRange;
 
-import warnings.SameProfessorsWarning;
-import warnings.SameRoomWarning;
-import warnings.Warning;
+import warnings.types.SameProfessorsWarning;
+import warnings.types.SameRoomWarning;
+import warnings.types.Warning;
 
 public class NotAllowedWarningsService extends WarningGeneratorService{
 

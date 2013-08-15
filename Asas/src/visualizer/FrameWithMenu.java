@@ -16,13 +16,14 @@ import services.AllocationService;
 import services.ElectivePreferencesService;
 import services.ReportService;
 import services.WarningGeneratorService;
-import statePersistence.LoadStateFrame;
-import statePersistence.NewStateFrame;
 import statePersistence.StateService;
+import statePersistence.gui.LoadStateFrame;
+import statePersistence.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
-import warnings.Warning;
-import warningsTable.WarningTable;
+import warnings.WarningReport;
+import warnings.table.WarningTable;
+import warnings.types.Warning;
 
 import java.awt.GridBagLayout;
 
@@ -180,9 +181,9 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				WarningGeneratorService service = new WarningGeneratorService();
 				
 				JTabbedPane pane = new JTabbedPane();
-				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
-					WarningTable table = new WarningTable(report.data);
-					pane.addTab(report.name, new JScrollPane(table));
+				for(WarningReport report : service.getWarningReportList()){
+					WarningTable table = new WarningTable(report.getAllWarnings());
+					pane.addTab(report.getTitle(), new JScrollPane(table));
 				}
 				
 				frame.getContentPane().add(new JScrollPane(pane));

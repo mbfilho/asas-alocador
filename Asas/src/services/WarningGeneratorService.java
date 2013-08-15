@@ -3,7 +3,6 @@ package services;
 import java.util.HashSet;
 import java.util.Vector;
 
-import classEditor.NamedPair;
 
 import basic.Classroom;
 import basic.Professor;
@@ -12,14 +11,15 @@ import basic.Class;
 
 import statePersistence.StateService;
 import utilities.CollectionUtil;
-import warnings.ClassWithoutProfessorWarning;
-import warnings.ClassWithoutRoom;
-import warnings.ClassWithoutSlotWarning;
-import warnings.DeallocatedProfessorWarning;
-import warnings.SameProfessorsWarning;
-import warnings.SameRoomWarning;
-import warnings.Warning;
 import warnings.WarningReport;
+import warnings.WarningReportList;
+import warnings.types.ClassWithoutProfessorWarning;
+import warnings.types.ClassWithoutRoomWarning;
+import warnings.types.ClassWithoutSlotWarning;
+import warnings.types.DeallocatedProfessorWarning;
+import warnings.types.SameProfessorsWarning;
+import warnings.types.SameRoomWarning;
+import warnings.types.Warning;
 
 public class WarningGeneratorService {
 
@@ -137,7 +137,7 @@ public class WarningGeneratorService {
 				if(range.getClassroom() == null) slotsWithoutRoom.add(range);
 			}
 			if(!slotsWithoutRoom.isEmpty())
-				warnings.add(new ClassWithoutRoom(c, slotsWithoutRoom));
+				warnings.add(new ClassWithoutRoomWarning(c, slotsWithoutRoom));
 		}
 		
 		return warnings;
@@ -145,8 +145,8 @@ public class WarningGeneratorService {
 	
 	public int notAllowedWarningsCount(){
 		int cont = 0;
-		for(NamedPair<Vector<Warning>> warningList : getAllWarnings().getAllReports()){
-			for(Warning w : warningList.data){
+		for(WarningReport report : getWarningReportList()){
+			for(Warning w : report.getAllWarnings()){
 				if(!allowedWarningService.isAllowed(w)) ++cont;
 			}
 		}
@@ -154,15 +154,15 @@ public class WarningGeneratorService {
 		return cont;
 	}
 	
-	public WarningReport getAllWarnings(){
-		WarningReport report = new WarningReport();
+	public WarningReportList getWarningReportList(){
+		WarningReportList report = new WarningReportList();
 		
-		report.addReport("Mesma sala e horário", getSameRoomConflicts());
-		report.addReport("Professores desalocados", checkProfessorsWithoutClasses());
-		report.addReport("Mesmos professores e horários", getSameProfConflicts());
-		report.addReport("Turmas sem professor", checkClassHasProfs());
-		report.addReport("Turmas sem horário", checkClassHasSlot());
-		report.addReport("Turmas sem sala", checkClassHasRoom());
+		report.addReport(new WarningReport("Mesma sala e horário", getSameRoomConflicts()));
+		report.addReport(new WarningReport("Professores desalocados", checkProfessorsWithoutClasses()));
+		report.addReport(new WarningReport("Mesmos professores e horários", getSameProfConflicts()));
+		report.addReport(new WarningReport("Turmas sem professor", checkClassHasProfs()));
+		report.addReport(new WarningReport("Turmas sem horário", checkClassHasSlot()));
+		report.addReport(new WarningReport("Turmas sem sala", checkClassHasRoom()));
 		return report;
 	}
 	
