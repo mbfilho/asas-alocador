@@ -3,7 +3,6 @@ package classEditor;
 import groupMaker.FilterChooser;
 import groupMaker.InitialFilterConfiguration;
 
-import javax.swing.ComboBoxModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -20,7 +19,6 @@ import javax.swing.JLabel;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
 
@@ -76,7 +74,7 @@ public class EditClassFrame extends DisposableOnEscFrame implements Updatable{
 	}
 	
 	public EditClassFrame(InitialEditState initialState) {
-		RegistrationCentral.register(this);
+		RegistrationCentral.signIn(this);
 		
 		classService = new ClassService();
 		professorService = new ProfessorService();
@@ -329,7 +327,7 @@ public class EditClassFrame extends DisposableOnEscFrame implements Updatable{
 			setValuesToClass(selected);
 			classService.update(selected);
 		} 
-		RegistrationCentral.houveUpdate("Edição de turma");
+		RegistrationCentral.registerUpdate("Edição de turma");
 	}
 	
 	private void setValuesToClass(Class toBeSeted){

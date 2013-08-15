@@ -6,11 +6,13 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
+import dataUpdateSystem.RegistrationCentral;
+
 import services.AllowedWarningsService;
 
 import warnings.Warning;
 
-public abstract class WarningTableModel extends AbstractTableModel{
+public class WarningTableModel extends AbstractTableModel{
 	public static final int WARNING_COLUMN = 0;
 	private static final long serialVersionUID = 1L;
 	private Class[] columnTypes;
@@ -62,7 +64,7 @@ public abstract class WarningTableModel extends AbstractTableModel{
 			else allowedService.disallow(warnings.get(row));
 			
 			sortByAllowance();
-			onChangeWarningAllowance();
+			RegistrationCentral.registerUpdate("Mudança na autorização de alertas.");
 		}
 		fireTableDataChanged();
 	}
@@ -79,7 +81,5 @@ public abstract class WarningTableModel extends AbstractTableModel{
 		if(columnIndex == WARNING_COLUMN) return warnings.get(rowIndex);
 		else return allowedService.isAllowed(warnings.get(rowIndex));
 	}
-	
-	public abstract void onChangeWarningAllowance();
 }
 

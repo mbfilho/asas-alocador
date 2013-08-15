@@ -11,12 +11,13 @@ import java.util.Collection;
 import javax.swing.JLabel;
 
 import classEditor.NamedPair;
+import dataUpdateSystem.RegistrationCentral;
 
 import basic.Professor;
 
 public class EditProfessorFrame extends ProfessorFramePattern {
 	private DefaultComboBoxModel<NamedPair<Professor>> professorCBModel;
-	JComboBox<NamedPair<Professor>> professors;
+	private JComboBox<NamedPair<Professor>> professors;
 	
 	public EditProfessorFrame() {
 		GridBagLayout gridBagLayout = (GridBagLayout) getContentPane().getLayout();
@@ -82,6 +83,7 @@ public class EditProfessorFrame extends ProfessorFramePattern {
 			professorService.update(toEdit);
 		}
 		setVisible(false);
+		RegistrationCentral.registerUpdate("Edição de professor");
 	}
 
 }

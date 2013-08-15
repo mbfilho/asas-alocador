@@ -7,7 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Vector;
 
 import javax.swing.JMenuItem;
@@ -20,11 +19,10 @@ import classEditor.EditClassFrame;
 import classEditor.NamedPair;
 
 import services.AllowedWarningsService;
-import services.WarningGeneratorService;
 
 import warnings.Warning;
 
-public abstract class WarningTable extends JTable {
+public class WarningTable extends JTable {
 	private static final long serialVersionUID = -6035225065621591680L;
 	private WarningTableModel model;
 	private AllowedWarningsService allowService;
@@ -35,11 +33,7 @@ public abstract class WarningTable extends JTable {
 	
 	public WarningTable(Vector<Warning> warnings){
 		allowService = new AllowedWarningsService();
-		model = new WarningTableModel(allowService, warnings) {
-			public void onChangeWarningAllowance() {
-				WarningTable.this.onChangeWarningAllowance();
-			}
-		};
+		model = new WarningTableModel(allowService, warnings);
 		setModel(model);
 		
 		getColumnModel().getColumn(0).setPreferredWidth(700);
@@ -65,9 +59,7 @@ public abstract class WarningTable extends JTable {
 						JMenuItem solveItem = new JMenuItem(c.name);
 						solveItem.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								new EditClassFrame(selected.getInfoToSolve(c.data)) {
-									public void classInformationEdited() {}
-								};
+								new EditClassFrame(selected.getInfoToSolve(c.data));
 							}
 						});
 						menu.add(solveItem);
@@ -89,6 +81,4 @@ public abstract class WarningTable extends JTable {
 	public void addWarning(Warning warning){
 		model.addWarning(warning);
 	}
-	
-	public abstract void onChangeWarningAllowance();
 }

@@ -18,7 +18,6 @@ import services.ReportService;
 import services.WarningGeneratorService;
 import statePersistence.LoadStateFrame;
 import statePersistence.NewStateFrame;
-import statePersistence.State;
 import statePersistence.StateService;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
@@ -64,6 +63,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 	private JMenu warningMenuItem;
 	
 	public FrameWithMenu(WarningGeneratorService service) {
+		RegistrationCentral.signIn(this);
 		warningService = service;
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -119,14 +119,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmProfessores = new JMenuItem("Professores");
 		mntmProfessores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditProfessorFrame(){
-					private static final long serialVersionUID = 364796446171271423L;
-
-					protected void onOkButton(){
-						super.onOkButton();
-						onEditProfessorInformation();
-					}
-				};
+				new EditProfessorFrame();
 			}
 		});
 		
@@ -188,13 +181,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				
 				JTabbedPane pane = new JTabbedPane();
 				for(NamedPair<Vector<Warning>> report : service.getAllWarnings().getAllReports()){
-					WarningTable table = new WarningTable(report.data){
-						private static final long serialVersionUID = 1175048516009507514L;
-
-						public void onChangeWarningAllowance() {
-							onEditWarningInformation();
-						}
-					};
+					WarningTable table = new WarningTable(report.data);
 					pane.addTab(report.name, new JScrollPane(table));
 				}
 				
@@ -224,7 +211,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 
 				JFrame frame = new HtmlTableFrame(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
 				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
-				RegistrationCentral.houveUpdate("Alocação de eletivas realizada");
+				RegistrationCentral.registerUpdate("Alocação de eletivas realizada");
 			}
 		});
 		mnEltivas.add(mntmAlocar);
@@ -241,7 +228,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 						);
 				if(op == JOptionPane.YES_OPTION){
 					new AllocationService().clearAllocation();
-					RegistrationCentral.houveUpdate("Alocação de eletivas defeita.");
+					RegistrationCentral.registerUpdate("Alocação de eletivas defeita.");
 				}
 			}
 		});
@@ -298,29 +285,9 @@ public class FrameWithMenu extends JFrame implements Updatable{
 	}
 	
 	/**
-	 * Ao autorizar/desautorizar um alerta
-	 */
-	protected void onEditWarningInformation(){
-		updateWarningCountText();
-	}
-	/**
-		Ao editar informações de um professor
-	 */
-	protected void onEditProfessorInformation(){
-		updateWarningCountText();
-	}
-	/**
 	 *Ao editar informações de uma sala 
 	 */
 	protected void onEditClassroomInformation(){
-		updateWarningCountText();
-	}
-	
-	/**
-	 * Ao carregar um estado previamente salvo 
-	 * @param s - O estado carregado
-	 */
-	protected void onLoadNewState(State s){
 		updateWarningCountText();
 	}
 	

@@ -17,6 +17,8 @@ import classEditor.NamedPair;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
+import dataUpdateSystem.RegistrationCentral;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
@@ -27,11 +29,15 @@ import utilities.DisposableOnEscFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 
+	private static final long serialVersionUID = 6004863265621099636L;
+	
 	private JPanel contentPane;
 	protected JTextArea description = new JTextArea();
 	protected JCheckBox draftCheck;
@@ -43,10 +49,8 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 	private DefaultListModel<NamedPair<StateDescription>> stateListModel;
 	private JLabel stateListLabel;
 	
-
-	/**
-	 * Create the frame.
-	 */
+	protected abstract void onOkButton();
+	
 	public ChooseStateFrame() {
 		setTitle("Carregar estado...");
 		setResizable(true);
@@ -77,8 +81,8 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 		gbc_scrollPane.gridy = 1;
 		contentPane.add(listScrollPane, gbc_scrollPane);
 		
-		stateListModel = new DefaultListModel();
-		stateList = new JList(stateListModel);
+		stateListModel = new DefaultListModel<NamedPair<StateDescription>>();
+		stateList = new JList<NamedPair<StateDescription>>(stateListModel);
 		refreshStateList();
 		stateList.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -88,6 +92,14 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 						stateList.setSelectedIndex(index);
 						onOkButton();
 					}
+				}
+			}
+		});
+		stateList.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					if(stateList.getSelectedIndex() != -1)
+						onOkButton();
 				}
 			}
 		});
@@ -134,7 +146,7 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 	protected void refreshStateList() {
 		stateListModel.clear();
 		StateService service = StateService.getInstance();
-		for(StateDescription s : service.allStates()) stateListModel.addElement(new NamedPair(s.getName(), s));
+		for(StateDescription s : service.allStates()) stateListModel.addElement(new NamedPair<StateDescription>(s.getName(), s));
 	}
 
 	protected DefaultListModel<NamedPair<StateDescription>> getStateListModel(){
@@ -157,8 +169,6 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 	protected boolean getDraftCheckValue(){
 		return draftCheck.isSelected();
 	}
-	
-	protected abstract void onOkButton();
 	
 	protected JLabel getStateListLabel() {
 		return stateListLabel;

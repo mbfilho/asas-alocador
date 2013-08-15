@@ -55,7 +55,7 @@ public abstract class FilterChooser extends JPanel implements Updatable{
 	public FilterChooser(int configuration, InitialFilterConfiguration initialConfiguration) {
 		_updatingProgrammatically = false;
 		this.configuration = configuration;
-		RegistrationCentral.register(this);
+		RegistrationCentral.signIn(this);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 507, 163, 308, 173, 0};
@@ -303,8 +303,10 @@ public abstract class FilterChooser extends JPanel implements Updatable{
 	
 	public void refresh() {
 		_updatingProgrammatically = true;
-		refreshProfessors();
-		refreshRooms();
+		if(isProfessorFilteringEnabled())
+			refreshProfessors();
+		if(isRoomFilteringEnabled())
+			refreshRooms();
 		_updatingProgrammatically = false;
 		onChangeFilter(getFilter());
 	}
@@ -314,7 +316,7 @@ public abstract class FilterChooser extends JPanel implements Updatable{
 	}
 	
 	public void dispose(){
-		RegistrationCentral.unregister(this);
+		RegistrationCentral.signOut(this);
 	}
 	
 }
