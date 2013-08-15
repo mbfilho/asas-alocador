@@ -1,6 +1,9 @@
-package statePersistence;
+package state;
 
 import java.io.Serializable;
+
+import repository.Repository;
+import repository.SimpleRepository;
 
 import warnings.types.Warning;
 
@@ -10,8 +13,6 @@ import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.NamedEntity;
 import basic.Professor;
-import data.Repository;
-import data.SimpleRepository;
 
 public class State implements NamedEntity, Serializable{
 	private static final long serialVersionUID = 4973989156840803066L;

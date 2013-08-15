@@ -1,4 +1,4 @@
-package data;
+package repository;
 
 import java.io.Serializable;
 import java.text.Collator;

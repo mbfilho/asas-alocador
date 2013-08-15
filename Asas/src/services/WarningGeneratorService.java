@@ -9,7 +9,6 @@ import basic.Professor;
 import basic.SlotRange;
 import basic.Class;
 
-import statePersistence.StateService;
 import utilities.CollectionUtil;
 import warnings.WarningReport;
 import warnings.WarningReportList;

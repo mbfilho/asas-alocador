@@ -1,16 +1,19 @@
-package data;
+package state.persistence.fileReaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
+import repository.Repository;
 import services.ClassroomService;
-import statePersistence.StateService;
+import services.StateService;
+import state.persistence.DataReader;
 
 import exceptions.InvalidInputException;
 import basic.Classroom;
 import basic.DataValidation;
 
-public class SimpleClassRoomReader implements DataReader<Classroom> {
+public class FileClassRoomReader implements DataReader<Classroom> {
 
 	public DataValidation<Repository<Classroom>> read() throws InvalidInputException {
 		ClassroomService service = new ClassroomService();

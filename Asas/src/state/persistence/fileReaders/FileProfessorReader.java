@@ -1,18 +1,21 @@
-package data;
+package state.persistence.fileReaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
+import repository.Repository;
 import services.ProfessorService;
-import statePersistence.StateService;
+import services.StateService;
+import state.persistence.DataReader;
 
 import basic.DataValidation;
 import basic.Professor;
 
 import exceptions.InvalidInputException;
 
-public class SimpleProfessorReader implements DataReader<Professor> {
+public class FileProfessorReader implements DataReader<Professor> {
 	private String fileName = "professors.in";
 
 	public DataValidation<Repository<Professor>> read() throws InvalidInputException {

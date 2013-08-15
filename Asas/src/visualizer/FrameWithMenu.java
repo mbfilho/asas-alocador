@@ -15,15 +15,14 @@ import reportsDto.ProfessorWorkload;
 import services.AllocationService;
 import services.ElectivePreferencesService;
 import services.ReportService;
+import services.StateService;
 import services.WarningGeneratorService;
-import statePersistence.StateService;
-import statePersistence.gui.LoadStateFrame;
-import statePersistence.gui.NewStateFrame;
+import state.gui.LoadStateFrame;
+import state.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
 import warnings.WarningReport;
 import warnings.table.WarningTable;
-import warnings.types.Warning;
 
 import java.awt.GridBagLayout;
 
@@ -39,7 +38,6 @@ import allocation.Allocator;
 import allocation.DefaultAllocator;
 import classEditor.AddClassFrame;
 import classEditor.EditClassFrame;
-import classEditor.NamedPair;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
 import professors.AddProfessorFrame;
@@ -48,7 +46,6 @@ import professors.EditProfessorFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.util.List;
-import java.util.Vector;
 
 
 public class FrameWithMenu extends JFrame implements Updatable{

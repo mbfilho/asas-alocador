@@ -3,9 +3,9 @@ package services;
 import java.awt.Color;
 import java.util.Collection;
 
-import data.Repository;
-import data.SimpleRepository;
-import statePersistence.StateService;
+import repository.Repository;
+import repository.SimpleRepository;
+
 import utilities.ColorUtil;
 import basic.Class;
 

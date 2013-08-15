@@ -22,8 +22,8 @@ import basic.Class;
 import javax.swing.JButton;
 
 import services.ConflictService;
+import services.StateService;
 import services.WarningGeneratorService;
-import statePersistence.StateService;
 import utilities.Constants;
 import utilities.DisposableOnEscFrame;
 
