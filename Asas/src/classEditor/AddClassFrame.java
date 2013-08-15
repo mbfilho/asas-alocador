@@ -20,8 +20,8 @@ import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
 
-import scheduleTable.DisponibilityModel;
-import scheduleTable.ScheduleVisualizationTable;
+import schedule.table.ScheduleVisualizationTable;
+import schedule.table.models.DisponibilityModel;
 import services.ClassService;
 import services.ProfessorService;
 import services.WarningGeneratorService;

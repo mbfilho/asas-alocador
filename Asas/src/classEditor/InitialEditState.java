@@ -1,5 +1,5 @@
 package classEditor;
-import groupMaker.InitialFilterConfiguration;
+import group.filtering.InitialFilterConfiguration;
 import basic.Class;
 import basic.Classroom;
 import basic.Professor;
