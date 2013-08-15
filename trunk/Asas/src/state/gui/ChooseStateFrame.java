@@ -1,4 +1,4 @@
-package statePersistence.gui;
+package state.gui;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -25,8 +25,9 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
-import statePersistence.StateDescription;
-import statePersistence.StateService;
+
+import services.StateService;
+import state.StateDescription;
 import utilities.DisposableOnEscFrame;
 
 import java.awt.event.ActionListener;

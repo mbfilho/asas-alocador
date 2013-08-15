@@ -1,6 +1,5 @@
 package services;
 
-import statePersistence.StateService;
 
 public class BasicService {
 

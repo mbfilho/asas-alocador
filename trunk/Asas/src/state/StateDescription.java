@@ -1,4 +1,4 @@
-package statePersistence;
+package state;
 
 import java.io.File;
 import java.io.Serializable;

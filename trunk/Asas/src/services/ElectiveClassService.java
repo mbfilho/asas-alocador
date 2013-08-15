@@ -2,10 +2,10 @@ package services;
 
 import java.util.Collection;
 
+import repository.Repository;
+import repository.SimpleRepository;
+
 import basic.ElectiveClass;
-import data.Repository;
-import data.SimpleRepository;
-import statePersistence.StateService;
 
 public class ElectiveClassService extends BasicService{
 

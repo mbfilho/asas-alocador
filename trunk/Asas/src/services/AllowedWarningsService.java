@@ -2,10 +2,10 @@ package services;
 
 import java.awt.Color;
 
-import data.Repository;
-import data.SimpleRepository;
+import repository.Repository;
+import repository.SimpleRepository;
 
-import statePersistence.StateService;
+
 import utilities.ColorUtil;
 import warnings.types.Warning;
 

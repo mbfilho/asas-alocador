@@ -1,11 +1,12 @@
-package statePersistence.gui;
+package state.gui;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import statePersistence.StateDescription;
-import statePersistence.StateService;
+
+import services.StateService;
+import state.StateDescription;
 
 import classEditor.NamedPair;
 import dataUpdateSystem.RegistrationCentral;

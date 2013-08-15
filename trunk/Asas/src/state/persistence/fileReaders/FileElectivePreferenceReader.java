@@ -1,22 +1,25 @@
-package data;
+package state.persistence.fileReaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
+
+import repository.Repository;
 import services.ElectiveClassService;
 import services.ElectivePreferencesService;
 import services.ProfessorService;
-import statePersistence.StateService;
+import services.StateService;
+import state.persistence.DataReader;
 import exceptions.InvalidInputException;
 import basic.DataValidation;
 import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.SlotRange;
 
-//@TODO Esse código não deve existir
-public class SimpleElectivePreferenceReader implements DataReader<ElectiveClassPreferences>{
+//TODO Esse código não deve existir
+public class FileElectivePreferenceReader implements DataReader<ElectiveClassPreferences>{
 
 	public DataValidation<Repository<ElectiveClassPreferences>> read()	throws InvalidInputException {
 		ElectivePreferencesService service = new ElectivePreferencesService();

@@ -3,13 +3,13 @@ package services;
 import java.util.Collection;
 import java.util.Vector;
 
+import repository.Repository;
+import repository.SimpleRepository;
+
 import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.Professor;
 import basic.SlotRange;
-import data.Repository;
-import data.SimpleRepository;
-import statePersistence.StateService;
 import utilities.StringUtil;
 
 public class ElectivePreferencesService{

@@ -1,19 +1,22 @@
-package data;
+package state.persistence.fileReaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.Vector;
 
+
+import repository.Repository;
 import services.ClassService;
-import statePersistence.StateService;
+import services.StateService;
+import state.persistence.ClassReader;
 
 import basic.Class;
 import basic.DataValidation;
 import basic.SlotRange;
 import exceptions.InvalidInputException;
 
-public class SimpleClassReader extends ClassReader {
+public class FileClassReader extends ClassReader {
 	private String fileName = "draftSemester2.in";
 	private String[] st;
 	int cnt;

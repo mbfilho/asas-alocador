@@ -1,20 +1,23 @@
-package data;
+package state.persistence.fileReaders;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
+
+import repository.Repository;
 import services.ElectiveClassService;
-import statePersistence.StateService;
+import services.StateService;
+import state.persistence.DataReader;
 import basic.DataValidation;
 import basic.ElectiveClass;
 import exceptions.InvalidInputException;
 
-public class SimpleElectiveReader implements DataReader<ElectiveClass>{
+public class FileElectiveReader implements DataReader<ElectiveClass>{
 	
 	private ElectiveClassService service;
 	
-	public SimpleElectiveReader(){
+	public FileElectiveReader(){
 		service = new ElectiveClassService();
 	}
 	

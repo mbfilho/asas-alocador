@@ -1,4 +1,4 @@
-package statePersistence.gui;
+package state.gui;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -15,8 +15,9 @@ import java.util.Date;
 
 import javax.swing.JTextField;
 
-import statePersistence.State;
-import statePersistence.StateService;
+
+import services.StateService;
+import state.State;
 
 public class NewStateFrame extends ChooseStateFrame{
 	private static final long serialVersionUID = 8910633735786246632L;

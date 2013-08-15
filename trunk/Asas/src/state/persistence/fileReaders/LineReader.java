@@ -1,4 +1,4 @@
-package data;
+package state.persistence.fileReaders;
 
 public class LineReader {
 	private String[] st;

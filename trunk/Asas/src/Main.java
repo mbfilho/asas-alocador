@@ -4,12 +4,7 @@ import java.text.Collator;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import data.Repository;
-import data.SimpleClassReader;
-import data.SimpleClassRoomReader;
-import data.SimpleElectivePreferenceReader;
-import data.SimpleElectiveReader;
-import data.SimpleProfessorReader;
+
 
 import basic.Classroom;
 import basic.DataValidation;
@@ -17,9 +12,15 @@ import basic.ElectiveClass;
 import basic.ElectiveClassPreferences;
 import basic.Professor;
 
+import repository.Repository;
+import services.StateService;
 import services.WarningGeneratorService;
-import statePersistence.State;
-import statePersistence.StateService;
+import state.State;
+import state.persistence.fileReaders.FileClassReader;
+import state.persistence.fileReaders.FileClassRoomReader;
+import state.persistence.fileReaders.FileElectivePreferenceReader;
+import state.persistence.fileReaders.FileElectiveReader;
+import state.persistence.fileReaders.FileProfessorReader;
 import visualizer.Visualizer;
 import basic.Class;
 

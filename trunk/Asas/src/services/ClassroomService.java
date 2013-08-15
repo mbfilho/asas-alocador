@@ -2,11 +2,11 @@ package services;
 
 import java.util.Collection;
 
-import data.Repository;
-import data.SimpleRepository;
+import repository.Repository;
+import repository.SimpleRepository;
+
 
 import basic.Classroom;
-import statePersistence.StateService;
 
 public class ClassroomService {
 
