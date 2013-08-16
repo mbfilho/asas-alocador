@@ -4,6 +4,8 @@ import java.text.Collator;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import dataUpdateSystem.RegistrationCentral;
+
 
 
 import basic.Classroom;
@@ -50,7 +52,6 @@ public class Main {
 		s.setStateDescription("initial-draft-for-semester-2", "first draft para o 2 semestre", false);
 		StateService.getInstance().saveNewState(s);
 		StateService.getInstance().setCurrentState(s.description);
-		s = StateService.getInstance().getCurrentState();
 		
 		DataValidation<Repository<Professor>> professors = new FileProfessorReader().read();
 		DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read(); 
@@ -63,11 +64,8 @@ public class Main {
 		
 		StateService.getInstance().save();
 		//*/
-		//StateService st = StateService.getInstance();
-		//st.setCurrentState(st.allStates().get(0));
 		
 		WarningGeneratorService warningService = new WarningGeneratorService();
 		new Visualizer(warningService);
-			
 	}
 }

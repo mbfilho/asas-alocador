@@ -24,7 +24,7 @@ public class FileClassRoomReader implements DataReader<Classroom> {
 			while(sc.hasNext()){
 				String line = sc.nextLine();
 				reader.setLine(line, "#");
-				System.out.println(line + "|" + line.split("#").length + "|");
+				//System.out.println(line + "|" + line.split("#").length + "|");
 				Classroom room = new Classroom(reader.readString(), reader.readIntOrDefault(1000000000));
 				service.add(room);
 			}

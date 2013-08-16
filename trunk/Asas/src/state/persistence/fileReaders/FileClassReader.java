@@ -72,6 +72,8 @@ public class FileClassReader extends ClassReader {
 					int desc[] = new int[3];
 					for(int j = 0; j < 3; ++j) desc[j] = Integer.parseInt(readString());
 					String room = readString();
+					//System.out.println(">> " + room + " x " + classrooms.getByName(room));
+					System.out.println("|" + room +  "|");
 					toRead.addSlot(new SlotRange(desc[0], desc[1], desc[2], classrooms.getByName(room)));
 				}
 				toRead.setCh2(readInt());
