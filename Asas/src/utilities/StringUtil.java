@@ -16,4 +16,8 @@ public class StringUtil {
 		return arg.substring(0, Math.min(chars, arg.length())) + suffix;
 	}
 	
+	public static boolean isNullOrEmpty(String arg){
+		return arg == null || arg.trim().equals("");
+	}
+	
 }
