@@ -1,8 +1,11 @@
 import java.io.File;
 import java.text.Collator;
+import java.util.List;
 
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+
+import preferences.ExcelPreferences;
 
 import dataUpdateSystem.RegistrationCentral;
 
@@ -65,6 +68,7 @@ public class Main {
 		StateService.getInstance().save();
 		//*/
 		
+		List<String> errors = StateService.getInstance().loadStateFromExcel(new ExcelPreferences());
 		WarningGeneratorService warningService = new WarningGeneratorService();
 		new Visualizer(warningService);
 	}

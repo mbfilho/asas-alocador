@@ -104,4 +104,12 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	public boolean covers(SlotRange slot) {
 		return intersection(slot).equals(slot);
 	}
+
+	public static int getSlotNumberStartingWithThisHour(String hh) {
+		return Integer.parseInt(hh) - 7;
+	}
+	
+	public static int getSlotNumberEndingWithThisHour(String hh) {
+		return getSlotNumberStartingWithThisHour(hh) - 1;
+	}
 }

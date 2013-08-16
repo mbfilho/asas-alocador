@@ -17,4 +17,11 @@ public class InvalidInputException extends Exception{
 	public InvalidInputException(Vector<String> errors) {
 		messages = errors;
 	}
+	
+	public String getMessage(){
+		String msg = "";
+		for(String m : messages)
+			msg += m + "\n";
+		return msg;
+	}
 }
