@@ -3,6 +3,9 @@ package state.persistence.excelReaders;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
+
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import preferences.ExcelPreferences;
 import basic.Class;
@@ -43,13 +46,17 @@ public class ExcelClassReader extends ClassReader{
 			ignoreUntil(excelPrefs.getGraduationRequiredMarker());
 			readGraduationRequired();
 			
-			return null;
+			DataValidation<Repository<Class>> x = new DataValidation<Repository<Class>>();
+			x.validation = new Vector<String>(errors);
+			return x;
 		} catch (IOException e) {
+			throw new InvalidInputException(e.getMessage());
+		} catch (InvalidFormatException e) {
 			throw new InvalidInputException(e.getMessage());
 		}
 	}
 	
-	private void openWorkbook() throws IOException{
+	private void openWorkbook() throws IOException, InvalidFormatException{
 		reader = new WorkbookReader(excelPrefs.getFileLocation(), excelPrefs.getClassesSheet());
 	}
 	
@@ -67,6 +74,7 @@ public class ExcelClassReader extends ClassReader{
 		while(true){
 			String name = reader.readString();
 			if(name.equals(excelPrefs.getRequiredByOtherCentersMarker())) break;
+//			System.out.println("|" + name + "|");
 			Class theClass = readClass(name);
 			ignoreRow();
 			if(theClass == null) continue;
@@ -77,16 +85,15 @@ public class ExcelClassReader extends ClassReader{
 	private Class readClass(String name){
 		Class theClass = new Class();
 		theClass.setName(name);
-		boolean includeClass = reader.readString().equals(excelPrefs.getOkMarker());
-		if(!includeClass){
-			ignoreRow();
+		String ok = reader.readString();
+		boolean includeClass = ok.equals(excelPrefs.getOkMarker());
+
+		if(!includeClass)
 			return null;
-		}
 		
 		readProfsToClass(theClass);
 		
 		readChToClass(theClass);
-		
 		//TODO: tratar numero de estudantes na pre Matricula
 		reader.readInt(0);
 		
@@ -101,12 +108,11 @@ public class ExcelClassReader extends ClassReader{
 		reader.readString();
 
 		readCodeToClass(theClass);
-		
 		//TODO: tratar nome efetivo da disciplina
-		reader.readValue();
+		reader.readString();
 		
 		readCourseToClass(theClass);
-		
+
 		readSlotsToClass(classrooms, theClass);
 		
 		theClass.setCh2(reader.readInt(0));
@@ -117,7 +123,7 @@ public class ExcelClassReader extends ClassReader{
 	private void readProfsToClass(Class theClass) {
 		for(int i = 0; i < excelPrefs.getProfessorCount(); ++i){
 			String professorName = reader.readString();
-			if(StringUtil.isNullOrEmpty(professorName)) continue;
+			if(StringUtil.isNullOrEmpty(professorName) || professorName.equals("??")) continue;
 			
 			Professor prof = profService.getByName(professorName);
 			if(prof != null) 
@@ -137,7 +143,7 @@ public class ExcelClassReader extends ClassReader{
 	}
 	
 	private List<String> readClassRoomNames(Class theClass) {
-		String roomCode = reader.readValue();
+		String roomCode = reader.readString();
 		List<String> classrooms = new LinkedList<String>();
 		if(StringUtil.isNullOrEmpty(roomCode)) return classrooms;
 		
@@ -158,16 +164,17 @@ public class ExcelClassReader extends ClassReader{
 	}
 	
 	private void readSemesterToClass(Class theClass) {
-		String semester = reader.readValue();
+		String semester = reader.readString() + " ";
 		if(StringUtil.isNullOrEmpty(semester)) return;
 		
 		if(semester.contains(excelPrefs.getSemesterSeparator())){
 			String[] ccEC = semester.split(excelPrefs.getSemesterSeparator());
+			
 			if(theClass.getName().contains(excelPrefs.getCCMarker())) ccEC[1] = null;
 			if(theClass.getName().contains(excelPrefs.getECMarker())) ccEC[0] = null;
 			
-			theClass.setCcSemester(StringUtil.isNullOrEmpty(ccEC[0]) ? -1 : Integer.parseInt(ccEC[0]));
-			theClass.setEcSemester(StringUtil.isNullOrEmpty(ccEC[1]) ? -1 : Integer.parseInt(ccEC[1]));
+			theClass.setCcSemester(StringUtil.isNullOrEmpty(ccEC[0]) ? -1 : Integer.parseInt(ccEC[0].trim()));
+			theClass.setEcSemester(StringUtil.isNullOrEmpty(ccEC[1]) ? -1 : Integer.parseInt(ccEC[1].trim()));
 		}else
 			errors.add(String.format("Turma '%s' com semestre inválido: '%s'", theClass.getName(), semester));
 	}
@@ -179,7 +186,7 @@ public class ExcelClassReader extends ClassReader{
 	}
 	
 	private void readCourseToClass(Class theClass) {
-		String course = reader.readValue();
+		String course = reader.readString();
 		if(StringUtil.isNullOrEmpty(course)) return;
 		
 		theClass.setCourse(course);
@@ -190,14 +197,14 @@ public class ExcelClassReader extends ClassReader{
 			String slot = reader.readString();
 			Pair<String, String> dayAndHour = divideIntoSlotDayAndHourRange(slot);
 			if(dayAndHour == null){
-				errors.add(String.format("Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("1. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
 				continue;
 			}
 			
 			String day = dayAndHour.first, hourRange = dayAndHour.second;
 			Pair<String, String> startAndEndHour = divideIntoStartAndEndHour(hourRange);
 			if(startAndEndHour == null){
-				errors.add(String.format("Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("2. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
 				continue;
 			}
 			int startSlotNumber = getSlotNumberOfIniHour(startAndEndHour.first);
@@ -205,7 +212,7 @@ public class ExcelClassReader extends ClassReader{
 			int dayIndex = getDayIndex(day);
 		
 			if(dayIndex == -1 || startSlotNumber == -1 || endSlotNumber == -1){
-				errors.add(String.format("Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("2. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
 				continue;
 			}
 			
@@ -260,9 +267,9 @@ public class ExcelClassReader extends ClassReader{
 		String[] hhmm = end.split(":");
 		
 		if(hhmm.length < 2 || Integer.parseInt(hhmm[1]) == 0)
-			return SlotRange.getSlotNumberStartingWithThisHour(hhmm[0]);
-		else
 			return SlotRange.getSlotNumberEndingWithThisHour(hhmm[0]);
+		else
+			return SlotRange.getSlotNumberStartingWithThisHour(hhmm[0]);
 	}
 
 	private int getDayIndex(String day) {

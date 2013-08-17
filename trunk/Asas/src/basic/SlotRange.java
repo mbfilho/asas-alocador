@@ -106,7 +106,7 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	}
 
 	public static int getSlotNumberStartingWithThisHour(String hh) {
-		return Integer.parseInt(hh) - 7;
+		return Integer.parseInt(hh.trim()) - 7;
 	}
 	
 	public static int getSlotNumberEndingWithThisHour(String hh) {

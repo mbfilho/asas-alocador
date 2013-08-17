@@ -1,33 +1,34 @@
 package state.persistence.excelReaders;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import utilities.StringUtil;
 
 public class WorkbookReader {
-	private XSSFWorkbook workbook;
+	private Workbook workbook;
 	private Iterator<Row> rows;
 	private Row currentRow;
-	private Iterator<Cell> cells;
+	private DataFormatter cellFormater; 
+	private int currentCellNumber;
 	
-	public WorkbookReader(String fileName, String sheetName) throws IOException{
-		FileInputStream input = new FileInputStream(new File(fileName));
-		workbook = new XSSFWorkbook(input);
+	public WorkbookReader(String fileName, String sheetName) throws IOException, InvalidFormatException{
+		workbook = WorkbookFactory.create(new File(fileName));
 		
-		for(int i = 0; i < workbook.getNumberOfSheets(); ++i){
-			System.out.println("> " + workbook.getSheetName(i));
-		}
 		setCurrentSheet(workbook.getSheet(sheetName));
+		cellFormater = new DataFormatter();
 	}
 	
-	private void setCurrentSheet(XSSFSheet newSheet){
+	private void setCurrentSheet(Sheet newSheet){
 		rows = newSheet.iterator();
 		goToNextRow();
 	}
@@ -42,46 +43,36 @@ public class WorkbookReader {
 	
 	public void goToNextRow(){
 		currentRow = rows.next();
-		cells = currentRow.iterator();
+		currentCellNumber = 0;
 	}
 	
-	public String readValue(){
-		Cell currentCell = cells.next();
-		
-		switch(currentCell.getCellType()){
-			case Cell.CELL_TYPE_BLANK:
-				return "";
-			case Cell.CELL_TYPE_BOOLEAN:
-				return currentCell.getBooleanCellValue() + "";
-			case Cell.CELL_TYPE_NUMERIC:
-				return currentCell.getNumericCellValue() + "";
-			case Cell.CELL_TYPE_STRING:
-				return currentCell.getStringCellValue();
-		}
-		return null;
+	public String peekCellValue(){
+		String val = readString();
+		--currentCellNumber;
+		return val;
 	}
 	
 	public String readString(){
-		return readValue();
+		Cell theCell = currentRow.getCell(currentCellNumber++);
+		return StringUtil.sanitize(cellFormater.formatCellValue(theCell));
 	}
 	
 	public int readInt(int defaultValue){
 		try{
-			return (int) Double.parseDouble(readValue());
+			return readInt();
 		}catch(NumberFormatException nfe){
 			return defaultValue;
 		}
 	}
 	
 	public int readInt(){
-		return (int) Double.parseDouble(readValue());
+		return Integer.parseInt(readString());
 	}
-
 	
 	public double readDouble() {
-		Cell currentCell = cells.next();
-		if(currentCell.getCellType() != Cell.CELL_TYPE_NUMERIC) return Double.NaN;
+		Cell currentCell = currentRow.getCell(currentCellNumber++);
+		if(currentCell == null || currentCell.getCellType() != Cell.CELL_TYPE_NUMERIC) 
+			return Double.NaN;
 		return currentCell.getNumericCellValue();
 	}
-	
 }

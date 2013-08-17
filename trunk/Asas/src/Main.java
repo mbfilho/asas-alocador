@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.PrintWriter;
 import java.text.Collator;
 import java.util.List;
 
@@ -70,6 +71,11 @@ public class Main {
 		
 		List<String> errors = StateService.getInstance().loadStateFromExcel(new ExcelPreferences());
 		WarningGeneratorService warningService = new WarningGeneratorService();
+		PrintWriter out = new PrintWriter("log.txt");
+		for(String error : errors){
+			out.println(error);
+		}
+		out.close();
 		new Visualizer(warningService);
 	}
 }
