@@ -14,11 +14,19 @@ public class ExcelPreferences {
 	private String ecMarker = "EC";
 	private String ccMarker = "CC";
 	private String semesterSeparator = ";";
-	private String graduationRequiredMarker = "Obrigatórias da Graduação";
+	private String requiredByGraduationMarker = "Obrigatórias da Graduação";
 	private String okMarker = "OK";
 	private String graduationElectiveMarker = "Eletivas da Graduação";
 	private int professorCount = 3;
 	private String requiredByOtherCentersMaker = "Obrigatórias de outros Centros";
+	private String endOfFileMarker = "Professores Afastados";
+	private String electivesFromPosGraduationMaker = "Eletivas da Pós-graduação";
+	private String requiredByPosGraduationMaker = "Obrigatórias da Pós";
+	private boolean requiredByOtherCentersOption = true;
+	private boolean electivesFromGraduationOption = false;
+	private boolean requiredByPosGraduationOption = true;
+	private boolean electivesFromPosGraduationOption = true;
+	private boolean requiredByGraduationOption = true;
 	
 	private List<String> createList(String ... args){
 		List<String> list = new LinkedList<String>();
@@ -78,15 +86,15 @@ public class ExcelPreferences {
 		this.classesSheet = classesSheet;
 	}
 
-	public String getGraduationRequiredMarker() {
-		return graduationRequiredMarker;
+	public String getRequiredByGraduationMarker() {
+		return requiredByGraduationMarker;
 	}
 
 	public String getOkMarker() {
 		return okMarker;
 	}
 
-	public String getGraduationElectiveMaker() {
+	public String getElectivesFromGraduationMaker() {
 		return graduationElectiveMarker;
 	}
 
@@ -130,5 +138,37 @@ public class ExcelPreferences {
 
 	public String getSlotHourSeparator() {
 		return slotHoursSeparator;
+	}
+
+	public String getRequiredByPosGraduationMarker() {
+		return requiredByPosGraduationMaker;
+	}
+
+	public String getElectivesFromPosGraduationMarker() {
+		return electivesFromPosGraduationMaker;
+	}
+
+	public String getEndOfFileMarker() {
+		return endOfFileMarker;
+	}
+
+	public boolean isRequiredByOtherCentersEnabled() {
+		return requiredByOtherCentersOption;
+	}
+
+	public boolean isElectivesFromGraduationEnabled() {
+		return electivesFromGraduationOption;
+	}
+
+	public boolean isRequiredByPosGraduationEnabled() {
+		return requiredByPosGraduationOption;
+	}
+
+	public boolean isElectivesFromPosGraduationEnabled() {
+		return electivesFromPosGraduationOption;
+	}
+
+	public boolean isRequiredByGraduationEnabled() {
+		return requiredByGraduationOption;
 	}
 }

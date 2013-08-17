@@ -43,8 +43,30 @@ public class ExcelClassReader extends ClassReader{
 	public DataValidation<Repository<Class>> read()	throws InvalidInputException {
 		try {
 			openWorkbook();
-			ignoreUntil(excelPrefs.getGraduationRequiredMarker());
-			readGraduationRequired();
+			ignoreUntil(excelPrefs.getRequiredByGraduationMarker());
+			
+			if(excelPrefs.isRequiredByGraduationEnabled()){
+				readGraduationRequired();
+				ignoreRow();
+			}else ignoreUntil(excelPrefs.getRequiredByOtherCentersMarker());
+			
+			if(excelPrefs.isRequiredByOtherCentersEnabled()){
+				readRequiredByOtherCenters();
+				ignoreRow();
+			}else ignoreUntil(excelPrefs.getElectivesFromGraduationMaker());
+
+			if(excelPrefs.isElectivesFromGraduationEnabled()){
+				readElectivesFromGraduation();
+				ignoreRow();
+			}else ignoreUntil(excelPrefs.getRequiredByPosGraduationMarker());
+			
+			if(excelPrefs.isRequiredByPosGraduationEnabled()){
+				readRequiredByPosGraduation();
+				ignoreRow();
+			}else ignoreUntil(excelPrefs.getElectivesFromPosGraduationMarker());
+			
+			if(excelPrefs.isElectivesFromPosGraduationEnabled())
+				readElectivesFromPosGraduation();
 			
 			DataValidation<Repository<Class>> x = new DataValidation<Repository<Class>>();
 			x.validation = new Vector<String>(errors);
@@ -70,21 +92,43 @@ public class ExcelClassReader extends ClassReader{
 		reader.goToNextRow();
 	}
 	
-	private void readGraduationRequired() {
+	private void readClassesUntil(String marker){
 		while(true){
-			String name = reader.readString();
-			if(name.equals(excelPrefs.getRequiredByOtherCentersMarker())) break;
-//			System.out.println("|" + name + "|");
-			Class theClass = readClass(name);
+			String name = reader.peekString();
+			if(name.equals(marker)) break;
+			Class theClass = readClass();
 			ignoreRow();
 			if(theClass == null) continue;
 			service.add(theClass);
 		}
 	}
 	
-	private Class readClass(String name){
+	private void readGraduationRequired() {
+		readClassesUntil(excelPrefs.getRequiredByOtherCentersMarker());
+	}
+	
+	private void readRequiredByOtherCenters(){
+		readClassesUntil(excelPrefs.getElectivesFromGraduationMaker());
+	}
+	
+	//TODO: deve ser feito de maneira diferente, não?
+	private void readElectivesFromGraduation(){
+		readClassesUntil(excelPrefs.getRequiredByPosGraduationMarker());
+	}
+	
+	private void readRequiredByPosGraduation(){
+		readClassesUntil(excelPrefs.getElectivesFromPosGraduationMarker());
+	}
+	
+	private void readElectivesFromPosGraduation(){
+		readClassesUntil(excelPrefs.getEndOfFileMarker());
+	}
+	
+	
+	private Class readClass(){
 		Class theClass = new Class();
-		theClass.setName(name);
+		theClass.setName(reader.readString());
+		
 		String ok = reader.readString();
 		boolean includeClass = ok.equals(excelPrefs.getOkMarker());
 
@@ -166,15 +210,11 @@ public class ExcelClassReader extends ClassReader{
 	private void readSemesterToClass(Class theClass) {
 		String semester = reader.readString() + " ";
 		if(StringUtil.isNullOrEmpty(semester)) return;
-		
+
 		if(semester.contains(excelPrefs.getSemesterSeparator())){
 			String[] ccEC = semester.split(excelPrefs.getSemesterSeparator());
-			
-			if(theClass.getName().contains(excelPrefs.getCCMarker())) ccEC[1] = null;
-			if(theClass.getName().contains(excelPrefs.getECMarker())) ccEC[0] = null;
-			
-			theClass.setCcSemester(StringUtil.isNullOrEmpty(ccEC[0]) ? -1 : Integer.parseInt(ccEC[0].trim()));
-			theClass.setEcSemester(StringUtil.isNullOrEmpty(ccEC[1]) ? -1 : Integer.parseInt(ccEC[1].trim()));
+			theClass.setCcSemester(StringUtil.sanitize(ccEC[0]));
+			theClass.setEcSemester(StringUtil.sanitize(ccEC[1]));
 		}else
 			errors.add(String.format("Turma '%s' com semestre inválido: '%s'", theClass.getName(), semester));
 	}
@@ -229,7 +269,7 @@ public class ExcelClassReader extends ClassReader{
 		if(!hourRange.contains(excelPrefs.getSlotHourSeparator())) return null;
 		String stAndEnd[] = hourRange.split(excelPrefs.getSlotHourSeparator());
 		
-		return new Pair<String, String>(stAndEnd[0], stAndEnd[1]);
+		return new Pair<String, String>(StringUtil.sanitize(stAndEnd[0]), StringUtil.sanitize(stAndEnd[1]));
 	}
 
 	/**
@@ -247,7 +287,7 @@ public class ExcelClassReader extends ClassReader{
 		if(!slot.contains(daySeparator)) return null;
 		String dayAndRange[] = slot.split(daySeparator);
 		if(dayAndRange.length != 2) return null;
-		return new Pair<String, String>(dayAndRange[0], dayAndRange[1]);
+		return new Pair<String, String>(StringUtil.sanitize(dayAndRange[0]), StringUtil.sanitize(dayAndRange[1]));
 	}
 	
 	//recebe hh:mm

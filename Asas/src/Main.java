@@ -3,10 +3,13 @@ import java.io.PrintWriter;
 import java.text.Collator;
 import java.util.List;
 
+import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import preferences.ExcelPreferences;
+import preferences.gui.EditPreferencesLayout;
+import preferences.gui.RoomListEditorInterface;
 
 import dataUpdateSystem.RegistrationCentral;
 
@@ -69,13 +72,18 @@ public class Main {
 		StateService.getInstance().save();
 		//*/
 		
+		/*/
+		File tmp = new File("config.asas");
+		if(tmp.exists()) tmp.delete();
 		List<String> errors = StateService.getInstance().loadStateFromExcel(new ExcelPreferences());
-		WarningGeneratorService warningService = new WarningGeneratorService();
 		PrintWriter out = new PrintWriter("log.txt");
 		for(String error : errors){
 			out.println(error);
 		}
 		out.close();
+		//*/
+		WarningGeneratorService warningService = new WarningGeneratorService();
+		//new EditPreferencesLayout();
 		new Visualizer(warningService);
 	}
 }

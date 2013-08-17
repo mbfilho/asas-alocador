@@ -17,7 +17,7 @@ public class StringUtil {
 	}
 	
 	public static boolean isNullOrEmpty(String arg){
-		return arg == null || arg.trim().equals("");
+		return arg == null || sanitize(arg).equals("");
 	}
 	
 	public static String sanitize(String arg){
