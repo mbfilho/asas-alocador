@@ -10,6 +10,8 @@ import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.Vector;
 
+import javax.print.attribute.standard.SheetCollate;
+
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,13 +19,17 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
+import com.smartxls.WorkBook;
+
 
 public class Main implements Iterable<Integer> {
 	
 	
-	public void faz() throws InvalidFormatException, IOException{
+	public void faz() throws IOException{
 		String fileLocation = "C:\\Users\\Marcio Barbosa\\Dropbox\\2013.1\\tg\\implementacao\\dados\\Alocacao2013-2.horario.xlsm";
-		Workbook book = WorkbookFactory.create(new File(fileLocation));
+		WorkBook book = new WorkBook();
+		book.read(new FileInputStream(new File(fileLocation)));
+		
 		Sheet s = book.getSheet("Alocacao2013-2");
 		Row r = s.getRow(51);
 		for(int i = 0; i < 10; ++i){

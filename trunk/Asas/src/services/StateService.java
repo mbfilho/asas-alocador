@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -156,16 +155,20 @@ public class StateService {
 		}
 	}
 	
-	public List<String> loadStateFromExcel(ExcelPreferences prefs){
+	public List<String> switchToLoadedStateFromExcel(ExcelPreferences prefs, StateDescription desc)
+		throws StateIOException{
 		State current = currentState;
 		currentState = new State();
-		currentState.setStateDescription("excel_generated", "Lido do excel", false);
+		currentState.description = desc;
 		try{
 			ExcelClassReader classReader = new ExcelClassReader(prefs);
 			DataValidation<Repository<Professor>> professors = new FileProfessorReader().read();
 			DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read();
 			DataValidation<Repository<Class>> validation = classReader.read();
 			save();
+
+			states.add(currentState.description);
+			flushDescriptions();
 			RegistrationCentral.registerUpdate("Estado carregado do excel");
 			return validation.validation;
 		}catch(Exception ex){

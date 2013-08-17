@@ -46,7 +46,7 @@ public class WorkbookReader {
 		currentCellNumber = 0;
 	}
 	
-	public String peekCellValue(){
+	public String peekString(){
 		String val = readString();
 		--currentCellNumber;
 		return val;

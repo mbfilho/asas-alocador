@@ -5,6 +5,8 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Vector;
 
+import utilities.StringUtil;
+
 public class Class implements NamedEntity, Serializable{
 	private static final long serialVersionUID = -4317770498263255354L;
 	
@@ -37,7 +39,7 @@ public class Class implements NamedEntity, Serializable{
 	}
 
 	public void setCcSemester(String ccSemester) {
-		if(ccSemester == null || ccSemester.trim().equals("")) setCcSemester(-1);
+		if(StringUtil.isNullOrEmpty(ccSemester)) setCcSemester(-1);
 		else setCcSemester(Integer.parseInt(ccSemester));
 	}
 	
@@ -50,7 +52,7 @@ public class Class implements NamedEntity, Serializable{
 	}
 	
 	public void setEcSemester(String ecSemester) {
-		if(ecSemester == null || ecSemester.trim().equals("")) setEcSemester(-1);
+		if(StringUtil.isNullOrEmpty(ecSemester)) setEcSemester(-1);
 		else setEcSemester(Integer.parseInt(ecSemester));
 	}
 	
