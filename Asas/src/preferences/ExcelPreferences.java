@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ExcelPreferences {
-	private String fileLocation = "/home/marcio/Dropbox/2013.1/tg/Alocacao2013-1.horario_ (3).xlsm";
+	private String fileLocation = "C:\\Users\\Marcio Barbosa\\Dropbox\\2013.1\\tg\\implementacao\\dados\\Alocacao2013-2.horario.xlsm";
 	private String classesSheet = "Alocacao2013-2";
 	private HashMap<String, List<String>> codeToRoomMapping;
 	private String slotHoursSeparator = "-";

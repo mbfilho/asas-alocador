@@ -20,4 +20,25 @@ public class StringUtil {
 		return arg == null || arg.trim().equals("");
 	}
 	
+	public static String sanitize(String arg){
+		arg = arg.trim();
+		int ini = 0, fim = arg.length() - 1;
+		while(ini < arg.length()){
+			char ch = arg.charAt(ini);
+			if(!Character.isWhitespace((int) ch) && !Character.isSpaceChar(ch)) break;
+			++ini;
+		}
+		
+		while(fim >= ini){
+			char ch = arg.charAt(fim);
+			if(!Character.isWhitespace(ch) && !Character.isSpaceChar(ch)) break;
+			--fim;
+		}
+		if(ini <= fim)
+			return arg.substring(ini, fim+1);
+		else
+			return "";
+			
+	}
+	
 }
