@@ -29,6 +29,7 @@ import java.awt.GridBagLayout;
 import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
+import excelPreferences.gui.EditExcelPreferences;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
@@ -100,6 +101,15 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				}
 			}
 		});
+		
+		JMenuItem mntmCarregarExcel = new JMenuItem("Carregar Excel");
+		mntmCarregarExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new EditExcelPreferences();
+			}
+		});
+		mntmCarregarExcel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+		mnEstado.add(mntmCarregarExcel);
 		mntmSalvar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
 		mnEstado.add(mntmSalvar_1);
 		

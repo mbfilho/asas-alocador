@@ -1,4 +1,4 @@
-package preferences.gui;
+package excelPreferences.gui;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;

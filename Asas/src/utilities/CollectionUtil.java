@@ -1,6 +1,8 @@
 package utilities;
 
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 public class CollectionUtil {
@@ -21,5 +23,11 @@ public class CollectionUtil {
 	
 	public static <T> T firstOrDefault(Collection<T> theCollection){
 		return firstOrDefault(theCollection, null);
+	}
+	
+	public static <T> List<T> createList(T ... args){
+		List<T> list = new LinkedList<T>();
+		for(T a : args) list.add(a);
+		return list;
 	}
 }

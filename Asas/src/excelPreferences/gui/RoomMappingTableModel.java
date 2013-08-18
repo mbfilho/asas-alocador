@@ -1,4 +1,4 @@
-package preferences.gui;
+package excelPreferences.gui;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -15,19 +15,29 @@ public class RoomMappingTableModel extends AbstractTableModel{
 	
 	public RoomMappingTableModel(){
 		mapping = new ArrayList<Pair<String,List<String>>>();
-		List<String> x = new LinkedList<String>();
-		x.add("D-005");
-		x.add("D-002");
-		mapping.add(new Pair<String, List<String>>("92", x));
-		fireTableDataChanged();
+		addNewEmptyRow();
+	}
+	
+	public void addNewRow(String code, List<String> rooms){
+		mapping.remove(mapping.size()-1);
+		mapping.add(new Pair<String, List<String>>(code, rooms));
+		addNewEmptyRow();
 	}
 	
 	public void setValueAt(Object value, int row, int col){
 		Pair<String, List<String>> pair = mapping.get(row);
 		if(col == 0) pair.first = (String) value;
 		else pair.second = (List<String>) value;
+		
+		if(row == mapping.size() - 1)
+			addNewEmptyRow();
 	}
 	
+	private void addNewEmptyRow() {
+		mapping.add(new Pair<String, List<String>>(null, new LinkedList<String>()));
+		fireTableDataChanged();
+	}
+
 	public boolean isCellEditable(int row, int col){
 		return true;
 	}

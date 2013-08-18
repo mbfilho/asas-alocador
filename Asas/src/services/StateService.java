@@ -19,7 +19,6 @@ import basic.Classroom;
 import basic.DataValidation;
 import basic.Professor;
 
-import preferences.ExcelPreferences;
 
 import repository.Repository;
 import state.State;
@@ -29,6 +28,7 @@ import state.persistence.fileReaders.FileClassRoomReader;
 import state.persistence.fileReaders.FileProfessorReader;
 
 
+import excelPreferences.ExcelPreferences;
 import exceptions.StateIOException;
 import basic.Class;
 
@@ -155,9 +155,17 @@ public class StateService {
 		}
 	}
 	
+	private void completeSwitchingToExcelState(ExcelPreferences toSave) throws IOException, StateIOException{
+		save();
+		states.add(currentState.description);
+		flushDescriptions();
+		RegistrationCentral.registerUpdate("Estado carregado do excel");
+		toSave.saveToFile();
+	}
+	
 	public List<String> switchToLoadedStateFromExcel(ExcelPreferences prefs, StateDescription desc)
 		throws StateIOException{
-		State current = currentState;
+		State old = currentState;
 		currentState = new State();
 		currentState.description = desc;
 		try{
@@ -165,19 +173,17 @@ public class StateService {
 			DataValidation<Repository<Professor>> professors = new FileProfessorReader().read();
 			DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read();
 			DataValidation<Repository<Class>> validation = classReader.read();
-			save();
-
-			states.add(currentState.description);
-			flushDescriptions();
-			RegistrationCentral.registerUpdate("Estado carregado do excel");
+			completeSwitchingToExcelState(prefs);
 			return validation.validation;
 		}catch(Exception ex){
 			try {
-				if(current != null)
-					setCurrentState(current.description);
+				if(old != null)
+					setCurrentState(old.description);
 			} catch (StateIOException e) {}
 			ex.printStackTrace();
-			return null;
+			List<String> erro = new Vector<String>();
+			erro.add("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
+			return erro;
 		}
 		
 		

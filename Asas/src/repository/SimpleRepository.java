@@ -2,6 +2,7 @@ package repository;
 
 import java.io.Serializable;
 import java.text.Collator;
+import java.util.Iterator;
 import java.util.Vector;
 
 import basic.NamedEntity;
@@ -51,5 +52,9 @@ public class SimpleRepository <T extends NamedEntity> implements Repository<T>, 
 
 	public void remove(T entity) {
 		entities.remove(entity);
+	}
+
+	public Iterator<T> iterator() {
+		return entities.iterator();
 	}
 }

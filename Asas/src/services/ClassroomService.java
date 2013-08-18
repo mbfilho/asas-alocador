@@ -36,5 +36,4 @@ public class ClassroomService {
 	public Collection<Classroom> all(){
 		return list().all();
 	}
-	
 }
