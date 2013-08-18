@@ -139,9 +139,14 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 	}
 	
 	private void setFilePathToFileTextBox(File theFile){
-		getFilePathText().setText(theFile.getAbsolutePath());
-		if(theFile.exists()) getFilePathText().setBackground(Color.white);
-		else getFilePathText().setBackground(ColorUtil.mixWithWhite(Color.red));
+		Color error = ColorUtil.mixWithWhite(Color.red), fine = Color.white, bg = error;
+		
+		if(theFile == null)	getFilePathText().setText("");
+		else{
+			getFilePathText().setText(theFile.getAbsolutePath());
+			if(theFile.exists()) bg = fine;
+		}
+		getFilePathText().setBackground(bg);
 	}
 	
 }
