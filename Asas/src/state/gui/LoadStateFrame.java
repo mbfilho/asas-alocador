@@ -56,7 +56,6 @@ public class LoadStateFrame extends ChooseStateFrame {
 			StateService service = StateService.getInstance(); 
 			try {
 				service.setCurrentState(getSelected().data);
-				RegistrationCentral.registerUpdate("Novo estado");
 				this.dispose();
 			} catch (StateIOException e) {
 				JOptionPane.showMessageDialog(this, e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);

@@ -84,7 +84,8 @@ public class StateService {
 	}
 	
 	public synchronized void setCurrentState(StateDescription s) throws StateIOException{
-		currentState =  loadState(s);
+		currentState = loadState(s);
+		RegistrationCentral.registerUpdate("Novo estado");
 	}
 	
 	public Vector<StateDescription> allStates(){
@@ -95,6 +96,8 @@ public class StateService {
 		states.add(s.description);
 		flushState(s);
 		flushDescriptions();
+		currentState = s;
+		RegistrationCentral.registerUpdate("Novo estado");
 	}
 	
 	public void remove(State s) throws StateIOException{
