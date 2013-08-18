@@ -17,7 +17,7 @@ public class GuiUtil {
 		
 		for(int i = 0; i < model.getSize(); ++i){
 			NamedPair pair = model.getElementAt(i);
-			if(pair.data == value){
+			if((pair.data == null && value == null) || (pair.data != null && pair.data.equals(value))){
 				cbox.setSelectedIndex(i);
 				break;
 			}

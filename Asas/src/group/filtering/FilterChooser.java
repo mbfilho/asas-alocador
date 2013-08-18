@@ -141,7 +141,7 @@ public abstract class FilterChooser extends JPanel implements Updatable{
 			if(isSemesterFilteringEnabled() && initialConfig.theSemester != -1){
 				periodoCheck.setSelected(true);
 				periodoCBox.setEnabled(true);
-				GuiUtil.setSelectedValue(periodoCBox, initialConfig.theSemester);
+				GuiUtil.setSelectedValue(periodoCBox, "" + initialConfig.theSemester);
 			}
 		}
 	}
