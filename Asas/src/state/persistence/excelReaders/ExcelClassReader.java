@@ -213,6 +213,9 @@ public class ExcelClassReader extends ClassReader{
 
 		if(semester.contains(excelPrefs.getSemesterSeparator())){
 			String[] ccEC = semester.split(excelPrefs.getSemesterSeparator());
+			if(theClass.getName().contains(ExcelPreferences.CC_MARKER)) ccEC[1] = "";
+			if(theClass.getName().contains(ExcelPreferences.EC_MARKER)) ccEC[0] = "";
+			
 			theClass.setCcSemester(StringUtil.sanitize(ccEC[0]));
 			theClass.setEcSemester(StringUtil.sanitize(ccEC[1]));
 		}else
