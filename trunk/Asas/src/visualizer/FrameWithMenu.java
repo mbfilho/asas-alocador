@@ -301,5 +301,10 @@ public class FrameWithMenu extends JFrame implements Updatable{
 	
 	public void onDataUpdate(UpdateDescription desc) {
 		updateWarningCountText();
+		StateService stateService = StateService.getInstance();
+		if(stateService.hasValidState())
+			setTitle("Visualizar - " + stateService.getCurrentState().getName());
+		else
+			setTitle("Visualizar - Nenhum estado carregado.");
 	}
 }
