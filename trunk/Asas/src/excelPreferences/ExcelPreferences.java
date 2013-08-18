@@ -17,14 +17,14 @@ import utilities.CollectionUtil;
 public class ExcelPreferences implements Serializable{
 	private static final long serialVersionUID = -3625638456021737156L;
 	
-	private static final String EXCEL_PREFERENCES_FILENAME = "excelPreferences.config";
+	private static final String EXCEL_PREFERENCES_FILENAME = String.format("configs%sexcelPreferences.config", File.separator);
 	public static final String EC_MARKER = "EC";
 	public static final String CC_MARKER = "CC";
 	public static final String SLOT_HOURS_SEPARATOR = "-";
 	public static final String SLOT_DAY_SEPARATOR = ",";
 	public static final String OK_MARKER = "OK";
 	
-	private File fileLocation = new File("C:\\Users\\Marcio Barbosa\\Dropbox\\2013.1\\tg\\implementacao\\dados\\Alocacao2013-2.horario.xlsm");
+	private File fileLocation = null;
 	private String classesSheet = "Alocacao2013-2";
 	private HashMap<String, List<String>> codeToRoomMapping;
 	private int slotCount = 3;
