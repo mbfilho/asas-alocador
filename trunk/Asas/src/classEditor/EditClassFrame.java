@@ -16,7 +16,6 @@ import basic.SlotRange;
 import schedule.table.ScheduleVisualizationTable;
 import schedule.table.models.DisponibilityModel;
 import services.ClassService;
-import services.ProfessorService;
 import utilities.GuiUtil;
 
 import javax.swing.JScrollPane;

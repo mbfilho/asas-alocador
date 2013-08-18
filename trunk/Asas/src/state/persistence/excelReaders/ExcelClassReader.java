@@ -7,12 +7,12 @@ import java.util.Vector;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
-import preferences.ExcelPreferences;
 import basic.Class;
 import basic.Classroom;
 import basic.DataValidation;
 import basic.Professor;
 import basic.SlotRange;
+import excelPreferences.ExcelPreferences;
 import exceptions.InvalidInputException;
 import repository.Repository;
 import services.ClassService;
@@ -130,7 +130,7 @@ public class ExcelClassReader extends ClassReader{
 		theClass.setName(reader.readString());
 		
 		String ok = reader.readString();
-		boolean includeClass = ok.equals(excelPrefs.getOkMarker());
+		boolean includeClass = ok.equalsIgnoreCase(ExcelPreferences.OK_MARKER);
 
 		if(!includeClass)
 			return null;
@@ -235,16 +235,18 @@ public class ExcelClassReader extends ClassReader{
 	private void readSlotsToClass(List<String> classrooms, Class theClass) {
 		for(int i = 0; i < excelPrefs.getSlotCount(); ++i){
 			String slot = reader.readString();
+			if(StringUtil.isNullOrEmpty(slot)) continue;
+			
 			Pair<String, String> dayAndHour = divideIntoSlotDayAndHourRange(slot);
 			if(dayAndHour == null){
-				errors.add(String.format("1. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("Não foi possível ler o horário (%d) '%s' da disciplina '%s'", i, slot, theClass.getName()));
 				continue;
 			}
 			
 			String day = dayAndHour.first, hourRange = dayAndHour.second;
 			Pair<String, String> startAndEndHour = divideIntoStartAndEndHour(hourRange);
 			if(startAndEndHour == null){
-				errors.add(String.format("2. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("Não foi possível ler o horário (%d) '%s' da disciplina '%s'", i, slot, theClass.getName()));
 				continue;
 			}
 			int startSlotNumber = getSlotNumberOfIniHour(startAndEndHour.first);
@@ -252,7 +254,7 @@ public class ExcelClassReader extends ClassReader{
 			int dayIndex = getDayIndex(day);
 		
 			if(dayIndex == -1 || startSlotNumber == -1 || endSlotNumber == -1){
-				errors.add(String.format("2. Não foi possível ler o horário '%s' da disciplina '%s'", slot, theClass.getName()));
+				errors.add(String.format("Não foi possível ler o horário (%d) '%s' da disciplina '%s'", i, slot, theClass.getName()));
 				continue;
 			}
 			
@@ -266,8 +268,8 @@ public class ExcelClassReader extends ClassReader{
 	
 	private Pair<String, String> divideIntoStartAndEndHour(String hourRange) {
 		if(StringUtil.isNullOrEmpty(hourRange)) return null;
-		if(!hourRange.contains(excelPrefs.getSlotHourSeparator())) return null;
-		String stAndEnd[] = hourRange.split(excelPrefs.getSlotHourSeparator());
+		if(!hourRange.contains(ExcelPreferences.SLOT_HOURS_SEPARATOR)) return null;
+		String stAndEnd[] = hourRange.split(ExcelPreferences.SLOT_HOURS_SEPARATOR);
 		
 		return new Pair<String, String>(StringUtil.sanitize(stAndEnd[0]), StringUtil.sanitize(stAndEnd[1]));
 	}
@@ -282,7 +284,7 @@ public class ExcelClassReader extends ClassReader{
 	 */
 	private Pair<String, String> divideIntoSlotDayAndHourRange(String slot){
 		if(StringUtil.isNullOrEmpty(slot)) return null;
-		String daySeparator = excelPrefs.getSlotDaySeparator();
+		String daySeparator = ExcelPreferences.SLOT_DAY_SEPARATOR;
 		if(!slot.contains(daySeparator)) daySeparator = " ";
 		if(!slot.contains(daySeparator)) return null;
 		String dayAndRange[] = slot.split(daySeparator);

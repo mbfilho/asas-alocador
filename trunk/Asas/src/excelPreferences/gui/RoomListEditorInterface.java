@@ -1,30 +1,18 @@
-package preferences.gui;
+package excelPreferences.gui;
 
-import java.awt.Component;
-import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.CellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.ListModel;
-import javax.swing.event.CellEditorListener;
-import javax.swing.table.TableCellEditor;
-
-import basic.Classroom;
-
-import services.ClassroomService;
+import utilities.ClassroomList;
 
 public abstract class RoomListEditorInterface extends RoomListEditorInterfaceLayout {
-
-	private ClassroomService roomService;
+	private static final long serialVersionUID = -8917701648713941524L;
+	
 	private DefaultComboBoxModel<String> cboxModel;
 	private DefaultListModel<String> listModel;
 	
@@ -32,10 +20,15 @@ public abstract class RoomListEditorInterface extends RoomListEditorInterfaceLay
 	
 	public RoomListEditorInterface(JFrame parent){
 		super(parent);
-		roomService = new ClassroomService();
 		cboxModel = (DefaultComboBoxModel<String>) (getAllRoomsCBox().getModel());
 		listModel = (DefaultListModel<String>) getRoomsList().getModel();
+		addRoomsToCBox();
 		configureActions();
+	}
+
+	private void addRoomsToCBox() {
+		for(String roomName : ClassroomList.readClassroomListFromFile())
+			cboxModel.addElement(roomName);
 	}
 	
 	private void moveSelected(int shift){
@@ -49,11 +42,6 @@ public abstract class RoomListEditorInterface extends RoomListEditorInterfaceLay
 	}
 	
 	private void configureActions(){
-		for(Classroom room : roomService.all())
-			cboxModel.addElement(room.getName());
-		cboxModel.addElement("D-005");
-		cboxModel.addElement("D-004");
-		
 		getUpButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				moveSelected(-1);

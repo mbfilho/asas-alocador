@@ -11,41 +11,44 @@ import java.util.TreeSet;
 import java.util.Vector;
 
 import javax.print.attribute.standard.SheetCollate;
+import javax.swing.JOptionPane;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
+import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.apache.poi.xssf.eventusermodel.XSSFReader;
 
-import com.smartxls.WorkBook;
 
 
 public class Main implements Iterable<Integer> {
+	public static String fileLocation = "C:\\Users\\Marcio Barbosa\\Dropbox\\2013.1\\tg\\implementacao\\dados\\Alocacao2013-2.horario.xlsm";
 	
 	
-	public void faz() throws IOException{
-		String fileLocation = "C:\\Users\\Marcio Barbosa\\Dropbox\\2013.1\\tg\\implementacao\\dados\\Alocacao2013-2.horario.xlsm";
-		WorkBook book = new WorkBook();
-		book.read(new FileInputStream(new File(fileLocation)));
+	public static void faz() throws IOException, InvalidFormatException{
+		Workbook book = WorkbookFactory.create(new File(fileLocation));
 		
 		Sheet s = book.getSheet("Alocacao2013-2");
-		Row r = s.getRow(51);
-		for(int i = 0; i < 10; ++i){
-			System.out.print(r.getCell(i) + "["+ (r.getCell(i).getCellType() == Cell.CELL_TYPE_BLANK) + "]|");
+		for(Row r : s){
+			for(Cell c : r)
+				System.out.print(c + "|");
+			System.out.println();
 		}
-		System.out.println();
-		for(Cell c : r){
-			System.out.print(c + "|");
-		}
+		
+		JOptionPane.showMessageDialog(null, "Lido");
 	}
 	
-	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, InvalidFormatException {
-		char ch[] = {'\t', '\r', ' ', '\n', };
-		
-		for(char c : ch)
-			System.out.println(Character.isWhitespace(c) + " x " + Character.isSpace(c));
+	public static void faz2() throws IOException, OpenXML4JException{
+		XSSFReader reader = new XSSFReader(OPCPackage.open(new File(fileLocation)));
+		System.out.println(reader.getSheet("Alocacao2013-2"));
+	}
+	
+	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, OpenXML4JException {
+		faz2();
 	}
 
 	public Iterator<Integer> iterator() {

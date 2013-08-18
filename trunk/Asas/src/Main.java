@@ -7,11 +7,12 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import preferences.ExcelPreferences;
-import preferences.gui.EditPreferencesLayout;
-import preferences.gui.RoomListEditorInterface;
 
 import dataUpdateSystem.RegistrationCentral;
+import excelPreferences.ExcelPreferences;
+import excelPreferences.gui.EditExcelPreferences;
+import excelPreferences.gui.EditExcelPreferencesLayout;
+import excelPreferences.gui.RoomListEditorInterface;
 
 
 
@@ -25,6 +26,7 @@ import repository.Repository;
 import services.StateService;
 import services.WarningGeneratorService;
 import state.State;
+import state.StateDescription;
 import state.persistence.fileReaders.FileClassReader;
 import state.persistence.fileReaders.FileClassRoomReader;
 import state.persistence.fileReaders.FileElectivePreferenceReader;
@@ -75,7 +77,7 @@ public class Main {
 		/*/
 		File tmp = new File("config.asas");
 		if(tmp.exists()) tmp.delete();
-		List<String> errors = StateService.getInstance().loadStateFromExcel(new ExcelPreferences());
+		List<String> errors = StateService.getInstance().switchToLoadedStateFromExcel(new ExcelPreferences(), new StateDescription("excel_generated", "Gerado do excel"));
 		PrintWriter out = new PrintWriter("log.txt");
 		for(String error : errors){
 			out.println(error);
@@ -83,7 +85,7 @@ public class Main {
 		out.close();
 		//*/
 		WarningGeneratorService warningService = new WarningGeneratorService();
-		//new EditPreferencesLayout();
+		//new EditExcelPreferences();
 		new Visualizer(warningService);
 	}
 }
