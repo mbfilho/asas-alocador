@@ -7,6 +7,8 @@ import schedule.FilteredScheduleVisualizer;
 import utilities.DisposableOnEscFrame;
 
 public class AdditionalVisualizationFrame extends DisposableOnEscFrame {
+	private static final long serialVersionUID = -602532138880278167L;
+	
 	private final int HEIGHT = 500, WIDTH = 500;
 	private FilteredScheduleVisualizer scheduleVisualization;
 	

@@ -3,7 +3,6 @@ import group.filtering.InitialFilterConfiguration;
 import basic.Class;
 import basic.Classroom;
 import basic.Professor;
-import basic.SlotRange;
 
 public class InitialEditState {
 	public Class theClass;
