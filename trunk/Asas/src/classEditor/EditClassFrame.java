@@ -17,6 +17,7 @@ import schedule.table.ScheduleVisualizationTable;
 import schedule.table.models.DisponibilityModel;
 import services.ClassService;
 import utilities.GuiUtil;
+import utilities.Pair;
 
 import javax.swing.JScrollPane;
 
@@ -42,6 +43,17 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 		configureElementsData();
 		configureElementsActions();
 		setupInitialState(initialState);
+		new PeriodicClassComparator() {
+			protected void onChangeState(boolean isDirty) {
+				getChangesHappenedwarningLabel().setVisible(isDirty);
+			}
+			
+			protected Pair<Class, Class> getClassesToCompare() {
+				Class one = new Class(), another = GuiUtil.getSelectedItem(classesComboBox);;
+				setValuesToClass(one);
+				return new Pair<Class, Class>(one, another);
+			}
+		};
 		setVisible(true);
 	}
 	

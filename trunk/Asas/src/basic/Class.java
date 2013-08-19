@@ -65,6 +65,8 @@ public class Class implements NamedEntity, Serializable{
 	}
 
 	public void setCourse(String course) {
+		if(StringUtil.isNullOrEmpty(course))
+			course = null;
 		this.course = course;
 	}
 
@@ -81,10 +83,14 @@ public class Class implements NamedEntity, Serializable{
 	}
 
 	public void setCode(String code) {
+		if(StringUtil.isNullOrEmpty(code))
+			code = null;
 		this.code = code;
 	}
 
 	public void setName(String name){
+		if(StringUtil.isNullOrEmpty(name)) 
+			name = null;
 		this.name = name;
 	}
 	

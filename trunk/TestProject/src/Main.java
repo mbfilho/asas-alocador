@@ -48,7 +48,6 @@ public class Main implements Iterable<Integer> {
 	}
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, ClassNotFoundException, OpenXML4JException {
-		faz2();
 	}
 
 	public Iterator<Integer> iterator() {
