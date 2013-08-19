@@ -85,7 +85,6 @@ public class Main {
 		out.close();
 		//*/
 		WarningGeneratorService warningService = new WarningGeneratorService();
-		//new EditExcelPreferences();
 		new Visualizer(warningService);
 	}
 }

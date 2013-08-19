@@ -15,6 +15,9 @@ public class Professor implements NamedEntity, Serializable, MyCloneable{
 	private boolean temporary;
 	private boolean away;
 	
+	
+	public Professor(){}
+	
 	public Professor(String name, String email, String cargo, String dpto, boolean tmp, boolean away){
 		this.name = name;
 		this.email = email;

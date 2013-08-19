@@ -24,6 +24,7 @@ import repository.Repository;
 import state.State;
 import state.StateDescription;
 import state.persistence.excelReaders.ExcelClassReader;
+import state.persistence.excelReaders.ExcelProfessorReader;
 import state.persistence.fileReaders.FileClassRoomReader;
 import state.persistence.fileReaders.FileProfessorReader;
 
@@ -173,7 +174,7 @@ public class StateService {
 		currentState.description = desc;
 		try{
 			ExcelClassReader classReader = new ExcelClassReader(prefs);
-			DataValidation<Repository<Professor>> professors = new FileProfessorReader().read();
+			DataValidation<Repository<Professor>> professors = new ExcelProfessorReader(prefs).read();
 			DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read();
 			DataValidation<Repository<Class>> validation = classReader.read();
 			completeSwitchingToExcelState(prefs);
