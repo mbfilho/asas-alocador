@@ -13,7 +13,13 @@ public class CollectionUtil {
 	}
 	
 	public static <T> boolean equalsWithoutOrder(Collection<T> listA, Collection<T> listB){
-		return listA.containsAll(listB) && listB.containsAll(listA);
+		LinkedList<T> copyA = new LinkedList<T>(listA), copyB = new LinkedList<T>(listB);
+		while(!copyA.isEmpty() && !copyB.isEmpty()){
+			T a = copyA.pollFirst();
+			if(!copyB.contains(a)) return false;
+			copyB.remove(a);
+		}
+		return copyA.isEmpty() && copyB.isEmpty();
 	}
 	
 	public static <T> T firstOrDefault(Collection<T> theCollection, T defaultValue){
