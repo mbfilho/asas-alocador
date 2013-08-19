@@ -75,4 +75,8 @@ public class WorkbookReader {
 			return Double.NaN;
 		return currentCell.getNumericCellValue();
 	}
+
+	public boolean hasNextRow() {
+		return rows.hasNext();
+	}
 }

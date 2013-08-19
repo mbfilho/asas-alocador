@@ -68,7 +68,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 	 */
 	public EditExcelPreferencesLayout() {
 		setTitle("Editar preferências do excel.");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 711, 572);
 		
 		JPanel panel = new JPanel();

@@ -26,6 +26,7 @@ public class ExcelPreferences implements Serializable{
 	
 	private File fileLocation = null;
 	private String classesSheet = "Alocacao2013-2";
+	private String professorsSheet = "Professores CIn";
 	private HashMap<String, List<String>> codeToRoomMapping;
 	private int slotCount = 3;
 	private String semesterSeparator = ";";
@@ -268,6 +269,14 @@ public class ExcelPreferences implements Serializable{
 
 	public String getRequiredByPosGraduationMaker() {
 		return requiredByPosGraduationMaker;
+	}
+
+	public void setProfessorsSheet(String value){
+		this.professorsSheet = value;
+	}
+	
+	public String getProfessorsSheet() {
+		return professorsSheet;
 	}
 
 }
