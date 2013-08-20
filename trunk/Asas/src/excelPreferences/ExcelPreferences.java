@@ -42,6 +42,9 @@ public class ExcelPreferences implements Serializable{
 	private boolean requiredByPosGraduationOption = true;
 	private boolean electivesFromPosGraduationOption = true;
 	private boolean requiredByGraduationOption = true;
+
+	private String awayProfessorMarker = "Afastado Temporariamente";
+	private String temporaryProfessorMarker = "Prof. Temporario";
 	
 	public static ExcelPreferences defaultPreferences(){
 		ExcelPreferences prefs = new ExcelPreferences();
@@ -100,6 +103,7 @@ public class ExcelPreferences implements Serializable{
 	public void saveToFile() throws IOException{
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(EXCEL_PREFERENCES_FILENAME));
 		out.writeObject(this);
+		out.close();
 	}
 	
 	public ExcelPreferences(){
@@ -277,6 +281,22 @@ public class ExcelPreferences implements Serializable{
 	
 	public String getProfessorsSheet() {
 		return professorsSheet;
+	}
+
+	public String getTemporaryProfessorMarker() {
+		return temporaryProfessorMarker;
+	}
+	
+	public void setTemporaryProfessorMarker(String marker) {
+		this.temporaryProfessorMarker = marker;
+	}
+
+	public String getAwayProfessorMarker() {
+		return awayProfessorMarker;
+	}
+	
+	public void setAwayProfessorMarker(String marker) {
+		this.awayProfessorMarker = marker;
 	}
 
 }

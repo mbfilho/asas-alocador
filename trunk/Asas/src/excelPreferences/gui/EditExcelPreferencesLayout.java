@@ -1,7 +1,5 @@
 package excelPreferences.gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -18,6 +16,11 @@ import javax.swing.JSpinner;
 import javax.swing.border.TitledBorder;
 import java.awt.Component;
 import javax.swing.Box;
+import javax.swing.border.LineBorder;
+
+import utilities.DisposableOnEscFrame;
+
+import java.awt.Color;
 
 /**
  * Apenas código de configuração de Layout.
@@ -25,8 +28,9 @@ import javax.swing.Box;
  * @author Marcio Barbosa
  *
  */
-public class EditExcelPreferencesLayout extends JFrame {
-
+public class EditExcelPreferencesLayout extends DisposableOnEscFrame {
+	private static final long serialVersionUID = 8415201295520904925L;
+	
 	private JSpinner cntSlotText;
 	private JSpinner cntProfessorText;
 	private JTextField semesterSeparatorText;
@@ -46,30 +50,17 @@ public class EditExcelPreferencesLayout extends JFrame {
 	private JTextField requiredByPosGraduationText;
 	private JTextField electivesFromPosGraduationText;
 	private JTextField endOfFileMarkerText;
+	private JLabel professorsSheetLabel;
+	private JTextField professorsSheetText;
+	private JLabel temporaryProfessorLabel;
+	private JTextField temporaryProfessorText;
+	private JLabel awayProfessorLabel;
+	private JTextField awayProfessorText;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EditExcelPreferencesLayout frame = new EditExcelPreferencesLayout();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 */
 	public EditExcelPreferencesLayout() {
 		setTitle("Editar preferências do excel.");
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 711, 572);
+		setBounds(100, 100, 775, 572);
 		
 		JPanel panel = new JPanel();
 		GridBagLayout gbl_panel = new GridBagLayout();
@@ -89,9 +80,9 @@ public class EditExcelPreferencesLayout extends JFrame {
 		gbc_filePanel.gridy = 0;
 		panel.add(filePanel, gbc_filePanel);
 		GridBagLayout gbl_filePanel = new GridBagLayout();
-		gbl_filePanel.columnWidths = new int[]{112, 242, 271, 0};
+		gbl_filePanel.columnWidths = new int[]{112, 186, 165, 177, 0};
 		gbl_filePanel.rowHeights = new int[]{16, 0, 0, 0};
-		gbl_filePanel.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_filePanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_filePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		filePanel.setLayout(gbl_filePanel);
 		
@@ -111,6 +102,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		filePanel.add(searchButton, gbc_searchButton);
 		
 		filePathText = new JTextField();
+		filePathText.setEditable(false);
 		GridBagConstraints gbc_filePathText = new GridBagConstraints();
 		gbc_filePathText.insets = new Insets(0, 0, 5, 5);
 		gbc_filePathText.fill = GridBagConstraints.HORIZONTAL;
@@ -135,6 +127,22 @@ public class EditExcelPreferencesLayout extends JFrame {
 		filePanel.add(classesSheetText, gbc_classesSheetText);
 		classesSheetText.setColumns(10);
 		
+		professorsSheetLabel = new JLabel("Planilha de Professores");
+		GridBagConstraints gbc_professorsSheetLabel = new GridBagConstraints();
+		gbc_professorsSheetLabel.anchor = GridBagConstraints.EAST;
+		gbc_professorsSheetLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_professorsSheetLabel.gridx = 2;
+		gbc_professorsSheetLabel.gridy = 2;
+		filePanel.add(professorsSheetLabel, gbc_professorsSheetLabel);
+		
+		professorsSheetText = new JTextField();
+		GridBagConstraints gbc_professorsSheetText = new GridBagConstraints();
+		gbc_professorsSheetText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_professorsSheetText.gridx = 3;
+		gbc_professorsSheetText.gridy = 2;
+		filePanel.add(professorsSheetText, gbc_professorsSheetText);
+		professorsSheetText.setColumns(10);
+		
 		JPanel readingPanel = new JPanel();
 		readingPanel.setBorder(new TitledBorder(null, "Leitura", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_readingPanel = new GridBagConstraints();
@@ -144,27 +152,18 @@ public class EditExcelPreferencesLayout extends JFrame {
 		gbc_readingPanel.gridy = 1;
 		panel.add(readingPanel, gbc_readingPanel);
 		GridBagLayout gbl_readingPanel = new GridBagLayout();
-		gbl_readingPanel.columnWidths = new int[]{106, 55, 0, 0, 179, 94, 135, 0};
-		gbl_readingPanel.rowHeights = new int[]{27, 0, 0, 0, 0};
-		gbl_readingPanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_readingPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_readingPanel.columnWidths = new int[]{162, 116, 145, 179, 94, 135, 0};
+		gbl_readingPanel.rowHeights = new int[]{27, 0, 0, 0, 0, 0};
+		gbl_readingPanel.columnWeights = new double[]{0.0, 1.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_readingPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		readingPanel.setLayout(gbl_readingPanel);
-		
-		JLabel sectionsSeparatorsLabel = new JLabel("Título das Seções");
-		sectionsSeparatorsLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_sectionsSeparatorsLabel = new GridBagConstraints();
-		gbc_sectionsSeparatorsLabel.anchor = GridBagConstraints.NORTH;
-		gbc_sectionsSeparatorsLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_sectionsSeparatorsLabel.gridx = 3;
-		gbc_sectionsSeparatorsLabel.gridy = 0;
-		readingPanel.add(sectionsSeparatorsLabel, gbc_sectionsSeparatorsLabel);
 		
 		JLabel cntProfessorLabel = new JLabel("Qtd. de Professores");
 		GridBagConstraints gbc_cntProfessorLabel = new GridBagConstraints();
 		gbc_cntProfessorLabel.anchor = GridBagConstraints.EAST;
 		gbc_cntProfessorLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_cntProfessorLabel.gridx = 0;
-		gbc_cntProfessorLabel.gridy = 1;
+		gbc_cntProfessorLabel.gridy = 0;
 		readingPanel.add(cntProfessorLabel, gbc_cntProfessorLabel);
 		
 		cntProfessorText = new JSpinner();
@@ -172,14 +171,39 @@ public class EditExcelPreferencesLayout extends JFrame {
 		gbc_cntProfessorText.insets = new Insets(0, 0, 5, 5);
 		gbc_cntProfessorText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cntProfessorText.gridx = 1;
-		gbc_cntProfessorText.gridy = 1;
+		gbc_cntProfessorText.gridy = 0;
 		readingPanel.add(cntProfessorText, gbc_cntProfessorText);
+		
+		JLabel sectionsSeparatorsLabel = new JLabel("Título das Seções");
+		sectionsSeparatorsLabel.setFont(new Font("Tahoma", Font.BOLD, 11));
+		GridBagConstraints gbc_sectionsSeparatorsLabel = new GridBagConstraints();
+		gbc_sectionsSeparatorsLabel.anchor = GridBagConstraints.NORTH;
+		gbc_sectionsSeparatorsLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_sectionsSeparatorsLabel.gridx = 2;
+		gbc_sectionsSeparatorsLabel.gridy = 0;
+		readingPanel.add(sectionsSeparatorsLabel, gbc_sectionsSeparatorsLabel);
+		
+		JLabel slotCntLabel = new JLabel("Qtd. de Horários");
+		GridBagConstraints gbc_slotCntLabel = new GridBagConstraints();
+		gbc_slotCntLabel.anchor = GridBagConstraints.EAST;
+		gbc_slotCntLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_slotCntLabel.gridx = 0;
+		gbc_slotCntLabel.gridy = 1;
+		readingPanel.add(slotCntLabel, gbc_slotCntLabel);
+		
+		cntSlotText = new JSpinner();
+		GridBagConstraints gbc_cntSlotText = new GridBagConstraints();
+		gbc_cntSlotText.insets = new Insets(0, 0, 5, 5);
+		gbc_cntSlotText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cntSlotText.gridx = 1;
+		gbc_cntSlotText.gridy = 1;
+		readingPanel.add(cntSlotText, gbc_cntSlotText);
 		
 		JLabel requiredByGraduationSeparatorLabel = new JLabel("Obrigatórias Grad.");
 		GridBagConstraints gbc_requiredByGraduationSeparatorLabel = new GridBagConstraints();
 		gbc_requiredByGraduationSeparatorLabel.anchor = GridBagConstraints.EAST;
 		gbc_requiredByGraduationSeparatorLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_requiredByGraduationSeparatorLabel.gridx = 3;
+		gbc_requiredByGraduationSeparatorLabel.gridx = 2;
 		gbc_requiredByGraduationSeparatorLabel.gridy = 1;
 		readingPanel.add(requiredByGraduationSeparatorLabel, gbc_requiredByGraduationSeparatorLabel);
 		
@@ -187,7 +211,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_requiredByGraduationSeparatorText = new GridBagConstraints();
 		gbc_requiredByGraduationSeparatorText.insets = new Insets(0, 0, 5, 5);
 		gbc_requiredByGraduationSeparatorText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_requiredByGraduationSeparatorText.gridx = 4;
+		gbc_requiredByGraduationSeparatorText.gridx = 3;
 		gbc_requiredByGraduationSeparatorText.gridy = 1;
 		readingPanel.add(requiredByGraduationSeparatorText, gbc_requiredByGraduationSeparatorText);
 		requiredByGraduationSeparatorText.setColumns(10);
@@ -196,7 +220,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_requiredByPosGraduationLabel = new GridBagConstraints();
 		gbc_requiredByPosGraduationLabel.anchor = GridBagConstraints.EAST;
 		gbc_requiredByPosGraduationLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_requiredByPosGraduationLabel.gridx = 5;
+		gbc_requiredByPosGraduationLabel.gridx = 4;
 		gbc_requiredByPosGraduationLabel.gridy = 1;
 		readingPanel.add(requiredByPosGraduationLabel, gbc_requiredByPosGraduationLabel);
 		
@@ -204,32 +228,33 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_requiredByPosGraduationText = new GridBagConstraints();
 		gbc_requiredByPosGraduationText.insets = new Insets(0, 0, 5, 0);
 		gbc_requiredByPosGraduationText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_requiredByPosGraduationText.gridx = 6;
+		gbc_requiredByPosGraduationText.gridx = 5;
 		gbc_requiredByPosGraduationText.gridy = 1;
 		readingPanel.add(requiredByPosGraduationText, gbc_requiredByPosGraduationText);
 		requiredByPosGraduationText.setColumns(10);
 		
-		JLabel slotCntLabel = new JLabel("Qtd. de Horários");
-		GridBagConstraints gbc_slotCntLabel = new GridBagConstraints();
-		gbc_slotCntLabel.anchor = GridBagConstraints.EAST;
-		gbc_slotCntLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_slotCntLabel.gridx = 0;
-		gbc_slotCntLabel.gridy = 2;
-		readingPanel.add(slotCntLabel, gbc_slotCntLabel);
+		JLabel semesterSeparatorLabel = new JLabel("Separador de Semestres");
+		GridBagConstraints gbc_semesterSeparatorLabel = new GridBagConstraints();
+		gbc_semesterSeparatorLabel.anchor = GridBagConstraints.EAST;
+		gbc_semesterSeparatorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_semesterSeparatorLabel.gridx = 0;
+		gbc_semesterSeparatorLabel.gridy = 2;
+		readingPanel.add(semesterSeparatorLabel, gbc_semesterSeparatorLabel);
 		
-		cntSlotText = new JSpinner();
-		GridBagConstraints gbc_cntSlotText = new GridBagConstraints();
-		gbc_cntSlotText.insets = new Insets(0, 0, 5, 5);
-		gbc_cntSlotText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cntSlotText.gridx = 1;
-		gbc_cntSlotText.gridy = 2;
-		readingPanel.add(cntSlotText, gbc_cntSlotText);
+		semesterSeparatorText = new JTextField();
+		GridBagConstraints gbc_semesterSeparatorText = new GridBagConstraints();
+		gbc_semesterSeparatorText.insets = new Insets(0, 0, 5, 5);
+		gbc_semesterSeparatorText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_semesterSeparatorText.gridx = 1;
+		gbc_semesterSeparatorText.gridy = 2;
+		readingPanel.add(semesterSeparatorText, gbc_semesterSeparatorText);
+		semesterSeparatorText.setColumns(10);
 		
 		JLabel requiredByOtherCentersLabel = new JLabel("Obrigatórias Externas");
 		GridBagConstraints gbc_requiredByOtherCentersLabel = new GridBagConstraints();
 		gbc_requiredByOtherCentersLabel.anchor = GridBagConstraints.EAST;
 		gbc_requiredByOtherCentersLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_requiredByOtherCentersLabel.gridx = 3;
+		gbc_requiredByOtherCentersLabel.gridx = 2;
 		gbc_requiredByOtherCentersLabel.gridy = 2;
 		readingPanel.add(requiredByOtherCentersLabel, gbc_requiredByOtherCentersLabel);
 		
@@ -237,7 +262,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_requiredByOtherCentersText = new GridBagConstraints();
 		gbc_requiredByOtherCentersText.insets = new Insets(0, 0, 5, 5);
 		gbc_requiredByOtherCentersText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_requiredByOtherCentersText.gridx = 4;
+		gbc_requiredByOtherCentersText.gridx = 3;
 		gbc_requiredByOtherCentersText.gridy = 2;
 		readingPanel.add(requiredByOtherCentersText, gbc_requiredByOtherCentersText);
 		requiredByOtherCentersText.setColumns(10);
@@ -246,7 +271,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_eletivesFromPosGraduationLabel = new GridBagConstraints();
 		gbc_eletivesFromPosGraduationLabel.anchor = GridBagConstraints.EAST;
 		gbc_eletivesFromPosGraduationLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_eletivesFromPosGraduationLabel.gridx = 5;
+		gbc_eletivesFromPosGraduationLabel.gridx = 4;
 		gbc_eletivesFromPosGraduationLabel.gridy = 2;
 		readingPanel.add(eletivesFromPosGraduationLabel, gbc_eletivesFromPosGraduationLabel);
 		
@@ -254,41 +279,41 @@ public class EditExcelPreferencesLayout extends JFrame {
 		GridBagConstraints gbc_electivesFromPosGraduationText = new GridBagConstraints();
 		gbc_electivesFromPosGraduationText.insets = new Insets(0, 0, 5, 0);
 		gbc_electivesFromPosGraduationText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_electivesFromPosGraduationText.gridx = 6;
+		gbc_electivesFromPosGraduationText.gridx = 5;
 		gbc_electivesFromPosGraduationText.gridy = 2;
 		readingPanel.add(electivesFromPosGraduationText, gbc_electivesFromPosGraduationText);
 		electivesFromPosGraduationText.setColumns(10);
 		
-		JLabel semesterSeparatorLabel = new JLabel("Separador de Semestres");
-		GridBagConstraints gbc_semesterSeparatorLabel = new GridBagConstraints();
-		gbc_semesterSeparatorLabel.anchor = GridBagConstraints.EAST;
-		gbc_semesterSeparatorLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_semesterSeparatorLabel.gridx = 0;
-		gbc_semesterSeparatorLabel.gridy = 3;
-		readingPanel.add(semesterSeparatorLabel, gbc_semesterSeparatorLabel);
+		temporaryProfessorLabel = new JLabel("Professor Temporário");
+		GridBagConstraints gbc_temporaryProfessorLabel = new GridBagConstraints();
+		gbc_temporaryProfessorLabel.anchor = GridBagConstraints.EAST;
+		gbc_temporaryProfessorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_temporaryProfessorLabel.gridx = 0;
+		gbc_temporaryProfessorLabel.gridy = 3;
+		readingPanel.add(temporaryProfessorLabel, gbc_temporaryProfessorLabel);
 		
-		semesterSeparatorText = new JTextField();
-		GridBagConstraints gbc_semesterSeparatorText = new GridBagConstraints();
-		gbc_semesterSeparatorText.insets = new Insets(0, 0, 0, 5);
-		gbc_semesterSeparatorText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_semesterSeparatorText.gridx = 1;
-		gbc_semesterSeparatorText.gridy = 3;
-		readingPanel.add(semesterSeparatorText, gbc_semesterSeparatorText);
-		semesterSeparatorText.setColumns(10);
+		temporaryProfessorText = new JTextField();
+		GridBagConstraints gbc_temporaryProfessorText = new GridBagConstraints();
+		gbc_temporaryProfessorText.insets = new Insets(0, 0, 5, 5);
+		gbc_temporaryProfessorText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_temporaryProfessorText.gridx = 1;
+		gbc_temporaryProfessorText.gridy = 3;
+		readingPanel.add(temporaryProfessorText, gbc_temporaryProfessorText);
+		temporaryProfessorText.setColumns(10);
 		
 		JLabel electivesFromGraduationLabel = new JLabel("Eletivas Grad.");
 		GridBagConstraints gbc_electivesFromGraduationLabel = new GridBagConstraints();
 		gbc_electivesFromGraduationLabel.anchor = GridBagConstraints.EAST;
-		gbc_electivesFromGraduationLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_electivesFromGraduationLabel.gridx = 3;
+		gbc_electivesFromGraduationLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_electivesFromGraduationLabel.gridx = 2;
 		gbc_electivesFromGraduationLabel.gridy = 3;
 		readingPanel.add(electivesFromGraduationLabel, gbc_electivesFromGraduationLabel);
 		
 		electivesFromGraduationText = new JTextField();
 		GridBagConstraints gbc_electivesFromGraduationText = new GridBagConstraints();
-		gbc_electivesFromGraduationText.insets = new Insets(0, 0, 0, 5);
+		gbc_electivesFromGraduationText.insets = new Insets(0, 0, 5, 5);
 		gbc_electivesFromGraduationText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_electivesFromGraduationText.gridx = 4;
+		gbc_electivesFromGraduationText.gridx = 3;
 		gbc_electivesFromGraduationText.gridy = 3;
 		readingPanel.add(electivesFromGraduationText, gbc_electivesFromGraduationText);
 		electivesFromGraduationText.setColumns(10);
@@ -296,18 +321,36 @@ public class EditExcelPreferencesLayout extends JFrame {
 		JLabel endOfFileMarkerLabel = new JLabel("Fim de Arquivo");
 		GridBagConstraints gbc_endOfFileMarkerLabel = new GridBagConstraints();
 		gbc_endOfFileMarkerLabel.anchor = GridBagConstraints.EAST;
-		gbc_endOfFileMarkerLabel.insets = new Insets(0, 0, 0, 5);
-		gbc_endOfFileMarkerLabel.gridx = 5;
+		gbc_endOfFileMarkerLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_endOfFileMarkerLabel.gridx = 4;
 		gbc_endOfFileMarkerLabel.gridy = 3;
 		readingPanel.add(endOfFileMarkerLabel, gbc_endOfFileMarkerLabel);
 		
 		endOfFileMarkerText = new JTextField();
 		GridBagConstraints gbc_endOfFileMarkerText = new GridBagConstraints();
+		gbc_endOfFileMarkerText.insets = new Insets(0, 0, 5, 0);
 		gbc_endOfFileMarkerText.fill = GridBagConstraints.HORIZONTAL;
-		gbc_endOfFileMarkerText.gridx = 6;
+		gbc_endOfFileMarkerText.gridx = 5;
 		gbc_endOfFileMarkerText.gridy = 3;
 		readingPanel.add(endOfFileMarkerText, gbc_endOfFileMarkerText);
 		endOfFileMarkerText.setColumns(10);
+		
+		awayProfessorLabel = new JLabel("Professor Afastado");
+		GridBagConstraints gbc_awayProfessorLabel = new GridBagConstraints();
+		gbc_awayProfessorLabel.anchor = GridBagConstraints.EAST;
+		gbc_awayProfessorLabel.insets = new Insets(0, 0, 0, 5);
+		gbc_awayProfessorLabel.gridx = 0;
+		gbc_awayProfessorLabel.gridy = 4;
+		readingPanel.add(awayProfessorLabel, gbc_awayProfessorLabel);
+		
+		awayProfessorText = new JTextField();
+		GridBagConstraints gbc_awayProfessorText = new GridBagConstraints();
+		gbc_awayProfessorText.insets = new Insets(0, 0, 0, 5);
+		gbc_awayProfessorText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_awayProfessorText.gridx = 1;
+		gbc_awayProfessorText.gridy = 4;
+		readingPanel.add(awayProfessorText, gbc_awayProfessorText);
+		awayProfessorText.setColumns(10);
 		
 		JPanel roomMappingPanel = new JPanel();
 		roomMappingPanel.setBorder(new TitledBorder(null, "Mapeamento de Salas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
@@ -336,7 +379,7 @@ public class EditExcelPreferencesLayout extends JFrame {
 		scrollPane_1.setViewportView(mappingTable);
 		
 		JPanel classesSelectorsPanel = new JPanel();
-		classesSelectorsPanel.setBorder(new TitledBorder(null, "Turmas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		classesSelectorsPanel.setBorder(new TitledBorder(new LineBorder(new Color(184, 207, 229)), "Disciplinas a serem lidas", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		GridBagConstraints gbc_classesSelectorsPanel = new GridBagConstraints();
 		gbc_classesSelectorsPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_classesSelectorsPanel.fill = GridBagConstraints.BOTH;
@@ -460,5 +503,14 @@ public class EditExcelPreferencesLayout extends JFrame {
 	}
 	protected JTextField getEndOfFileMarkerText() {
 		return endOfFileMarkerText;
+	}
+	protected JTextField getAwayProfessorText() {
+		return awayProfessorText;
+	}
+	protected JTextField getTemporaryProfessorText() {
+		return temporaryProfessorText;
+	}
+	protected JTextField getProfessorsSheetText() {
+		return professorsSheetText;
 	}
 }
