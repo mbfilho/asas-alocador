@@ -1,8 +1,6 @@
 package state.persistence.excelReaders;
 
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -32,15 +30,16 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		this.prefs = prefs;
 		profService = new ProfessorService();
 	}
 	
 	private boolean isTemporaryCargo(String cargo){
-		return cargo.equals(prefs);
+		return cargo.equals(prefs.getTemporaryProfessorMarker());
 	}
 	
 	private boolean isAwayCargo(String cargo){
-		return cargo.toLowerCase().contains("afastad");
+		return cargo.equals(prefs.getAwayProfessorMarker());
 	}
 	
 	private boolean isValidCargo(String cargo){
@@ -54,8 +53,10 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 		while(true){
 			if(reader.hasNextRow()) reader.goToNextRow();
 			else break;
+			String name = reader.readString();
+			if(name.equals("??")) continue;
 			Professor prof = new Professor();
-			prof.setName(reader.readString());
+			prof.setName(name);
 			prof.setEmail(reader.readString());
 			String cargo = reader.readString();
 			if(isValidCargo(cargo))	prof.setCargo(cargo);

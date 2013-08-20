@@ -19,6 +19,8 @@ import state.StateDescription;
 import utilities.ColorUtil;
 
 public class EditExcelPreferences extends EditExcelPreferencesLayout {
+	private static final long serialVersionUID = -2557069007741819454L;
+	
 	private JFileChooser fileChooser;
 	private RoomMappingTableModel mapTableModel;
 	
@@ -104,6 +106,8 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 		fromFields.setRequiredByOtherCentersMaker(getRequiredByOtherCentersText().getText());
 		fromFields.setRequiredByPosGraduationMaker(getRequiredByPosGraduationText().getText());
 		fromFields.setEndOfFileMarker(getEndOfFileMarkerText().getText());
+		fromFields.setAwayProfessorMarker(getAwayProfessorText().getText());
+		fromFields.setTemporaryProfessorMarker(getTemporaryProfessorText().getText());
 	}
 	
 	private void fillFilePreferences(ExcelPreferences prefs) {
@@ -111,6 +115,7 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 		setFilePathToFileTextBox(selectedFile);
 		fileChooser.setSelectedFile(selectedFile);
 		getClassesSheetText().setText(prefs.getClassesSheet());
+		getProfessorsSheetText().setText(prefs.getProfessorsSheet());
 	}
 
 	private void fillMappingTable(ExcelPreferences prefs) {
@@ -136,6 +141,8 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 		getElectivesFromGraduationText().setText(prefs.getElectivesFromGraduationMaker());
 		getElectivesFromPosGraduationText().setText(prefs.getElectivesFromPosGraduationMarker());
 		getEndOfFileMarkerText().setText(prefs.getEndOfFileMarker());
+		getAwayProfessorText().setText(prefs.getAwayProfessorMarker());
+		getTemporaryProfessorText().setText(prefs.getTemporaryProfessorMarker());
 	}
 	
 	private void setFilePathToFileTextBox(File theFile){
