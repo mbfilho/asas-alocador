@@ -37,6 +37,6 @@ public class StateDescription implements Serializable{
 	}
 	
 	public File getFile(){
-		return new File(name);
+		return new File(String.format("savedStates%s%s", File.separator, name));
 	}
 }
