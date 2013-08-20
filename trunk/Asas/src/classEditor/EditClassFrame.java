@@ -2,6 +2,7 @@ package classEditor;
 
 import group.filtering.FilterChooser;
 import group.filtering.InitialFilterConfiguration;
+import history.HistoryService;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -21,6 +22,7 @@ import utilities.Pair;
 
 import javax.swing.JScrollPane;
 
+import dataUpdateSystem.CustomerType;
 import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
@@ -30,20 +32,21 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 
 	private static final long serialVersionUID = 679979857489504936L;
 	private ClassService classService;
+	private PeriodicClassComparator classComparator;
 	
 	public EditClassFrame(){
 		this(null);
 	}
 	
 	public EditClassFrame(InitialEditState initialState) {
-		RegistrationCentral.signIn(this);
+		RegistrationCentral.signIn(this, CustomerType.Gui);
 		
 		classService = new ClassService();
 		
 		configureElementsData();
 		configureElementsActions();
 		setupInitialState(initialState);
-		new PeriodicClassComparator() {
+		classComparator = new PeriodicClassComparator() {
 			protected void onChangeState(boolean isDirty) {
 				getChangesHappenedwarningLabel().setVisible(isDirty);
 			}
@@ -55,6 +58,11 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 			}
 		};
 		setVisible(true);
+	}
+	
+	public void dispose(){
+		super.dispose();
+		classComparator.stopThread();
 	}
 	
 	private void setupInitialState(InitialEditState initialState) {
@@ -97,7 +105,7 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 		
 		btnOk.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				saveChanges();
+				saveEdition();
 			}
 		});
 		
@@ -112,9 +120,9 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 							JOptionPane.YES_NO_OPTION
 						);
 				if(op == JOptionPane.YES_OPTION){
-					classService.remove(GuiUtil.getSelectedItem(classesComboBox));
+					Class toDelete = GuiUtil.getSelectedItem(classesComboBox);
 					classesComboBox.removeItem(classesComboBox.getSelectedItem());
-					saveChanges();
+					saveRemotion(toDelete);
 				}
 			}
 		});
@@ -123,13 +131,23 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 		slotList.setChangeListener(updateTableOnChange);
 	}
 	
-	private void saveChanges(){
+	private void saveEdition(){
 		Class selected = GuiUtil.getSelectedItem(classesComboBox);
 		if(selected != null){
 			setValuesToClass(selected);
 			classService.update(selected);
-		} 
+		}
+		HistoryService.getInstance().registerChange(String.format("Edição de '%s'", selected.completeName()));
 		RegistrationCentral.registerUpdate("Edição de turma");
+		getChangesHappenedwarningLabel().setVisible(false);
+	}
+	
+	
+	private void saveRemotion(Class toDelete){
+		classService.remove(toDelete);
+		HistoryService.getInstance().registerChange(String.format("Remoção de '%s'", toDelete.completeName()));
+		RegistrationCentral.registerUpdate("Remoção de turma");
+		getChangesHappenedwarningLabel().setVisible(false);
 	}
 	
 	private void setValuesToClass(Class toBeSeted){

@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import dataUpdateSystem.CustomerType;
 import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
@@ -53,7 +54,7 @@ public class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 	protected JButton btnOk;
 	
 	public AddClassFrame(WarningGeneratorService warningService) {
-		RegistrationCentral.signIn(this);
+		RegistrationCentral.signIn(this, CustomerType.Gui);
 		
 		classService = new ClassService();
 		professorService = new ProfessorService();

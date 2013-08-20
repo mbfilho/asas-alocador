@@ -20,6 +20,7 @@ import basic.NamedEntity;
 import basic.Professor;
 
 import classEditor.NamedPair;
+import dataUpdateSystem.CustomerType;
 import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
@@ -56,7 +57,7 @@ public abstract class FilterChooser extends JPanel implements Updatable{
 	public FilterChooser(int configuration, InitialFilterConfiguration initialConfiguration) {
 		_updatingProgrammatically = false;
 		this.configuration = configuration;
-		RegistrationCentral.signIn(this);
+		RegistrationCentral.signIn(this, CustomerType.Gui);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 507, 163, 308, 173, 0};

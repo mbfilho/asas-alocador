@@ -1,4 +1,7 @@
 package visualizer;
+import history.HistoryTableModel;
+import history.gui.HistoryTablePanel;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -26,6 +29,7 @@ import warnings.table.WarningTable;
 
 import java.awt.GridBagLayout;
 
+import dataUpdateSystem.CustomerType;
 import dataUpdateSystem.RegistrationCentral;
 import dataUpdateSystem.Updatable;
 import dataUpdateSystem.UpdateDescription;
@@ -47,6 +51,7 @@ import professors.EditProfessorFrame;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.util.List;
+import javax.swing.JPanel;
 
 
 public class FrameWithMenu extends JFrame implements Updatable{
@@ -60,9 +65,10 @@ public class FrameWithMenu extends JFrame implements Updatable{
 	protected JMenuItem saveState;
 	private WarningGeneratorService warningService;
 	private JMenu warningMenuItem;
+	private JPanel historyTablePanel;
 	
 	public FrameWithMenu(WarningGeneratorService service) {
-		RegistrationCentral.signIn(this);
+		RegistrationCentral.signIn(this, CustomerType.Gui);
 		warningService = service;
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -148,6 +154,12 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		});
 		mnEditar.add(mntmSalas);
 		mnEditar.add(mntmTurmas);
+		
+		JMenu mnHistrico = new JMenu("Histórico");
+		menuBar.add(mnHistrico);
+		
+		historyTablePanel = new HistoryTablePanel();
+		mnHistrico.add(historyTablePanel);
 		
 		JMenu mnAdicionar = new JMenu("Adicionar");
 		menuBar.add(mnAdicionar);
