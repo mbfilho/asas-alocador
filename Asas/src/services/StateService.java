@@ -2,6 +2,7 @@ package services;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -26,7 +27,6 @@ import state.StateDescription;
 import state.persistence.excelReaders.ExcelClassReader;
 import state.persistence.excelReaders.ExcelProfessorReader;
 import state.persistence.fileReaders.FileClassRoomReader;
-import state.persistence.fileReaders.FileProfessorReader;
 
 
 import excelPreferences.ExcelPreferences;
@@ -36,7 +36,7 @@ import basic.Class;
 public class StateService {
 	private State currentState = null;
 	
-	private final String fileName = "config.asas";
+	private final String fileName = String.format("configs%ssavedStates.config", File.separator);
 	private Vector<StateDescription> states;
 	private static StateService _instance = null;
 	
