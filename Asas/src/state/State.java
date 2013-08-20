@@ -45,11 +45,15 @@ public class State implements NamedEntity, Serializable{
 		description = new StateDescription(name, desc, isDraft);
 	}
 	
-	public int getId(){
+	public int getUniqueId(){
 		return _currentId++;
 	}
 	
 	public Object clone() throws CloneNotSupportedException{
 		throw new CloneNotSupportedException();
+	}
+	
+	public Object getSignature(){
+		return description.getFile();
 	}
 }

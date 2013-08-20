@@ -192,4 +192,9 @@ public class StateService {
 		
 		
 	}
+
+	public synchronized void setCurrentState(State state) {
+		this.currentState = state;
+		RegistrationCentral.registerUpdate("Novo estado setado");
+	}
 }
