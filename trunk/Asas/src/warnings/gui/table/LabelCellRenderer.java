@@ -1,4 +1,4 @@
-package warnings.table;
+package warnings.gui.table;
 
 import java.awt.Color;
 import java.awt.Component;

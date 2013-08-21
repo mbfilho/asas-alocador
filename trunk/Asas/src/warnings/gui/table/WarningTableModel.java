@@ -1,4 +1,4 @@
-package warnings.table;
+package warnings.gui.table;
 
 import java.util.Collections;
 import java.util.Comparator;

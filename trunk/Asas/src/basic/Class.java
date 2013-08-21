@@ -24,6 +24,7 @@ public class Class implements NamedEntity, Serializable{
 	public Class(){
 		this.professors = new Vector<Professor>();
 		this.slots = new Vector<SlotRange>();
+		ccSemester = ecSemester = -1;
 	}
 		
 	public double getCh() {
