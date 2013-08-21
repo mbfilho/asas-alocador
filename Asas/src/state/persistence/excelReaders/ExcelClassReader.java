@@ -1,11 +1,8 @@
 package state.persistence.excelReaders;
 
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 
 import basic.Class;
 import basic.Classroom;
@@ -32,54 +29,46 @@ public class ExcelClassReader extends ClassReader{
 	private ClassroomService roomService;
 	private List<String> errors;
 	
-	public ExcelClassReader(ExcelPreferences prefs){
+	public ExcelClassReader(ExcelPreferences prefs, WorkbookReader excelReader){
 		excelPrefs = prefs;
 		service = new ClassService();
 		errors = new LinkedList<String>();
 		profService = new ProfessorService();
 		roomService = new ClassroomService();
+		reader = excelReader;
 	}
 	
 	public DataValidation<Repository<Class>> read()	throws InvalidInputException {
-		try {
-			openWorkbook();
-			ignoreUntil(excelPrefs.getRequiredByGraduationMarker());
-			
-			if(excelPrefs.isRequiredByGraduationEnabled()){
-				readGraduationRequired();
-				ignoreRow();
-			}else ignoreUntil(excelPrefs.getRequiredByOtherCentersMarker());
-			
-			if(excelPrefs.isRequiredByOtherCentersEnabled()){
-				readRequiredByOtherCenters();
-				ignoreRow();
-			}else ignoreUntil(excelPrefs.getElectivesFromGraduationMaker());
+		reader.changeSheet(excelPrefs.getClassesSheet());
+		
+		ignoreUntil(excelPrefs.getRequiredByGraduationMarker());
+		
+		if(excelPrefs.isRequiredByGraduationEnabled()){
+			readGraduationRequired();
+			ignoreRow();
+		}else ignoreUntil(excelPrefs.getRequiredByOtherCentersMarker());
+		
+		if(excelPrefs.isRequiredByOtherCentersEnabled()){
+			readRequiredByOtherCenters();
+			ignoreRow();
+		}else ignoreUntil(excelPrefs.getElectivesFromGraduationMaker());
 
-			if(excelPrefs.isElectivesFromGraduationEnabled()){
-				readElectivesFromGraduation();
-				ignoreRow();
-			}else ignoreUntil(excelPrefs.getRequiredByPosGraduationMarker());
-			
-			if(excelPrefs.isRequiredByPosGraduationEnabled()){
-				readRequiredByPosGraduation();
-				ignoreRow();
-			}else ignoreUntil(excelPrefs.getElectivesFromPosGraduationMarker());
-			
-			if(excelPrefs.isElectivesFromPosGraduationEnabled())
-				readElectivesFromPosGraduation();
-			
-			DataValidation<Repository<Class>> x = new DataValidation<Repository<Class>>();
-			x.validation = new Vector<String>(errors);
-			return x;
-		} catch (IOException e) {
-			throw new InvalidInputException(e.getMessage());
-		} catch (InvalidFormatException e) {
-			throw new InvalidInputException(e.getMessage());
-		}
-	}
-	
-	private void openWorkbook() throws IOException, InvalidFormatException{
-		reader = new WorkbookReader(excelPrefs.getFileLocation(), excelPrefs.getClassesSheet());
+		if(excelPrefs.isElectivesFromGraduationEnabled()){
+			readElectivesFromGraduation();
+			ignoreRow();
+		}else ignoreUntil(excelPrefs.getRequiredByPosGraduationMarker());
+		
+		if(excelPrefs.isRequiredByPosGraduationEnabled()){
+			readRequiredByPosGraduation();
+			ignoreRow();
+		}else ignoreUntil(excelPrefs.getElectivesFromPosGraduationMarker());
+		
+		if(excelPrefs.isElectivesFromPosGraduationEnabled())
+			readElectivesFromPosGraduation();
+		
+		DataValidation<Repository<Class>> x = new DataValidation<Repository<Class>>();
+		x.validation = new Vector<String>(errors);
+		return x;
 	}
 	
 	private void ignoreUntil(String expected){
