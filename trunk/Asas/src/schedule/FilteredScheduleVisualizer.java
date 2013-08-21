@@ -18,7 +18,6 @@ import schedule.table.models.GroupByClassroomModel;
 import schedule.table.models.GroupByProfessorModel;
 import utilities.GuiUtil;
 
-import java.awt.Component;
 import java.awt.GridBagLayout;
 import java.util.List;
 import java.awt.GridBagConstraints;

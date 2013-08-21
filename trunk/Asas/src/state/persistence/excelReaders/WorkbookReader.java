@@ -21,9 +21,8 @@ public class WorkbookReader {
 	private DataFormatter cellFormater; 
 	private int currentCellNumber;
 	
-	public WorkbookReader(File file, String sheetName) throws IOException, InvalidFormatException{
+	public WorkbookReader(File file) throws IOException, InvalidFormatException{
 		workbook = WorkbookFactory.create(file);
-		setCurrentSheet(workbook.getSheet(sheetName));
 		cellFormater = new DataFormatter();
 	}
 	

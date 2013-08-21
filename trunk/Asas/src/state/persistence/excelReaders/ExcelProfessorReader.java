@@ -22,14 +22,8 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 	private ExcelPreferences prefs;
 	//Nome	E-mail	Cargo	Depto
 
-	public ExcelProfessorReader(ExcelPreferences prefs){
-		try {
-			this.reader = new WorkbookReader(prefs.getFileLocation(), prefs.getProfessorsSheet());
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public ExcelProfessorReader(ExcelPreferences prefs, WorkbookReader excelReader){
+		this.reader = excelReader;
 		this.prefs = prefs;
 		profService = new ProfessorService();
 	}
@@ -48,6 +42,7 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 	}
 	
 	public DataValidation<Repository<Professor>> read()	throws InvalidInputException {
+		reader.changeSheet(prefs.getProfessorsSheet());
 		while(reader.peekString().equals(header) == false) reader.goToNextRow();
 		
 		while(true){
