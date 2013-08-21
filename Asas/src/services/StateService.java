@@ -16,9 +16,7 @@ import javax.swing.Timer;
 
 import dataUpdateSystem.RegistrationCentral;
 
-import basic.Classroom;
 import basic.DataValidation;
-import basic.Professor;
 
 
 import repository.Repository;
@@ -174,8 +172,8 @@ public class StateService {
 		currentState.description = desc;
 		try{
 			ExcelClassReader classReader = new ExcelClassReader(prefs);
-			DataValidation<Repository<Professor>> professors = new ExcelProfessorReader(prefs).read();
-			DataValidation<Repository<Classroom>> classrooms = new FileClassRoomReader().read();
+			new ExcelProfessorReader(prefs).read();
+			new FileClassRoomReader().read();
 			DataValidation<Repository<Class>> validation = classReader.read();
 			completeSwitchingToExcelState(prefs);
 			return validation.validation;

@@ -9,6 +9,7 @@ import basic.Class;
 import basic.SlotRange;
 
 public class GroupByClassroomModel extends GeneralGroupModel{
+	private static final long serialVersionUID = -5498191628270681153L;
 	
 	private Classroom theRoom;
 	private NotAllowedWarningsService notAllowedService;

@@ -13,6 +13,8 @@ import javax.swing.table.TableCellRenderer;
 
 
 public class LabelCellRenderer extends JLabel implements TableCellRenderer{
+	private static final long serialVersionUID = -4948134859251806171L;
+	
 	private Font defaultFont;
 	private Border defaultBorder;
 	

@@ -1,5 +1,4 @@
 package visualizer;
-import history.HistoryTableModel;
 import history.gui.HistoryTablePanel;
 
 import java.awt.event.ActionEvent;

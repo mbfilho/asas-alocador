@@ -90,7 +90,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 		contentPane.add(lblDia, gbc_lblDia);
 		
 		days = new JComboBox<String>();
-		days.setModel(new DefaultComboBoxModel(Constants.days));
+		days.setModel(new DefaultComboBoxModel<String>(Constants.days));
 		days.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				updateClassroomsDisponibility();
@@ -237,6 +237,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	
 	private SlotRange getSelectedSlot(){
 		int ini = ((Integer) iniHour.getValue()) - 7, end = ((Integer) endHour.getValue()) - 8;
+		@SuppressWarnings("unchecked")
 		NamedPair<Classroom> obj = (NamedPair<Classroom>) classrooms.getSelectedItem();
 		SlotRange range = new SlotRange(days.getSelectedIndex(), ini, end, obj == null ? null : (Classroom) obj.data);
 		return range;

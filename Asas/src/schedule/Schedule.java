@@ -9,6 +9,7 @@ import basic.SlotRange;
 public class Schedule {
 	private Vector<ScheduleSlot> schedule[][];
 	
+	@SuppressWarnings("unchecked")
 	public Schedule(){
 		schedule = new Vector[Constants.SLOTS][Constants.DAYS];
 		for(int i = 0; i < schedule.length; ++i) for(int j = 0; j < Constants.DAYS; ++j)

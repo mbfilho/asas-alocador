@@ -8,21 +8,17 @@ import java.util.Vector;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
-import dataUpdateSystem.RegistrationCentral;
-import dataUpdateSystem.Updatable;
-import dataUpdateSystem.UpdateDescription;
 
 import utilities.DisposableOnEscFrame;
 import basic.NamedEntity;
 
 
 abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFrame {
+	private static final long serialVersionUID = -8935032188572785800L;
 	private JList<NamedPair<T>> list;
 	
 	public abstract void OnSelect(Vector<T> selecteds);
@@ -35,7 +31,7 @@ abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFram
 	}
 
 	private void configureElements(Iterable<T> all) {
-		DefaultListModel<NamedPair<T>> model = new DefaultListModel();
+		DefaultListModel<NamedPair<T>> model = new DefaultListModel<NamedPair<T>>();
 		for(T item : all) model.addElement(new NamedPair<T>(item.getName(), item));
 		
 		list = new JList<NamedPair<T>>(model);
@@ -58,6 +54,8 @@ abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFram
 }
 
 public class EditableJList<T extends NamedEntity> extends JPanel{
+	private static final long serialVersionUID = -8789057670122613858L;
+	
 	private DefaultListModel<NamedPair<T>> model;
 	protected JList<NamedPair<T>> list;
 	protected JButton addButton;
@@ -69,7 +67,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		this.setLayout(null);
 		this.setSize(370, 140);
 		
-		model = new DefaultListModel();
+		model = new DefaultListModel<NamedPair<T>>();
 		configureElements(title, allObjs);
 	}
 	
@@ -96,7 +94,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		add(titleLabel);
 		
 		y += height + space;
-		list = new JList(model);
+		list = new JList<NamedPair<T>>(model);
 		JScrollPane jp = new JScrollPane(list);
 		jp.setBounds(0, y, 300+space, 100);
 		add(jp);
@@ -117,6 +115,8 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		addButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
 				new SelectElements<T>(objs) {
+					private static final long serialVersionUID = 3466522387972787027L;
+
 					public void OnSelect(Vector<T> selecteds) {
 						addElements(selecteds);
 						changeListener.actionPerformed(null);
@@ -129,7 +129,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 	
 	public Iterable<T> getItens(){
 		Enumeration<NamedPair<T>> itens = model.elements();
-		Vector<T> selectedItens = new Vector();
+		Vector<T> selectedItens = new Vector<T>();
 		while(itens.hasMoreElements()) selectedItens.add(itens.nextElement().data);
 		return selectedItens;
 	}

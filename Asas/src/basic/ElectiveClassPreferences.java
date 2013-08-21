@@ -5,6 +5,8 @@ import java.util.Vector;
 
 public class ElectiveClassPreferences implements NamedEntity, Serializable{
 
+	private static final long serialVersionUID = -1650096542278331398L;
+	
 	private ElectiveClass theClass;
 	private Vector<Vector<SlotRange>> preferedSlots;
 	private Vector<Professor> professors;

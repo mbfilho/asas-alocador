@@ -3,20 +3,13 @@ package group.filtering;
 import group.Group;
 
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.TreeSet;
-import java.util.Vector;
 
-import schedule.Schedule;
-import schedule.ScheduleSlot;
 import services.ClassService;
 
 import basic.Class;
-import basic.Classroom;
-import basic.SlotRange;
 
 public class FilterApplier {
 

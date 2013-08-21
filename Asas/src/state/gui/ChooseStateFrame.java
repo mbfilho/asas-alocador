@@ -17,8 +17,6 @@ import classEditor.NamedPair;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
-import dataUpdateSystem.RegistrationCentral;
-
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
 import javax.swing.JTextArea;

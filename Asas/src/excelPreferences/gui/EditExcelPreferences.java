@@ -81,6 +81,7 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 		fromFields.setClassesSheet(getClassesSheetText().getText());
 	}
 
+	@SuppressWarnings("unchecked")
 	private void getMappingFromFields(ExcelPreferences fromFields) {
 		for(int i = 0; i < mapTableModel.getRowCount(); ++i){
 			fromFields.addMappingCorrespondence((String) mapTableModel.getValueAt(i, 0), 

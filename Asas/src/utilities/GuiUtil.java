@@ -12,11 +12,11 @@ import classEditor.NamedPair;
 
 public class GuiUtil {
 
-	public static <T extends NamedPair> void setSelectedValue(JComboBox<T> cbox, Object value){
+	public static <T extends NamedPair<?>> void setSelectedValue(JComboBox<T> cbox, Object value){
 		ComboBoxModel<T> model = cbox.getModel();
 		
 		for(int i = 0; i < model.getSize(); ++i){
-			NamedPair pair = model.getElementAt(i);
+			NamedPair<?> pair = model.getElementAt(i);
 			if((pair.data == null && value == null) || (pair.data != null && pair.data.equals(value))){
 				cbox.setSelectedIndex(i);
 				break;
@@ -24,6 +24,7 @@ public class GuiUtil {
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static <T> T getSelectedItem(JComboBox<NamedPair<T>> box){
 		NamedPair<T> pair = (NamedPair<T>) box.getSelectedItem();
 		if(pair == null) return null;

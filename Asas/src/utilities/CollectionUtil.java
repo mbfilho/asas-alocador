@@ -31,6 +31,7 @@ public class CollectionUtil {
 		return firstOrDefault(theCollection, null);
 	}
 	
+	@SafeVarargs
 	public static <T> List<T> createList(T ... args){
 		List<T> list = new LinkedList<T>();
 		for(T a : args) list.add(a);

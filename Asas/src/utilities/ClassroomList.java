@@ -23,6 +23,7 @@ public class ClassroomList {
 				names.add(line.split("#")[0]);
 			}
 			Collections.sort(names);
+			sc.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

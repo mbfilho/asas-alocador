@@ -2,7 +2,6 @@ package schedule.table.models;
 
 import java.awt.Color;
 import java.awt.Component;
-import javax.swing.JPanel;
 import javax.swing.table.AbstractTableModel;
 
 import schedule.table.CellState;
@@ -10,6 +9,8 @@ import utilities.ColorUtil;
 import utilities.Constants;
 
 public class GeneralScheduleModel extends AbstractTableModel{
+	private static final long serialVersionUID = -4500499494277149184L;
+	
 	protected CellState cellState[][];
 	private String[] columnsNames;
 	

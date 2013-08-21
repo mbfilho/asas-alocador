@@ -14,7 +14,8 @@ import basic.Class;
 import basic.SlotRange;
 
 public class SameRoomWarning extends Warning {
-
+	private static final long serialVersionUID = -1462166204932054942L;
+	
 	private Classroom theRoom;
 	private Class oneClass, anotherClass;
 	private SlotRange slotRange;

@@ -4,6 +4,7 @@ import java.util.HashSet;
 
 public class RegistrationCentral {
 
+	@SuppressWarnings("unchecked")
 	private static HashSet<Updatable> registeredCustomers[] = new HashSet[]
 	{
 		new HashSet<Updatable>(), new HashSet<Updatable>()

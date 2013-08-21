@@ -21,6 +21,7 @@ import basic.SlotRange;
 //TODO Esse código não deve existir
 public class FileElectivePreferenceReader implements DataReader<ElectiveClassPreferences>{
 
+	@SuppressWarnings("resource")
 	public DataValidation<Repository<ElectiveClassPreferences>> read()	throws InvalidInputException {
 		ElectivePreferencesService service = new ElectivePreferencesService();
 		ElectiveClassService electiveService = new ElectiveClassService();
