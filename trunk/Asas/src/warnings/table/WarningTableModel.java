@@ -16,6 +16,7 @@ import warnings.types.Warning;
 public class WarningTableModel extends AbstractTableModel{
 	public static final int WARNING_COLUMN = 0;
 	private static final long serialVersionUID = 1L;
+	@SuppressWarnings("rawtypes")
 	private Class[] columnTypes;
 	private Vector<Warning> warnings;
 	private String[] columnHeaders;

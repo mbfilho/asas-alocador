@@ -1,14 +1,8 @@
 package excelPreferences.gui;
 
-import java.awt.EventQueue;
-import java.util.EventObject;
-
-import javax.swing.CellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.event.CellEditorListener;
 import java.awt.GridBagLayout;
 import javax.swing.JList;
 import java.awt.GridBagConstraints;
@@ -16,10 +10,9 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-import services.ClassroomService;
-
 public class RoomListEditorInterfaceLayout extends JDialog{
-
+	private static final long serialVersionUID = -8612878915736343843L;
+	
 	private JComboBox<String> allRoomsCBox;
 	private JButton downButton;
 	private JButton addButton;

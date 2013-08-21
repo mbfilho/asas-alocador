@@ -3,6 +3,10 @@ package exceptions;
 import java.util.Vector;
 
 public class InvalidInputException extends Exception{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2422313422346786315L;
 	private Vector<String> messages;
 	
 	private InvalidInputException(){

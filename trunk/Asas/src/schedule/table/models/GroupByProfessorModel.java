@@ -10,6 +10,8 @@ import services.NotAllowedWarningsService;
 import basic.Class;
 
 public class GroupByProfessorModel extends GeneralGroupModel {
+	private static final long serialVersionUID = 3968397630646789006L;
+	
 	private NotAllowedWarningsService notAllowedService;
 	private Professor theProfessor;
 	

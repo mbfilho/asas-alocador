@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
-import dataUpdateSystem.RegistrationCentral;
 import exceptions.StateIOException;
 
 import java.awt.GridBagConstraints;

@@ -14,7 +14,8 @@ import basic.SlotRange;
 import basic.Class;
 
 public class ClassWithoutRoomWarning extends Warning {
-
+	private static final long serialVersionUID = -8507590734333203566L;
+	
 	private Class theClass;
 	private Vector<SlotRange> slots;
 	

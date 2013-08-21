@@ -9,7 +9,6 @@ import services.StateService;
 import state.StateDescription;
 
 import classEditor.NamedPair;
-import dataUpdateSystem.RegistrationCentral;
 
 import exceptions.StateIOException;
 

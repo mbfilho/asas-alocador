@@ -11,13 +11,11 @@ public class AllocationService {
 	private ConflictService conflictService;
 	private ElectivePreferencesService prefService; 
 	private ClassService classService;
-	private ElectiveClassService electiveService;
 	
 	public AllocationService(){
 		conflictService = new ConflictService();
 		prefService = new ElectivePreferencesService();
 		classService = new ClassService();
-		electiveService = new ElectiveClassService();
 	}
 	
 	public boolean canAllocate(ElectiveClass electiveClass,	Vector<SlotRange> meetings) {

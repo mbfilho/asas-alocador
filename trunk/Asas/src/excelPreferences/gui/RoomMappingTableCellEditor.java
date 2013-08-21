@@ -14,12 +14,15 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 public class RoomMappingTableCellEditor extends AbstractCellEditor implements TableCellEditor{
-
+	private static final long serialVersionUID = 7433664152948293436L;
+	
 	private RoomListEditorInterface editorInterface;
 	private JButton textField;
 	
 	public RoomMappingTableCellEditor(JFrame parent){
 		editorInterface = new RoomListEditorInterface(parent) {
+			private static final long serialVersionUID = 458936152066772508L;
+
 			public void onOkButton() {
 				fireEditingStopped();
 			}
@@ -44,6 +47,7 @@ public class RoomMappingTableCellEditor extends AbstractCellEditor implements Ta
 		return editorInterface.getSelectedValues();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Component getTableCellEditorComponent(JTable arg0, Object arg1,
 			boolean arg2, int arg3, int arg4) {

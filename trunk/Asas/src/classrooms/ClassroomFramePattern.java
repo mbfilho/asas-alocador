@@ -25,6 +25,8 @@ import utilities.DisposableOnEscFrame;
 
 public abstract class ClassroomFramePattern extends DisposableOnEscFrame {
 
+	private static final long serialVersionUID = 9039274792283711446L;
+	
 	private JPanel contentPane;
 	private JTextField txtNome;
 	private JTextField txtCap;
@@ -37,6 +39,11 @@ public abstract class ClassroomFramePattern extends DisposableOnEscFrame {
 			public void run() {
 				try {
 					ClassroomFramePattern frame = new ClassroomFramePattern() {
+						/**
+						 * 
+						 */
+						private static final long serialVersionUID = -1320344196164641977L;
+
 						public void onOkButton() {
 						}
 					};

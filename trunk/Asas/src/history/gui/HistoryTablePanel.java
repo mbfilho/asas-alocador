@@ -6,13 +6,12 @@ import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JTable;
 import java.awt.GridBagConstraints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JScrollPane;
 
 public class HistoryTablePanel extends JPanel {
+	private static final long serialVersionUID = 4463115005718460232L;
+	
 	private JTable historyTable;
 
 	/**

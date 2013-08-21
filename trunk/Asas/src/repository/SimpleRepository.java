@@ -8,6 +8,8 @@ import java.util.Vector;
 import basic.NamedEntity;
 
 public class SimpleRepository <T extends NamedEntity> implements Repository<T>, Serializable{
+	private static final long serialVersionUID = -5399845325795857092L;
+	
 	private Vector<T> entities;
 	
 	public SimpleRepository(Vector<T> entities){

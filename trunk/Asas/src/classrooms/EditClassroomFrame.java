@@ -18,7 +18,7 @@ import java.awt.event.ActionListener;
 
 public class EditClassroomFrame extends ClassroomFramePattern {
 	private static final long serialVersionUID = -1080535206754133507L;
-	private JComboBox classrooms;
+	private JComboBox<NamedPair<Classroom>> classrooms;
 	private DefaultComboBoxModel<NamedPair<Classroom>> classroomsCBModel;
 	
 	public EditClassroomFrame(){
@@ -31,7 +31,7 @@ public class EditClassroomFrame extends ClassroomFramePattern {
 		classroomsCBModel.addElement(new NamedPair<Classroom>("Selecione uma sala.", null));
 		for(Classroom room : classroomService.all())
 			classroomsCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
-		classrooms = new JComboBox(classroomsCBModel);
+		classrooms = new JComboBox<NamedPair<Classroom>>(classroomsCBModel);
 		classrooms.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Classroom selected = getSelectedClassroom();
@@ -55,6 +55,7 @@ public class EditClassroomFrame extends ClassroomFramePattern {
 		getContentPane().add(classrooms, gbc_comboBox);
 	}
 	
+	@SuppressWarnings("unchecked")
 	private Classroom getSelectedClassroom(){
 		return ((NamedPair<Classroom>) classrooms.getSelectedItem()).data;
 	}

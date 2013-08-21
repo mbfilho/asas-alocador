@@ -53,6 +53,7 @@ public class EditProfessorFrame extends ProfessorFramePattern {
 
 	private static final long serialVersionUID = 3595460875461942003L;
 
+	@SuppressWarnings("unchecked")
 	private Professor getSelectedProfessor(){
 		return ((NamedPair<Professor>) professors.getSelectedItem()).data;
 	}

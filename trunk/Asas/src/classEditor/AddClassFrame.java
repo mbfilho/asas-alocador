@@ -199,6 +199,8 @@ public class AddClassFrame extends DisposableOnEscFrame implements Updatable{
 		contentPane.add(professorList, gbc_profList);
 		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
+			private static final long serialVersionUID = 1L;
+
 			public Class getSelectedClass() {
 				Class dummy = new Class();
 				setValuesToClass(dummy);
