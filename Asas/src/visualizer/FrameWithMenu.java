@@ -24,7 +24,8 @@ import state.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
 import warnings.WarningReport;
-import warnings.table.WarningTable;
+import warnings.gui.WarningsFrame;
+import warnings.gui.table.WarningTable;
 
 import java.awt.GridBagLayout;
 
@@ -193,19 +194,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmShowWarnings = new JMenuItem("Mostar");
 		mntmShowWarnings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame frame = new DisposableOnEscFrame();
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				WarningGeneratorService service = new WarningGeneratorService();
-				
-				JTabbedPane pane = new JTabbedPane();
-				for(WarningReport report : service.getWarningReportList()){
-					WarningTable table = new WarningTable(report.getAllWarnings());
-					pane.addTab(report.getTitle(), new JScrollPane(table));
-				}
-				
-				frame.getContentPane().add(new JScrollPane(pane));
-				frame.setVisible(true);
+				new WarningsFrame();
 			}
 		});
 		warningMenuItem.add(mntmShowWarnings);

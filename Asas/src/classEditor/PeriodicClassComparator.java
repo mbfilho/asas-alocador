@@ -86,7 +86,7 @@ public abstract class PeriodicClassComparator extends Thread{
 					dirty = false;
 					onChangeState(false);
 				}
-			}else dirty = false;
+			}
 			
 			try {
 				Thread.sleep(2000);

@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JTabbedPane;
 
 import basic.NamedEntity;
 
@@ -38,4 +39,20 @@ public class GuiUtil {
 		return namedPairs;
 	}
 	
+	public static void selectTabWithThisTitle(JTabbedPane pane, String title){
+		if(null == null) return;
+		
+		for(int i = 0; i < pane.getTabCount(); ++i){
+			if(pane.getTitleAt(i).equals(title)){
+				pane.setSelectedIndex(i);
+				break;
+			}
+		}
+	}
+	
+	public static String getSelectedTabTitle(JTabbedPane pane){
+		int selectedIndex = pane.getSelectedIndex();
+		if(selectedIndex == -1) return null;
+		return pane.getTitleAt(selectedIndex);
+	}
 }

@@ -16,6 +16,7 @@ import schedule.table.ScheduleVisualizationTable;
 import schedule.table.models.GeneralGroupModel;
 import schedule.table.models.GroupByClassroomModel;
 import schedule.table.models.GroupByProfessorModel;
+import utilities.GuiUtil;
 
 import java.awt.Component;
 import java.awt.GridBagLayout;
@@ -32,15 +33,12 @@ public class FilteredScheduleVisualizer extends JPanel{
 	private static final long serialVersionUID = -1937501007426648998L;
 	private FilterChooser filterChooser;
 	private JTabbedPane tabbedPane;
-	private String _previousSelectedTitle;
 	
 	public FilteredScheduleVisualizer() {
 		this(FilterChooser.ALL, null);
 	}
 	
 	public FilteredScheduleVisualizer(int configuration, InitialFilterConfiguration initialConfiguration) {
-		_previousSelectedTitle = "";
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{21, 0};
 		gridBagLayout.rowHeights = new int[]{60, 217, 0};
@@ -75,16 +73,10 @@ public class FilteredScheduleVisualizer extends JPanel{
 		tabbedPane.removeAll();
 	}
 	
-	private void getSelectedTitle(){
-		if(tabbedPane.getSelectedIndex() != -1)
-			_previousSelectedTitle = tabbedPane.getTitleAt(tabbedPane.getSelectedIndex());
-	}
-	
 	private void refreshTable(){
-		getSelectedTitle();
+		String selectedTitle = GuiUtil.getSelectedTabTitle(tabbedPane);
 		clearTabs();
 		List<Group> groups = new FilterApplier().applyFilter(filterChooser.getFilter());
-		Component tabToSelect = null;
 		for(final Group g : groups){
 			GeneralGroupModel tableModel = null;
 			if(g instanceof RoomGroup){
@@ -94,15 +86,10 @@ public class FilteredScheduleVisualizer extends JPanel{
 			}else{
 				tableModel = new GeneralGroupModel(g);
 			}
-			Component table = new ScheduleVisualizationTable(tableModel);
-			JScrollPane tableScroll = new JScrollPane(table);
+			JScrollPane tableScroll = new JScrollPane(new ScheduleVisualizationTable(tableModel));
 			tabbedPane.addTab(g.groupName, tableScroll);
-			if(g.groupName.equals(_previousSelectedTitle))
-				tabToSelect = tableScroll; 
 		}
-		
-		if(tabToSelect != null)
-			tabbedPane.setSelectedComponent(tabToSelect);
+		GuiUtil.selectTabWithThisTitle(tabbedPane, selectedTitle);
 	}
 	
 	public void dispose(){
