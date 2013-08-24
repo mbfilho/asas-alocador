@@ -74,7 +74,7 @@ public class SwapperLayout extends JDialog {
 			contentPanel.add(otherClassCBox, gbc_otherClassCBox);
 		}
 		{
-			selectedClassProfessorList = new JList<NamedPair<Professor>>(new OrderedJListModel<Professor, NamedPair<Professor>>());
+			selectedClassProfessorList = new JList<NamedPair<Professor>>(new OrderedJListModel<NamedPair<Professor>>());
 			selectedClassProfessorList.setBorder(new TitledBorder(null, "Professores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_selectedClassProfessorList = new GridBagConstraints();
 			gbc_selectedClassProfessorList.insets = new Insets(0, 0, 5, 5);
@@ -93,7 +93,7 @@ public class SwapperLayout extends JDialog {
 			swapProfessorsButton.setToolTipText("Trocar!");
 		}
 		{
-			otherClassProfessorList = new JList<NamedPair<Professor>>(new OrderedJListModel<Professor, NamedPair<Professor>>());
+			otherClassProfessorList = new JList<NamedPair<Professor>>(new OrderedJListModel<NamedPair<Professor>>());
 			otherClassProfessorList.setBorder(new TitledBorder(null, "Professores", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_otherClassProfessorList = new GridBagConstraints();
 			gbc_otherClassProfessorList.insets = new Insets(0, 0, 5, 0);
@@ -103,7 +103,7 @@ public class SwapperLayout extends JDialog {
 			contentPanel.add(otherClassProfessorList, gbc_otherClassProfessorList);
 		}
 		{
-			selectedClassSlotsList = new JList<NamedPair<SlotRange>>(new OrderedJListModel<SlotRange, NamedPair<SlotRange>>());
+			selectedClassSlotsList = new JList<NamedPair<SlotRange>>(new OrderedJListModel<NamedPair<SlotRange>>());
 			selectedClassSlotsList.setBorder(new TitledBorder(null, "Hor\u00E1rios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_selectedClassSlotsList = new GridBagConstraints();
 			gbc_selectedClassSlotsList.insets = new Insets(0, 0, 5, 5);
@@ -122,7 +122,7 @@ public class SwapperLayout extends JDialog {
 			swapSlotsButton.setToolTipText("Trocar!");
 		}
 		{
-			otherClassSlotsList = new JList<NamedPair<SlotRange>>(new OrderedJListModel<SlotRange, NamedPair<SlotRange>>());
+			otherClassSlotsList = new JList<NamedPair<SlotRange>>(new OrderedJListModel<NamedPair<SlotRange>>());
 			otherClassSlotsList.setBorder(new TitledBorder(null, "Hor\u00E1rios", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 			GridBagConstraints gbc_otherClassSlotsList = new GridBagConstraints();
 			gbc_otherClassSlotsList.insets = new Insets(0, 0, 5, 0);

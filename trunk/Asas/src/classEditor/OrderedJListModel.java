@@ -1,23 +1,18 @@
 package classEditor;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.Collection;
 import java.util.List;
 
 import javax.swing.AbstractListModel;
 
 
-public class OrderedJListModel<E, T extends NamedPair<E>> extends AbstractListModel<T>{
+public class OrderedJListModel<T extends Comparable<T>> extends AbstractListModel<T>{
 	private static final long serialVersionUID = -7473915893149369589L;
 	private List<T> elements;
-	private Comparator<E> comparator;
+	
 	
 	public OrderedJListModel(){
-		this(null);
-	}
-	
-	public OrderedJListModel(Comparator<E> comp){
-		comparator = comp;
 		elements = new ArrayList<T>();
 	}
 	
@@ -29,16 +24,17 @@ public class OrderedJListModel<E, T extends NamedPair<E>> extends AbstractListMo
 		elements.clear();
 	}
 	
-	public List<E> getAllDataElements(){
+	public <E> Collection<E> getAllDataElements(){
 		List<E> elements = new ArrayList<E>();
-		for(T pair : getAllPairs())
-			elements.add(pair.data);
+		for(T pair : getAllPairs()){
+			elements.add(((NamedPair<E>) pair).data);
+		}
 		return elements;
 	}
 	
 	public void addInOrder(T a){
 		int idx = 0;
-		while(idx < elements.size() && elements.get(idx).name.compareTo(a.name) < 0)
+		while(idx < elements.size() && elements.get(idx).compareTo(a) < 0)
 			++idx;
 		elements.add(idx, a);
 		fireIntervalAdded(this, idx, idx);
@@ -58,15 +54,6 @@ public class OrderedJListModel<E, T extends NamedPair<E>> extends AbstractListMo
 		}
 	}
 	
-	public void remove(E data){
-		for(int i = 0; i < elements.size(); ++i){
-			if(data == elements.get(i).data){
-				remove(i);
-				break;
-			}
-		}
-	}
-	
 	public int getSize() {
 		return elements.size();
 	}
@@ -74,5 +61,4 @@ public class OrderedJListModel<E, T extends NamedPair<E>> extends AbstractListMo
 	public T getElementAt(int index) {
 		return elements.get(index);
 	}
-
 }
