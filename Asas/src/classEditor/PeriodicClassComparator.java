@@ -57,21 +57,21 @@ public abstract class PeriodicClassComparator extends Thread{
 	}
 	
 	private boolean areDifferent(Class a, Class b){
-		System.out.println(a.getCcSemester() + " x " + b.getCcSemester());
+		//System.out.println(a.getCcSemester() + " x " + b.getCcSemester());
 		if(a.getCcSemester() != b.getCcSemester()) return true;
-		System.out.println("cc");
+		//System.out.println("cc");
 		if(!areObjectEquals(a.getCode(), b.getCode())) return true;
-		System.out.println("code");
+		//System.out.println("code");
 		if(!areObjectEquals(a.getCourse(), b.getCourse())) return true;
-		System.out.println("course");
+		//System.out.println("course");
 		if(a.getEcSemester() != b.getEcSemester()) return true;
-		System.out.println("ec");
+		//System.out.println("ec");
 		if(!areObjectEquals(a.getName(), b.getName())) return true;
-		System.out.println("name");
+		//System.out.println("name");
 		if(!CollectionUtil.equalsWithoutOrder(a.getProfessors(), b.getProfessors())) return true;
-		System.out.println("profs");
+		//System.out.println("profs");
 		if(!areSlotListEquals(a.getSlots(), b.getSlots())) return true;
-		System.out.println("slots");
+		//System.out.println("slots");
 		return false;
 	}
 	

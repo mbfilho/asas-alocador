@@ -1,6 +1,8 @@
 package classEditor;
 
-public class NamedPair <T>{
+import basic.NamedEntity;
+
+public class NamedPair <T> implements NamedEntity{
 	public String name;
 	public T data;
 	
@@ -10,6 +12,10 @@ public class NamedPair <T>{
 	}
 	
 	public String toString(){
+		return name;
+	}
+
+	public String getName() {
 		return name;
 	}
 }
