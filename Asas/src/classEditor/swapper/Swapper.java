@@ -50,8 +50,8 @@ public abstract class Swapper extends SwapperLayout{
 	}
 	
 	private void fillWithSelectedClass(Class selected, JList<NamedPair<Professor>> profs, JList<NamedPair<SlotRange>> slots){
-		OrderedJListModel<Professor, NamedPair<Professor>> profModel = (OrderedJListModel<Professor, NamedPair<Professor>>) profs.getModel();
-		OrderedJListModel<SlotRange, NamedPair<SlotRange>> slotModel = (OrderedJListModel<SlotRange, NamedPair<SlotRange>>) slots.getModel();
+		OrderedJListModel<NamedPair<Professor>> profModel = (OrderedJListModel<NamedPair<Professor>>) profs.getModel();
+		OrderedJListModel<NamedPair<SlotRange>> slotModel = (OrderedJListModel<NamedPair<SlotRange>>) slots.getModel();
 		profModel.clear(); slotModel.clear();
 		for(Professor p : selected.getProfessors())
 			profModel.addInOrder(new NamedPair<Professor>(p.getName(), p));
@@ -80,9 +80,9 @@ public abstract class Swapper extends SwapperLayout{
 	private void configureProfessorSwap(){
 		getSwapProfessorsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderedJListModel<Professor, NamedPair<Professor>> modelOfSelectedClass, modelOfOtherClass;
-				modelOfSelectedClass = (OrderedJListModel<Professor, NamedPair<Professor>>) getSelectedClassProfessorList().getModel();
-				modelOfOtherClass = (OrderedJListModel<Professor, NamedPair<Professor>>) getOtherClassProfessorList().getModel();
+				OrderedJListModel<NamedPair<Professor>> modelOfSelectedClass, modelOfOtherClass;
+				modelOfSelectedClass = (OrderedJListModel<NamedPair<Professor>>) getSelectedClassProfessorList().getModel();
+				modelOfOtherClass = (OrderedJListModel<NamedPair<Professor>>) getOtherClassProfessorList().getModel();
 				
 				NamedPair<Professor> p1 = getSelectedClassProfessorList().getSelectedValue();
 				NamedPair<Professor> p2 = getOtherClassProfessorList().getSelectedValue();
@@ -97,9 +97,9 @@ public abstract class Swapper extends SwapperLayout{
 	private void configureSlotSwap(){
 		getSwapSlotsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				OrderedJListModel<SlotRange, NamedPair<SlotRange>> modelOfSelectedClass, modelOfOtherClass;
-				modelOfSelectedClass = (OrderedJListModel<SlotRange, NamedPair<SlotRange>>) getSelectedClassSlotsList().getModel();
-				modelOfOtherClass = (OrderedJListModel<SlotRange, NamedPair<SlotRange>>) getOtherClassSlotsList().getModel();
+				OrderedJListModel<NamedPair<SlotRange>> modelOfSelectedClass, modelOfOtherClass;
+				modelOfSelectedClass = (OrderedJListModel<NamedPair<SlotRange>>) getSelectedClassSlotsList().getModel();
+				modelOfOtherClass = (OrderedJListModel<NamedPair<SlotRange>>) getOtherClassSlotsList().getModel();
 				NamedPair<SlotRange> r1 = getSelectedClassSlotsList().getSelectedValue();
 				NamedPair<SlotRange> r2 = getOtherClassSlotsList().getSelectedValue();
 				
@@ -120,12 +120,12 @@ public abstract class Swapper extends SwapperLayout{
 		c.getSlots().clear();
 		
 		{
-			OrderedJListModel<Professor, NamedPair<Professor>> model = (OrderedJListModel<Professor, NamedPair<Professor>>) profs.getModel();
-			c.getProfessors().addAll(model.getAllDataElements());
+			OrderedJListModel<NamedPair<Professor>> model = (OrderedJListModel<NamedPair<Professor>>) profs.getModel();
+			c.getProfessors().addAll(model.<Professor>getAllDataElements());
 		}
 		{
-			OrderedJListModel<SlotRange, NamedPair<SlotRange>> model = (OrderedJListModel<SlotRange, NamedPair<SlotRange>>) slots.getModel();
-			c.getSlots().addAll(model.getAllDataElements());
+			OrderedJListModel<NamedPair<SlotRange>> model = (OrderedJListModel<NamedPair<SlotRange>>) slots.getModel();
+			c.getSlots().addAll(model.<SlotRange>getAllDataElements());
 		}
 	}
 	

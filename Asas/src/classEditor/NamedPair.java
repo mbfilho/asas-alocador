@@ -2,7 +2,7 @@ package classEditor;
 
 import basic.NamedEntity;
 
-public class NamedPair <T> implements NamedEntity{
+public class NamedPair <T> implements NamedEntity, Comparable<NamedPair<T>>{
 	public String name;
 	public T data;
 	
@@ -17,5 +17,12 @@ public class NamedPair <T> implements NamedEntity{
 
 	public String getName() {
 		return name;
+	}
+
+	public int compareTo(NamedPair<T> other) {
+		if(data instanceof Comparable){
+			return ((Comparable<T>) data).compareTo(other.data);
+		}
+		return getName().compareTo(other.getName());
 	}
 }
