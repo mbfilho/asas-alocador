@@ -45,6 +45,7 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 	protected JButton btnOk;
 	protected JButton btnRemover;	
 	private JLabel changesHappenedwarningLabel;
+	private JButton swapsButton;
 	public EditClassFrameLayout(){
 		setTitle("Edição de disciplinas/turmas");
 		WarningGeneratorService warningService = new WarningGeneratorService();
@@ -56,9 +57,9 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
 		gbl_contentPane.columnWidths = new int[]{95, 0, 44, 0, 47, 161, 302, 0};
-		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 161, 0, 95, 0};
+		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 0, 161, 0, 95, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		
@@ -82,7 +83,7 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.gridheight = 10;
+		gbc_tabbedPane.gridheight = 11;
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 6;
 		gbc_tabbedPane.gridy = 0;
@@ -193,6 +194,13 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		gbc_profList.gridy = 6;
 		contentPane.add(professorList, gbc_profList);
 		
+		swapsButton = new JButton("Swaps...");
+		GridBagConstraints gbc_swapsButton = new GridBagConstraints();
+		gbc_swapsButton.insets = new Insets(0, 0, 5, 5);
+		gbc_swapsButton.gridx = 0;
+		gbc_swapsButton.gridy = 7;
+		contentPane.add(swapsButton, gbc_swapsButton);
+		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
 			private static final long serialVersionUID = 7730149789169337564L;
 
@@ -205,7 +213,7 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		gbc_slotList.fill = GridBagConstraints.BOTH;
 		gbc_slotList.insets = new Insets(0, 0, 5, 5);
 		gbc_slotList.gridx = 0;
-		gbc_slotList.gridy = 7;
+		gbc_slotList.gridy = 8;
 		contentPane.add(slotList, gbc_slotList);
 		
 		changesHappenedwarningLabel = new JLabel("* Existem alterações não salvas ainda. Clique em Salvar.");
@@ -215,7 +223,7 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		gbc_changesHappenedwarningLabel.gridwidth = 6;
 		gbc_changesHappenedwarningLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_changesHappenedwarningLabel.gridx = 0;
-		gbc_changesHappenedwarningLabel.gridy = 8;
+		gbc_changesHappenedwarningLabel.gridy = 9;
 		changesHappenedwarningLabel.setVisible(false);
 		contentPane.add(changesHappenedwarningLabel, gbc_changesHappenedwarningLabel);
 		
@@ -225,7 +233,7 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		gbc_btnOk.anchor = GridBagConstraints.SOUTH;
 		gbc_btnOk.insets = new Insets(0, 0, 0, 5);
 		gbc_btnOk.gridx = 0;
-		gbc_btnOk.gridy = 9;
+		gbc_btnOk.gridy = 10;
 		contentPane.add(btnOk, gbc_btnOk);
 		
 		btnRemover = new JButton("Remover");
@@ -234,10 +242,13 @@ public class EditClassFrameLayout extends DisposableOnEscFrame{
 		gbc_btnRemover.anchor = GridBagConstraints.SOUTH;
 		gbc_btnRemover.insets = new Insets(0, 0, 0, 5);
 		gbc_btnRemover.gridx = 4;
-		gbc_btnRemover.gridy = 9;
+		gbc_btnRemover.gridy = 10;
 		contentPane.add(btnRemover, gbc_btnRemover);
 	}
 	protected JLabel getChangesHappenedwarningLabel() {
 		return changesHappenedwarningLabel;
+	}
+	protected JButton getSwapsButton() {
+		return swapsButton;
 	}
 }

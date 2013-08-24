@@ -1,7 +1,11 @@
 package services;
 
+import history.HistoryService;
+
 import java.awt.Color;
 import java.util.Collection;
+
+import dataUpdateSystem.RegistrationCentral;
 
 import repository.Repository;
 import repository.SimpleRepository;
@@ -32,6 +36,8 @@ public class ClassService extends BasicService{
 	
 	public void update(Class c){
 		list().update(c);
+		HistoryService.getInstance().registerChange(String.format("Edição de '%s'", c.completeName()));
+		RegistrationCentral.registerUpdate("Edição de turma");
 	}
 	
 	public Collection<Class> all(){
@@ -60,6 +66,13 @@ public class ClassService extends BasicService{
 
 	public void remove(Class ec) {
 		list().remove(ec);
+		HistoryService.getInstance().registerChange(String.format("Remoção de '%s'", ec.completeName()));
+		RegistrationCentral.registerUpdate("Remoção de turma");
+	}
+
+	public void completeSwap(Class theClass, Class other) {
+		HistoryService.getInstance().registerChange(String.format("Swap entre '%s' e '%s'", theClass.completeName(), other.completeName()));
+		RegistrationCentral.registerUpdate("Edição de turma");
 	}
 	
 }

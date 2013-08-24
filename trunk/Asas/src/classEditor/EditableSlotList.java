@@ -54,10 +54,6 @@ public abstract class EditableSlotList extends EditableJList<SlotRange>{
 	}
 	
 	public void addElement(SlotRange range){
-		try {
-			super.addElement((SlotRange) range.clone());
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
+		super.addElement((SlotRange) range.clone());
 	}
 }

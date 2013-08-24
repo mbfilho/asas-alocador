@@ -2,17 +2,18 @@ package classEditor;
 
 import group.filtering.FilterChooser;
 import group.filtering.InitialFilterConfiguration;
-import history.HistoryService;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
 
 import basic.Class;
 import basic.Classroom;
+import basic.Professor;
 import basic.SlotRange;
 import schedule.table.ScheduleVisualizationTable;
 import schedule.table.models.DisponibilityModel;
@@ -21,6 +22,8 @@ import utilities.GuiUtil;
 import utilities.Pair;
 
 import javax.swing.JScrollPane;
+
+import classEditor.swapper.Swapper;
 
 import dataUpdateSystem.CustomerType;
 import dataUpdateSystem.RegistrationCentral;
@@ -129,6 +132,17 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 		
 		professorList.setChangeListener(updateTableOnChange);
 		slotList.setChangeListener(updateTableOnChange);
+		
+		getSwapsButton().addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new Swapper(EditClassFrame.this, GuiUtil.getSelectedItem(classesComboBox)){
+
+					protected void onOkButton(Collection<Professor> profs, Collection<SlotRange> slots) {
+						
+					}
+				};
+			}
+		});
 	}
 	
 	private void saveEdition(){
@@ -137,16 +151,12 @@ public class EditClassFrame extends EditClassFrameLayout implements Updatable{
 			setValuesToClass(selected);
 			classService.update(selected);
 		}
-		HistoryService.getInstance().registerChange(String.format("Edição de '%s'", selected.completeName()));
-		RegistrationCentral.registerUpdate("Edição de turma");
 		getChangesHappenedwarningLabel().setVisible(false);
 	}
 	
 	
 	private void saveRemotion(Class toDelete){
 		classService.remove(toDelete);
-		HistoryService.getInstance().registerChange(String.format("Remoção de '%s'", toDelete.completeName()));
-		RegistrationCentral.registerUpdate("Remoção de turma");
 		getChangesHappenedwarningLabel().setVisible(false);
 	}
 	

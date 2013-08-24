@@ -2,10 +2,8 @@ package basic;
 
 import java.io.Serializable;
 
-import utilities.MyCloneable;
 
-
-public class Professor implements NamedEntity, Serializable, MyCloneable{
+public class Professor implements NamedEntity, Serializable{
 	private static final long serialVersionUID = 9092577287084935806L;
 	
 	private String name;
@@ -74,11 +72,7 @@ public class Professor implements NamedEntity, Serializable, MyCloneable{
 	public boolean isAway() {
 		return away;
 	}
-	
-	public Object clone() throws CloneNotSupportedException{
-		throw new CloneNotSupportedException();
-	}
-	
+		
 	public String toString(){
 		return getName();
 	}

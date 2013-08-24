@@ -2,9 +2,8 @@ package basic;
 
 import java.io.Serializable;
 import utilities.Constants;
-import utilities.MyCloneable;
 
-public class SlotRange implements NamedEntity, Serializable, MyCloneable{
+public class SlotRange implements NamedEntity, Serializable{
 	private static SlotRange _emptyRange = new SlotRange(-1, -1, -2, null);
 	
 	private static final long serialVersionUID = 7748615816585085336L;
@@ -97,8 +96,13 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 		this.room = room;
 	}
 	
-	public Object clone() throws CloneNotSupportedException{
-		return super.clone();
+	public SlotRange clone(){
+		try {
+			return (SlotRange) super.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	public boolean covers(SlotRange slot) {
@@ -111,5 +115,25 @@ public class SlotRange implements NamedEntity, Serializable, MyCloneable{
 	
 	public static int getSlotNumberEndingWithThisHour(String hh) {
 		return getSlotNumberStartingWithThisHour(hh) - 1;
+	}
+	
+	public void swapTime(SlotRange other){
+		int tmp = other.getDay();
+		other.setDay(day);
+		day = tmp;
+		
+		tmp = other.getStartSlot();
+		other.setStartSlot(start);
+		start = tmp;
+		
+		tmp = other.getEndSlot();
+		other.setEndSlot(end);
+		end = tmp;
+	}
+	
+	public void swapClassroom(SlotRange other){
+		Classroom tmp = other.getClassroom();
+		other.setClassroom(room);
+		room = tmp;
 	}
 }
