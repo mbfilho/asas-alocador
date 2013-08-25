@@ -7,11 +7,12 @@ import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
-import dataUpdateSystem.RegistrationCentral;
+import logic.dataUpdateSystem.DataUpdateCentral;
+import logic.services.AllowedWarningsService;
 
-import services.AllowedWarningsService;
+import data.persistentEntities.Warning;
 
-import warnings.types.Warning;
+
 
 public class WarningTableModel extends AbstractTableModel{
 	public static final int WARNING_COLUMN = 0;
@@ -66,7 +67,7 @@ public class WarningTableModel extends AbstractTableModel{
 			else allowedService.disallow(warnings.get(row));
 			
 			sortByAllowance();
-			RegistrationCentral.registerUpdate("Mudança na autorização de alertas.");
+			DataUpdateCentral.registerUpdate("Mudança na autorização de alertas.");
 		}
 		fireTableDataChanged();
 	}

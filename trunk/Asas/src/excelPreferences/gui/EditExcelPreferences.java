@@ -10,12 +10,14 @@ import java.util.Map.Entry;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 
-import excelPreferences.ExcelPreferences;
+import data.configurations.ExcelPreferences;
+import data.configurations.StateDescription;
+
+import logic.services.StateService;
+
 import exceptions.StateIOException;
 
 
-import services.StateService;
-import state.StateDescription;
 import utilities.ColorUtil;
 
 public class EditExcelPreferences extends EditExcelPreferencesLayout {

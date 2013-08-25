@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
 
-import dataUpdateSystem.CustomerType;
-import dataUpdateSystem.RegistrationCentral;
-import dataUpdateSystem.Updatable;
-import dataUpdateSystem.UpdateDescription;
+import logic.dataUpdateSystem.CustomerType;
+import logic.dataUpdateSystem.DataUpdateCentral;
+import logic.dataUpdateSystem.Updatable;
+import logic.dataUpdateSystem.UpdateDescription;
+import logic.historySystem.HistoryItem;
+import logic.historySystem.HistoryService;
+
 import exceptions.StateIOException;
 
 public class HistoryTableModel extends AbstractTableModel implements Updatable{
@@ -21,7 +24,7 @@ public class HistoryTableModel extends AbstractTableModel implements Updatable{
 		historyService = HistoryService.getInstance();
 		columnsNames = new String[]{"Histórico", "Hora da Modificação"};
 		update();
-		RegistrationCentral.signIn(this, CustomerType.Gui);
+		DataUpdateCentral.signIn(this, CustomerType.Gui);
 	}
 	
 	public String getColumnName(int col){

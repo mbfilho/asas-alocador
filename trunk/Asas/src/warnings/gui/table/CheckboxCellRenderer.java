@@ -8,7 +8,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
-import services.AllowedWarningsService;
+import logic.services.AllowedWarningsService;
+
 import utilities.ColorUtil;
 
 public class CheckboxCellRenderer extends JCheckBox implements TableCellRenderer{

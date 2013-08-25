@@ -15,13 +15,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import services.ProfessorService;
 import utilities.DisposableOnEscFrame;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+
+import logic.services.ProfessorService;
 
 public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
 

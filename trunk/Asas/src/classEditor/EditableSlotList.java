@@ -4,11 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 
-import services.WarningGeneratorService;
+import presentation.NamedPair;
+
+import logic.services.WarningGeneratorService;
+
+import data.persistentEntities.Class;
+import data.persistentEntities.SlotRange;
 
 
-import basic.SlotRange;
-import basic.Class;
+
 
 public abstract class EditableSlotList extends EditableJList<SlotRange>{
 	private static final long serialVersionUID = -1251207105891014457L;

@@ -2,18 +2,21 @@ package visualizer;
 
 
 import javax.swing.JFrame;
+
+import presentation.grouping.GroupsVisualizer;
+
 import java.awt.GridBagLayout;
 
 import java.awt.GridBagConstraints;
 
-import schedule.FilteredScheduleVisualizer;
-import services.WarningGeneratorService;
 
 import java.awt.Frame;
 
+import logic.services.WarningGeneratorService;
+
 public class Visualizer extends FrameWithMenu{
 	private static final long serialVersionUID = -6441797946984712515L;
-	private FilteredScheduleVisualizer panelWithTable;
+	private GroupsVisualizer panelWithTable;
 
 	public Visualizer(WarningGeneratorService warningService) {
 		super(warningService);
@@ -29,7 +32,7 @@ public class Visualizer extends FrameWithMenu{
 		gridBagLayout.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
 		
-		panelWithTable = new FilteredScheduleVisualizer();
+		panelWithTable = new GroupsVisualizer();
 		GridBagConstraints gbc_panelWithTable = new GridBagConstraints();
 		gbc_panelWithTable.fill = GridBagConstraints.BOTH;
 		gbc_panelWithTable.gridy = 0;

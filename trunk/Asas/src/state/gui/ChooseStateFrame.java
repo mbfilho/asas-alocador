@@ -13,9 +13,10 @@ import javax.swing.JList;
 
 import java.awt.Insets;
 
-import classEditor.NamedPair;
 
 import com.jgoodies.forms.factories.DefaultComponentFactory;
+
+import data.configurations.StateDescription;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JCheckBox;
@@ -23,9 +24,9 @@ import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 
+import presentation.NamedPair;
 
-import services.StateService;
-import state.StateDescription;
+
 import utilities.DisposableOnEscFrame;
 
 import java.awt.event.ActionListener;
@@ -34,6 +35,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+
+import logic.services.StateService;
 
 public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 

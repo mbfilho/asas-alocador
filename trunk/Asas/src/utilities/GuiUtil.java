@@ -7,9 +7,10 @@ import javax.swing.ComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 
-import basic.NamedEntity;
+import presentation.NamedPair;
 
-import classEditor.NamedPair;
+
+import data.NamedEntity;
 
 public class GuiUtil {
 

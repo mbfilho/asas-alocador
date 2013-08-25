@@ -13,38 +13,24 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
-import reportsDto.ProfessorWorkload;
-import services.AllocationService;
-import services.ElectivePreferencesService;
-import services.ReportService;
-import services.StateService;
-import services.WarningGeneratorService;
 import state.gui.LoadStateFrame;
 import state.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
-import warnings.WarningReport;
 import warnings.gui.WarningsFrame;
 import warnings.gui.table.WarningTable;
 
 import java.awt.GridBagLayout;
 
-import dataUpdateSystem.CustomerType;
-import dataUpdateSystem.RegistrationCentral;
-import dataUpdateSystem.Updatable;
-import dataUpdateSystem.UpdateDescription;
 import excelPreferences.gui.EditExcelPreferences;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
 
-import allocation.AllocationResult;
-import allocation.Allocator;
-import allocation.DefaultAllocator;
-import classEditor.AddClassFrame;
-import classEditor.EditClassFrame;
 import classrooms.AddClassroomFrame;
 import classrooms.EditClassroomFrame;
+import presentation.classes.addition.AddClass;
+import presentation.classes.edition.EditClass;
 import professors.AddProfessorFrame;
 import professors.EditProfessorFrame;
 
@@ -52,6 +38,21 @@ import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.util.List;
 import javax.swing.JPanel;
+
+import logic.allocation.Allocator;
+import logic.allocation.DefaultAllocator;
+import logic.dataUpdateSystem.CustomerType;
+import logic.dataUpdateSystem.DataUpdateCentral;
+import logic.dataUpdateSystem.Updatable;
+import logic.dataUpdateSystem.UpdateDescription;
+import logic.dto.AllocationResult;
+import logic.dto.ProfessorWorkload;
+import logic.dto.WarningReport;
+import logic.services.AllocationService;
+import logic.services.ElectivePreferencesService;
+import logic.services.ReportService;
+import logic.services.StateService;
+import logic.services.WarningGeneratorService;
 
 
 public class FrameWithMenu extends JFrame implements Updatable{
@@ -68,7 +69,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 	private JPanel historyTablePanel;
 	
 	public FrameWithMenu(WarningGeneratorService service) {
-		RegistrationCentral.signIn(this, CustomerType.Gui);
+		DataUpdateCentral.signIn(this, CustomerType.Gui);
 		warningService = service;
 		
 		JMenuBar menuBar = new JMenuBar();
@@ -126,7 +127,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
 		mntmTurmas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditClassFrame();
+				new EditClass();
 			}
 		});
 		
@@ -183,7 +184,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmTurma = new JMenuItem("Turma");
 		mntmTurma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddClassFrame(warningService);
+				new AddClass(warningService);
 			}
 		});
 		mnAdicionar.add(mntmTurma);
@@ -219,7 +220,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 
 				JFrame frame = new HtmlTableFrame(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
 				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
-				RegistrationCentral.registerUpdate("Alocação de eletivas realizada");
+				DataUpdateCentral.registerUpdate("Alocação de eletivas realizada");
 			}
 		});
 		mnEltivas.add(mntmAlocar);
@@ -236,7 +237,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 						);
 				if(op == JOptionPane.YES_OPTION){
 					new AllocationService().clearAllocation();
-					RegistrationCentral.registerUpdate("Alocação de eletivas defeita.");
+					DataUpdateCentral.registerUpdate("Alocação de eletivas defeita.");
 				}
 			}
 		});

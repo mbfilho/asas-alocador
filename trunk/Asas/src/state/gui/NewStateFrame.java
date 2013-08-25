@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
+import data.persistentEntities.State;
 import exceptions.StateIOException;
 
 import java.awt.GridBagConstraints;
@@ -14,9 +15,9 @@ import java.util.Date;
 
 import javax.swing.JTextField;
 
+import logic.services.StateService;
 
-import services.StateService;
-import state.State;
+
 
 public class NewStateFrame extends ChooseStateFrame{
 	private static final long serialVersionUID = 8910633735786246632L;

@@ -1,10 +1,10 @@
 package schedule.table.models;
 
-import group.Group;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JLabel;
@@ -12,15 +12,18 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import schedule.ScheduleSlot;
+import logic.dto.schedule.ScheduleSlot;
+import logic.dto.schedule.grouping.Group;
+
+import data.persistentEntities.Class;
+import data.persistentEntities.Professor;
+import data.persistentEntities.SlotRange;
+
 import utilities.Constants;
-import basic.Class;
-import basic.Professor;
-import basic.SlotRange;
 
 public class GeneralGroupModel extends GeneralScheduleModel{
 	private static final long serialVersionUID = 4209162051390757299L;
-	protected Vector<ScheduleSlot> theSchedule[][];
+	protected List<ScheduleSlot> theSchedule[][];
 	
 	public GeneralGroupModel(Group g){
 		this.theSchedule = g.schedule.getSchedule();
@@ -29,12 +32,12 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 	
 	public GeneralGroupModel(){}
 	
-	protected void configureTable(Vector<ScheduleSlot> schedule[][]){
+	protected void configureTable(List<ScheduleSlot> schedule[][]){
 		this.theSchedule = schedule;
 		buildTable(schedule);
 	}
 	
-	protected boolean solveConflict(Vector<ScheduleSlot> conflictingScheduleSlots, int row, int column){
+	protected boolean solveConflict(List<ScheduleSlot> conflictingScheduleSlots, int row, int column){
 		cellState[row][column].setBackColor(Color.yellow);
 		cellState[row][column].setFontColor(Color.black);
 		cellState[row][column].setValue("Conflitos autorizados.");
@@ -46,7 +49,7 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 		JPanel panel = null;
 		
 		if(theSchedule[slot][day].size() > 1){
-			Vector<ScheduleSlot> scheduled = theSchedule[slot][day];
+			List<ScheduleSlot> scheduled = theSchedule[slot][day];
 			panel = new JPanel(new GridLayout());
 			panel.add(new JLabel("Turmas conflitantes:"));
 			
@@ -54,7 +57,7 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 				addClassInfoToPanel(slotScheduled.theClass, panel);
 			
 		}else if(theSchedule[slot][day].size() == 1){
-			Class scheduled = theSchedule[slot][day].firstElement().theClass;
+			Class scheduled = theSchedule[slot][day].get(0).theClass;
 			panel = new JPanel(new GridLayout());
 			addClassInfoToPanel(scheduled, panel);
 		}
@@ -97,7 +100,7 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 			thePanel.add(createColoredLabel(r.getName(), theClass.getColor()));
 	}
 	
-	protected void buildTable(Vector<ScheduleSlot> schedule[][]){
+	protected void buildTable(List<ScheduleSlot> schedule[][]){
 		for(int i = 0; i < Constants.SLOTS; ++i){
 			for(int j = 0; j < Constants.DAYS; ++j){
 				int row = i, column = j + 1;
@@ -110,7 +113,7 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 						cellState[row][column].setValue("Conflito. Clique aqui.");
 					}
 				}else if(schedule[i][j].size() == 1){
-					Class theClass = schedule[i][j].firstElement().theClass; 
+					Class theClass = schedule[i][j].get(0).theClass; 
 					cellState[row][column].setBackColor(theClass.getColor());
 					cellState[row][column].setFontColor(Color.black);
 					cellState[row][column].setValue(theClass.completeName());
@@ -123,7 +126,7 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 		}
 	}
 	
-	protected Vector<Class> getClassesFromConflictingScheduleSlot(Vector<ScheduleSlot> slots){
+	protected Vector<Class> getClassesFromConflictingScheduleSlot(List<ScheduleSlot> slots){
 		Vector<Class> classes = new Vector<Class>();
 		for(ScheduleSlot slot : slots) classes.add(slot.theClass);
 		return classes;

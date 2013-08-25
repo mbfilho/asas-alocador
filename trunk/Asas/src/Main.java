@@ -7,33 +7,34 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import logic.dataUpdateSystem.DataUpdateCentral;
+import logic.services.StateService;
+import logic.services.WarningGeneratorService;
 
-import dataUpdateSystem.RegistrationCentral;
-import excelPreferences.ExcelPreferences;
+
+import data.DataValidation;
+import data.configurations.ExcelPreferences;
+import data.configurations.StateDescription;
+import data.persistentEntities.Class;
+import data.persistentEntities.Classroom;
+import data.persistentEntities.ElectiveClass;
+import data.persistentEntities.ElectiveClassPreferences;
+import data.persistentEntities.Professor;
+import data.persistentEntities.State;
+import data.readers.fileReaders.FileClassReader;
+import data.readers.fileReaders.FileClassRoomReader;
+import data.readers.fileReaders.FileElectivePreferenceReader;
+import data.readers.fileReaders.FileElectiveReader;
+import data.readers.fileReaders.FileProfessorReader;
+import data.repository.Repository;
 import excelPreferences.gui.EditExcelPreferences;
 import excelPreferences.gui.EditExcelPreferencesLayout;
 import excelPreferences.gui.RoomListEditorInterface;
 
 
 
-import basic.Classroom;
-import basic.DataValidation;
-import basic.ElectiveClass;
-import basic.ElectiveClassPreferences;
-import basic.Professor;
 
-import repository.Repository;
-import services.StateService;
-import services.WarningGeneratorService;
-import state.State;
-import state.StateDescription;
-import state.persistence.fileReaders.FileClassReader;
-import state.persistence.fileReaders.FileClassRoomReader;
-import state.persistence.fileReaders.FileElectivePreferenceReader;
-import state.persistence.fileReaders.FileElectiveReader;
-import state.persistence.fileReaders.FileProfessorReader;
 import visualizer.Visualizer;
-import basic.Class;
 
 public class Main {
 

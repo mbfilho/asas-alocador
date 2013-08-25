@@ -13,8 +13,11 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import presentation.NamedPair;
+
+import data.NamedEntity;
+
 import utilities.DisposableOnEscFrame;
-import basic.NamedEntity;
 
 
 abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFrame {

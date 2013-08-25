@@ -7,9 +7,11 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
 
-import services.AllowedWarningsService;
+import data.persistentEntities.Warning;
+
+import logic.services.AllowedWarningsService;
+
 import utilities.ColorUtil;
-import warnings.types.Warning;
 
 public class LabelCellRenderer extends JLabel implements TableCellRenderer{
 
