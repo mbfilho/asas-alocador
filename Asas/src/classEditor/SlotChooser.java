@@ -17,20 +17,14 @@ import javax.swing.JComboBox;
 import java.util.Collection;
 import java.util.Vector;
 
-import basic.Class;
 
 import javax.swing.JButton;
 
-import services.ConflictService;
-import services.StateService;
-import services.WarningGeneratorService;
 import utilities.Constants;
 import utilities.DisposableOnEscFrame;
 
 import javax.swing.DefaultComboBoxModel;
 
-import basic.Classroom;
-import basic.SlotRange;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -38,6 +32,16 @@ import java.awt.event.ActionEvent;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+
+import presentation.NamedPair;
+
+import logic.services.ConflictService;
+import logic.services.StateService;
+import logic.services.WarningGeneratorService;
+
+import data.persistentEntities.Class;
+import data.persistentEntities.Classroom;
+import data.persistentEntities.SlotRange;
 
 public abstract class SlotChooser extends DisposableOnEscFrame {
 

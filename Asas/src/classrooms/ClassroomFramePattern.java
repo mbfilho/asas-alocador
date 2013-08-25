@@ -6,7 +6,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import basic.Classroom;
 
 import java.awt.GridBagLayout;
 
@@ -20,7 +19,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-import services.ClassroomService;
+import logic.services.ClassroomService;
+
+import data.persistentEntities.Classroom;
+
 import utilities.DisposableOnEscFrame;
 
 public abstract class ClassroomFramePattern extends DisposableOnEscFrame {

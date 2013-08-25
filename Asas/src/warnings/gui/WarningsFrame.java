@@ -4,15 +4,16 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import dataUpdateSystem.CustomerType;
-import dataUpdateSystem.RegistrationCentral;
-import dataUpdateSystem.Updatable;
-import dataUpdateSystem.UpdateDescription;
+import logic.dataUpdateSystem.CustomerType;
+import logic.dataUpdateSystem.DataUpdateCentral;
+import logic.dataUpdateSystem.Updatable;
+import logic.dataUpdateSystem.UpdateDescription;
+import logic.dto.WarningReport;
+import logic.services.WarningGeneratorService;
 
-import services.WarningGeneratorService;
+
 import utilities.DisposableOnEscFrame;
 import utilities.GuiUtil;
-import warnings.WarningReport;
 import warnings.gui.table.WarningTable;
 
 public class WarningsFrame extends DisposableOnEscFrame implements Updatable{
@@ -30,12 +31,12 @@ public class WarningsFrame extends DisposableOnEscFrame implements Updatable{
 		updateTabs();
 		getContentPane().add(new JScrollPane(pane));
 		setVisible(true);
-		RegistrationCentral.signIn(this, CustomerType.Gui);
+		DataUpdateCentral.signIn(this, CustomerType.Gui);
 	}
 
 	public void dispose(){
 		super.dispose();
-		RegistrationCentral.signOut(this);
+		DataUpdateCentral.signOut(this);
 	}
 	
 	private void updateTabs(){

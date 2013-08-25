@@ -14,14 +14,16 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
-import basic.Class;
 
-import classEditor.EditClassFrame;
-import classEditor.NamedPair;
+import presentation.NamedPair;
+import presentation.classes.edition.EditClass;
 
-import services.AllowedWarningsService;
+import logic.services.AllowedWarningsService;
 
-import warnings.types.Warning;
+import data.persistentEntities.Class;
+import data.persistentEntities.Warning;
+
+
 
 public class WarningTable extends JTable {
 	private static final long serialVersionUID = -6035225065621591680L;
@@ -60,7 +62,7 @@ public class WarningTable extends JTable {
 						JMenuItem solveItem = new JMenuItem(c.name);
 						solveItem.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								new EditClassFrame(selected.getInfoToSolve(c.data));
+								new EditClass(selected.getInfoToSolve(c.data));
 							}
 						});
 						menu.add(solveItem);

@@ -1,6 +1,6 @@
 package professors;
 
-import basic.Professor;
+import data.persistentEntities.Professor;
 
 public class AddProfessorFrame extends ProfessorFramePattern{
 	private static final long serialVersionUID = 2807943615463738926L;

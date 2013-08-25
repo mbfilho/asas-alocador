@@ -7,9 +7,10 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JComboBox;
 
-import classEditor.NamedPair;
+import presentation.NamedPair;
 
-import basic.Classroom;
+import data.persistentEntities.Classroom;
+
 
 
 import java.awt.GridBagLayout;

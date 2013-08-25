@@ -4,11 +4,13 @@ import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import presentation.NamedPair;
 
-import services.StateService;
-import state.StateDescription;
+import logic.services.StateService;
 
-import classEditor.NamedPair;
+
+
+import data.configurations.StateDescription;
 
 import exceptions.StateIOException;
 

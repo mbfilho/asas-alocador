@@ -10,10 +10,12 @@ import java.util.Collection;
 
 import javax.swing.JLabel;
 
-import classEditor.NamedPair;
-import dataUpdateSystem.RegistrationCentral;
+import presentation.NamedPair;
 
-import basic.Professor;
+import logic.dataUpdateSystem.DataUpdateCentral;
+
+import data.persistentEntities.Professor;
+
 
 public class EditProfessorFrame extends ProfessorFramePattern {
 	private DefaultComboBoxModel<NamedPair<Professor>> professorCBModel;
@@ -84,7 +86,7 @@ public class EditProfessorFrame extends ProfessorFramePattern {
 			professorService.update(toEdit);
 		}
 		setVisible(false);
-		RegistrationCentral.registerUpdate("Edição de professor");
+		DataUpdateCentral.registerUpdate("Edição de professor");
 	}
 
 }

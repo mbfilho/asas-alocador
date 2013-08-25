@@ -8,15 +8,17 @@ import java.util.Vector;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import services.ConflictService;
+import logic.services.ConflictService;
+
+import data.persistentEntities.Class;
+import data.persistentEntities.Classroom;
+import data.persistentEntities.Professor;
+import data.persistentEntities.SlotRange;
+
 import utilities.ColorUtil;
 import utilities.Constants;
 import utilities.Pair;
 
-import basic.Classroom;
-import basic.Class;
-import basic.Professor;
-import basic.SlotRange;
 
 public class DisponibilityModel extends GeneralScheduleModel {
 	private static final long serialVersionUID = 8119692674051932307L;
