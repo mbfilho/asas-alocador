@@ -2,7 +2,7 @@ package schedule.table.models;
 
 import java.util.Vector;
 
-import logic.dto.schedule.ScheduleSlot;
+import logic.schedule.ScheduleSlot;
 
 
 public class GroupBySemesterModel extends GeneralGroupModel {

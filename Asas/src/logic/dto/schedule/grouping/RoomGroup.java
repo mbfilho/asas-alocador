@@ -1,7 +1,6 @@
 package logic.dto.schedule.grouping;
 
-import logic.dto.schedule.Schedule;
-import logic.dto.schedule.ScheduleSlot;
+import logic.schedule.Schedule;
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.SlotRange;
@@ -21,7 +20,7 @@ public class RoomGroup extends Group{
 	public void addClassToGroup(Class c){
 		for(SlotRange slot : c.getSlots()){
 			if(slot.getClassroom() == theRoom)
-				schedule.addScheduleSlot(new ScheduleSlot(c), slot);
+				schedule.addClassToThisRange(c, slot);
 		}
 	}
 }

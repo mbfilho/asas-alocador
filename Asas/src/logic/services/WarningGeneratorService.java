@@ -87,7 +87,7 @@ public class WarningGeneratorService {
 		return getSameProfConflicts(new Vector<Class>(classService.all()));
 	}
 	
-	protected Vector<Warning> getSameProfConflicts(Vector<Class> allClasses){
+	protected Vector<Warning> getSameProfConflicts(List<Class> allClasses){
 		Vector<Warning> warnings = new Vector<Warning>();
 		
 		for(int i = 0; i < allClasses.size(); ++i){

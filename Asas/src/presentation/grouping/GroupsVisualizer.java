@@ -79,9 +79,9 @@ public class GroupsVisualizer extends JPanel{
 		for(final Group g : groups){
 			GeneralGroupModel tableModel = null;
 			if(g instanceof RoomGroup){
-				tableModel = new GroupByClassroomModel(g.schedule.getSchedule(), ((RoomGroup)g).theRoom);
+				tableModel = new GroupByClassroomModel(g.schedule, ((RoomGroup)g).theRoom);
 			}else if(g instanceof ProfessorGroup){
-				tableModel = new GroupByProfessorModel(g.schedule.getSchedule(), ((ProfessorGroup) g).theProfessor);
+				tableModel = new GroupByProfessorModel(g.schedule, ((ProfessorGroup) g).theProfessor);
 			}else{
 				tableModel = new GeneralGroupModel(g);
 			}

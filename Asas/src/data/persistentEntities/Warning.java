@@ -23,6 +23,12 @@ public abstract class Warning implements Serializable, NamedEntity{
 		return getMessage();
 	}
 	
+	/*TODO:Substituir os metodos abstratos por esses
+	public abstract List<Class> getConflictedClasses();
+	public abstract List<Professor> getConflictedProfessors();
+	public abstract Classroom getConflictedRoom();
+	//*/
+	
 	public abstract InitialEditState getInfoToSolve(Class selected);
 	
 	public abstract List<NamedPair<Class>> getSolutionList();
