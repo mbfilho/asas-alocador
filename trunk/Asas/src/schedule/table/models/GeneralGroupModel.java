@@ -5,15 +5,14 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import logic.dto.schedule.ScheduleSlot;
 import logic.dto.schedule.grouping.Group;
+import logic.schedule.Schedule;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Professor;
@@ -23,21 +22,20 @@ import utilities.Constants;
 
 public class GeneralGroupModel extends GeneralScheduleModel{
 	private static final long serialVersionUID = 4209162051390757299L;
-	protected List<ScheduleSlot> theSchedule[][];
+	protected Schedule theSchedule;
 	
 	public GeneralGroupModel(Group g){
-		this.theSchedule = g.schedule.getSchedule();
-		configureTable(g.schedule.getSchedule());
+		this.theSchedule = g.schedule;
+		configureTable(g.schedule);
 	}
 	
 	public GeneralGroupModel(){}
 	
-	protected void configureTable(List<ScheduleSlot> schedule[][]){
-		this.theSchedule = schedule;
+	protected void configureTable(Schedule schedule){
 		buildTable(schedule);
 	}
 	
-	protected boolean solveConflict(List<ScheduleSlot> conflictingScheduleSlots, int row, int column){
+	protected boolean solveConflict(List<Class> conflictingClasses, int row, int column){
 		cellState[row][column].setBackColor(Color.yellow);
 		cellState[row][column].setFontColor(Color.black);
 		cellState[row][column].setValue("Conflitos autorizados.");
@@ -48,16 +46,15 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 	private JPanel buildPopupForSlot(int slot, int day){
 		JPanel panel = null;
 		
-		if(theSchedule[slot][day].size() > 1){
-			List<ScheduleSlot> scheduled = theSchedule[slot][day];
+		if(theSchedule.hasConflict(slot, day)){
 			panel = new JPanel(new GridLayout());
 			panel.add(new JLabel("Turmas conflitantes:"));
 			
-			for(ScheduleSlot slotScheduled : scheduled)
-				addClassInfoToPanel(slotScheduled.theClass, panel);
+			for(Class conflicted: theSchedule.getClassesForRead(slot, day))
+				addClassInfoToPanel(conflicted, panel);
 			
-		}else if(theSchedule[slot][day].size() == 1){
-			Class scheduled = theSchedule[slot][day].get(0).theClass;
+		}else if(!theSchedule.isEmptySlot(slot, day)){
+			Class scheduled = theSchedule.getSingleClass(slot, day);
 			panel = new JPanel(new GridLayout());
 			addClassInfoToPanel(scheduled, panel);
 		}
@@ -100,20 +97,20 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 			thePanel.add(createColoredLabel(r.getName(), theClass.getColor()));
 	}
 	
-	protected void buildTable(List<ScheduleSlot> schedule[][]){
+	protected void buildTable(Schedule schedule){
 		for(int i = 0; i < Constants.SLOTS; ++i){
 			for(int j = 0; j < Constants.DAYS; ++j){
 				int row = i, column = j + 1;
 				cellState[row][column].setValue("");
 				
-				if(schedule[i][j].size() > 1){
-					if(!solveConflict(schedule[i][j], row, column)){
+				if(schedule.hasConflict(i, j)){
+					if(!solveConflict(schedule.getClassesForRead(i, j), row, column)){
 						cellState[row][column].setBackColor(Color.red);
 						cellState[row][column].setFontColor(Color.white);
 						cellState[row][column].setValue("Conflito. Clique aqui.");
 					}
-				}else if(schedule[i][j].size() == 1){
-					Class theClass = schedule[i][j].get(0).theClass; 
+				}else if(!schedule.isEmptySlot(i,j)){
+					Class theClass = schedule.getSingleClass(i, j); 
 					cellState[row][column].setBackColor(theClass.getColor());
 					cellState[row][column].setFontColor(Color.black);
 					cellState[row][column].setValue(theClass.completeName());
@@ -124,11 +121,5 @@ public class GeneralGroupModel extends GeneralScheduleModel{
 				}
 			}
 		}
-	}
-	
-	protected Vector<Class> getClassesFromConflictingScheduleSlot(List<ScheduleSlot> slots){
-		Vector<Class> classes = new Vector<Class>();
-		for(ScheduleSlot slot : slots) classes.add(slot.theClass);
-		return classes;
 	}
 }

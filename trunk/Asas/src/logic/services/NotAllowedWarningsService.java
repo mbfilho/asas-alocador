@@ -40,7 +40,7 @@ public class NotAllowedWarningsService extends WarningGeneratorService{
 	}
 
 	public Vector<SameProfessorsWarning> getNotAllowedSameProfessorWarnings(
-			Vector<Class> classes, Professor theProfessor, SlotRange range) {
+			List<Class> classes, Professor theProfessor, SlotRange range) {
 		
 		Vector<Warning> allSameProfessorWarnings = getSameProfConflicts(classes);
 		Vector<SameProfessorsWarning> onlyForThisProfessorAndSlot = new Vector<SameProfessorsWarning>();
@@ -58,7 +58,7 @@ public class NotAllowedWarningsService extends WarningGeneratorService{
 	}
 	
 	public boolean hasNotAllowedSameProfessorWarnings(
-			Vector<Class> classes, Professor theProfessor, SlotRange range){
+			List<Class> classes, Professor theProfessor, SlotRange range){
 		return !getNotAllowedSameProfessorWarnings(classes, theProfessor, range).isEmpty();
 	}
 }

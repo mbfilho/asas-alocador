@@ -1,6 +1,6 @@
 package logic.dto.schedule.grouping;
 
-import logic.dto.schedule.Schedule;
+import logic.schedule.Schedule;
 import data.persistentEntities.Professor;
 
 public class ProfessorGroup extends Group{

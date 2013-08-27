@@ -2,7 +2,7 @@ package schedule.table.models;
 
 import java.util.List;
 
-import logic.dto.schedule.ScheduleSlot;
+import logic.schedule.Schedule;
 import logic.services.NotAllowedWarningsService;
 
 import data.persistentEntities.Class;
@@ -16,19 +16,18 @@ public class GroupByClassroomModel extends GeneralGroupModel{
 	private Classroom theRoom;
 	private NotAllowedWarningsService notAllowedService;
 	
-	public GroupByClassroomModel(List<ScheduleSlot> schedule[][], Classroom room){
+	public GroupByClassroomModel(Schedule schedule, Classroom room){
 		theSchedule = schedule;
 		theRoom = room;
 		notAllowedService = new NotAllowedWarningsService();
 		configureTable(schedule);
 	}
 	
-	protected boolean solveConflict(List<ScheduleSlot> theScheduleSlot, int row, int column) {
-		List<Class> classes = getClassesFromConflictingScheduleSlot(theScheduleSlot);
+	protected boolean solveConflict(List<Class> conflictingClasses, int row, int column) {
 		SlotRange range = SlotRange.singleSlotRange(column-1, row);
 		
-		if(!notAllowedService.hasNotAllowedSameRoomWarnings(classes, theRoom, range)){
-			super.solveConflict(theScheduleSlot, row, column);
+		if(!notAllowedService.hasNotAllowedSameRoomWarnings(conflictingClasses, theRoom, range)){
+			super.solveConflict(conflictingClasses, row, column);
 			return true;
 		}
 		
