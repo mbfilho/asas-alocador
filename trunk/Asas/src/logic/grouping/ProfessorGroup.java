@@ -1,4 +1,4 @@
-package logic.dto.schedule.grouping;
+package logic.grouping;
 
 import logic.schedule.Schedule;
 import data.persistentEntities.Professor;
