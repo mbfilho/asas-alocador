@@ -8,15 +8,13 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import schedule.table.LabelCellRenderer;
-import schedule.table.models.GeneralScheduleModel;
 
 
 public class ScheduleTable extends JTable{
 	private static final long serialVersionUID = -7132674009508957802L;
-	private GeneralScheduleModel model;
+	private ScheduleTabelModel model;
 	
-	public ScheduleTable(GeneralScheduleModel tableModel){
+	public ScheduleTable(ScheduleTabelModel tableModel){
 		super(tableModel);
 		this.model = tableModel;
 		LabelCellRenderer render = new LabelCellRenderer();

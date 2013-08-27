@@ -16,6 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import presentation.schedule.ScheduleTabelModel;
 import presentation.schedule.ScheduleTable;
 
 import classEditor.EditableJList;
@@ -25,6 +26,7 @@ import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
+import logic.schedule.formatting.formatters.SlotDisponibilityFormatter;
 import logic.services.ClassService;
 import logic.services.ProfessorService;
 import logic.services.WarningGeneratorService;
@@ -34,7 +36,6 @@ import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
 
-import schedule.table.models.DisponibilityModel;
 import utilities.DisposableOnEscFrame;
 
 public class AddClass extends DisposableOnEscFrame implements Updatable{
@@ -261,7 +262,7 @@ public class AddClass extends DisposableOnEscFrame implements Updatable{
 		tabbedPane.removeAll();
 		
 		for(Classroom r : rooms){
-			ScheduleTable table = new ScheduleTable(new DisponibilityModel(selected, r));
+			ScheduleTable table = new ScheduleTable(new ScheduleTabelModel(new SlotDisponibilityFormatter(selected, r)));
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
 	}

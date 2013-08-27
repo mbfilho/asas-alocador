@@ -1,12 +1,13 @@
 package logic.services;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
+
+import logic.dto.ProfessorIndisponibility;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
-
-import utilities.Pair;
 
 
 public class ConflictService {
@@ -27,21 +28,20 @@ public class ConflictService {
 		return true;
 	}
 
-	public Vector<Pair<Professor, Class>> getUnavailableProfessorsOfThisClass(Class theClass, SlotRange range){
-		Vector<Pair<Professor, Class>> profsAndClass = new Vector<Pair<Professor, Class>>();
+	public List<ProfessorIndisponibility> getUnavailableProfessorsOfThisClass(Class theClass, SlotRange range){
+		List<ProfessorIndisponibility> profsAndClass = new LinkedList<ProfessorIndisponibility>();
 		
 		for(Professor prof : theClass.getProfessors()){
 			for(Class c : classService.all()){
 				if(c.getId() == theClass.getId()) continue;
 				if(!c.getProfessors().contains(prof)) continue;
-				boolean foundConflict = false;
 				
 				for(SlotRange r : c.getSlots())	if(r.intersects(range)){
-					profsAndClass.add(new Pair<Professor, Class>(prof, c));
-					foundConflict = true;
+					SlotRange slot = range.clone();
+					slot.setClassroom(r.getClassroom());
+					profsAndClass.add(new ProfessorIndisponibility(prof, c, slot));
 					break;
 				}
-				if(foundConflict) break;
 			}
 		}
 		
@@ -59,8 +59,8 @@ public class ConflictService {
 		return false;
 	}
 
-	public Vector<Class> getClassesOccupingThisRoom(SlotRange range) {
-		Vector<Class> classes = new Vector<Class>();
+	public List<Class> getClassesOccupingThisRoom(SlotRange range) {
+		List<Class> classes = new LinkedList<Class>();
 		for(Class c : classService.all()){
 			for(SlotRange r : c.getSlots()){
 				if(r.getClassroom() == range.getClassroom() && range.intersects(r)){

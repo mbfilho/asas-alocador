@@ -1,4 +1,4 @@
-package schedule.table;
+package presentation.schedule;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -10,6 +10,8 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.table.TableCellRenderer;
+
+import utilities.StringUtil;
 
 
 public class LabelCellRenderer extends JLabel implements TableCellRenderer{
@@ -38,7 +40,8 @@ public class LabelCellRenderer extends JLabel implements TableCellRenderer{
 		}
 		
 		setBorder(state.getBorder() == null ? defaultBorder : state.getBorder());
-		setToolTipText(state.getTooltip());
+		if(!StringUtil.isNullOrEmpty(state.getTooltip()))
+			setToolTipText(state.getTooltip());
 		setBackground(state.getBackColor());
 		setForeground(state.getFontColor());
 		

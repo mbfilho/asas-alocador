@@ -1,9 +1,8 @@
 package presentation;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.SlotRange;
@@ -15,24 +14,12 @@ public abstract class PeriodicClassComparator extends Thread{
 
 	private boolean dirty;
 	private boolean alive;
-	private Comparator<SlotRange> slotComparator;
 	
 	protected abstract Pair<Class, Class> getClassesToCompare();
 	protected abstract void onChangeState(boolean isDirty);
 	
 	public PeriodicClassComparator(){
 		alive = true;
-		slotComparator = new Comparator<SlotRange>() {
-			public int compare(SlotRange o1, SlotRange o2) {
-				if(o1.getDay() != o2.getDay()) return o1.getDay() - o2.getDay();
-				if(o1.getStartSlot() != o2.getStartSlot()) return o1.getStartSlot() - o2.getStartSlot();
-				if(o1.getEndSlot() != o2.getEndSlot()) return o1.getEndSlot() - o2.getEndSlot();
-				if(o1.getClassroom() == null && o2.getClassroom() == null) return 0;
-				if(o1.getClassroom() == null && o2.getClassroom() != null) return -1;
-				if(o1.getClassroom() != null && o2.getClassroom() == null) return 1;
-				return o1.getClassroom().getName().compareTo(o2.getClassroom().getName());
-			}
-		};
 		start();
 	}
 	
@@ -46,12 +33,12 @@ public abstract class PeriodicClassComparator extends Thread{
 	
 	private boolean areSlotListEquals(Collection<SlotRange> a, Collection<SlotRange> b){
 		if(a.size() != b.size()) return false;
-		List<SlotRange> orderedA = new Vector<SlotRange>(a), orderedB = new Vector<SlotRange>(b);
+		List<SlotRange> orderedA = new ArrayList<SlotRange>(a), orderedB = new ArrayList<SlotRange>(b);
 		
-		Collections.sort(orderedA, slotComparator);
-		Collections.sort(orderedB, slotComparator);
+		Collections.sort(orderedA);
+		Collections.sort(orderedB);
 		for(int i = 0; i < orderedA.size(); ++i){
-			if(slotComparator.compare(orderedA.get(i), orderedB.get(i)) != 0) 
+			if(orderedA.get(i).compareTo(orderedB.get(i)) != 0) 
 				return false;
 		}
 		return true;

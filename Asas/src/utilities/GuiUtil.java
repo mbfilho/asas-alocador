@@ -41,7 +41,7 @@ public class GuiUtil {
 	}
 	
 	public static void selectTabWithThisTitle(JTabbedPane pane, String title){
-		if(null == null) return;
+		if(null == title) return;
 		
 		for(int i = 0; i < pane.getTabCount(); ++i){
 			if(pane.getTitleAt(i).equals(title)){
