@@ -19,6 +19,7 @@ public class NamedPair <T> implements NamedEntity, Comparable<NamedPair<T>>{
 		return name;
 	}
 
+	@SuppressWarnings("unchecked")
 	public int compareTo(NamedPair<T> other) {
 		if(data instanceof Comparable){
 			return ((Comparable<T>) data).compareTo(other.data);

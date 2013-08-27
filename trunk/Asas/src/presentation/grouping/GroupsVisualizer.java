@@ -5,11 +5,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
+import presentation.schedule.ScheduleTabelModel;
 import presentation.schedule.ScheduleTable;
 
-import schedule.table.models.GeneralGroupModel;
-import schedule.table.models.GroupByClassroomModel;
-import schedule.table.models.GroupByProfessorModel;
 import utilities.GuiUtil;
 
 import java.awt.GridBagLayout;
@@ -20,6 +18,9 @@ import logic.dto.GroupsSelector;
 import logic.grouping.Group;
 import logic.grouping.ProfessorGroup;
 import logic.grouping.RoomGroup;
+import logic.schedule.formatting.formatters.GroupByClassroomFormatter;
+import logic.schedule.formatting.formatters.GroupByProfessorFormatter;
+import logic.schedule.formatting.formatters.GroupFormatter;
 import logic.services.GroupMakerService;
 
 
@@ -77,13 +78,13 @@ public class GroupsVisualizer extends JPanel{
 		clearTabs();
 		List<Group> groups = new GroupMakerService().getGroupsDefinedByTheSelector(groupSelector.getSelector());
 		for(final Group g : groups){
-			GeneralGroupModel tableModel = null;
+			ScheduleTabelModel tableModel = null;
 			if(g instanceof RoomGroup){
-				tableModel = new GroupByClassroomModel(g.schedule, ((RoomGroup)g).theRoom);
+				tableModel = new ScheduleTabelModel(new GroupByClassroomFormatter(g.schedule, ((RoomGroup)g).theRoom));
 			}else if(g instanceof ProfessorGroup){
-				tableModel = new GroupByProfessorModel(g.schedule, ((ProfessorGroup) g).theProfessor);
+				tableModel = new ScheduleTabelModel(new GroupByProfessorFormatter(g.schedule, ((ProfessorGroup) g).theProfessor));
 			}else{
-				tableModel = new GeneralGroupModel(g);
+				tableModel = new ScheduleTabelModel(new GroupFormatter(g.schedule));
 			}
 			JScrollPane tableScroll = new JScrollPane(new ScheduleTable(tableModel));
 			groupsTabbedPane.addTab(g.groupName, tableScroll);

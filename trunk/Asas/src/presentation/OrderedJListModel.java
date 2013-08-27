@@ -6,8 +6,6 @@ import java.util.List;
 
 import javax.swing.AbstractListModel;
 
-
-
 public class OrderedJListModel<T extends Comparable<T>> extends AbstractListModel<T>{
 	private static final long serialVersionUID = -7473915893149369589L;
 	private List<T> elements;
@@ -25,6 +23,7 @@ public class OrderedJListModel<T extends Comparable<T>> extends AbstractListMode
 		elements.clear();
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <E> Collection<E> getAllDataElements(){
 		List<E> elements = new ArrayList<E>();
 		for(T pair : getAllPairs()){

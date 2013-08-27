@@ -1,4 +1,4 @@
-package schedule.table;
+package presentation.schedule;
 
 import java.awt.Color;
 

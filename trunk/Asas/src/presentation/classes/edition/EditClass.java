@@ -1,6 +1,5 @@
 package presentation.classes.edition;
 
-
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
@@ -9,7 +8,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Vector;
 
-import schedule.table.models.DisponibilityModel;
 import utilities.GuiUtil;
 import utilities.Pair;
 
@@ -18,20 +16,20 @@ import javax.swing.JScrollPane;
 import presentation.NamedPair;
 import presentation.PeriodicClassComparator;
 import presentation.grouping.GroupSelectorConfiguration;
+import presentation.schedule.ScheduleTabelModel;
 import presentation.schedule.ScheduleTable;
 
 import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
+import logic.schedule.formatting.formatters.SlotDisponibilityFormatter;
 import logic.services.ClassService;
-
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
-
 
 public class EditClass extends EditClassLayout implements Updatable{
 
@@ -135,8 +133,14 @@ public class EditClass extends EditClassLayout implements Updatable{
 			public void actionPerformed(ActionEvent e) {
 				new Swapper(EditClass.this, GuiUtil.getSelectedItem(classesCBox)){
 
+					private static final long serialVersionUID = 1L;
+
 					protected void onOkButton(Collection<Professor> profs, Collection<SlotRange> slots) {
-						
+						slotList.clear();
+						professorList.clear();
+						slotList.addElements(slots);
+						professorList.addElements(profs);
+						generateDisponibilityTable();
 					}
 				};
 			}
@@ -214,13 +218,13 @@ public class EditClass extends EditClassLayout implements Updatable{
 		ScheduleTable table;
 		
 		for(Classroom r : rooms){
-			table = new ScheduleTable(new DisponibilityModel(selected, r));
+			table = new ScheduleTable(new ScheduleTabelModel(new SlotDisponibilityFormatter(selected, r)));
 			disponibilityTabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
 		
 		if(rooms.isEmpty()){
 			Classroom dummyRoom = new Classroom("", -1);
-			table = new ScheduleTable(new DisponibilityModel(selected, dummyRoom));
+			table = new ScheduleTable(new ScheduleTabelModel(new SlotDisponibilityFormatter(selected, dummyRoom)));
 			disponibilityTabbedPane.addTab("Turma sem sala", new JScrollPane(table));
 		}
 		

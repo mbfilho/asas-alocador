@@ -6,7 +6,7 @@ import data.NamedEntity;
 
 import utilities.Constants;
 
-public class SlotRange implements NamedEntity, Serializable{
+public class SlotRange implements NamedEntity, Serializable, Comparable<SlotRange>{
 	private static SlotRange _emptyRange = new SlotRange(-1, -1, -2, null);
 	
 	private static final long serialVersionUID = 7748615816585085336L;
@@ -138,5 +138,16 @@ public class SlotRange implements NamedEntity, Serializable{
 		Classroom tmp = other.getClassroom();
 		other.setClassroom(room);
 		room = tmp;
+	}
+
+	public int compareTo(SlotRange other) {
+		if(getDay() != other.getDay()) return getDay() - other.getDay();
+		if(getStartSlot() != other.getStartSlot()) return getStartSlot() - other.getStartSlot();
+		if(getEndSlot() != other.getEndSlot()) return getEndSlot() - other.getEndSlot();
+		if(getClassroom() == null && other.getClassroom() == null) return 0;
+		if(getClassroom() == null && other.getClassroom() != null) return -1;
+		if(getClassroom() != null && other.getClassroom() == null) return 1;
+		return getClassroom().getName().compareTo(other.getClassroom().getName());
+
 	}
 }

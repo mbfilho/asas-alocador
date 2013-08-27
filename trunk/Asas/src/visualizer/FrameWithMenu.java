@@ -10,7 +10,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
 import state.gui.LoadStateFrame;
@@ -18,7 +17,6 @@ import state.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
 import warnings.gui.WarningsFrame;
-import warnings.gui.table.WarningTable;
 
 import java.awt.GridBagLayout;
 
@@ -47,7 +45,6 @@ import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.AllocationResult;
 import logic.dto.ProfessorWorkload;
-import logic.dto.WarningReport;
 import logic.services.AllocationService;
 import logic.services.ElectivePreferencesService;
 import logic.services.ReportService;
