@@ -11,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 
-import logic.dto.schedule.grouping.Group;
+import logic.grouping.Group;
 import logic.schedule.Schedule;
 
 import data.persistentEntities.Class;

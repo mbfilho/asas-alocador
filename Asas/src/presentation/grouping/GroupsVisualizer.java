@@ -17,9 +17,9 @@ import java.util.List;
 import java.awt.GridBagConstraints;
 
 import logic.dto.GroupsSelector;
-import logic.dto.schedule.grouping.Group;
-import logic.dto.schedule.grouping.ProfessorGroup;
-import logic.dto.schedule.grouping.RoomGroup;
+import logic.grouping.Group;
+import logic.grouping.ProfessorGroup;
+import logic.grouping.RoomGroup;
 import logic.services.GroupMakerService;
 
 
