@@ -140,14 +140,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmSalas = new JMenuItem("Salas");
 		mntmSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditClassroom(){
-					private static final long serialVersionUID = 1646934026564171682L;
-
-					public void onOkButton(){
-						super.onOkButton();
-						onEditClassroomInformation();
-					}
-				};
+				new EditClassroom();
 			}
 		});
 		mnEditar.add(mntmSalas);
@@ -288,13 +281,6 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		String text = "Alertas";
 		if(count != 0) text += "(" + count + ")";
 		warningMenuItem.setText(text);
-	}
-	
-	/**
-	 *Ao editar informações de uma sala 
-	 */
-	protected void onEditClassroomInformation(){
-		updateWarningCountText();
 	}
 	
 	public void onDataUpdate(UpdateDescription desc) {
