@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;

@@ -1,9 +1,9 @@
-package warnings.gui.table;
+package presentation.warnings.table;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.table.AbstractTableModel;
 
@@ -12,14 +12,12 @@ import logic.services.AllowedWarningsService;
 
 import data.persistentEntities.Warning;
 
-
-
 public class WarningTableModel extends AbstractTableModel{
 	public static final int WARNING_COLUMN = 0;
 	private static final long serialVersionUID = 1L;
 	@SuppressWarnings("rawtypes")
 	private Class[] columnTypes;
-	private Vector<Warning> warnings;
+	private List<Warning> warnings;
 	private String[] columnHeaders;
 	private AllowedWarningsService allowedService;
 	
@@ -27,7 +25,7 @@ public class WarningTableModel extends AbstractTableModel{
 		columnHeaders = new String[]{"Mensagem", "Autorizar?"};
 		allowedService = allowed;
 		columnTypes = new Class[] {	Object.class, Boolean.class };
-		this.warnings = new Vector<Warning>(warnings);
+		this.warnings = new ArrayList<Warning>(warnings);
 		sortByAllowance();
 		fireTableDataChanged();
 	}

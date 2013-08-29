@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,7 +10,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import utilities.ClassroomList;
 
-public abstract class RoomListEditorInterface extends RoomListEditorInterfaceLayout {
+public abstract class MappedRoomEditor extends MappedRoomEditorLayout {
 	private static final long serialVersionUID = -8917701648713941524L;
 	
 	private DefaultComboBoxModel<String> cboxModel;
@@ -18,7 +18,7 @@ public abstract class RoomListEditorInterface extends RoomListEditorInterfaceLay
 	
 	public abstract void onOkButton();
 	
-	public RoomListEditorInterface(JFrame parent){
+	public MappedRoomEditor(JFrame parent){
 		super(parent);
 		cboxModel = (DefaultComboBoxModel<String>) (getAllRoomsCBox().getModel());
 		listModel = (DefaultListModel<String>) getRoomsList().getModel();

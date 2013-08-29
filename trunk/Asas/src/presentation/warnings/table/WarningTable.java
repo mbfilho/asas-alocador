@@ -1,4 +1,4 @@
-package warnings.gui.table;
+package presentation.warnings.table;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,8 +22,6 @@ import logic.services.AllowedWarningsService;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Warning;
-
-
 
 public class WarningTable extends JTable {
 	private static final long serialVersionUID = -6035225065621591680L;

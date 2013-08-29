@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
@@ -10,7 +10,7 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
-public class RoomListEditorInterfaceLayout extends JDialog{
+public class MappedRoomEditorLayout extends JDialog{
 	private static final long serialVersionUID = -8612878915736343843L;
 	
 	private JComboBox<String> allRoomsCBox;
@@ -23,7 +23,7 @@ public class RoomListEditorInterfaceLayout extends JDialog{
 	/**
 	 * Create the frame.
 	 */
-	public RoomListEditorInterfaceLayout(JFrame parent) {
+	public MappedRoomEditorLayout(JFrame parent) {
 		super(parent, true);
 		setResizable(false);
 		setTitle("Editar Salas Correspondentes.");

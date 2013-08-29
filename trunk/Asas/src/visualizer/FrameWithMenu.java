@@ -11,15 +11,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import state.gui.LoadStateFrame;
-import state.gui.NewStateFrame;
 import utilities.DisposableOnEscFrame;
 import utilities.HtmlTableFrame;
-import warnings.gui.WarningsFrame;
 
 import java.awt.GridBagLayout;
 
-import excelPreferences.gui.EditExcelPreferences;
 import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
@@ -28,9 +24,13 @@ import presentation.classes.addition.AddClass;
 import presentation.classes.edition.EditClass;
 import presentation.classrooms.AddClassroom;
 import presentation.classrooms.EditClassroom;
+import presentation.excelPreferences.EditExcelPreferences;
 import presentation.historySystem.HistoryTablePanel;
 import presentation.professors.AddProfessor;
 import presentation.professors.EditProfessor;
+import presentation.state.LoadStateFrame;
+import presentation.state.NewStateFrame;
+import presentation.warnings.WarningsLayout;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
@@ -185,7 +185,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmShowWarnings = new JMenuItem("Mostar");
 		mntmShowWarnings.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new WarningsFrame();
+				new WarningsLayout();
 			}
 		});
 		warningMenuItem.add(mntmShowWarnings);

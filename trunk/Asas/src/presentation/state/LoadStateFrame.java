@@ -1,4 +1,4 @@
-package state.gui;
+package presentation.state;
 
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
@@ -14,7 +14,7 @@ import data.configurations.StateDescription;
 
 import exceptions.StateIOException;
 
-public class LoadStateFrame extends ChooseStateFrame {
+public class LoadStateFrame extends ChooseStateLayout {
 	private static final long serialVersionUID = -8927467849438582539L;
 	
 	public LoadStateFrame(){

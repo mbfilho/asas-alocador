@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
