@@ -1,4 +1,4 @@
-package professors;
+package presentation.professors;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,28 +24,26 @@ import java.awt.event.ActionEvent;
 
 import logic.services.ProfessorService;
 
-public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
+public abstract class ProfessorLayout extends DisposableOnEscFrame {
 
 	private static final long serialVersionUID = -1767573745824744588L;
 	private JPanel contentPane;
-	private JTextField txtName;
-	private JTextField txtEmail;
-	private JTextField txtCargo;
-	private JLabel lblCargo;
+	private JTextField nameText;
+	private JTextField emailText;
+	private JTextField cargoText;
+	private JLabel cargoLabel;
 	private JButton saveButton;
-	private JLabel lblEmail;
+	private JLabel emailLabel;
 	private JCheckBox profAwayChech;
 	private JCheckBox tempProfChexBox;
-	private JLabel lblName;
-	private JLabel lblDpto;
-	private JTextField txtDpto;
+	private JLabel nameLabel;
+	private JLabel dptoLabel;
+	private JTextField dptoText;
 	protected ProfessorService professorService;
 	
-	/**
-	 * Create the frame.
-	 */
+	protected abstract void onOkButton();
 	
-	public ProfessorFramePattern() {
+	public ProfessorLayout() {
 		professorService = new ProfessorService();
 		configureElements();
 	}
@@ -64,73 +62,73 @@ public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		lblName = new JLabel("Nome");
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.anchor = GridBagConstraints.WEST;
-		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.gridx = 1;
-		gbc_lblName.gridy = 1;
-		contentPane.add(lblName, gbc_lblName);
+		nameLabel = new JLabel("Nome");
+		GridBagConstraints gbc_nameLabel = new GridBagConstraints();
+		gbc_nameLabel.anchor = GridBagConstraints.WEST;
+		gbc_nameLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_nameLabel.gridx = 1;
+		gbc_nameLabel.gridy = 1;
+		contentPane.add(nameLabel, gbc_nameLabel);
 		
-		txtName = new JTextField();
-		GridBagConstraints gbc_txtName = new GridBagConstraints();
-		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtName.insets = new Insets(0, 0, 5, 0);
-		gbc_txtName.gridx = 2;
-		gbc_txtName.gridy = 1;
-		contentPane.add(txtName, gbc_txtName);
-		txtName.setColumns(10);
+		nameText = new JTextField();
+		GridBagConstraints gbc_nameText = new GridBagConstraints();
+		gbc_nameText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nameText.insets = new Insets(0, 0, 5, 0);
+		gbc_nameText.gridx = 2;
+		gbc_nameText.gridy = 1;
+		contentPane.add(nameText, gbc_nameText);
+		nameText.setColumns(10);
 		
-		lblEmail = new JLabel("Email");
-		GridBagConstraints gbc_lblEmail = new GridBagConstraints();
-		gbc_lblEmail.anchor = GridBagConstraints.WEST;
-		gbc_lblEmail.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEmail.gridx = 1;
-		gbc_lblEmail.gridy = 2;
-		contentPane.add(lblEmail, gbc_lblEmail);
+		emailLabel = new JLabel("Email");
+		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
+		gbc_emailLabel.anchor = GridBagConstraints.WEST;
+		gbc_emailLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_emailLabel.gridx = 1;
+		gbc_emailLabel.gridy = 2;
+		contentPane.add(emailLabel, gbc_emailLabel);
 		
-		txtEmail = new JTextField();
-		GridBagConstraints gbc_txtEmail = new GridBagConstraints();
-		gbc_txtEmail.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtEmail.insets = new Insets(0, 0, 5, 0);
-		gbc_txtEmail.gridx = 2;
-		gbc_txtEmail.gridy = 2;
-		contentPane.add(txtEmail, gbc_txtEmail);
-		txtEmail.setColumns(10);
+		emailText = new JTextField();
+		GridBagConstraints gbc_emailText = new GridBagConstraints();
+		gbc_emailText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_emailText.insets = new Insets(0, 0, 5, 0);
+		gbc_emailText.gridx = 2;
+		gbc_emailText.gridy = 2;
+		contentPane.add(emailText, gbc_emailText);
+		emailText.setColumns(10);
 		
-		lblCargo = DefaultComponentFactory.getInstance().createLabel("Cargo");
-		GridBagConstraints gbc_lblCargo = new GridBagConstraints();
-		gbc_lblCargo.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCargo.anchor = GridBagConstraints.WEST;
-		gbc_lblCargo.gridx = 1;
-		gbc_lblCargo.gridy = 3;
-		contentPane.add(lblCargo, gbc_lblCargo);
+		cargoLabel = DefaultComponentFactory.getInstance().createLabel("Cargo");
+		GridBagConstraints gbc_cargoLabel = new GridBagConstraints();
+		gbc_cargoLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_cargoLabel.anchor = GridBagConstraints.WEST;
+		gbc_cargoLabel.gridx = 1;
+		gbc_cargoLabel.gridy = 3;
+		contentPane.add(cargoLabel, gbc_cargoLabel);
 		
-		txtCargo = new JTextField();
-		GridBagConstraints gbc_txtCargo = new GridBagConstraints();
-		gbc_txtCargo.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtCargo.insets = new Insets(0, 0, 5, 0);
-		gbc_txtCargo.gridx = 2;
-		gbc_txtCargo.gridy = 3;
-		contentPane.add(txtCargo, gbc_txtCargo);
-		txtCargo.setColumns(10);
+		cargoText = new JTextField();
+		GridBagConstraints gbc_cargoText = new GridBagConstraints();
+		gbc_cargoText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cargoText.insets = new Insets(0, 0, 5, 0);
+		gbc_cargoText.gridx = 2;
+		gbc_cargoText.gridy = 3;
+		contentPane.add(cargoText, gbc_cargoText);
+		cargoText.setColumns(10);
 		
-		lblDpto = new JLabel("Dpto");
-		GridBagConstraints gbc_lblDpto = new GridBagConstraints();
-		gbc_lblDpto.anchor = GridBagConstraints.WEST;
-		gbc_lblDpto.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDpto.gridx = 1;
-		gbc_lblDpto.gridy = 4;
-		contentPane.add(lblDpto, gbc_lblDpto);
+		dptoLabel = new JLabel("Dpto");
+		GridBagConstraints gbc_dptoLabel = new GridBagConstraints();
+		gbc_dptoLabel.anchor = GridBagConstraints.WEST;
+		gbc_dptoLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_dptoLabel.gridx = 1;
+		gbc_dptoLabel.gridy = 4;
+		contentPane.add(dptoLabel, gbc_dptoLabel);
 		
-		txtDpto = new JTextField();
+		dptoText = new JTextField();
 		GridBagConstraints gbc_dptoText = new GridBagConstraints();
 		gbc_dptoText.insets = new Insets(0, 0, 5, 0);
 		gbc_dptoText.fill = GridBagConstraints.HORIZONTAL;
 		gbc_dptoText.gridx = 2;
 		gbc_dptoText.gridy = 4;
-		contentPane.add(txtDpto, gbc_dptoText);
-		txtDpto.setColumns(10);
+		contentPane.add(dptoText, gbc_dptoText);
+		dptoText.setColumns(10);
 		
 		tempProfChexBox = new JCheckBox("Prof. Temporário");
 		GridBagConstraints gbc_tempProfChexBox = new GridBagConstraints();
@@ -163,35 +161,35 @@ public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
 	}
 	
 	protected String getNameText(){
-		return txtName.getText();
+		return nameText.getText();
 	}
 	
 	protected void setNameText(String name){
-		txtName.setText(name);
+		nameText.setText(name);
 	}
 	
 	protected String getEmailText(){
-		return txtEmail.getText();
+		return emailText.getText();
 	}
 	
 	protected void setEmailText(String email){
-		txtEmail.setText(email);
+		emailText.setText(email);
 	}
 	
 	protected String getCargoText(){
-		return txtCargo.getText();
+		return cargoText.getText();
 	}
 	
 	protected void setCargoText(String cargo){
-		txtCargo.setText(cargo);
+		cargoText.setText(cargo);
 	}
 	
 	protected String getDptoText(){
-		return txtDpto.getText();
+		return dptoText.getText();
 	}
 	
 	protected void setDptoText(String dpto){
-		txtDpto.setText(dpto);
+		dptoText.setText(dpto);
 	}
 	
 	protected boolean isAway(){
@@ -209,7 +207,4 @@ public abstract class ProfessorFramePattern extends DisposableOnEscFrame {
 	protected void setTemp(boolean isTemp){
 		tempProfChexBox.setSelected(isTemp);
 	}
-	
-	protected abstract void onOkButton();
-
 }

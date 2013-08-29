@@ -1,6 +1,7 @@
 package logic.grouping;
 
 import logic.schedule.Schedule;
+import logic.schedule.formatting.formatters.GroupFormatter;
 import data.NamedEntity;
 import data.persistentEntities.Class;
 
@@ -27,5 +28,9 @@ public class Group implements NamedEntity{
 	
 	public Object clone() throws CloneNotSupportedException{
 		throw new CloneNotSupportedException();
+	}
+	
+	public GroupFormatter getFormatter(){
+		return new GroupFormatter(schedule);
 	}
 }
