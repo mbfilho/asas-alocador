@@ -1,6 +1,5 @@
-package history.gui;
+package presentation.historySystem;
 
-import history.HistoryTableModel;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;

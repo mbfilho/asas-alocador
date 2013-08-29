@@ -1,11 +1,11 @@
-package classrooms;
+package presentation.classrooms;
 
 import data.persistentEntities.Classroom;
 
-public class AddClassroomFrame extends ClassroomFramePattern {
+public class AddClassroom extends ClassroomLayout {
 	private static final long serialVersionUID = -8927378997497532099L;
 	
-	public AddClassroomFrame() {
+	public AddClassroom() {
 		super();
 		setTitle("Adicionar Sala");
 	}

@@ -1,6 +1,8 @@
 package logic.grouping;
 
 import logic.schedule.Schedule;
+import logic.schedule.formatting.formatters.GroupByClassroomFormatter;
+import logic.schedule.formatting.formatters.GroupFormatter;
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.SlotRange;
@@ -22,5 +24,9 @@ public class RoomGroup extends Group{
 			if(slot.getClassroom() == theRoom)
 				schedule.addClassToThisRange(c, slot);
 		}
+	}
+	
+	public GroupFormatter getFormatter(){
+		return new GroupByClassroomFormatter(schedule, theRoom);
 	}
 }

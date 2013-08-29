@@ -1,4 +1,4 @@
-package classrooms;
+package presentation.classrooms;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
@@ -17,12 +17,12 @@ import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EditClassroomFrame extends ClassroomFramePattern {
+public class EditClassroom extends ClassroomLayout {
 	private static final long serialVersionUID = -1080535206754133507L;
-	private JComboBox<NamedPair<Classroom>> classrooms;
+	private JComboBox<NamedPair<Classroom>> classroomsCBox;
 	private DefaultComboBoxModel<NamedPair<Classroom>> classroomsCBModel;
 	
-	public EditClassroomFrame(){
+	public EditClassroom(){
 		GridBagLayout gridBagLayout = (GridBagLayout) getContentPane().getLayout();
 		gridBagLayout.columnWidths = new int[]{-9, 122, 123};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0};
@@ -32,33 +32,33 @@ public class EditClassroomFrame extends ClassroomFramePattern {
 		classroomsCBModel.addElement(new NamedPair<Classroom>("Selecione uma sala.", null));
 		for(Classroom room : classroomService.all())
 			classroomsCBModel.addElement(new NamedPair<Classroom>(room.getName(), room));
-		classrooms = new JComboBox<NamedPair<Classroom>>(classroomsCBModel);
-		classrooms.addActionListener(new ActionListener() {
+		classroomsCBox = new JComboBox<NamedPair<Classroom>>(classroomsCBModel);
+		classroomsCBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Classroom selected = getSelectedClassroom();
 				if(selected != null) setFieldsFromClassroom(selected);
 			}
 		});
 		
-		JLabel lblSelecioneUmaSala = new JLabel("Selecione uma sala");
-		GridBagConstraints gbc_lblSelecioneUmaSala = new GridBagConstraints();
-		gbc_lblSelecioneUmaSala.anchor = GridBagConstraints.EAST;
-		gbc_lblSelecioneUmaSala.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSelecioneUmaSala.gridx = 1;
-		gbc_lblSelecioneUmaSala.gridy = 0;
-		getContentPane().add(lblSelecioneUmaSala, gbc_lblSelecioneUmaSala);
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 2;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 2;
-		gbc_comboBox.gridy = 0;
-		getContentPane().add(classrooms, gbc_comboBox);
+		JLabel chooseAClassroomLabel = new JLabel("Selecione uma sala");
+		GridBagConstraints gbc_chooseAClassroomLabel = new GridBagConstraints();
+		gbc_chooseAClassroomLabel.anchor = GridBagConstraints.EAST;
+		gbc_chooseAClassroomLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_chooseAClassroomLabel.gridx = 1;
+		gbc_chooseAClassroomLabel.gridy = 0;
+		getContentPane().add(chooseAClassroomLabel, gbc_chooseAClassroomLabel);
+		GridBagConstraints gbc_classroomsCBox = new GridBagConstraints();
+		gbc_classroomsCBox.gridwidth = 2;
+		gbc_classroomsCBox.insets = new Insets(0, 0, 5, 5);
+		gbc_classroomsCBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_classroomsCBox.gridx = 2;
+		gbc_classroomsCBox.gridy = 0;
+		getContentPane().add(classroomsCBox, gbc_classroomsCBox);
 	}
 	
 	@SuppressWarnings("unchecked")
 	private Classroom getSelectedClassroom(){
-		return ((NamedPair<Classroom>) classrooms.getSelectedItem()).data;
+		return ((NamedPair<Classroom>) classroomsCBox.getSelectedItem()).data;
 	}
 	
 	public void onOkButton() {

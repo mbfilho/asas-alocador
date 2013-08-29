@@ -1,6 +1,8 @@
 package logic.grouping;
 
 import logic.schedule.Schedule;
+import logic.schedule.formatting.formatters.GroupByProfessorFormatter;
+import logic.schedule.formatting.formatters.GroupFormatter;
 import data.persistentEntities.Professor;
 
 public class ProfessorGroup extends Group{
@@ -15,4 +17,7 @@ public class ProfessorGroup extends Group{
 		this(new Schedule(), prof);
 	}
 
+	public GroupFormatter getFormatter(){
+		return new GroupByProfessorFormatter(schedule, theProfessor);
+	}
 }

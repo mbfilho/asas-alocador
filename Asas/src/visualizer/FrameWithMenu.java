@@ -1,5 +1,4 @@
 package visualizer;
-import history.gui.HistoryTablePanel;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,12 +24,13 @@ import exceptions.StateIOException;
 
 import javax.swing.KeyStroke;
 
-import classrooms.AddClassroomFrame;
-import classrooms.EditClassroomFrame;
 import presentation.classes.addition.AddClass;
 import presentation.classes.edition.EditClass;
-import professors.AddProfessorFrame;
-import professors.EditProfessorFrame;
+import presentation.classrooms.AddClassroom;
+import presentation.classrooms.EditClassroom;
+import presentation.historySystem.HistoryTablePanel;
+import presentation.professors.AddProfessor;
+import presentation.professors.EditProfessor;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
@@ -131,7 +131,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmProfessores = new JMenuItem("Professores");
 		mntmProfessores.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditProfessorFrame();
+				new EditProfessor();
 			}
 		});
 		
@@ -140,7 +140,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmSalas = new JMenuItem("Salas");
 		mntmSalas.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new EditClassroomFrame(){
+				new EditClassroom(){
 					private static final long serialVersionUID = 1646934026564171682L;
 
 					public void onOkButton(){
@@ -165,7 +165,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmProfessor = new JMenuItem("Professor");
 		mntmProfessor.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddProfessorFrame();
+				new AddProfessor();
 			}
 		});
 		mnAdicionar.add(mntmProfessor);
@@ -173,7 +173,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmSala = new JMenuItem("Sala");
 		mntmSala.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new AddClassroomFrame();
+				new AddClassroom();
 			}
 		});
 		mnAdicionar.add(mntmSala);

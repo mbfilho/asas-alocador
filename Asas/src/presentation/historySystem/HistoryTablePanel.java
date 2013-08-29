@@ -1,6 +1,5 @@
-package history.gui;
+package presentation.historySystem;
 
-import history.HistoryTableModel;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
