@@ -1,8 +1,10 @@
-package warnings.gui;
+package presentation.warnings;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+
+import presentation.warnings.table.WarningTable;
 
 import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
@@ -14,14 +16,13 @@ import logic.services.WarningGeneratorService;
 
 import utilities.DisposableOnEscFrame;
 import utilities.GuiUtil;
-import warnings.gui.table.WarningTable;
 
-public class WarningsFrame extends DisposableOnEscFrame implements Updatable{
+public class WarningsLayout extends DisposableOnEscFrame implements Updatable{
 	private static final long serialVersionUID = -4926351789218160326L;
 	private WarningGeneratorService service;
 	private JTabbedPane pane;
 	
-	public WarningsFrame(){
+	public WarningsLayout(){
 		setTitle("Alertas.");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

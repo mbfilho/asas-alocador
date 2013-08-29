@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

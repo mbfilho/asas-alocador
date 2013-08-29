@@ -7,6 +7,10 @@ import javax.swing.JFrame;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+import presentation.excelPreferences.EditExcelPreferences;
+import presentation.excelPreferences.EditExcelPreferencesLayout;
+import presentation.excelPreferences.MappedRoomEditor;
+
 import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -27,9 +31,6 @@ import data.readers.fileReaders.FileElectivePreferenceReader;
 import data.readers.fileReaders.FileElectiveReader;
 import data.readers.fileReaders.FileProfessorReader;
 import data.repository.Repository;
-import excelPreferences.gui.EditExcelPreferences;
-import excelPreferences.gui.EditExcelPreferencesLayout;
-import excelPreferences.gui.RoomListEditorInterface;
 
 
 

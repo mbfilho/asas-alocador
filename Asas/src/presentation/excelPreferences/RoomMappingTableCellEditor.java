@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -16,11 +16,11 @@ import javax.swing.table.TableCellEditor;
 public class RoomMappingTableCellEditor extends AbstractCellEditor implements TableCellEditor{
 	private static final long serialVersionUID = 7433664152948293436L;
 	
-	private RoomListEditorInterface editorInterface;
+	private MappedRoomEditor editorInterface;
 	private JButton textField;
 	
 	public RoomMappingTableCellEditor(JFrame parent){
-		editorInterface = new RoomListEditorInterface(parent) {
+		editorInterface = new MappedRoomEditor(parent) {
 			private static final long serialVersionUID = 458936152066772508L;
 
 			public void onOkButton() {

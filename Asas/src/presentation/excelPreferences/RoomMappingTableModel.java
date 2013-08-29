@@ -1,4 +1,4 @@
-package excelPreferences.gui;
+package presentation.excelPreferences;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

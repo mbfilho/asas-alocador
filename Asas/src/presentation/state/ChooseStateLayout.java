@@ -1,4 +1,4 @@
-package state.gui;
+package presentation.state;
 
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -38,7 +38,7 @@ import java.awt.event.MouseEvent;
 
 import logic.services.StateService;
 
-public abstract class ChooseStateFrame extends DisposableOnEscFrame {
+public abstract class ChooseStateLayout extends DisposableOnEscFrame {
 
 	private static final long serialVersionUID = 6004863265621099636L;
 	
@@ -55,7 +55,7 @@ public abstract class ChooseStateFrame extends DisposableOnEscFrame {
 	
 	protected abstract void onOkButton();
 	
-	public ChooseStateFrame() {
+	public ChooseStateLayout() {
 		setTitle("Carregar estado...");
 		setResizable(true);
 		setBounds(100, 100, 279, 537);

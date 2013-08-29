@@ -1,4 +1,4 @@
-package state.gui;
+package presentation.state;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -19,7 +19,7 @@ import logic.services.StateService;
 
 
 
-public class NewStateFrame extends ChooseStateFrame{
+public class NewStateFrame extends ChooseStateLayout{
 	private static final long serialVersionUID = 8910633735786246632L;
 	private JTextField nameText;
 	
