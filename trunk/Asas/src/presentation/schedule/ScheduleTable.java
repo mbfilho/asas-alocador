@@ -12,9 +12,9 @@ import javax.swing.JTable;
 
 public class ScheduleTable extends JTable{
 	private static final long serialVersionUID = -7132674009508957802L;
-	private ScheduleTabelModel model;
+	private ScheduleTableModel model;
 	
-	public ScheduleTable(ScheduleTabelModel tableModel){
+	public ScheduleTable(ScheduleTableModel tableModel){
 		super(tableModel);
 		this.model = tableModel;
 		LabelCellRenderer render = new LabelCellRenderer();

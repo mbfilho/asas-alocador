@@ -1,6 +1,7 @@
 package logic.schedule.formatting.formatters;
 
 import java.awt.Color;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,6 +26,28 @@ public class SlotDisponibilityFormatter implements ScheduleFormatter{
 		this.theClass = theClass;
 		theClassroom = room;
 		conflictService = new ConflictService();
+	}
+	
+	public static List<SlotDisponibilityFormatter> getFormatterForThisClassAndSlots(Class theClass, Iterable<SlotRange> slots){
+		List<SlotDisponibilityFormatter> formatters = new LinkedList<SlotDisponibilityFormatter>();
+		HashSet<Classroom> rooms = new HashSet<Classroom>();
+		for(SlotRange s : slots){
+			if(s.getClassroom() != null) rooms.add(s.getClassroom());
+		}
+		
+		for(Classroom r : rooms)
+			formatters.add(new SlotDisponibilityFormatter(theClass, r));
+		
+		if(rooms.isEmpty()){
+			Classroom room = new Classroom("Turma sem sala");
+			formatters.add(new SlotDisponibilityFormatter(theClass, room));
+		}
+		
+		return formatters;
+	}
+	
+	public Classroom getRoom(){
+		return theClassroom;
 	}
 	
 	private int calculateConflictState(int slot, int day){
