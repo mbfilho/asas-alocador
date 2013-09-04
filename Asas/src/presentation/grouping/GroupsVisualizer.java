@@ -5,7 +5,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
-import presentation.schedule.ScheduleTabelModel;
+import presentation.schedule.ScheduleTableModel;
 import presentation.schedule.ScheduleTable;
 
 import utilities.GuiUtil;
@@ -73,7 +73,7 @@ public class GroupsVisualizer extends JPanel{
 		clearTabs();
 		List<Group> groups = new GroupMakerService().getGroupsDefinedByTheSelector(groupSelector.getSelector());
 		for(final Group g : groups){
-			ScheduleTabelModel tableModel = new ScheduleTabelModel(g.getFormatter());
+			ScheduleTableModel tableModel = new ScheduleTableModel(g.getFormatter());
 			JScrollPane tableScroll = new JScrollPane(new ScheduleTable(tableModel));
 			groupsTabbedPane.addTab(g.groupName, tableScroll);
 		}

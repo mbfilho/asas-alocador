@@ -16,7 +16,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import presentation.schedule.ScheduleTabelModel;
+import presentation.schedule.ScheduleTableModel;
 import presentation.schedule.ScheduleTable;
 
 import classEditor.EditableJList;
@@ -262,7 +262,7 @@ public class AddClass extends DisposableOnEscFrame implements Updatable{
 		tabbedPane.removeAll();
 		
 		for(Classroom r : rooms){
-			ScheduleTable table = new ScheduleTable(new ScheduleTabelModel(new SlotDisponibilityFormatter(selected, r)));
+			ScheduleTable table = new ScheduleTable(new ScheduleTableModel(new SlotDisponibilityFormatter(selected, r)));
 			tabbedPane.addTab(r.getName(), new JScrollPane(table));
 		}
 	}

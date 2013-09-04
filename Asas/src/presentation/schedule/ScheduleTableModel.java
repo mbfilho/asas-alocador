@@ -21,14 +21,14 @@ import logic.schedule.formatting.formatters.ScheduleSlotFormat;
 import utilities.ColorUtil;
 import utilities.Constants;
 
-public class ScheduleTabelModel extends AbstractTableModel{
+public class ScheduleTableModel extends AbstractTableModel{
 	private static final long serialVersionUID = -4500499494277149184L;
 	
 	protected CellState cellState[][];
 	private String[] columnsNames;
 	private ScheduleFormatter formatter;
 	
-	public ScheduleTabelModel(ScheduleFormatter formatter){
+	public ScheduleTableModel(ScheduleFormatter formatter){
 		this.formatter = formatter;
 		cellState = new CellState[Constants.ROWS][Constants.COLUMNS];
 		for(int i = 0; i < Constants.ROWS; ++i)
