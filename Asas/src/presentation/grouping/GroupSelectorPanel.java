@@ -293,7 +293,7 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 		NamedPair<T> newSelected = null;
 		for(T elementToAdd : allElements){
 			NamedPair<T> toAdd = new NamedPair<T>(elementToAdd.getName(), elementToAdd);
-			if(elementToAdd == selected) newSelected = toAdd;
+			if(selected != null && elementToAdd.getName().equals(selected.getName())) newSelected = toAdd;
 			model.addElement(toAdd);
 		}
 		cbox.setSelectedItem(newSelected);

@@ -17,7 +17,7 @@ import data.repository.SimpleRepository;
 import utilities.ColorUtil;
 
 //TODO: substituir Color por uma classe própria  
-public class ClassService extends BasicService<Class>{
+public class ClassService extends BasicDataAccessService<Class>{
 
 	private StateService stateService;
 	private final Color BASE_COLOR = Color.white;

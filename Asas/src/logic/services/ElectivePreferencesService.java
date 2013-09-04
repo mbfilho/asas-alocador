@@ -12,7 +12,7 @@ import data.repository.SimpleRepository;
 
 import utilities.StringUtil;
 
-public class ElectivePreferencesService extends BasicService<ElectiveClassPreferences>{
+public class ElectivePreferencesService extends BasicDataAccessService<ElectiveClassPreferences>{
 
 	private StateService stateService;
 	

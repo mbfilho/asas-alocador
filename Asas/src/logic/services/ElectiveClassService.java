@@ -5,7 +5,7 @@ import data.persistentEntities.ElectiveClass;
 import data.repository.Repository;
 import data.repository.SimpleRepository;
 
-public class ElectiveClassService extends BasicService<ElectiveClass>{
+public class ElectiveClassService extends BasicDataAccessService<ElectiveClass>{
 
 	private StateService stateService;
 	

@@ -5,7 +5,7 @@ import data.repository.Repository;
 import data.repository.SimpleRepository;
 
 
-public class ProfessorService extends BasicService<Professor> {
+public class ProfessorService extends BasicDataAccessService<Professor> {
 
 	private StateService stateService;
 	
