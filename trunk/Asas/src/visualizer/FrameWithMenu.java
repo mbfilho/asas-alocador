@@ -12,7 +12,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import utilities.DisposableOnEscFrame;
-import utilities.HtmlTableFrame;
 
 import java.awt.GridBagLayout;
 
@@ -37,16 +36,11 @@ import java.awt.event.InputEvent;
 import java.util.List;
 import javax.swing.JPanel;
 
-import logic.allocation.Allocator;
-import logic.allocation.DefaultAllocator;
 import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
-import logic.dto.AllocationResult;
 import logic.dto.ProfessorWorkload;
-import logic.services.AllocationService;
-import logic.services.ElectivePreferencesService;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -189,61 +183,6 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		warningMenuItem.add(mntmShowWarnings);
-		
-		JMenu mnEltivas = new JMenu("Eletivas(provisório)");
-		menuBar.add(mnEltivas);
-		
-		JMenuItem mntmVer = new JMenuItem("Ver");
-		mntmVer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ElectivePreferencesService service = new ElectivePreferencesService();
-				new HtmlTableFrame(service.getHtmlTableForPreferences(service.all()));
-			}
-		});
-		mnEltivas.add(mntmVer);
-		
-		JMenuItem mntmAlocar = new JMenuItem("Alocar");
-		mntmAlocar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Allocator aloc = new DefaultAllocator();
-				AllocationResult result = aloc.allocate(true);
-
-				JFrame frame = new HtmlTableFrame(new ElectivePreferencesService().getHtmlTableForPreferences(result.notAllocated));
-				frame.setTitle("Turmas não alocadas (" + result.notAllocated.size() + ")");
-				DataUpdateCentral.registerUpdate("Alocação de eletivas realizada");
-			}
-		});
-		mnEltivas.add(mntmAlocar);
-		
-		JMenuItem mntmLimparAlocao = new JMenuItem("Limpar Alocação");
-		mntmLimparAlocao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int op = JOptionPane.showConfirmDialog(
-							FrameWithMenu.this,
-							"Essa ação irá apagar a alocação de todas as disciplinas eletivas,\n" +
-							"inclusive as feitas manualmente. Deseja continuar?",
-							"Confirmar desalocação de disciplinas eletivas",
-							JOptionPane.YES_NO_OPTION
-						);
-				if(op == JOptionPane.YES_OPTION){
-					new AllocationService().clearAllocation();
-					DataUpdateCentral.registerUpdate("Alocação de eletivas defeita.");
-				}
-			}
-		});
-		mnEltivas.add(mntmLimparAlocao);
-		
-		JMenuItem mntmVerNoAlocadas = new JMenuItem("Ver não alocadas");
-		mntmVerNoAlocadas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ElectivePreferencesService prefService = new ElectivePreferencesService();
-				AllocationResult allocResult = new AllocationService().getCurrentElectiveAllocation();
-				String htmlText = prefService.getHtmlTableForPreferences(allocResult.notAllocated);
-				JFrame frame = new HtmlTableFrame(htmlText);
-				frame.setTitle("Turmas não alocadas (" + allocResult.notAllocated.size() + ")");
-			}
-		});
-		mnEltivas.add(mntmVerNoAlocadas);
 		
 		JMenu mnRelatrios = new JMenu("Relatórios");
 		menuBar.add(mnRelatrios);

@@ -9,8 +9,6 @@ import data.repository.Repository;
 import data.repository.SimpleRepository;
 
 
-
-
 public class State implements NamedEntity, Serializable{
 	private static final long serialVersionUID = 4973989156840803066L;
 	
@@ -18,8 +16,6 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Class> classes;
 	public Repository<Classroom> classrooms;
 	public Repository<Professor> professors;
-	public Repository<ElectiveClass> elective;
-	public Repository<ElectiveClassPreferences> electivePreferences;
 	public Repository<Warning> allowedWarnings;
 	
 	private int _currentId;
@@ -28,8 +24,6 @@ public class State implements NamedEntity, Serializable{
 		classes = new SimpleRepository<Class>();
 		classrooms = new SimpleRepository<Classroom>();
 		professors = new SimpleRepository<Professor>();
-		elective = new SimpleRepository<ElectiveClass>();
-		electivePreferences =  new SimpleRepository<ElectiveClassPreferences>();
 		allowedWarnings = new SimpleRepository<Warning>();
 		_currentId = 1;
 	}
