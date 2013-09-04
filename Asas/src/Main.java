@@ -21,14 +21,10 @@ import data.configurations.ExcelPreferences;
 import data.configurations.StateDescription;
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
-import data.persistentEntities.ElectiveClass;
-import data.persistentEntities.ElectiveClassPreferences;
 import data.persistentEntities.Professor;
 import data.persistentEntities.State;
 import data.readers.fileReaders.FileClassReader;
 import data.readers.fileReaders.FileClassRoomReader;
-import data.readers.fileReaders.FileElectivePreferenceReader;
-import data.readers.fileReaders.FileElectiveReader;
 import data.readers.fileReaders.FileProfessorReader;
 import data.repository.Repository;
 
