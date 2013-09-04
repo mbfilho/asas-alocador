@@ -10,8 +10,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import data.persistentEntities.State;
+import data.writers.FileWriter;
+import data.writers.Writer;
 
 import exceptions.StateIOException;
+import exceptions.WritingException;
 
 
 public class HistoryItem {
@@ -20,23 +23,20 @@ public class HistoryItem {
 	private Object stateSignature;
 	private Date modificationTime;
 	private static String HISTORY_FILES_LOCATION = "undoStates";
+	private Writer<State> stateWriter;
 	
 	public HistoryItem(int id, State state){
 		stateLocation = new File(String.format("%s%stemp%d", HISTORY_FILES_LOCATION, File.separator, id));
+		stateWriter = new FileWriter<State>(stateLocation);
 		stateSignature = state.getSignature();
-		saveState(state);
-	}
-	
-	private void saveState(State state){
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(stateLocation));
-			out.writeObject(state);
-			out.close();
-		} catch (IOException e) {
+			stateWriter.Write(state);
+		} catch (WritingException e) {
 			e.printStackTrace();
 		}
 	}
 	
+
 	@SuppressWarnings("resource")
 	public State getState() throws StateIOException {
 		ObjectInputStream in = null;
@@ -47,10 +47,10 @@ public class HistoryItem {
 			return loaded;
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new StateIOException("Erro ao acessar o arquivo temporário", e);
+			throw new StateIOException("Erro ao acessar o arquivo temporÃ¡rio", e);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			throw new StateIOException("Erro ao processar o arquivo temporário. Ele está, possivelmente, com dados antigos (de outra versão)", e);
+			throw new StateIOException("Erro ao processar o arquivo temporÃ¡rio. Ele estÃ¡, possivelmente, com dados antigos (de outra versÃ£o)", e);
 		}
 	}
 	

@@ -26,12 +26,15 @@ import data.readers.excelReaders.ExcelProfessorReader;
 import data.readers.excelReaders.WorkbookReader;
 import data.readers.fileReaders.FileClassRoomReader;
 import data.repository.Repository;
+import data.writers.FileWriter;
+import data.writers.Writer;
 
 
 
 
 
 import exceptions.StateIOException;
+import exceptions.WritingException;
 
 public class StateService {
 	private State currentState = null;
@@ -108,23 +111,19 @@ public class StateService {
 	
 	private void flushDescriptions() throws StateIOException{
 		try{
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName));
-			for(StateDescription desc : states) out.writeObject(desc);
-			out.writeObject(null);
-			out.close();
-		}catch(Exception ex){
+			Writer<StateDescription> stateWriter = new FileWriter<StateDescription>(fileName);
+			for(StateDescription desc : states) stateWriter.Write(desc);
+		}catch(WritingException ex){
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", ex);
 		}
 	}
 	
 	private void flushState(State s) throws StateIOException{
+		Writer<State> stateWriter = new FileWriter<State>(s.description.getFile());
 		try {
-			ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(s.description.getFile()));
-			out.writeObject(s);
-			out.close();
-		} catch (FileNotFoundException e) {
+			stateWriter.Write(s);
+		} catch (WritingException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", e);
 		}
 	}
@@ -190,8 +189,6 @@ public class StateService {
 			erro.add("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
 			return erro;
 		}
-		
-		
 	}
 
 	public synchronized void setCurrentState(State state) {

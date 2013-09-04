@@ -5,7 +5,7 @@ import java.util.Collection;
 import data.NamedEntity;
 import data.repository.Repository;
 
-public abstract class BasicService <T extends NamedEntity>{
+public abstract class BasicDataAccessService <T extends NamedEntity>{
 
 	protected int getCurrentId(){
 		return StateService.getInstance().getCurrentState().getUniqueId();

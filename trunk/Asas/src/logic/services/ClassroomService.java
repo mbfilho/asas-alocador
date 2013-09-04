@@ -6,7 +6,7 @@ import data.persistentEntities.Classroom;
 import data.repository.Repository;
 import data.repository.SimpleRepository;
 
-public class ClassroomService extends BasicService<Classroom>{
+public class ClassroomService extends BasicDataAccessService<Classroom>{
 
 	private StateService stateService;
 	
