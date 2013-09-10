@@ -18,6 +18,7 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 	
 	private WorkbookReader reader;
 	private ProfessorService profService;
+	
 	private ExcelPreferences prefs;
 	//Nome	E-mail	Cargo	Depto
 

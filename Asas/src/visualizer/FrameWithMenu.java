@@ -3,6 +3,7 @@ package visualizer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -33,6 +34,7 @@ import presentation.warnings.WarningsLayout;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
+import java.io.File;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -41,6 +43,7 @@ import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.ProfessorWorkload;
+import logic.reports.AllocationReport;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -207,6 +210,19 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		mnRelatrios.add(mntmWorkload);
+		
+		JMenuItem mntmGo = new JMenuItem("Relatório de Alocação");
+		mntmGo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFileChooser chooser = new JFileChooser();
+				if(chooser.showSaveDialog(FrameWithMenu.this) == JFileChooser.APPROVE_OPTION){
+					File f = chooser.getSelectedFile();
+					new AllocationReport().saveToFile(f);
+				}
+			}
+		});
+		mnRelatrios.add(mntmGo);
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};
 		gridBagLayout.rowHeights = new int[]{0};
