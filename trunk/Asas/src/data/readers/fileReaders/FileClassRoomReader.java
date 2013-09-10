@@ -20,7 +20,7 @@ public class FileClassRoomReader implements DataReader<Classroom> {
 	public DataValidation<Repository<Classroom>> read() throws InvalidInputException {
 		ClassroomService service = new ClassroomService();
 		try {
-			Scanner sc = new Scanner(new File("classrooms.in"));
+			Scanner sc = new Scanner(new File("configs/classrooms.in"));
 			LineReader reader = new LineReader();
 			
 			while(sc.hasNext()){
