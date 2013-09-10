@@ -16,7 +16,6 @@ import data.repository.SimpleRepository;
 
 import utilities.ColorUtil;
 
-//TODO: substituir Color por uma classe própria  
 public class ClassService extends BasicDataAccessService<Class>{
 
 	private StateService stateService;
@@ -64,15 +63,23 @@ public class ClassService extends BasicDataAccessService<Class>{
 		return color;
 	}
 
+	public Class getById(int id){
+		for(Class c : all()){
+			if(c.getId() == id) return c;
+		}
+		return null;
+	}
+	
 	public void remove(Class ec) {
 		super.remove(ec);
 		HistoryService.getInstance().registerChange(String.format("Remoção de '%s'", ec.completeName()));
 		DataUpdateCentral.registerUpdate("Remoção de turma");
 	}
 
-	public void completeSwap(Class one, List<Professor> oneClassProfs,
+	public void completeSwap(int oneId, List<Professor> oneClassProfs,
 			List<SlotRange> oneClassSlots, Class another,
 			List<Professor> otherClassProfs, List<SlotRange> otherClassSlots) {
+		Class one = getById(oneId);
 		one.setProfessors(oneClassProfs);
 		one.setSlots(oneClassSlots);
 		another.setProfessors(otherClassProfs);
