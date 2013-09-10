@@ -1,23 +1,14 @@
 package presentation.classes.edition;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
 import java.util.Vector;
 
-import utilities.GuiUtil;
-import utilities.Pair;
-
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
-
-import presentation.NamedPair;
-import presentation.PeriodicClassComparator;
-import presentation.grouping.GroupSelectorConfiguration;
-import presentation.schedule.ScheduleTableModel;
-import presentation.schedule.ScheduleTable;
 
 import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
@@ -25,7 +16,13 @@ import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.schedule.formatting.formatters.SlotDisponibilityFormatter;
 import logic.services.ClassService;
-
+import presentation.NamedPair;
+import presentation.PeriodicClassComparator;
+import presentation.grouping.GroupSelectorConfiguration;
+import presentation.schedule.ScheduleTable;
+import presentation.schedule.ScheduleTableModel;
+import utilities.GuiUtil;
+import utilities.Pair;
 import data.persistentEntities.Class;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
@@ -130,8 +127,10 @@ public class EditClass extends EditClassLayout implements Updatable{
 		
 		getSwapsButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new Swapper(EditClass.this, GuiUtil.getSelectedItem(classesCBox)){
-
+				Class fromFields = new Class();
+				setValuesToClass(fromFields);
+				
+				new Swapper(EditClass.this, fromFields){
 					private static final long serialVersionUID = 1L;
 
 					protected void onOkButton(Collection<Professor> profs, Collection<SlotRange> slots) {
@@ -162,6 +161,9 @@ public class EditClass extends EditClassLayout implements Updatable{
 	}
 	
 	private void setValuesToClass(Class toBeSeted){
+		Class fromCBox = GuiUtil.getSelectedItem(classesCBox);
+		if(fromCBox != null) toBeSeted.setId(fromCBox.getId());
+		
 		toBeSeted.setName(nameText.getText());
 		toBeSeted.setCode(codeText.getText());
 		toBeSeted.setCcSemester(ccText.getText());
@@ -205,9 +207,8 @@ public class EditClass extends EditClassLayout implements Updatable{
 	}
 	
 	private void generateDisponibilityTable(){
-		Class selected = new Class(), fromCBox = GuiUtil.getSelectedItem(classesCBox);
+		Class selected = new Class(); 
 		setValuesToClass(selected);
-		if(fromCBox != null) selected.setId(fromCBox.getId());
 		
 		Iterable<SlotRange> slots = slotList.getItens();
 		

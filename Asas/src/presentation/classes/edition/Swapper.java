@@ -26,14 +26,14 @@ public abstract class Swapper extends SwapperLayout{
 	
 	private boolean swapOccured;
 	private ClassService classService;
-	private Class theClass;
+	private int theClassId;
 	
 	protected abstract void onOkButton(Collection<Professor> profs, Collection<SlotRange> slots);
 	
 	public Swapper(JFrame parent, Class selectedClass){
 		super(parent, selectedClass);
 		classService = new ClassService();
-		theClass = selectedClass;
+		theClassId = selectedClass.getId();
 		swapOccured = false;
 		
 		fillComboBox();
@@ -130,14 +130,16 @@ public abstract class Swapper extends SwapperLayout{
 				Class other = GuiUtil.getSelectedItem(getOtherClassCBox());
 				if(swapOccured && other != null){
 					classService.completeSwap(
-								theClass, 
+								theClassId, 
 								getAllElements(getSelectedClassProfessorList()),
 								getAllElements(getSelectedClassSlotsList()),
 								other,
 								getAllElements(getOtherClassProfessorList()),
 								getAllElements(getOtherClassSlotsList())
 							);
-					onOkButton(theClass.getProfessors(), theClass.getSlots());
+					
+					onOkButton(getAllElements(getSelectedClassProfessorList()),
+							getAllElements(getSelectedClassSlotsList()));
 				}
 				dispose();
 			}
