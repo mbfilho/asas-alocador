@@ -15,6 +15,7 @@ import logic.grouping.RoomGroup;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
+import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
 
 public class GroupMakerService {
@@ -55,19 +56,39 @@ public class GroupMakerService {
 	
 	public List<Group> getGroupsForThisClass(Class theClass, GroupsSelector selector){
 		List<Group> groups = new LinkedList<Group>();
-		if(selector.hasProfessor() &&  theClass.getProfessors().contains(selector.getProfessor())) 
-			groups.add(new ProfessorGroup(selector.getProfessor()));
-		if(selector.hasSemester() && theClass.getCcSemester() == selector.getSemester()) 
-			groups.add(new Group(selector.getSemester() + "(CC)"));
-		if(selector.hasSemester() && theClass.getEcSemester() == selector.getSemester()) 
+		if(selector.hasProfessor()){
+			if(theClass.getProfessors().contains(selector.getProfessor()))
+				groups.add(new ProfessorGroup(selector.getProfessor()));
+			else if(selector.getProfessor() == null)
+				generateGroupsForEachProfessor(theClass, groups);
+		}
+		
+		if(selector.hasSemester()){
+			if(selector.getSemester() == -1)
+				generateGroupsForEachSemester(theClass, groups);
+			else if(theClass.getCcSemester() == selector.getSemester()) 
+				groups.add(new Group(selector.getSemester() + "(CC)"));
+		}
+		if(selector.getSemester() != -1 && theClass.getEcSemester() == selector.getSemester()) 
 			groups.add(new Group(selector.getSemester() + " (EC)"));
-		if(selector.hasClassroom())
-			groups.add(new RoomGroup(selector.getClassroom()));
+		if(selector.hasClassroom()){
+			if(selector.getClassroom() != null)
+				groups.add(new RoomGroup(selector.getClassroom()));
+			else
+				generateGroupsForEachClassroom(theClass, groups);
+		}
 		
 		if(selector.generatesNoGroup())
 			generateGroupsForEachClassroom(theClass, groups);
 		
 		return groups;
+	}
+
+	private void generateGroupsForEachSemester(Class theClass, List<Group> groups) {
+		if(theClass.getCcSemester() != -1)
+			groups.add(new Group(theClass.getCcSemester() + " (CC)"));
+		if(theClass.getEcSemester() != -1)
+			groups.add(new Group(theClass.getEcSemester() + " (EC)"));
 	}
 
 	private void generateGroupsForEachClassroom(Class theClass, List<Group> groups) {
@@ -78,4 +99,15 @@ public class GroupMakerService {
 			}
 		}
 	}
+	
+	private void generateGroupsForEachProfessor(Class theClass, List<Group> groups){
+		HashSet<Professor> profs = new HashSet<Professor>();
+		for(Professor prof : theClass.getProfessors()){
+			if(profs.add(prof)){
+				groups.add(new ProfessorGroup(prof));
+			}
+		}
+	}
+	
+	
 }

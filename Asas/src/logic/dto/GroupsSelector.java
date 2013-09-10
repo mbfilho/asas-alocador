@@ -11,16 +11,20 @@ public class GroupsSelector {
 	private Classroom classroom;
 	private String area;
 	
+	private boolean hasSemester, hasProfessor, hasClassroom;
+	
 	public GroupsSelector(){
 		semester = -1;
 	}
 	
 	public void setSemester(String semester) {
 		this.semester = semester == null ? -1 : Integer.parseInt(semester);
+		hasSemester = true;
 	}
 
 	public void setProfessor(Professor professor) {
 		this.professor = professor;
+		hasProfessor = true;
 	}
 
 	public Professor getProfessor(){
@@ -33,6 +37,7 @@ public class GroupsSelector {
 	
 	public void setRoom(Classroom theRoom) {
 		this.classroom = theRoom;
+		hasClassroom = true;
 	}
 	
 	public boolean generatesNoGroup(){
@@ -40,11 +45,11 @@ public class GroupsSelector {
 	}
 
 	public boolean hasProfessor() {
-		return professor != null;
+		return hasProfessor;
 	}
 
 	public boolean hasSemester() {
-		return semester != -1;
+		return hasSemester;
 	}
 
 	public int getSemester() {
@@ -56,6 +61,6 @@ public class GroupsSelector {
 	}
 
 	public boolean hasClassroom() {
-		return classroom != null;
+		return hasClassroom;
 	}
 }

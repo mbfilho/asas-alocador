@@ -21,6 +21,8 @@ import data.persistentEntities.Professor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import logic.dataUpdateSystem.CustomerType;
@@ -90,6 +92,7 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	private void configureProfessorSelector(int column){
 		ProfessorService profService = new ProfessorService();
 		Vector<NamedPair<Professor>> professors = GuiUtil.createNamedPairs(profService.all());
+		professors.add(0, new NamedPair<Professor>("Todos", null));
 		
 		professorCBox = new JComboBox<NamedPair<Professor>>(professors);
 		professorCBox.setEnabled(false);
@@ -143,7 +146,8 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	private void configureRoom(int column){
 		ClassroomService roomService = new ClassroomService();
 		Vector<NamedPair<Classroom>> rooms = GuiUtil.createNamedPairs(roomService.all());
-
+		rooms.add(0, new NamedPair<Classroom>("Todas", null));
+		
 		roomCBox = new JComboBox<NamedPair<Classroom>>(rooms);
 		roomCBox.setEnabled(false);
 		
@@ -171,6 +175,8 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	private void configureSemester(int column){
 		Vector<NamedPair<String>> periodos = new Vector<NamedPair<String>>();
 		for(int i = 1; i <= 10; ++i) periodos.add(new NamedPair<String>(i + "", i + ""));
+		periodos.add(0, new NamedPair<String>("Todos", null));
+		
 		semesterCBox = new JComboBox<NamedPair<String>>(periodos);
 		semesterCBox.setEnabled(false);
 		
@@ -278,19 +284,20 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	
 	private void refreshProfessors(){
 		ProfessorService profService = new ProfessorService();
-		reloadCBox(professorCBox, profService.all());
+		reloadCBox(professorCBox, profService.all(), new NamedPair<Professor>("Todos", null));
 	}
 	
 	private void refreshRooms(){
 		ClassroomService roomService = new ClassroomService();
-		reloadCBox(roomCBox, roomService.all());
+		reloadCBox(roomCBox, roomService.all(), new NamedPair<Classroom>("Todas", null));
 	}
 	
-	private <T extends NamedEntity> void reloadCBox(JComboBox<NamedPair<T>> cbox, Collection<T> allElements){
+	private <T extends NamedEntity> void reloadCBox(JComboBox<NamedPair<T>> cbox, Collection<T> allElements, NamedPair<T> first){
 		T selected = GuiUtil.getSelectedItem(cbox);
 		DefaultComboBoxModel<NamedPair<T>> model = (DefaultComboBoxModel<NamedPair<T>>) cbox.getModel();
 		model.removeAllElements();
-		NamedPair<T> newSelected = null;
+		NamedPair<T> newSelected = first;
+		model.addElement(first);
 		for(T elementToAdd : allElements){
 			NamedPair<T> toAdd = new NamedPair<T>(elementToAdd.getName(), elementToAdd);
 			if(selected != null && elementToAdd.getName().equals(selected.getName())) newSelected = toAdd;
