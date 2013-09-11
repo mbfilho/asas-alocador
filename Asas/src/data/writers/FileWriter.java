@@ -26,6 +26,7 @@ public class FileWriter<T> implements Writer<T>{
 		try {
 			out = new ObjectOutputStream(new FileOutputStream(theFile));
 			out.writeObject(argument);
+			out.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new WritingException(e);

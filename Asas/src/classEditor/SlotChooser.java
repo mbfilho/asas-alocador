@@ -200,6 +200,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	}
 	
 	public SlotChooser(WarningGeneratorService warning, Class selectedClass, SlotRange toEdit) {
+		setTitle("Edição de Horários");
 		this.slotToEdit = toEdit;
 		conflictService = new ConflictService();
 		this.selectedClass = selectedClass;
