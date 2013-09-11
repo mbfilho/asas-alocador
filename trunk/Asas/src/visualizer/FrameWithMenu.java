@@ -217,6 +217,10 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				JFileChooser chooser = new JFileChooser();
 				if(chooser.showSaveDialog(FrameWithMenu.this) == JFileChooser.APPROVE_OPTION){
 					File f = chooser.getSelectedFile();
+					String name = f.getAbsolutePath();
+					if(!(name.endsWith(".html") || name.endsWith(".html")))
+						f = new File(name + ".html");
+					
 					new AllocationReport().saveToFile(f);
 				}
 			}
