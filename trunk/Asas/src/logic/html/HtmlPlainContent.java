@@ -12,6 +12,8 @@ public class HtmlPlainContent extends HtmlElement{
 	}
 	
 	public void setContent(String content){
+		if(content == null)
+			content = "";
 		this.content = content;
 	}
 	
