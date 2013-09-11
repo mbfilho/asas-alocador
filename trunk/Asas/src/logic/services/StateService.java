@@ -93,14 +93,6 @@ public class StateService {
 		return states;
 	}
 	
-	public void saveNewState(State s) throws StateIOException{
-		states.add(s.description);
-		flushState(s);
-		flushDescriptions();
-		currentState = s;
-		DataUpdateCentral.registerUpdate("Novo estado");
-	}
-	
 	public void remove(State s) throws StateIOException{
 		states.remove(s);
 		flushDescriptions();
