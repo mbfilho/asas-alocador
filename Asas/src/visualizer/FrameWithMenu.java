@@ -29,7 +29,6 @@ import presentation.historySystem.HistoryTablePanel;
 import presentation.professors.AddProfessor;
 import presentation.professors.EditProfessor;
 import presentation.state.LoadStateFrame;
-import presentation.state.NewStateFrame;
 import presentation.warnings.WarningsLayout;
 
 import java.awt.event.KeyEvent;
@@ -80,14 +79,6 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		
-		JMenuItem mntmNovaAlocao = new JMenuItem("Nova alocação");
-		mntmNovaAlocao.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new NewStateFrame();
-			}
-		});
-		mntmNovaAlocao.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
-		mnEstado.add(mntmNovaAlocao);
 		mnEstado.add(mntmCarregar);
 				
 		JMenuItem mntmSalvar_1 = new JMenuItem("Salvar");
