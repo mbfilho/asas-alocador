@@ -7,8 +7,8 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.Timer;
 
@@ -38,7 +38,7 @@ public class StateService {
 	private State currentState = null;
 	
 	private final String fileName = String.format("configs%ssavedStates.config", File.separator);
-	private Vector<StateDescription> states;
+	private List<StateDescription> states;
 	private static StateService _instance = null;
 	
 	public static StateService getInstance(){
@@ -46,13 +46,12 @@ public class StateService {
 		return _instance;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private StateService(){
-		states = new Vector<StateDescription>();
+		states = new LinkedList<StateDescription>();
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
-			Object read;
-			while((read = in.readObject()) != null) states.add((StateDescription) read);
-			in.close();
+			states = (List<StateDescription>) in.readObject();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -90,7 +89,7 @@ public class StateService {
 		DataUpdateCentral.registerUpdate("Novo estado");
 	}
 	
-	public Vector<StateDescription> allStates(){
+	public List<StateDescription> allStates(){
 		return states;
 	}
 	
@@ -109,8 +108,8 @@ public class StateService {
 	
 	private void flushDescriptions() throws StateIOException{
 		try{
-			Writer<StateDescription> stateWriter = new FileWriter<StateDescription>(fileName);
-			for(StateDescription desc : states) stateWriter.Write(desc);
+			Writer<List<StateDescription>> stateWriter = new FileWriter<List<StateDescription>>(fileName);
+			stateWriter.Write(states);
 		}catch(WritingException ex){
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", ex);
 		}
@@ -183,7 +182,7 @@ public class StateService {
 					setCurrentState(old.description);
 			} catch (StateIOException e) {}
 			ex.printStackTrace();
-			List<String> erro = new Vector<String>();
+			List<String> erro = new LinkedList<String>();
 			erro.add("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
 			return erro;
 		}
