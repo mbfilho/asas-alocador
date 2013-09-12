@@ -3,6 +3,9 @@ package data.persistentEntities;
 import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import data.NamedEntity;
@@ -22,6 +25,7 @@ public class Class implements NamedEntity, Serializable{
 	private String code;
 	private Color color;
 	private int id;
+	private ExcelMetadata excelMetadata;
 	
 	public Class(){
 		this.professors = new Vector<Professor>();
@@ -105,7 +109,7 @@ public class Class implements NamedEntity, Serializable{
 		return slots;
 	}
 	
-	public Collection<Professor> getProfessors(){
+	public List<Professor> getProfessors(){
 		return professors;
 	}
 	
@@ -163,9 +167,29 @@ public class Class implements NamedEntity, Serializable{
 		throw new CloneNotSupportedException();
 	}
 	
+	public List<Classroom> getRoomsOrderedBySlot(){
+		List<SlotRange> slots = new LinkedList<SlotRange>(this.slots);
+		List<Classroom> rooms = new LinkedList<Classroom>();
+		Collections.sort(slots);
+		
+		for(SlotRange slot : slots){
+			if(slot.getClassroom() != null)
+				rooms.add(slot.getClassroom());
+		}
+		return rooms;
+	}
+	
 	public Vector<Classroom> getAllRooms(){
 		Vector<Classroom> rooms = new Vector<Classroom>();
 		for(SlotRange r : getSlots()) if(r.getClassroom() != null) rooms.add(r.getClassroom());
 		return rooms;
+	}
+	
+	public void setExcelMetadata(ExcelMetadata meta){
+		this.excelMetadata = meta;
+	}
+	
+	public ExcelMetadata getExcelMetadata(){
+		return excelMetadata;
 	}
 }

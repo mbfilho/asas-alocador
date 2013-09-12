@@ -12,6 +12,7 @@ import data.DataValidation;
 import data.configurations.ExcelPreferences;
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
+import data.persistentEntities.ExcelMetadata;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
 import data.readers.ClassReader;
@@ -115,7 +116,6 @@ public class ExcelClassReader extends ClassReader{
 		readClassesUntil(excelPrefs.getEndOfFileMarker());
 	}
 	
-	
 	private Class readClass(){
 		Class theClass = new Class();
 		theClass.setName(reader.readString());
@@ -151,6 +151,8 @@ public class ExcelClassReader extends ClassReader{
 		readSlotsToClass(classrooms, theClass);
 		
 		theClass.setCh2(reader.readInt(0));
+		
+		theClass.setExcelMetadata(new ExcelMetadata(reader.getRowNumber()));
 		
 		return theClass;
 	}

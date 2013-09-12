@@ -16,7 +16,9 @@ import utilities.DisposableOnEscFrame;
 
 import java.awt.GridBagLayout;
 
+import data.writers.ExcelClassWriter;
 import exceptions.StateIOException;
+import exceptions.WritingException;
 
 import javax.swing.KeyStroke;
 
@@ -34,6 +36,8 @@ import presentation.warnings.WarningsLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -43,6 +47,7 @@ import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.ProfessorWorkload;
 import logic.reports.AllocationReport;
+import logic.services.ClassService;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -68,8 +73,8 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnEstado = new JMenu("Estado");
-		menuBar.add(mnEstado);
+		JMenu menuState = new JMenu("Estado");
+		menuBar.add(menuState);
 		
 		JMenuItem mntmCarregar = new JMenuItem("Carregar");
 		mntmCarregar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
@@ -79,10 +84,10 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		
-		mnEstado.add(mntmCarregar);
+		menuState.add(mntmCarregar);
 				
-		JMenuItem mntmSalvar_1 = new JMenuItem("Salvar");
-		mntmSalvar_1.addActionListener(new ActionListener() {
+		JMenuItem itemSave = new JMenuItem("Salvar");
+		itemSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!StateService.getInstance().hasValidState()) return;
 				
@@ -93,24 +98,43 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				}
 			}
 		});
+		itemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
+		menuState.add(itemSave);
 		
-		JMenuItem mntmCarregarExcel = new JMenuItem("Carregar Excel");
-		mntmCarregarExcel.addActionListener(new ActionListener() {
+		
+		JMenuItem itemLoadFromExcel = new JMenuItem("Carregar Excel");
+		itemLoadFromExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				new EditExcelPreferences();
 			}
 		});
-		mntmCarregarExcel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
-		mnEstado.add(mntmCarregarExcel);
-		mntmSalvar_1.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, InputEvent.CTRL_MASK));
-		mnEstado.add(mntmSalvar_1);
+		itemLoadFromExcel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
+		menuState.add(itemLoadFromExcel);
 		
-		JMenu mnEditar = new JMenu("Editar");
-		menuBar.add(mnEditar);
+		JMenuItem itemSaveToExcel = new JMenuItem("Back 2 Excel");
+		itemSaveToExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ExcelClassWriter writer = new ExcelClassWriter(StateService.getInstance().getCurrentState().excelPrefs.getFileLocation());
+					ClassService service = new ClassService();
+					List<data.persistentEntities.Class> c = new LinkedList<data.persistentEntities.Class>(service.all()); 
+					System.out.println("Salvando: " + c.get(0).completeName() + " linha " + c.get(0).getExcelMetadata().getRow());
+					writer.Write(c.get(0));
+					writer.save();
+				} catch (WritingException | IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
 		
-		JMenuItem mntmTurmas = new JMenuItem("Turmas");
-		mntmTurmas.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
-		mntmTurmas.addActionListener(new ActionListener() {
+		menuState.add(itemSaveToExcel);
+		
+		JMenu menuEdit = new JMenu("Editar");
+		menuBar.add(menuEdit);
+		
+		JMenuItem menuClasses = new JMenuItem("Turmas");
+		menuClasses.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_T, InputEvent.CTRL_MASK));
+		menuClasses.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				new EditClass();
 			}
@@ -123,7 +147,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		
-		mnEditar.add(mntmProfessores);
+		menuEdit.add(mntmProfessores);
 		
 		JMenuItem mntmSalas = new JMenuItem("Salas");
 		mntmSalas.addActionListener(new ActionListener() {
@@ -131,8 +155,8 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				new EditClassroom();
 			}
 		});
-		mnEditar.add(mntmSalas);
-		mnEditar.add(mntmTurmas);
+		menuEdit.add(mntmSalas);
+		menuEdit.add(menuClasses);
 		
 		JMenu mnHistrico = new JMenu("Histórico");
 		menuBar.add(mnHistrico);

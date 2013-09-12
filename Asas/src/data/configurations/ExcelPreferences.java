@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map.Entry;
 
+import data.persistentEntities.Classroom;
+
 import utilities.CollectionUtil;
 
 public class ExcelPreferences implements Serializable{
@@ -198,6 +200,20 @@ public class ExcelPreferences implements Serializable{
 	
 	public void addMappingCorrespondence(String code, List<String> rooms){
 		if(code != null) codeToRoomMapping.put(code, rooms);
+	}
+	
+	public String getMappingCode(List<Classroom> rooms){
+		for(Entry<String, List<String>> pair : codeToRoomMapping.entrySet()){
+			boolean equals = rooms.size() == pair.getValue().size();
+			for(int i = 0; i < rooms.size() && equals; ++i){
+				equals &= rooms.get(i).getName().equals(pair.getValue().get(i));
+			}
+			
+			if(equals)
+				return pair.getKey();
+		}
+		
+		return null;
 	}
 
 	public void setSlotCount(int slotCount) {

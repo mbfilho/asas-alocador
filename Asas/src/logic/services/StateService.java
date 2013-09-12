@@ -24,7 +24,7 @@ import data.readers.excelReaders.ExcelProfessorReader;
 import data.readers.excelReaders.WorkbookReader;
 import data.readers.fileReaders.FileClassRoomReader;
 import data.repository.Repository;
-import data.writers.FileWriter;
+import data.writers.SingleObjectFileWriter;
 import data.writers.Writer;
 
 
@@ -52,6 +52,7 @@ public class StateService {
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
 			states = (List<StateDescription>) in.readObject();
+			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -100,7 +101,7 @@ public class StateService {
 	
 	private void flushDescriptions() throws StateIOException{
 		try{
-			Writer<List<StateDescription>> stateWriter = new FileWriter<List<StateDescription>>(fileName);
+			Writer<List<StateDescription>> stateWriter = new SingleObjectFileWriter<List<StateDescription>>(fileName);
 			stateWriter.Write(states);
 		}catch(WritingException ex){
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", ex);
@@ -108,7 +109,7 @@ public class StateService {
 	}
 	
 	private void flushState(State s) throws StateIOException{
-		Writer<State> stateWriter = new FileWriter<State>(s.description.getFile());
+		Writer<State> stateWriter = new SingleObjectFileWriter<State>(s.description.getFile());
 		try {
 			stateWriter.Write(s);
 		} catch (WritingException e) {
@@ -151,6 +152,7 @@ public class StateService {
 		save();
 		states.add(currentState.description);
 		flushDescriptions();
+		currentState.excelPrefs = toSave;
 		DataUpdateCentral.registerUpdate("Estado carregado do excel");
 		toSave.saveToFile();
 	}

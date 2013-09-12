@@ -7,6 +7,7 @@ import logic.services.StateService;
 
 import data.DataValidation;
 import data.configurations.ExcelPreferences;
+import data.persistentEntities.ExcelMetadata;
 import data.persistentEntities.Professor;
 import data.readers.DataReader;
 import data.repository.Repository;
@@ -58,6 +59,7 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 			prof.setTemporary(isTemporaryCargo(cargo));
 			prof.setAway(isAwayCargo(cargo));
 			prof.setDpto(reader.readString());
+			prof.setExcelMetadata(new ExcelMetadata(reader.getRowNumber()));
 			profService.add(prof);
 		}
 		
