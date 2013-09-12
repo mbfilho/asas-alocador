@@ -70,12 +70,6 @@ public class ClassService extends BasicDataAccessService<Class>{
 		return null;
 	}
 	
-	public void remove(Class ec) {
-		super.remove(ec);
-		HistoryService.getInstance().registerChange(String.format("Remoção de '%s'", ec.completeName()));
-		DataUpdateCentral.registerUpdate("Remoção de turma");
-	}
-
 	public void completeSwap(int oneId, List<Professor> oneClassProfs,
 			List<SlotRange> oneClassSlots, Class another,
 			List<Professor> otherClassProfs, List<SlotRange> otherClassSlots) {

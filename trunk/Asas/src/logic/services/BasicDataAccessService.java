@@ -29,8 +29,4 @@ public abstract class BasicDataAccessService <T extends NamedEntity>{
 	public void add(T entity){
 		list().addInOrder(entity);
 	}
-	
-	public void remove(T entity){
-		list().remove(entity);
-	}
 }

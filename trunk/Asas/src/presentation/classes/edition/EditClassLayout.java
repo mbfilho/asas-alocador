@@ -50,9 +50,9 @@ public class EditClassLayout extends DisposableOnEscFrame{
 	protected JLabel semesterLabel;
 	protected JLabel nameLabel;
 	protected JButton okButton;
-	protected JButton removeButton;	
 	private JLabel changesHappenedwarningLabel;
 	private JButton swapsButton;
+	
 	public EditClassLayout(){
 		setTitle("Edição de disciplinas/turmas");
 		WarningGeneratorService warningService = new WarningGeneratorService();
@@ -243,19 +243,12 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_okButton.gridx = 0;
 		gbc_okButton.gridy = 10;
 		contentPane.add(okButton, gbc_okButton);
-		
-		removeButton = new JButton("Remover");
-		
-		GridBagConstraints gbc_removeButton = new GridBagConstraints();
-		gbc_removeButton.anchor = GridBagConstraints.SOUTH;
-		gbc_removeButton.insets = new Insets(0, 0, 0, 5);
-		gbc_removeButton.gridx = 4;
-		gbc_removeButton.gridy = 10;
-		contentPane.add(removeButton, gbc_removeButton);
 	}
+	
 	protected JLabel getChangesHappenedwarningLabel() {
 		return changesHappenedwarningLabel;
 	}
+	
 	protected JButton getSwapsButton() {
 		return swapsButton;
 	}

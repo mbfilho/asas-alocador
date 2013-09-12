@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Vector;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import logic.dataUpdateSystem.CustomerType;
@@ -104,24 +103,6 @@ public class EditClass extends EditClassLayout implements Updatable{
 			}
 		});
 		
-		removeButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if(GuiUtil.getSelectedItem(classesCBox) == null) return;
-				
-				int op = JOptionPane.showConfirmDialog(
-							EditClass.this, 
-							"Tem certeza que deseja excluir a turma \"" + GuiUtil.getSelectedItem(classesCBox).getName() + "\"?",
-							"Confirmar exclusão de turma",
-							JOptionPane.YES_NO_OPTION
-						);
-				if(op == JOptionPane.YES_OPTION){
-					Class toDelete = GuiUtil.getSelectedItem(classesCBox);
-					classesCBox.removeItem(classesCBox.getSelectedItem());
-					saveRemotion(toDelete);
-				}
-			}
-		});
-		
 		professorList.setChangeListener(updateTableOnChange);
 		slotList.setChangeListener(updateTableOnChange);
 		
@@ -151,12 +132,6 @@ public class EditClass extends EditClassLayout implements Updatable{
 			setValuesToClass(selected);
 			classService.update(selected);
 		}
-		getChangesHappenedwarningLabel().setVisible(false);
-	}
-	
-	
-	private void saveRemotion(Class toDelete){
-		classService.remove(toDelete);
 		getChangesHappenedwarningLabel().setVisible(false);
 	}
 	
