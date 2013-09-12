@@ -121,7 +121,9 @@ public class FrameWithMenu extends JFrame implements Updatable{
 					System.out.println("Salvando: " + c.get(0).completeName() + " linha " + c.get(0).getExcelMetadata().getRow());
 					writer.Write(c.get(0));
 					writer.save();
-				} catch (WritingException | IOException e1) {
+				} catch (WritingException e1){
+					e1.printStackTrace();
+				}catch  (IOException e1) {
 					e1.printStackTrace();
 				}
 			}

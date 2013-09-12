@@ -1,6 +1,7 @@
 package data.writers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -14,7 +15,7 @@ public abstract class ExcelWriter<T> implements Writer<T>{
 	
 	public ExcelWriter(File file) throws WritingException{
 		try {
-			workbook = WorkbookFactory.create(file);
+			workbook = WorkbookFactory.create(new FileInputStream(file));
 		} catch (InvalidFormatException e) {
 			e.printStackTrace();
 			throw new WritingException(e,"A planilha selecionada possui formato desconhecido ou inválido.");

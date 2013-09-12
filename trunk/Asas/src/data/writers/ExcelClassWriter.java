@@ -40,11 +40,11 @@ public class ExcelClassWriter extends ExcelWriter<Class>{
 	}
 	
 	public void Write(Class c) throws WritingException {
-		currentRow = classesSheet.createRow(c.getExcelMetadata().getRow());
+		currentRow = classesSheet.getRow(c.getExcelMetadata().getRow());
 		cellNumber = 0;
 		
 		writeField(c.getName());
-		ignoreField("OK");
+		writeField("OK");
 		writeProfessors(c.getProfessors());
 		writeField(c.getCh() + "");
 		ignoreField("Alunos na pré-matrícula");
@@ -68,9 +68,12 @@ public class ExcelClassWriter extends ExcelWriter<Class>{
 	}
 	
 	private void writeField(String value){
-		Cell cell = currentRow.createCell(cellNumber++);
+		Cell cell = currentRow.getCell(cellNumber);
+		if(cell == null)
+			cell = currentRow.createCell(cellNumber);
 		cell.setCellType(Cell.CELL_TYPE_STRING);
 		cell.setCellValue(value);
+		++cellNumber;
 	}
 	
 	private String getSemesterString(int ccSemester, int ecSemester) {
