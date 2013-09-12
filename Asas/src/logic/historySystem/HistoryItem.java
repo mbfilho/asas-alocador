@@ -68,8 +68,6 @@ public class HistoryItem {
 	}
 	
 	public String getModificationTime(){
-		return new SimpleDateFormat("HH:mm").format(modificationTime);
+		return new SimpleDateFormat("HH:mm:ss").format(modificationTime);
 	}
-	
-	
 }
