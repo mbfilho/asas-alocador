@@ -10,7 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import data.persistentEntities.State;
-import data.writers.FileWriter;
+import data.writers.SingleObjectFileWriter;
 import data.writers.Writer;
 
 import exceptions.StateIOException;
@@ -27,7 +27,7 @@ public class HistoryItem {
 	
 	public HistoryItem(int id, State state){
 		stateLocation = new File(String.format("%s%stemp%d", HISTORY_FILES_LOCATION, File.separator, id));
-		stateWriter = new FileWriter<State>(stateLocation);
+		stateWriter = new SingleObjectFileWriter<State>(stateLocation);
 		stateSignature = state.getSignature();
 		try {
 			stateWriter.Write(state);

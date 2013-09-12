@@ -74,6 +74,10 @@ public class WorkbookReader {
 		return currentCell.getNumericCellValue();
 	}
 
+	public int getRowNumber(){
+		return currentRow.getRowNum();
+	}
+	
 	public boolean hasNextRow() {
 		return rows.hasNext();
 	}

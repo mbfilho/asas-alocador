@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import data.NamedEntity;
 
-
-
 public class Professor implements NamedEntity, Serializable{
 	private static final long serialVersionUID = 9092577287084935806L;
 	
@@ -15,6 +13,7 @@ public class Professor implements NamedEntity, Serializable{
 	private String email;
 	private boolean temporary;
 	private boolean away;
+	private ExcelMetadata excelMetadata;
 	
 	public Professor(){}
 	
@@ -77,5 +76,13 @@ public class Professor implements NamedEntity, Serializable{
 		
 	public String toString(){
 		return getName();
+	}
+	
+	public void setExcelMetadata(ExcelMetadata meta){
+		excelMetadata = meta;
+	}
+	
+	public ExcelMetadata getExcelMetadata(){
+		return excelMetadata;
 	}
 }

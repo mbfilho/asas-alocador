@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 
 import data.NamedEntity;
+import data.configurations.ExcelPreferences;
 import data.configurations.StateDescription;
 import data.repository.Repository;
 import data.repository.SimpleRepository;
@@ -17,6 +18,7 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Classroom> classrooms;
 	public Repository<Professor> professors;
 	public Repository<Warning> allowedWarnings;
+	public ExcelPreferences excelPrefs;
 	
 	private int _currentId;
 	

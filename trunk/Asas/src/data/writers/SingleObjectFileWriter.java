@@ -8,14 +8,14 @@ import java.io.ObjectOutputStream;
 
 import exceptions.WritingException;
 
-public class FileWriter<T> implements Writer<T>{
+public class SingleObjectFileWriter<T> implements Writer<T>{
 	private File theFile;
 	
-	public FileWriter(String filePath){
+	public SingleObjectFileWriter(String filePath){
 		this(new File(filePath));
 	}
 	
-	public FileWriter(File file){
+	public SingleObjectFileWriter(File file){
 		theFile = file;
 	}
 	
