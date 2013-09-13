@@ -38,6 +38,7 @@ public class FileHash implements Serializable{
 		
 		while((read = in.read(buffer)) != -1)
 			digest.update(buffer, 0, read);
+		in.close();
 	}
 	
 	public boolean equals(Object ot){

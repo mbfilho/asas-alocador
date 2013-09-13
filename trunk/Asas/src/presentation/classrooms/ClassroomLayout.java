@@ -22,6 +22,8 @@ import logic.services.ClassroomService;
 import data.persistentEntities.Classroom;
 
 import utilities.DisposableOnEscFrame;
+import javax.swing.JCheckBox;
+import javax.swing.SwingConstants;
 
 public abstract class ClassroomLayout extends DisposableOnEscFrame {
 
@@ -31,6 +33,7 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 	private JTextField nameText;
 	private JTextField capacityText;
 	protected ClassroomService classroomService;
+	private JCheckBox externalCheck;
 
 	public ClassroomLayout() {
 		classroomService = new ClassroomService();
@@ -42,7 +45,7 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_contentPane.columnWidths = new int[]{19, 0, 0, 0, 0, 0};
 		gbl_contentPane.rowHeights = new int[]{17, 0, 0, 0, 0, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
@@ -90,6 +93,14 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 				dispose();
 			}
 		});
+		
+		externalCheck = new JCheckBox("Sala externa");
+		externalCheck.setHorizontalTextPosition(SwingConstants.LEADING);
+		GridBagConstraints gbc_externalCheck = new GridBagConstraints();
+		gbc_externalCheck.insets = new Insets(0, 0, 5, 5);
+		gbc_externalCheck.gridx = 2;
+		gbc_externalCheck.gridy = 3;
+		contentPane.add(externalCheck, gbc_externalCheck);
 		GridBagConstraints gbc_okButton = new GridBagConstraints();
 		gbc_okButton.insets = new Insets(0, 0, 0, 5);
 		gbc_okButton.gridx = 1;
@@ -102,6 +113,8 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 	
 	protected Classroom getClassroomFromFields(){
 		Classroom room = new Classroom(nameText.getText(), capacityText.getText());
+		room.setExternal(externalCheck.isSelected());
+		
 		return room;
 	}
 	
@@ -109,6 +122,7 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 		nameText.setText(room.getName());
 		if(room.getCapacity() == -1) capacityText.setText("");
 		else capacityText.setText(room.getCapacity() + "");
+		externalCheck.setSelected(room.isExternal());
 	}
 
 }

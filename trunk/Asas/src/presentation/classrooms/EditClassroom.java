@@ -8,6 +8,7 @@ import java.awt.Insets;
 import javax.swing.JComboBox;
 
 import presentation.NamedPair;
+import utilities.GuiUtil;
 
 import data.persistentEntities.Classroom;
 
@@ -35,7 +36,7 @@ public class EditClassroom extends ClassroomLayout {
 		classroomsCBox = new JComboBox<NamedPair<Classroom>>(classroomsCBModel);
 		classroomsCBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Classroom selected = getSelectedClassroom();
+				Classroom selected = GuiUtil.getSelectedItem(classroomsCBox);
 				if(selected != null) setFieldsFromClassroom(selected);
 			}
 		});
@@ -56,17 +57,13 @@ public class EditClassroom extends ClassroomLayout {
 		getContentPane().add(classroomsCBox, gbc_classroomsCBox);
 	}
 	
-	@SuppressWarnings("unchecked")
-	private Classroom getSelectedClassroom(){
-		return ((NamedPair<Classroom>) classroomsCBox.getSelectedItem()).data;
-	}
-	
 	public void onOkButton() {
-		Classroom toEdit = getSelectedClassroom();
+		Classroom toEdit = GuiUtil.getSelectedItem(classroomsCBox);
 		if(toEdit != null){
 			Classroom values = getClassroomFromFields();
 			toEdit.setCapacity(values.getCapacity());
 			toEdit.setName(values.getName());
+			toEdit.setExternal(values.isExternal());
 			classroomService.update(toEdit);
 		}
 		dispose();

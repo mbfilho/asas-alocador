@@ -10,6 +10,7 @@ public class Classroom implements NamedEntity, Serializable{
 	
 	private String name;
 	private int capacity;
+	private boolean external;
 	
 	public Classroom(String name){
 		this(name, -1);
@@ -43,6 +44,14 @@ public class Classroom implements NamedEntity, Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public boolean isExternal() {
+		return external;
+	}
+
+	public void setExternal(boolean external) {
+		this.external = external;
 	}
 	
 	public Object clone() throws CloneNotSupportedException{
