@@ -13,6 +13,7 @@ import javax.swing.JFileChooser;
 import data.configurations.ExcelPreferences;
 import data.configurations.StateDescription;
 
+import logic.services.ConfigurationService;
 import logic.services.StateService;
 
 import exceptions.StateIOException;
@@ -31,7 +32,7 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 		fileChooser = new JFileChooser();
 		configureFileSelectionActions();
 		configureOkButtonAction();
-		fillFieldsWithThesePreferences(ExcelPreferences.loadFromFileOrDefault());
+		fillFieldsWithThesePreferences(ConfigurationService.getInstance().loadExcelPreferencesOrDefault());
 		setVisible(true);
 	}
 	
@@ -49,7 +50,7 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 			public void actionPerformed(ActionEvent arg0) {
 				ExcelPreferences prefs = getPreferencesFromFields();
 				try {
-					List<String> result = StateService.getInstance().switchToLoadedStateFromExcel(prefs, StateDescription.withTimeStamp("carregado-do-excel"));
+					List<String> result = StateService.getInstance().loadStateFromExcel(prefs, StateDescription.withTimeStamp("carregado-do-excel"));
 					JDialog report = new ExcelReadingResults(EditExcelPreferences.this, result);
 					report.setVisible(true);
 					dispose();

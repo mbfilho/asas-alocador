@@ -19,7 +19,6 @@ import com.jgoodies.forms.factories.DefaultComponentFactory;
 import data.configurations.StateDescription;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JCheckBox;
 import javax.swing.JTextArea;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
@@ -44,7 +43,6 @@ public abstract class ChooseStateLayout extends DisposableOnEscFrame {
 	
 	private JPanel contentPane;
 	protected JTextArea description = new JTextArea();
-	protected JCheckBox draftCheck;
 	protected JScrollPane listScrollPane;
 	protected JLabel descriptionLabel;
 	protected JScrollPane descTextScrollPanel;
@@ -110,14 +108,6 @@ public abstract class ChooseStateLayout extends DisposableOnEscFrame {
 
 		listScrollPane.setViewportView(stateList);
 		
-		draftCheck = new JCheckBox("Draft?");
-		GridBagConstraints gbc_draftCheckBox = new GridBagConstraints();
-		gbc_draftCheckBox.anchor = GridBagConstraints.WEST;
-		gbc_draftCheckBox.insets = new Insets(0, 0, 5, 0);
-		gbc_draftCheckBox.gridx = 0;
-		gbc_draftCheckBox.gridy = 2;
-		contentPane.add(draftCheck, gbc_draftCheckBox);
-		
 		descriptionLabel = DefaultComponentFactory.getInstance().createLabel("Descrição");
 		GridBagConstraints gbc_lblDescrio = new GridBagConstraints();
 		gbc_lblDescrio.anchor = GridBagConstraints.WEST;
@@ -159,7 +149,6 @@ public abstract class ChooseStateLayout extends DisposableOnEscFrame {
 	
 	protected void setEditable(boolean value){
 		description.setEditable(value);
-		draftCheck.setEnabled(value);
 	}
 	
 	protected NamedPair<StateDescription> getSelected(){
@@ -168,10 +157,6 @@ public abstract class ChooseStateLayout extends DisposableOnEscFrame {
 	
 	protected String getDescriptionText(){
 		return description.getText();
-	}
-	
-	protected boolean getDraftCheckValue(){
-		return draftCheck.isSelected();
 	}
 	
 	protected JLabel getStateListLabel() {

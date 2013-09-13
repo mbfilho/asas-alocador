@@ -1,12 +1,6 @@
 package data.configurations;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +13,6 @@ import utilities.CollectionUtil;
 public class ExcelPreferences implements Serializable{
 	private static final long serialVersionUID = -3625638456021737156L;
 	
-	private static final String EXCEL_PREFERENCES_FILENAME = String.format("configs%sexcelPreferences.config", File.separator);
 	public static final String EC_MARKER = "EC";
 	public static final String CC_MARKER = "CC";
 	public static final String SLOT_HOURS_SEPARATOR = "-";
@@ -84,28 +77,6 @@ public class ExcelPreferences implements Serializable{
 		prefs.addMappingCorrespondence("CTG", CollectionUtil.createList("CTG"));
 		
 		return prefs;
-	}
-	
-	public static ExcelPreferences loadFromFileOrDefault(){
-		ExcelPreferences prefs = defaultPreferences();
-		try {
-			ObjectInputStream in = new ObjectInputStream(new FileInputStream(EXCEL_PREFERENCES_FILENAME));
-			prefs = (ExcelPreferences) in.readObject();
-			in.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-		return prefs;
-	}
-	
-	public void saveToFile() throws IOException{
-		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(EXCEL_PREFERENCES_FILENAME));
-		out.writeObject(this);
-		out.close();
 	}
 	
 	public ExcelPreferences(){
