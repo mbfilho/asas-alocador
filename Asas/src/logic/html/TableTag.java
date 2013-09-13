@@ -19,16 +19,24 @@ public class TableTag extends HtmlElement{
 		return table;
 	}
 	
-	public void setBorder(int val){
-		addAttribute("border", val + "");
+	public HtmlElement setBorder(int val){
+		return addAttribute("border", val + "");
 	}
 	
-	public void setWidth(String val){
-		addAttribute("width", val);
+	public HtmlElement setWidth(String val){
+		return addAttribute("width", val);
+	}
+	
+	public HtmlElement setHeight(String val){
+		return addAttribute("height", val);
 	}
 
 	public void setBorderColor(Color color) {
 		String hexVal = Integer.toHexString(color.getRGB()).substring(2);
 		addAttribute("bordercolor", "#" + hexVal);
+	}
+	
+	public HtmlElement setCellSpacing(int space){
+		return addAttribute("cellspacing", space + "");
 	}
 }

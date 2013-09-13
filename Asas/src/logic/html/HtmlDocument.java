@@ -21,11 +21,13 @@ public class HtmlDocument extends HtmlElement{
 		addToHead(new TitleTag(title));
 	}
 	
-	public void addChildElement(HtmlElement element){
+	public HtmlElement addChildElement(HtmlElement element){
 		body.addChildElement(element);
+		return this;
 	}
 	
-	public void addToHead(HtmlElement element){
+	public HtmlElement addToHead(HtmlElement element){
 		head.addChildElement(element);
+		return this;
 	}
 }

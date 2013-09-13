@@ -36,6 +36,8 @@ import presentation.warnings.WarningsLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -44,7 +46,8 @@ import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.ProfessorWorkload;
-import logic.reports.AllocationReport;
+import logic.reports.AllocationPerProfessor;
+import logic.reports.AllocationPerSemester;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -215,7 +218,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		});
 		mnRelatrios.add(mntmWorkload);
 		
-		JMenuItem mntmGo = new JMenuItem("Relatório de Alocação");
+		JMenuItem mntmGo = new JMenuItem("Alocação por Professor");
 		mntmGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFileChooser chooser = new JFileChooser();
@@ -225,11 +228,27 @@ public class FrameWithMenu extends JFrame implements Updatable{
 					if(!(name.endsWith(".html") || name.endsWith(".html")))
 						f = new File(name + ".html");
 					
-					new AllocationReport().saveToFile(f);
+					new AllocationPerProfessor().saveToFile(f);
 				}
 			}
 		});
 		mnRelatrios.add(mntmGo);
+		
+		JMenu allocPerSemesterMenu = new JMenu("Alocação por período");
+		JMenuItem ccSemesters = new JMenuItem("Ciência da Computação");
+		ccSemesters.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					PrintWriter out = new PrintWriter(new File("cc.html"));
+					out.print(new AllocationPerSemester(true).getHtmlRepresentation().getHtmlString().toString());
+					out.close();
+				} catch (FileNotFoundException e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		allocPerSemesterMenu.add(ccSemesters);
+		mnRelatrios.add(allocPerSemesterMenu);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0};

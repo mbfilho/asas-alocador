@@ -6,9 +6,9 @@ public class MetaTag extends HtmlElement{
 		super("meta");
 	}
 	
-	public void setCharset(String charset){
+	public HtmlElement setCharset(String charset){
 		addAttribute("http-equiv","Content-Type");
 		addAttribute("content", "text/html");
-		addAttribute("charset", charset);
+		return addAttribute("charset", charset);
 	}
 }

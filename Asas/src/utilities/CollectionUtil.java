@@ -1,9 +1,12 @@
 package utilities;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
+
+import data.persistentEntities.Classroom;
 
 public class CollectionUtil {
 	public static <T> Vector<T> intersectLists(Collection<T> listA, Collection<T> listB){
@@ -36,5 +39,10 @@ public class CollectionUtil {
 		List<T> list = new LinkedList<T>();
 		for(T a : args) list.add(a);
 		return list;
+	}
+	
+	public static <T> List<T> distinct(List<T> list){
+		HashSet<T> mk = new HashSet<T>(list);
+		return new LinkedList<T>(mk);
 	}
 }

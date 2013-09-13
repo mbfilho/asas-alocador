@@ -22,14 +22,14 @@ import logic.html.TrTag;
 import logic.services.ClassService;
 import logic.services.ProfessorService;
 
-public class AllocationReport {
+public class AllocationPerProfessor {
 	private List<ProfessorAllocation> allocatedProfessors;
 	private List<Professor> notAllocatedProfessors;
 	private ClassService classService;
 	private ProfessorService professorService;
 	ProfessorPictureDictionary profPictures;
 	
-	public AllocationReport(){
+	public AllocationPerProfessor(){
 		profPictures = new ProfessorPictureDictionary();
 		classService = new ClassService();
 		professorService = new ProfessorService();
@@ -71,7 +71,7 @@ public class AllocationReport {
 		
 		for(Professor p : notAllocatedProfessors){
 			TrTag profRow = new TrTag();
-			profRow.addStyle("background-color", "FFFF99");
+			profRow.setBackgroundColor("FFFF99");
 			TdTag profCell = new TdTag();
 			
 			ImgTag profImg = new ImgTag();

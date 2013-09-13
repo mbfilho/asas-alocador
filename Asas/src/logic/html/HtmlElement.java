@@ -1,5 +1,6 @@
 package logic.html;
 
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -25,28 +26,75 @@ public abstract class HtmlElement {
 		childElements = new LinkedList<HtmlElement>();
 	}
 	
-	public void setId(String id){
-		addAttribute("id", id);
+	public HtmlElement setId(String id){
+		return addAttribute("id", id);
 	}
 	
-	public void addChildElement(HtmlElement child){
+	public HtmlElement addChildElement(HtmlElement child){
 		childElements.add(child);
+		return this;
 	}
 	
-	public void addCssClass(String cssClass){
+	public HtmlElement addCssClass(String cssClass){
 		classes.add(cssClass);
+		return this;
 	}
 	
-	public void addStyle(String style, String value){
+	public HtmlElement addStyle(String style, String value){
 		this.style.put(style, value);
+		return this;
 	}
 	
-	public void addAttribute(String att, String value){
+	public HtmlElement setTextAlign(CssConstants align){
+		return addStyle("text-align", align.getValue());
+	}
+	
+	public HtmlElement setFloating(CssConstants flt){
+		return addStyle("float", flt.getValue());
+	}
+	
+	public HtmlElement setMarginRight(String value){
+		return addStyle("margin-right", value);
+	}
+	
+	public HtmlElement setVisible(boolean visibility){
+		if(visibility)
+			return addStyle("display", CssConstants.DISPLAY_BLOCK.getValue());
+		return addStyle("display", CssConstants.DISPLAY_NONE.getValue());
+	}
+	
+	public HtmlElement setBackgroundColor(Color color){
+		return setBackgroundColor(colorToHex(color));
+	}
+	
+	public HtmlElement setBackgroundColor(String hexColor){
+		return addStyle("background-color", hexColor);
+	}
+	
+	public HtmlElement addAttribute(String att, String value){
 		attributes.put(att, value);
+		return this;
 	}
 	
-	public void addInnerText(String text){
+	public HtmlElement addInnerText(String text){
 		addChildElement(new HtmlPlainContent(text));
+		return this;
+	}
+	
+	public HtmlElement setBorderRight(Color color, CssConstants style, String width) {
+		addStyle("border-right-color", colorToHex(color));
+		addStyle("border-right-width", width);
+		return addStyle("border-right-style", style.getValue());
+	}
+	
+	public HtmlElement setBorderTop(Color color, CssConstants style, String width) {
+		addStyle("border-top-color", colorToHex(color));
+		addStyle("border-top-width", width);
+		return addStyle("border-top-style", style.getValue());
+	}
+	
+	protected String colorToHex(Color color){
+		return Integer.toHexString(color.getRGB()).substring(2);
 	}
 	
 	public StringBuffer getHtmlString(){
@@ -59,7 +107,7 @@ public abstract class HtmlElement {
 		
 		buffer.append(">\n");
 		for(HtmlElement child : childElements)
-			buffer.append("\t").append(child.getHtmlString()).append("\n");
+			buffer.append(child.getHtmlString()).append("\n");
 		
 		buffer.append("</" + tag + ">\n");
 		
@@ -96,4 +144,5 @@ public abstract class HtmlElement {
 			buffer.append(String.format("%s=\"%s\" ", pair.getKey(), pair.getValue()));
 		return buffer;
 	}
+	
 }
