@@ -68,7 +68,7 @@ public class StateService {
 		Timer timerToSave = new Timer(5000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					save();
+					saveCurrentState();
 				} catch (StateIOException e1) {
 				}
 			}
@@ -94,11 +94,6 @@ public class StateService {
 		return states;
 	}
 	
-	public void remove(State s) throws StateIOException{
-		states.remove(s);
-		flushDescriptions();
-	}
-	
 	private void flushDescriptions() throws StateIOException{
 		try{
 			Writer<List<StateDescription>> stateWriter = new SingleObjectFileWriter<List<StateDescription>>(fileName);
@@ -112,19 +107,14 @@ public class StateService {
 		Writer<State> stateWriter = new SingleObjectFileWriter<State>(s.description.getFile());
 		try {
 			stateWriter.Write(s);
+			ConfigurationService.getInstance().saveClassrooms();
 		} catch (WritingException e) {
 			e.printStackTrace();
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", e);
 		}
 	}
 
-	public boolean existName(String name){
-		for(StateDescription desc : states) if(desc.getName().equals(name)) return true;
-		return false;
-	}
-	
-	//flush
-	public synchronized void save() throws StateIOException {
+	public synchronized void saveCurrentState() throws StateIOException {
 		if(hasValidState())
 			flushState(getCurrentState());
 	}
@@ -149,16 +139,17 @@ public class StateService {
 	}
 	
 	private void completeSwitchingToExcelState(ExcelPreferences toSave) throws IOException, StateIOException{
-		save();
+		currentState.setExcelPreferences(toSave);
+		saveCurrentState();
+		
 		states.add(currentState.description);
 		flushDescriptions();
-		currentState.setExcelPreferences(toSave);
+		
 		DataUpdateCentral.registerUpdate("Estado carregado do excel");
-		toSave.saveToFile();
+		ConfigurationService.getInstance().saveExcelPreferences(toSave);
 	}
 	
-	public List<String> switchToLoadedStateFromExcel(ExcelPreferences prefs, StateDescription desc)
-		throws StateIOException{
+	public List<String> loadStateFromExcel(ExcelPreferences prefs, StateDescription desc) throws StateIOException{
 		State old = currentState;
 		currentState = new State();
 		currentState.description = desc;

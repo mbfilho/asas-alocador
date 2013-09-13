@@ -95,7 +95,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 				if(!StateService.getInstance().hasValidState()) return;
 				
 				try{
-					StateService.getInstance().save();
+					StateService.getInstance().saveCurrentState();
 				}catch(StateIOException ex){
 					JOptionPane.showMessageDialog(FrameWithMenu.this, ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
 				}

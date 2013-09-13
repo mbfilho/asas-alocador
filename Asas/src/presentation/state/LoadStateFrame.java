@@ -24,36 +24,16 @@ public class LoadStateFrame extends ChooseStateLayout {
 		stateList.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent e) {
 				NamedPair<StateDescription> selected = stateList.getSelectedValue();
-				if(selected != null){
-					draftCheck.setSelected(selected.data.isDraft());
+				if(selected != null)
 					description.setText(selected.data.getDescription());
-				}
-				else{
-					draftCheck.setSelected(false);
+				else
 					description.setText("");
-				}
 			}
 		});
 	}
 	
 	protected void onOkButton() {
 		if(getSelected() != null){
-			boolean canLoad = true;
-			if(getSelected().data.isDraft()){
-				String message = "Você está carregando um estado salvo como 'draft'.\n"+
-						"Suas alterações serão periodicamente salvas e, portanto, esse estado poderá\n"+
-						"ser alterado. É recomendado que os drafts sejam somente leitura, para que\n"+
-						"sirvam como base em alocações futuras. Caso deseje usar esse draft como base\n"+
-						"para uma nova alocação use a opção 'Estado > Nova alocação'.\n"+
-						"Deseja continuar?";	
-				int ans = JOptionPane.showOptionDialog(this, message, "Atanção!", 
-						JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.WARNING_MESSAGE, null, 
-						new String[]{"Sim", "Não", "Cancelar"}, "Não");
-				canLoad = (ans == JOptionPane.YES_OPTION);
-			}
-			
-			if(!canLoad) return;
-			
 			StateService service = StateService.getInstance(); 
 			try {
 				service.setCurrentState(getSelected().data);

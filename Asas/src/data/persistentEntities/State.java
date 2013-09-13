@@ -35,8 +35,8 @@ public class State implements NamedEntity, Serializable{
 		return description.getName();
 	}
 
-	public void setStateDescription(String name, String desc, boolean isDraft) {
-		description = new StateDescription(name, desc, isDraft);
+	public void setStateDescription(String name, String desc) {
+		description = new StateDescription(name, desc);
 	}
 	
 	public int getUniqueId(){
