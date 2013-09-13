@@ -67,7 +67,8 @@ public class EditClass extends EditClassLayout implements Updatable{
 	private void setupInitialState(InitialEditState initialState) {
 		if(initialState == null) return;
 		GuiUtil.setSelectedValue(classesCBox, initialState.theClass);
-		createAdditionalWindows(initialState);
+		if(initialState.openAdditionalWindows())
+			createAdditionalWindows(initialState);
 	}
 	
 	private void createAdditionalWindows(InitialEditState initialState){

@@ -19,7 +19,7 @@ public class GroupFormatter implements ScheduleFormatter{
 	
 	public ScheduleSlotFormat getFormat(int slot, int day){
 		if(schedule.hasConflict(slot, day)){
-			if(isConflictSolved(schedule.getClassesForRead(slot, day), slot, day)){
+			if(isConflictSolved(schedule.getClassesReadOnly(slot, day), slot, day)){
 				return new ScheduleSlotFormat(Color.yellow, Color.black, "Conflitos autorizados.", "");
 			}else{
 				return new ScheduleSlotFormat(Color.red, Color.white, "Conflito. Clique aqui.", "");
@@ -40,7 +40,7 @@ public class GroupFormatter implements ScheduleFormatter{
 		ScheduleSlotDetails details = new ScheduleSlotDetails();
 		
 		if(schedule.hasConflict(slot, day)){
-			for(Class inConflict : schedule.getClassesForRead(slot, day))
+			for(Class inConflict : schedule.getClassesReadOnly(slot, day))
 				details.add(new DetailsOfClass(inConflict));
 		}else if(!schedule.isEmptySlot(slot, day)){
 			Class single = schedule.getSingleClass(slot, day);

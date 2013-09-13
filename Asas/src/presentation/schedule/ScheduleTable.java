@@ -1,11 +1,15 @@
 package presentation.schedule;
 
 import java.awt.Component;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.List;
+
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTable;
 
 
@@ -31,9 +35,12 @@ public class ScheduleTable extends JTable{
 				if(p != null){
 					int row = rowAtPoint(p), col = columnAtPoint(p);
 					if(col > 0){
-						Component content = model.getPopupContent(row, col);
-						if(content != null){
-							pop.add(new JScrollPane(content));
+						List<Component> content = model.getPopupContent(row, col);
+						
+						if(!content.isEmpty()){
+							pop.setLayout(new GridLayout(content.size(), 1));
+							for(Component c : content)
+								pop.add(c);
 							pop.show(ScheduleTable.this, p.x, p.y);
 						}
 					}
