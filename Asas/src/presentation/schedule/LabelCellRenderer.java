@@ -42,6 +42,8 @@ public class LabelCellRenderer extends JLabel implements TableCellRenderer{
 		setBorder(state.getBorder() == null ? defaultBorder : state.getBorder());
 		if(!StringUtil.isNullOrEmpty(state.getTooltip()))
 			setToolTipText(state.getTooltip());
+		else
+			setToolTipText(null);
 		setBackground(state.getBackColor());
 		setForeground(state.getFontColor());
 		
