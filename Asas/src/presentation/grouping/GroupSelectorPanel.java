@@ -21,8 +21,6 @@ import data.persistentEntities.Professor;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Vector;
 
 import logic.dataUpdateSystem.CustomerType;
@@ -39,14 +37,12 @@ import java.awt.Color;
 public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	private static final long serialVersionUID = 6925830056459127771L;
 	
-	private JComboBox<NamedPair<String>> areaCBox;
 	private JComboBox<NamedPair<Professor>> professorCBox;
 	private JComboBox<NamedPair<String>> semesterCBox;
 	private JComboBox<NamedPair<Classroom>> roomCBox;
 	private JCheckBox roomCheck;
 	private JCheckBox semesterCheck;
 	private JCheckBox professorCheck;
-	private JCheckBox areaCheck;
 	private GroupSelectorConfiguration configuration;
 	
 	//TODO:Será que existe uma maneira melhor de fazer isso?
@@ -75,9 +71,6 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 		
 		if(configuration.isProfessorGroupingEnabled())
 			configureProfessorSelector(column++);
-		
-		if(configuration.isAreaGroupingEnabled())
-			configureArea(column++);
 		
 		if(configuration.isRoomGroupingEnabled())
 			configureRoom(column++);
@@ -115,32 +108,6 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 		gbc_profCheck.gridx = column;
 		gbc_profCheck.gridy = 1;
 		add(professorCheck, gbc_profCheck);
-	}
-	
-	private void configureArea(int column){
-		areaCBox = new JComboBox<NamedPair<String>>();
-		areaCBox.setEnabled(false);
-		
-		GridBagConstraints gbc_profileCBox = new GridBagConstraints();
-		gbc_profileCBox.insets = new Insets(0, 0, 5, 5);
-		gbc_profileCBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_profileCBox.gridx = column;
-		gbc_profileCBox.gridy = 0;
-		add(areaCBox, gbc_profileCBox);
-		
-		areaCheck = new JCheckBox("Perfil");
-
-		areaCheck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				professorCBox.setEnabled(professorCheck.isSelected());
-			}
-		});
-		GridBagConstraints gbc_areaCheck = new GridBagConstraints();
-		gbc_areaCheck.insets = new Insets(0, 0, 0, 5);
-		gbc_areaCheck.gridx = column;
-		gbc_areaCheck.gridy = 1;
-		add(areaCheck, gbc_areaCheck);
-
 	}
 	
 	private void configureRoom(int column){
@@ -214,10 +181,6 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 				roomCBox.setEnabled(true);
 				GuiUtil.setSelectedValue(roomCBox, configuration.getRoom() );
 			}
-			if(configuration.isAreaGroupingEnabled() && configuration.getArea() != null){
-				areaCheck.setSelected(true);
-				GuiUtil.setSelectedValue(areaCBox, configuration.getArea());
-			}
 			if(configuration.isSemesterGroupingEnabled() && configuration.getSemester() != -1){
 				semesterCheck.setSelected(true);
 				semesterCBox.setEnabled(true);
@@ -244,11 +207,6 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 			semesterCheck.addActionListener(onChangeFilter);
 		}
 		
-		if(configuration.isAreaGroupingEnabled()){
-			areaCBox.addActionListener(onChangeFilter);
-			areaCheck.addActionListener(onChangeFilter);
-		}
-		
 		if(configuration.isProfessorGroupingEnabled()){
 			professorCBox.addActionListener(onChangeFilter);
 			professorCheck.addActionListener(onChangeFilter);
@@ -259,8 +217,6 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 		GroupsSelector selector = new GroupsSelector();
 		if(configuration.isProfessorGroupingEnabled() && professorCheck.isSelected()) 
 			selector.setProfessor(GuiUtil.getSelectedItem(professorCBox));
-		if(configuration.isAreaGroupingEnabled() && areaCheck.isSelected()) 
-			selector.setArea(GuiUtil.getSelectedItem(areaCBox));
 		if(configuration.isSemesterGroupingEnabled() && semesterCheck.isSelected()) 
 			selector.setSemester(GuiUtil.getSelectedItem(semesterCBox));
 		if(configuration.isRoomGroupingEnabled() && roomCheck.isSelected()) 
