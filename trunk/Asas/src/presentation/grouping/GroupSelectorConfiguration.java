@@ -4,11 +4,10 @@ import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 
 public class GroupSelectorConfiguration {
-	private static int PROFESSOR = 1 << 0, AREA = 1 << 1, SEMESTER = 1 << 2, ROOM = 1 << 3;
-	private static int ALL = PROFESSOR | AREA | SEMESTER | ROOM;
+	private static int PROFESSOR = 1 << 0, SEMESTER = 1 << 2, ROOM = 1 << 3;
+	private static int ALL = PROFESSOR | SEMESTER | ROOM;
 	private static int NONE = 0;
 
-	private String area;
 	private Professor theProfessor;
 	private Classroom theRoom;
 	private int theSemester;
@@ -47,15 +46,6 @@ public class GroupSelectorConfiguration {
 		configuration = ALL;
 	}
 	
-	public void enableAreaGrouping(String area){
-		this.area = area;
-		configuration |= AREA;
-	}
-	
-	public boolean isAreaGroupingEnabled(){
-		return (configuration & AREA) != 0;
-	}
-	
 	public void enableProfessorGrouping(Professor prof){
 		theProfessor = prof;
 		configuration |= PROFESSOR;
@@ -81,10 +71,6 @@ public class GroupSelectorConfiguration {
 	
 	public boolean isSemesterGroupingEnabled(){
 		return (configuration & SEMESTER) != 0;
-	}
-
-	public String getArea() {
-		return area;
 	}
 
 	public Professor getProfessor() {
