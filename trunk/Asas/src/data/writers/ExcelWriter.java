@@ -1,27 +1,50 @@
 package data.writers;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import exceptions.WritingException;
 
 public abstract class ExcelWriter<T> implements Writer<T>{
-	protected Workbook workbook;
+	private int cellNumber;
+	private Row currentRow;
+	private Sheet currentSheet;
 	
-	public ExcelWriter(File file) throws WritingException{
-		try {
-			workbook = WorkbookFactory.create(new FileInputStream(file));
-		} catch (InvalidFormatException e) {
-			e.printStackTrace();
-			throw new WritingException(e,"A planilha selecionada possui formato desconhecido ou inválido.");
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new WritingException(e, "Erro ao tentar abrir o arquivo '" + file.getName() + "'");
-		}
+	public ExcelWriter(Workbook workbook, String sheetName){
+		currentSheet = workbook.getSheet(sheetName);
+	}
+	
+	protected void goToRow(int row){
+		currentRow = currentSheet.getRow(row);
+		cellNumber = 0;
+	}
+	
+	protected Cell getCell(){
+		Cell cell = currentRow.getCell(cellNumber);
+		if(cell == null)
+			cell = currentRow.createCell(cellNumber);
+		++cellNumber;
+		return cell;
+	}
+	
+	protected void writeField(String value){
+		Cell cell = getCell();
+		cell.setCellType(Cell.CELL_TYPE_STRING);
+		cell.setCellValue(value);
+	}
+	
+	protected void writeField(double value){
+		Cell cell = getCell();
+		cell.setCellType(Cell.CELL_TYPE_NUMERIC);
+		cell.setCellValue(value);
+	}
+	
+	protected void ignoreField(String fieldIgnored){
+		ignoreField();
+	}
+	
+	protected void ignoreField(){
+		++cellNumber;
 	}
 }

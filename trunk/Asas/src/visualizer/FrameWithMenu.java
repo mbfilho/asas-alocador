@@ -16,12 +16,14 @@ import utilities.DisposableOnEscFrame;
 
 import java.awt.GridBagLayout;
 
+import data.configurations.ExcelPreferences;
 import data.writers.ExcelClassWriter;
 import exceptions.StateIOException;
 import exceptions.WritingException;
 
 import javax.swing.KeyStroke;
 
+import presentation.ExcelWritingDialog;
 import presentation.classes.addition.AddClass;
 import presentation.classes.edition.EditClass;
 import presentation.classrooms.AddClassroom;
@@ -48,6 +50,7 @@ import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.ProfessorWorkload;
 import logic.reports.AllocationReport;
 import logic.services.ClassService;
+import logic.services.ExcelWritingService;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -113,19 +116,9 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		
 		JMenuItem itemSaveToExcel = new JMenuItem("Back 2 Excel");
 		itemSaveToExcel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ExcelClassWriter writer = new ExcelClassWriter(StateService.getInstance().getCurrentState().excelPrefs.getFileLocation());
-					ClassService service = new ClassService();
-					List<data.persistentEntities.Class> c = new LinkedList<data.persistentEntities.Class>(service.all()); 
-					System.out.println("Salvando: " + c.get(0).completeName() + " linha " + c.get(0).getExcelMetadata().getRow());
-					writer.Write(c.get(0));
-					writer.save();
-				} catch (WritingException e1){
-					e1.printStackTrace();
-				}catch  (IOException e1) {
-					e1.printStackTrace();
-				}
+			public void actionPerformed(ActionEvent a) {
+				ExcelPreferences prefs = StateService.getInstance().getCurrentState().excelPrefs;
+				new ExcelWritingDialog(FrameWithMenu.this, prefs);
 			}
 		});
 		
