@@ -19,6 +19,7 @@ public class State implements NamedEntity, Serializable{
 	public Repository<Professor> professors;
 	public Repository<Warning> allowedWarnings;
 	public ExcelPreferences excelPrefs;
+	public FileHash excelFileHash;
 	
 	private int _currentId;
 	
@@ -48,5 +49,17 @@ public class State implements NamedEntity, Serializable{
 	
 	public Object getSignature(){
 		return description.getFile();
+	}
+	
+	public void setExcelPreferences(ExcelPreferences prefs){
+		this.excelPrefs = prefs;
+		updateExcelHash();
+	}
+	
+	public void updateExcelHash(){
+		if(excelFileHash == null)
+			excelFileHash = new FileHash(excelPrefs.getFileLocation());
+		else
+			excelFileHash.update(excelPrefs.getFileLocation());
 	}
 }

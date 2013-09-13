@@ -152,7 +152,7 @@ public class StateService {
 		save();
 		states.add(currentState.description);
 		flushDescriptions();
-		currentState.excelPrefs = toSave;
+		currentState.setExcelPreferences(toSave);
 		DataUpdateCentral.registerUpdate("Estado carregado do excel");
 		toSave.saveToFile();
 	}
@@ -185,5 +185,9 @@ public class StateService {
 	public synchronized void setCurrentState(State state) {
 		this.currentState = state;
 		DataUpdateCentral.registerUpdate("Novo estado setado");
+	}
+	
+	public void updateExcelHash(){
+		currentState.updateExcelHash();
 	}
 }
