@@ -54,7 +54,7 @@ public class GroupMakerService {
 		return new LinkedList<Group>(generatedGroupsSet);
 	}
 	
-	public List<Group> getGroupsForThisClass(Class theClass, GroupsSelector selector){
+	private List<Group> getGroupsForThisClass(Class theClass, GroupsSelector selector){
 		List<Group> groups = new LinkedList<Group>();
 		if(selector.hasProfessor()){
 			if(theClass.getProfessors().contains(selector.getProfessor()))
@@ -69,8 +69,10 @@ public class GroupMakerService {
 			else if(theClass.getCcSemester() == selector.getSemester()) 
 				groups.add(new Group(selector.getSemester() + "(CC)"));
 		}
+		
 		if(selector.getSemester() != -1 && theClass.getEcSemester() == selector.getSemester()) 
 			groups.add(new Group(selector.getSemester() + " (EC)"));
+		
 		if(selector.hasClassroom()){
 			if(selector.getClassroom() != null)
 				groups.add(new RoomGroup(selector.getClassroom()));
@@ -94,18 +96,17 @@ public class GroupMakerService {
 	private void generateGroupsForEachClassroom(Class theClass, List<Group> groups) {
 		HashSet<Classroom> rooms = new HashSet<Classroom>();
 		for(SlotRange slot : theClass.getSlots()){
-			if(slot.getClassroom() != null && rooms.add(slot.getClassroom())){
+			if(slot.getClassroom() != null && !slot.getClassroom().isExternal() && rooms.add(slot.getClassroom())){
 				groups.add(new RoomGroup(slot.getClassroom()));
 			}
 		}
 	}
 	
 	private void generateGroupsForEachProfessor(Class theClass, List<Group> groups){
-		HashSet<Professor> profs = new HashSet<Professor>();
+		HashSet<Professor> mk = new HashSet<Professor>();
 		for(Professor prof : theClass.getProfessors()){
-			if(profs.add(prof)){
+			if(mk.add(prof))
 				groups.add(new ProfessorGroup(prof));
-			}
 		}
 	}
 	

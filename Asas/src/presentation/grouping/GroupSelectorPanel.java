@@ -1,6 +1,5 @@
 package presentation.grouping;
 
-
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
 import javax.swing.JComboBox;
@@ -83,10 +82,8 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	}
 	
 	private void configureProfessorSelector(int column){
-		ProfessorService profService = new ProfessorService();
-		
 		professorCBox = new JComboBox<NamedPair<Professor>>();
-		reloadCBox(professorCBox, profService.all(), new NamedPair<Professor>("Todos", null));
+		refreshProfessors();
 		
 		professorCBox.setEnabled(false);
 		GridBagConstraints gbc_profCBox = new GridBagConstraints();
@@ -111,10 +108,8 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	}
 	
 	private void configureRoom(int column){
-		ClassroomService roomService = new ClassroomService();
-		
 		roomCBox = new JComboBox<NamedPair<Classroom>>();
-		reloadCBox(roomCBox, roomService.all(), new NamedPair<Classroom>("Todas", null));
+		refreshRooms();
 		
 		roomCBox.setEnabled(false);
 		
@@ -245,7 +240,7 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	
 	private void refreshRooms(){
 		ClassroomService roomService = new ClassroomService();
-		reloadCBox(roomCBox, roomService.all(), new NamedPair<Classroom>("Todas", null));
+		reloadCBox(roomCBox, roomService.allNonExternals(), new NamedPair<Classroom>("Todas", null));
 	}
 	
 	private <T extends NamedEntity> void reloadCBox(JComboBox<NamedPair<T>> cbox, Collection<T> allElements, NamedPair<T> first){
