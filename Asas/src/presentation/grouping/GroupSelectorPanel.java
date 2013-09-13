@@ -84,10 +84,10 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	
 	private void configureProfessorSelector(int column){
 		ProfessorService profService = new ProfessorService();
-		Vector<NamedPair<Professor>> professors = GuiUtil.createNamedPairs(profService.all());
-		professors.add(0, new NamedPair<Professor>("Todos", null));
 		
-		professorCBox = new JComboBox<NamedPair<Professor>>(professors);
+		professorCBox = new JComboBox<NamedPair<Professor>>();
+		reloadCBox(professorCBox, profService.all(), new NamedPair<Professor>("Todos", null));
+		
 		professorCBox.setEnabled(false);
 		GridBagConstraints gbc_profCBox = new GridBagConstraints();
 		gbc_profCBox.insets = new Insets(0, 0, 5, 5);
@@ -112,10 +112,10 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	
 	private void configureRoom(int column){
 		ClassroomService roomService = new ClassroomService();
-		Vector<NamedPair<Classroom>> rooms = GuiUtil.createNamedPairs(roomService.all());
-		rooms.add(0, new NamedPair<Classroom>("Todas", null));
 		
-		roomCBox = new JComboBox<NamedPair<Classroom>>(rooms);
+		roomCBox = new JComboBox<NamedPair<Classroom>>();
+		reloadCBox(roomCBox, roomService.all(), new NamedPair<Classroom>("Todas", null));
+		
 		roomCBox.setEnabled(false);
 		
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
