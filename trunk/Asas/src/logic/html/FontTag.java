@@ -15,16 +15,16 @@ public class FontTag extends HtmlElement{
 		return theTag;
 	}
 	
-	public void setSize(int size){
-		addAttribute("size", size + "");
+	public HtmlElement setSize(int size){
+		return addAttribute("size", size + "");
 	}
 	
-	public void setFace(String face){
-		addAttribute("face", face);
+	public HtmlElement setFace(String face){
+		return addAttribute("face", face);
 	}
 
-	public void setColor(Color color) {
+	public HtmlElement setColor(Color color) {
 		String hexValue = Integer.toHexString(color.getRGB()).substring(2);
-		addAttribute("color", hexValue);
+		return addAttribute("color", hexValue);
 	}
 }

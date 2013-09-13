@@ -11,10 +11,11 @@ public class HtmlPlainContent extends HtmlElement{
 		setContent(content);
 	}
 	
-	public void setContent(String content){
+	public HtmlElement setContent(String content){
 		if(content == null)
 			content = "";
 		this.content = content;
+		return this;
 	}
 	
 	public String getContent(){

@@ -6,19 +6,19 @@ public class ImgTag extends HtmlElement{
 		super("img");
 	}
 
-	public void setBorder(int i) {
-		addAttribute("boder", i + "");
+	public HtmlElement setBorder(int i) {
+		return addAttribute("boder", i + "");
 	}
 
-	public void setWidth(int i) {
-		addAttribute("width", i + "");
+	public HtmlElement setWidth(int i) {
+		return addAttribute("width", i + "");
 	}
 
-	public void setHeight(int i) {
-		addAttribute("height", i + "");
+	public HtmlElement setHeight(int i) {
+		return addAttribute("height", i + "");
 	}
 
-	public void setSrc(String src) {
-		addAttribute("src", src);
+	public HtmlElement setSrc(String src) {
+		return addAttribute("src", src);
 	}
 }
