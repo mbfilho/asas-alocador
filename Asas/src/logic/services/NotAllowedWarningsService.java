@@ -22,7 +22,7 @@ public class NotAllowedWarningsService extends WarningGeneratorService{
 	public Vector<SameRoomWarning> getNotAllowedSameRoomWarnings(List<Class> classes, 
 			Classroom room, SlotRange slot){
 		
-		Vector<Warning> allSameRoomWarnings = getSameRoomConflicts(classes);
+		List<Warning> allSameRoomWarnings = getSameRoomConflicts(classes);
 		Vector<SameRoomWarning> onlyInThisRoomAndSlot = new Vector<SameRoomWarning>();
 		for(Warning w : allSameRoomWarnings){
 			SameRoomWarning same = (SameRoomWarning) w;
@@ -42,7 +42,7 @@ public class NotAllowedWarningsService extends WarningGeneratorService{
 	public Vector<SameProfessorsWarning> getNotAllowedSameProfessorWarnings(
 			List<Class> classes, Professor theProfessor, SlotRange range) {
 		
-		Vector<Warning> allSameProfessorWarnings = getSameProfConflicts(classes);
+		List<Warning> allSameProfessorWarnings = getSameProfConflicts(classes);
 		Vector<SameProfessorsWarning> onlyForThisProfessorAndSlot = new Vector<SameProfessorsWarning>();
 		
 		for(Warning w : allSameProfessorWarnings){

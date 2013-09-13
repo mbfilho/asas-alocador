@@ -9,7 +9,6 @@ public class GroupsSelector {
 	private int semester;
 	private Professor professor;
 	private Classroom classroom;
-	private String area;
 	
 	private boolean hasSemester, hasProfessor, hasClassroom;
 	
@@ -31,25 +30,29 @@ public class GroupsSelector {
 		return this.professor; 
 	}
 	
-	public void setArea(String area) {
-		this.area = area;
-	}
-	
 	public void setRoom(Classroom theRoom) {
 		this.classroom = theRoom;
 		hasClassroom = true;
 	}
 	
 	public boolean generatesNoGroup(){
-		return !hasProfessor() && !hasSemester() && !hasClassroom();
+		return !hasProfessor && !hasSemester && !hasClassroom;
 	}
 
-	public boolean hasProfessor() {
-		return hasProfessor;
+	public boolean groupByOneProfessor() {
+		return professor != null;
+	}
+	
+	public boolean groupByAllProfessors(){
+		return hasProfessor && !groupByOneProfessor();
 	}
 
-	public boolean hasSemester() {
-		return hasSemester;
+	public boolean groupByOneSemester() {
+		return semester != -1;
+	}
+	
+	public boolean groupByAllSemesters(){
+		return hasSemester && !groupByOneSemester();
 	}
 
 	public int getSemester() {
@@ -60,7 +63,11 @@ public class GroupsSelector {
 		return classroom;
 	}
 
-	public boolean hasClassroom() {
-		return hasClassroom;
+	public boolean groupByOneClassroom() {
+		return classroom != null;
+	}
+	
+	public boolean groupByAllClassrooms(){
+		return hasClassroom && !groupByOneClassroom();
 	}
 }

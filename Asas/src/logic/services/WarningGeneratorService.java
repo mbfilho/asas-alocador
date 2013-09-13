@@ -1,6 +1,8 @@
 package logic.services;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
@@ -8,7 +10,6 @@ import logic.dto.WarningReport;
 import logic.dto.WarningReportList;
 
 import data.persistentEntities.Class;
-import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
 import data.persistentEntities.Warning;
@@ -36,25 +37,19 @@ public class WarningGeneratorService {
 		allowedWarningService = new AllowedWarningsService();
 	}
 	
-	//@TODO tratar isso direito
-	private boolean ignoreRoom(Classroom room){
-		return room.getName().compareToIgnoreCase("Area ii") == 0
-				|| room.getName().compareToIgnoreCase("ctg") == 0;
+	public List<Warning> getSameRoomConflicts(){
+		return getSameRoomConflicts(new ArrayList<Class>(classService.all()));
 	}
 	
-	public Vector<Warning> getSameRoomConflicts(){
-		return getSameRoomConflicts(new Vector<Class>(classService.all()));
-	}
-	
-	protected Vector<Warning> getSameRoomConflicts(List<Class> allClasses){
-		Vector<Warning> warnings = new Vector<Warning>();
+	protected List<Warning> getSameRoomConflicts(List<Class> allClasses){
+		List<Warning> warnings = new LinkedList<Warning>();
 		
 		for(int i = 0; i < allClasses.size(); ++i){
 			for(int j = i + 1; j < allClasses.size(); ++j){
 				Class c1 = allClasses.get(i), c2 = allClasses.get(j);
 				
 				for(SlotRange r1 : c1.getSlots()){
-					if(r1.getClassroom() == null || ignoreRoom(r1.getClassroom())) continue;
+					if(r1.getClassroom() == null || r1.getClassroom().isExternal()) continue;
 					for(SlotRange r2 : c2.getSlots()){
 						if(r2.getClassroom() != r1.getClassroom()) continue;
 						SlotRange interseption = r1.intersection(r2);
@@ -70,9 +65,9 @@ public class WarningGeneratorService {
 		return warnings;
 	}
 	
-	public Vector<Warning> checkProfessorsWithoutClasses(){
+	public List<Warning> checkProfessorsWithoutClasses(){
 		HashSet<Professor> allocatedProfessors = new HashSet<Professor>();
-		Vector<Warning> warnings = new Vector<Warning>();
+		List<Warning> warnings = new LinkedList<Warning>();
 		for(Class c : classService.all()) allocatedProfessors.addAll(c.getProfessors());
 		
 		for(Professor p : professorService.all()){
@@ -83,12 +78,12 @@ public class WarningGeneratorService {
 	}
 	
 	
-	public Vector<Warning> getSameProfConflicts(){
-		return getSameProfConflicts(new Vector<Class>(classService.all()));
+	public List<Warning> getSameProfConflicts(){
+		return getSameProfConflicts(new ArrayList<Class>(classService.all()));
 	}
 	
-	protected Vector<Warning> getSameProfConflicts(List<Class> allClasses){
-		Vector<Warning> warnings = new Vector<Warning>();
+	protected List<Warning> getSameProfConflicts(List<Class> allClasses){
+		List<Warning> warnings = new LinkedList<Warning>();
 		
 		for(int i = 0; i < allClasses.size(); ++i){
 			for(int j = i + 1; j < allClasses.size(); ++j){
@@ -110,8 +105,8 @@ public class WarningGeneratorService {
 		return warnings;
 	}
 	
-	public Vector<Warning> checkClassHasProfs(){
-		Vector<Warning> warnings = new Vector<Warning>();
+	public List<Warning> checkClassHasProfs(){
+		List<Warning> warnings = new LinkedList<Warning>();
 		
 		for(Class c : stateService.getCurrentState().classes.all()){
 			if(c.getProfessors().isEmpty())
@@ -121,8 +116,8 @@ public class WarningGeneratorService {
 		return warnings;
 	}
 	
-	public Vector<Warning> checkClassHasSlot(){
-		Vector<Warning> warnings = new Vector<Warning>();
+	public List<Warning> checkClassHasSlot(){
+		List<Warning> warnings = new LinkedList<Warning>();
 		
 		for(Class c : stateService.getCurrentState().classes.all()){
 			if(c.getSlots().isEmpty())
@@ -131,8 +126,8 @@ public class WarningGeneratorService {
 		return warnings;
 	}
 
-	public Vector<Warning> checkClassHasRoom(){
-		Vector<Warning> warnings = new Vector<Warning>();
+	public List<Warning> checkClassHasRoom(){
+		List<Warning> warnings = new LinkedList<Warning>();
 		for(Class c : stateService.getCurrentState().classes.all()){
 			Vector<SlotRange> slotsWithoutRoom = new Vector<SlotRange>();
 			for(SlotRange range : c.getSlots()){
