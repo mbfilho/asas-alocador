@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import presentation.classes.edition.InitialEditState;
+
 public class Details implements Iterable<FormattedDetail>{
 	private List<FormattedDetail> details;
 	
@@ -18,6 +20,10 @@ public class Details implements Iterable<FormattedDetail>{
 	
 	public void addTitle(String title, Color bgColor, Color font){
 		details.add(new FormattedDetail(title, bgColor, font, true));
+	}
+	
+	public void addLink(String content, Color bgColor, Color font, InitialEditState initialState){
+		details.add(new FormattedDetail(content, bgColor, font, initialState));
 	}
 	
 	public Iterator<FormattedDetail> iterator() {

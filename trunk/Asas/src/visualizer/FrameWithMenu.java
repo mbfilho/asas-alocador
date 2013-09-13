@@ -17,9 +17,7 @@ import utilities.DisposableOnEscFrame;
 import java.awt.GridBagLayout;
 
 import data.configurations.ExcelPreferences;
-import data.writers.ExcelClassWriter;
 import exceptions.StateIOException;
-import exceptions.WritingException;
 
 import javax.swing.KeyStroke;
 
@@ -38,8 +36,6 @@ import presentation.warnings.WarningsLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
-import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -49,8 +45,6 @@ import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.ProfessorWorkload;
 import logic.reports.AllocationReport;
-import logic.services.ClassService;
-import logic.services.ExcelWritingService;
 import logic.services.ReportService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;

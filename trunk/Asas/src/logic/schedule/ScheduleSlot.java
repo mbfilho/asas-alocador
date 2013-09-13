@@ -20,7 +20,7 @@ public class ScheduleSlot {
 		return classes.size();
 	}
 
-	public List<Class> getClassesForRead() {
+	public List<Class> getClassesReadOnly() {
 		return Collections.unmodifiableList(classes);
 	}
 	

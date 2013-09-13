@@ -2,15 +2,19 @@ package presentation.schedule;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.GridLayout;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.table.AbstractTableModel;
+
+import presentation.classes.edition.EditClass;
 
 import logic.schedule.formatting.detailing.Details;
 import logic.schedule.formatting.detailing.FormattedDetail;
@@ -89,12 +93,12 @@ public class ScheduleTableModel extends AbstractTableModel{
 		return cellState[rowIndex][columnIndex];
 	}
 	
-	public Component getPopupContent(int row, int column) {
+	public List<Component> getPopupContent(int row, int column) {
 		int slot = row, day = column - 1;
 		return buildPopup(formatter.getDetails(slot, day));
 	}
 	
-	private JPanel buildPopup(ScheduleSlotDetails slotDetails){
+	private List<Component> buildPopup(ScheduleSlotDetails slotDetails){
 		List<Component> popupComponents = new LinkedList<Component>(); 
 		
 		for(Details classDetail : slotDetails){
@@ -102,29 +106,38 @@ public class ScheduleTableModel extends AbstractTableModel{
 				createSlotDetailsComponents(popupComponents, detail);
 		}
 		
-		return createPanelFromComponents(popupComponents);
+		return popupComponents;
 	}
 
-	private JPanel createPanelFromComponents(List<Component> popupComponents) {
-		if(popupComponents.isEmpty()) 
-			return null;
-		
-		JPanel panel = new JPanel(new GridLayout(popupComponents.size(), 1));
-		for(Component c : popupComponents)
-			panel.add(c);
-		return panel;
-	}
-
-	private void createSlotDetailsComponents(List<Component> listOfComponents,
-			FormattedDetail detail) {
+	private void createSlotDetailsComponents(List<Component> listOfComponents, FormattedDetail detail) {
 		Component line = null;
 		if(detail.isTitle()){
 			if(!listOfComponents.isEmpty())
 				listOfComponents.add(createSeparator());
 			line = createTitleLabel(detail.getContent(), detail.getBackgroundColor(), detail.getForegroundColor());
-		}else
+		}else if(detail.isLinkToClassEdition()){
+			if(!listOfComponents.isEmpty())
+				listOfComponents.add(createSeparator());
+			line = createLink(detail);
+		}else			
 			line = createColoredLabel(detail.getContent(), detail.getBackgroundColor(), detail.getForegroundColor());
 		listOfComponents.add(line);
+	}
+
+	private JMenuItem createLink(final FormattedDetail detail) {
+		JMenuItem item = new JMenuItem(detail.getContent());
+		item.setOpaque(true);
+		item.setBackground(detail.getBackgroundColor());
+		item.setForeground(detail.getForegroundColor());
+		Font theFont = item.getFont().deriveFont(Font.ITALIC).deriveFont(Font.BOLD);
+		item.setFont(theFont);
+		
+		item.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				new EditClass(detail.getInitialEditState());
+			}
+		});
+		return item;
 	}
 	
 	private JLabel createColoredLabel(String text, Color bg, Color font){

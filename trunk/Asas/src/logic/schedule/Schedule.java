@@ -34,8 +34,8 @@ public class Schedule {
 		return schedule[slot][day].getClassesCount() > 1;
 	}
 
-	public List<Class> getClassesForRead(int slot, int day) {
-		return schedule[slot][day].getClassesForRead();
+	public List<Class> getClassesReadOnly(int slot, int day) {
+		return schedule[slot][day].getClassesReadOnly();
 	}
 
 	public boolean isEmptySlot(int slot, int day) {
@@ -43,6 +43,6 @@ public class Schedule {
 	}
 
 	public Class getSingleClass(int slot, int day) {
-		return schedule[slot][day].getClassesForRead().get(0);
+		return schedule[slot][day].getClassesReadOnly().get(0);
 	}
 }
