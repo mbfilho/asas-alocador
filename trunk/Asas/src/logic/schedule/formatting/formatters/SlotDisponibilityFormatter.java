@@ -32,7 +32,8 @@ public class SlotDisponibilityFormatter implements ScheduleFormatter{
 		List<SlotDisponibilityFormatter> formatters = new LinkedList<SlotDisponibilityFormatter>();
 		HashSet<Classroom> rooms = new HashSet<Classroom>();
 		for(SlotRange s : slots){
-			if(s.getClassroom() != null) rooms.add(s.getClassroom());
+			if(s.getClassroom() != null) 
+				rooms.add(s.getClassroom());
 		}
 		
 		for(Classroom r : rooms)
