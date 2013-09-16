@@ -51,10 +51,27 @@ public abstract class HtmlElement {
 	
 	public HtmlElement setFloating(CssConstants flt){
 		return addStyle("float", flt.getValue());
+	
+	}
+	
+	public HtmlElement setMarginBottom(String value){
+		return setMargin("bottom", value);
 	}
 	
 	public HtmlElement setMarginRight(String value){
-		return addStyle("margin-right", value);
+		return setMargin("right", value);
+	}
+	
+	public HtmlElement setMarginTop(String value) {
+		return setMargin("top", value);
+	}
+	
+	private HtmlElement setMargin(String margin, String value){
+		return addStyle("margin-" + margin, value);
+	}
+	
+	public HtmlElement setMinWidth(String width){
+		return addStyle("min-width", width);
 	}
 	
 	public HtmlElement setVisible(boolean visibility){
@@ -64,7 +81,9 @@ public abstract class HtmlElement {
 	}
 	
 	public HtmlElement setBackgroundColor(Color color){
-		return setBackgroundColor(colorToHex(color));
+		if(color != null)
+			return setBackgroundColor(colorToHex(color));
+		return this;
 	}
 	
 	public HtmlElement setBackgroundColor(String hexColor){
@@ -81,6 +100,10 @@ public abstract class HtmlElement {
 		return this;
 	}
 	
+	public HtmlElement setBorderOff() {
+		return addStyle("border", "none");
+	}
+	
 	public HtmlElement setBorderRight(Color color, CssConstants style, String width) {
 		addStyle("border-right-color", colorToHex(color));
 		addStyle("border-right-width", width);
@@ -91,6 +114,10 @@ public abstract class HtmlElement {
 		addStyle("border-top-color", colorToHex(color));
 		addStyle("border-top-width", width);
 		return addStyle("border-top-style", style.getValue());
+	}
+	
+	public HtmlElement setFloatClear(CssConstants clear){
+		return addStyle("clear", clear.getValue());
 	}
 	
 	protected String colorToHex(Color color){

@@ -1,0 +1,174 @@
+package logic.reports;
+
+import java.awt.Color;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.TreeMap;
+import java.util.Map.Entry;
+
+import logic.ColorPoolForNames;
+import logic.html.CssConstants;
+import logic.html.HTag;
+import logic.html.HtmlDocument;
+import logic.html.HtmlElement;
+import logic.html.TableTag;
+import logic.html.TdTag;
+import logic.html.TrTag;
+import utilities.CollectionUtil;
+import utilities.StringUtil;
+
+import data.persistentEntities.Class;
+import data.persistentEntities.Classroom;
+import data.persistentEntities.SlotRange;
+
+public class PerSemesterHtmlCreator {
+	private TreeMap<Integer, List<Class>> classesPerSemester;
+	private ColorPoolForNames colorsToClasses;
+	private final int SLOTS_IN_SMALL_TABLE = 4;
+	
+	public PerSemesterHtmlCreator(TreeMap<Integer, List<Class>> mapping) {
+		this.classesPerSemester = mapping;
+	}
+	
+	public HtmlDocument getHtmlRepresentation(){
+		HtmlDocument document = new HtmlDocument();
+		document.addChildElement(createBigTable());
+		return document;
+	}
+
+	private TableTag createBigTable() {
+		TableTag bigTable = new TableTag();
+		bigTable.showEmptyCells(true).setTextAlign(CssConstants.TEXT_ALIGN_CENTER);
+		bigTable.setCellSpacing(0).setMarginRight("20px");
+		bigTable.setBorder(1);
+		
+		for(Entry<Integer, List<Class>> pair : classesPerSemester.entrySet()){
+			bigTable.addChildElement(createSemesterTitle(pair.getKey()));
+			createRowsForSemester(pair.getKey(), pair.getValue(), bigTable);
+		}
+		return bigTable;
+	}
+
+	private HtmlElement createSemesterTitle(int semester) {
+		HtmlElement title = new HTag(2).addInnerText(semester + "º período");
+		title.setMarginTop("10px").setMarginBottom("0").setTextAlign(CssConstants.TEXT_ALIGN_LEFT);
+		
+		HtmlElement cell = new TdTag().addChildElement(title).setBorderOff();
+		return new TrTag().addChildElement(cell);
+	}
+
+	private void createRowsForSemester(int semester, List<Class> classes, TableTag bigTable) {
+		colorsToClasses = createPoolOfColors(classes); 
+		
+		TrTag head = createRow("Disciplina", "Horário", "Professor", "Sala", "", "Horário", "seg", "ter", "qua", "qui", "sex");
+		head.setBackgroundColor("DDD9D9");
+		bigTable.addChildElement(head);
+		
+		int rows = Math.max(classes.size(), SLOTS_IN_SMALL_TABLE);
+		
+		List<ArrayList<TdTag>> smallTableRows = createSmallColoredSlotTable(classes);
+		
+		for(int r = 0; r < rows; ++r){
+			HtmlElement row;
+			if(r < classes.size())
+				row = createRowForClass(classes.get(r));
+			else
+				row = createRow("", "", "", "");
+			
+			row.addChildElement(TdTag.emptyCell().setBorderOff());
+			
+			if(r < smallTableRows.size()){
+				for(TdTag cell : smallTableRows.get(r))
+					row.addChildElement(cell);
+			}
+			bigTable.addChildElement(row);
+		}
+	}
+
+	private ColorPoolForNames createPoolOfColors(List<Class> classes) {
+		return new ColorPoolForNames(CollectionUtil.createNameList(classes));
+	}
+
+	private HtmlElement createRowForClass(Class c) {
+		TrTag row = new TrTag();
+		row.addChildElement(new TdTag(c.completeName()).setBackgroundColor(colorsToClasses.getColor(c.getName())));
+		row.addChildElement(new TdTag(formatSlots(c)));
+		row.addChildElement(new TdTag(formatProfessors(c)));
+		row.addChildElement(new TdTag(formatRooms(c)));
+		return row;
+	}
+
+	private String formatRooms(Class c) {
+		List<Classroom> rooms = c.getRoomsOrderedBySlot();
+		if(CollectionUtil.distinct(rooms).size() == 1)
+			return rooms.get(0).getName();
+		
+		return StringUtil.joinListWithSeparator(rooms, "/");
+	}
+
+	private String formatProfessors(Class c) {
+		return StringUtil.joinListWithSeparator(c.getProfessors(), "/");
+	}
+
+	private String formatSlots(Class c) {
+		List<String> slotsNames = new LinkedList<String>();
+		for(SlotRange slot : c.getSlots())
+			slotsNames.add(slot.getNameWithoutRoom());
+		
+		return StringUtil.joinListWithSeparator(slotsNames, "/");
+	}
+	
+	private List<ArrayList<TdTag>> createSmallColoredSlotTable(List<Class> classes) {
+		List<ArrayList<TdTag>> rows = new ArrayList<ArrayList<TdTag>>();
+		
+		String rowLabels[] = {"8-10", "10-12", "13-15", "15-17"};
+		Color smallTable[][] = calculateColorsForSmallTable(classes, colorsToClasses);
+		
+		for(int i = 0; i < smallTable.length; ++i){
+			ArrayList<TdTag> cells = new ArrayList<TdTag>();
+			cells.add(new TdTag(rowLabels[i]));
+			for(int j = 0; j < smallTable[i].length; ++j){
+				TdTag cell = new TdTag();
+				cell.setBackgroundColor(smallTable[i][j]).setMinWidth("30px");
+				cells.add(cell);
+			}
+			rows.add(cells);
+		}
+		
+		return rows;
+	}
+
+	private Color[][] calculateColorsForSmallTable(List<Class> classes, ColorPoolForNames colorsToClasses) {
+		Color smallTable[][] = new Color[SLOTS_IN_SMALL_TABLE][5];
+		for(Class c : classes){
+			for(SlotRange range : c.getSlots()){
+				for(int i = range.getStartSlot(); i <= range.getEndSlot(); ++i)
+					smallTable[getSmallTableRow(i)][getSmallTableColumn(range)] = colorsToClasses.getColor(c.getName());
+			}
+		}
+		
+		return smallTable;
+	}
+	
+	//Nao suporta o domingo
+	private int getSmallTableColumn(SlotRange slot){
+		return slot.getDay() - 1;
+	}
+
+	//Não suporta o slot das 7-8 nem o das 12-13
+	private int getSmallTableRow(int slot){
+		if(slot > 5) //pular 12-13
+			return (slot - 2) / 2;
+		else
+			return (slot - 1) / 2;
+	}
+	
+	private TrTag createRow(String ... cells){
+		TrTag row = new TrTag();
+		for(String cell : cells)
+			row.addChildElement(new TdTag(cell));
+		
+		return row;
+	}
+}

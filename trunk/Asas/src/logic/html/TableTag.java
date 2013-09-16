@@ -39,4 +39,9 @@ public class TableTag extends HtmlElement{
 	public HtmlElement setCellSpacing(int space){
 		return addAttribute("cellspacing", space + "");
 	}
+
+	public HtmlElement showEmptyCells(boolean show) {
+		String value = show ? "show" : "hide";
+		return addStyle("empty-cells", value);
+	}
 }
