@@ -25,7 +25,6 @@ import data.persistentEntities.SlotRange;
 public class PerSemesterHtmlCreator {
 	private TreeMap<Integer, List<Class>> classesPerSemester;
 	private ColorPoolForNames colorsToClasses;
-	private final int SLOTS_IN_SMALL_TABLE = 4;
 	
 	public PerSemesterHtmlCreator(TreeMap<Integer, List<Class>> mapping) {
 		this.classesPerSemester = mapping;
@@ -41,7 +40,8 @@ public class PerSemesterHtmlCreator {
 		TableTag bigTable = new TableTag();
 		bigTable.showEmptyCells(true).setTextAlign(CssConstants.TEXT_ALIGN_CENTER);
 		bigTable.setCellSpacing(0).setMarginRight("20px");
-		bigTable.setBorder(1);
+		bigTable.setBorderCollapse(CssConstants.TABLE_BORDER_COLLAPSE).setBorder(1);
+		bigTable.addStyle("border", "none");
 		
 		for(Entry<Integer, List<Class>> pair : classesPerSemester.entrySet()){
 			bigTable.addChildElement(createSemesterTitle(pair.getKey()));
@@ -65,9 +65,8 @@ public class PerSemesterHtmlCreator {
 		head.setBackgroundColor("DDD9D9");
 		bigTable.addChildElement(head);
 		
-		int rows = Math.max(classes.size(), SLOTS_IN_SMALL_TABLE);
-		
-		List<ArrayList<TdTag>> smallTableRows = createSmallColoredSlotTable(classes);
+		SmallSlotTable smallTable = new SmallSlotTable(classes, colorsToClasses);
+		int rows = Math.max(classes.size(), smallTable.getRowCount());
 		
 		for(int r = 0; r < rows; ++r){
 			HtmlElement row;
@@ -78,8 +77,8 @@ public class PerSemesterHtmlCreator {
 			
 			row.addChildElement(TdTag.emptyCell().setBorderOff());
 			
-			if(r < smallTableRows.size()){
-				for(TdTag cell : smallTableRows.get(r))
+			if(r < smallTable.getRowCount()){
+				for(TdTag cell : smallTable.getNthRow(r))
 					row.addChildElement(cell);
 			}
 			bigTable.addChildElement(row);
@@ -117,51 +116,6 @@ public class PerSemesterHtmlCreator {
 			slotsNames.add(slot.getNameWithoutRoom());
 		
 		return StringUtil.joinListWithSeparator(slotsNames, "/");
-	}
-	
-	private List<ArrayList<TdTag>> createSmallColoredSlotTable(List<Class> classes) {
-		List<ArrayList<TdTag>> rows = new ArrayList<ArrayList<TdTag>>();
-		
-		String rowLabels[] = {"8-10", "10-12", "13-15", "15-17"};
-		Color smallTable[][] = calculateColorsForSmallTable(classes, colorsToClasses);
-		
-		for(int i = 0; i < smallTable.length; ++i){
-			ArrayList<TdTag> cells = new ArrayList<TdTag>();
-			cells.add(new TdTag(rowLabels[i]));
-			for(int j = 0; j < smallTable[i].length; ++j){
-				TdTag cell = new TdTag();
-				cell.setBackgroundColor(smallTable[i][j]).setMinWidth("30px");
-				cells.add(cell);
-			}
-			rows.add(cells);
-		}
-		
-		return rows;
-	}
-
-	private Color[][] calculateColorsForSmallTable(List<Class> classes, ColorPoolForNames colorsToClasses) {
-		Color smallTable[][] = new Color[SLOTS_IN_SMALL_TABLE][5];
-		for(Class c : classes){
-			for(SlotRange range : c.getSlots()){
-				for(int i = range.getStartSlot(); i <= range.getEndSlot(); ++i)
-					smallTable[getSmallTableRow(i)][getSmallTableColumn(range)] = colorsToClasses.getColor(c.getName());
-			}
-		}
-		
-		return smallTable;
-	}
-	
-	//Nao suporta o domingo
-	private int getSmallTableColumn(SlotRange slot){
-		return slot.getDay() - 1;
-	}
-
-	//Não suporta o slot das 7-8 nem o das 12-13
-	private int getSmallTableRow(int slot){
-		if(slot > 5) //pular 12-13
-			return (slot - 2) / 2;
-		else
-			return (slot - 1) / 2;
 	}
 	
 	private TrTag createRow(String ... cells){

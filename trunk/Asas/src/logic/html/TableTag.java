@@ -19,6 +19,11 @@ public class TableTag extends HtmlElement{
 		return table;
 	}
 	
+	public TableTag setBorderCollapse(CssConstants colapse){
+		addStyle("border-collapse", colapse.getValue());
+		return this;
+	}
+	
 	public HtmlElement setBorder(int val){
 		return addAttribute("border", val + "");
 	}
