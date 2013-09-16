@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Vector;
 
+import data.NamedEntity;
 import data.persistentEntities.Classroom;
 
 public class CollectionUtil {
@@ -44,5 +45,12 @@ public class CollectionUtil {
 	public static <T> List<T> distinct(List<T> list){
 		HashSet<T> mk = new HashSet<T>(list);
 		return new LinkedList<T>(mk);
+	}
+	
+	public static <T extends NamedEntity> List<String> createNameList(Iterable<T> namedEntities){
+		List<String> names = new LinkedList<String>();
+		for(T ent : namedEntities)
+			names.add(ent.getName());
+		return names;
 	}
 }

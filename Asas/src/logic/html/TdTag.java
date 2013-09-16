@@ -7,7 +7,11 @@ public class TdTag extends HtmlElement{
 	}
 	
 	public TdTag(String content){
-		super("td");
+		this();
 		addInnerText(content);
+	}
+
+	public static TdTag emptyCell() {
+		return new TdTag("&nbsp;");
 	}
 }
