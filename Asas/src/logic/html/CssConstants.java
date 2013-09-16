@@ -10,7 +10,8 @@ public enum CssConstants {
 	DISPLAY_BLOCK("block"),
 	DISPLAY_NONE("none"), 
 	BORDER_SOLID("solid"), 
-	CLEAR_BOTH("both");
+	CLEAR_BOTH("both"),
+	TABLE_BORDER_COLLAPSE("collapse");
 	
 	String value;
 	CssConstants(String a){
