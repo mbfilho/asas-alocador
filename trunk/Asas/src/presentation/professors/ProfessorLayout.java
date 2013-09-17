@@ -44,7 +44,7 @@ public abstract class ProfessorLayout extends DisposableOnEscFrame {
 	protected abstract void onOkButton();
 	
 	public ProfessorLayout() {
-		professorService = new ProfessorService();
+		professorService = ProfessorService.createServiceFromCurrentState();
 		configureElements();
 	}
 

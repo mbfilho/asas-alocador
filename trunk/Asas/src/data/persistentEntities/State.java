@@ -23,6 +23,11 @@ public class State implements NamedEntity, Serializable{
 	
 	private int _currentId;
 	
+	public State(StateDescription desc){
+		this();
+		description = desc;
+	}
+	
 	public State(){
 		classes = new SimpleRepository<Class>();
 		classrooms = new SimpleRepository<Classroom>();
@@ -43,7 +48,7 @@ public class State implements NamedEntity, Serializable{
 		return _currentId++;
 	}
 	
-	public Object clone() throws CloneNotSupportedException{
+	public State clone() throws CloneNotSupportedException{
 		throw new CloneNotSupportedException();
 	}
 	

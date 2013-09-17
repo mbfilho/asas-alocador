@@ -4,9 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;
 import java.util.List;
-import java.util.Vector;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JScrollPane;
 
 import logic.dataUpdateSystem.CustomerType;
@@ -39,7 +37,7 @@ public class EditClass extends EditClassLayout implements Updatable{
 	public EditClass(InitialEditState initialState) {
 		DataUpdateCentral.signIn(this, CustomerType.Gui);
 		
-		classService = new ClassService();
+		classService = ClassService.createServiceFromCurrentState();
 		
 		configureElementsData();
 		configureElementsActions();
@@ -78,11 +76,7 @@ public class EditClass extends EditClassLayout implements Updatable{
 	}
 	
 	private void configureElementsData() {
-		Vector<NamedPair<Class>> classesData = GuiUtil.createNamedPairs(classService.all());
-		classesData.add(0, new NamedPair<Class>("Selecione uma disciplina", null));
-		DefaultComboBoxModel<NamedPair<Class>> model = (DefaultComboBoxModel<NamedPair<Class>>) classesCBox.getModel();
-		for(NamedPair<Class> pair : classesData)
-			model.addElement(pair);
+		GuiUtil.reloadCBox(classesCBox, classService.all(), new NamedPair<Class>("Selecione uma disciplina", null));
 	}
 	
 	private void configureElementsActions() {
@@ -203,6 +197,6 @@ public class EditClass extends EditClassLayout implements Updatable{
 	}
 	
 	public void onDataUpdate(UpdateDescription desc){
-		generateDisponibilityTable();
+		configureElementsData();
 	}
 }

@@ -35,7 +35,7 @@ import javax.swing.event.ChangeEvent;
 
 import presentation.NamedPair;
 
-import logic.services.ConflictService;
+import logic.services.DisponibilityService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
 
@@ -53,7 +53,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	private JComboBox<NamedPair<Classroom>> classrooms;
 	private JComboBox<String> days;
 	private SlotRange slotToEdit;
-	private ConflictService conflictService;
+	private DisponibilityService conflictService;
 	
 	private void configureElements(){
 		contentPane = new JPanel();
@@ -202,7 +202,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	public SlotChooser(WarningGeneratorService warning, Class selectedClass, SlotRange toEdit) {
 		setTitle("Edição de Horários");
 		this.slotToEdit = toEdit;
-		conflictService = new ConflictService();
+		conflictService = new DisponibilityService();
 		this.selectedClass = selectedClass;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

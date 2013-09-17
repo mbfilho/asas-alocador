@@ -19,7 +19,7 @@ public class AllocationPerSemester {
 	}
 	
 	private void createReport(){
-		ClassService classService = new ClassService();
+		ClassService classService = ClassService.createServiceFromCurrentState();
 		
 		for(Class c : classService.all()){
 			addToMapping(getSemesterForReport(c), c);

@@ -10,6 +10,7 @@ import logic.services.StateService;
 
 import data.DataValidation;
 import data.persistentEntities.Classroom;
+import data.persistentEntities.State;
 import data.readers.DataReader;
 import data.repository.Repository;
 
@@ -18,8 +19,14 @@ import exceptions.InvalidInputException;
 
 public class FileClassRoomReader implements DataReader<Classroom> {
 
+	private ClassroomService roomService;
+	
+	public FileClassRoomReader(State dataState){
+		roomService = new ClassroomService(dataState);
+	}
+	
 	public DataValidation<Repository<Classroom>> read() throws InvalidInputException {
-		ClassroomService service = new ClassroomService();
+		roomService = ClassroomService.createServiceFromCurrentState();
 		try {
 			Scanner sc = new Scanner(new File(ConfigurationService.CLASSROOMS_FILENAME));
 			LineReader reader = new LineReader();
@@ -29,7 +36,7 @@ public class FileClassRoomReader implements DataReader<Classroom> {
 				reader.setLine(line, "#");
 				Classroom room = new Classroom(reader.readString(), reader.readIntOrDefault(1000000000));
 				room.setExternal(reader.readInt() == 1);
-				service.add(room);
+				roomService.add(room);
 			}
 			sc.close();
 		} catch (FileNotFoundException e) {

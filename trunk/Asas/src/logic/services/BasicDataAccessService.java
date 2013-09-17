@@ -3,15 +3,26 @@ package logic.services;
 import java.util.Collection;
 
 import data.NamedEntity;
+import data.persistentEntities.State;
 import data.repository.Repository;
 
 public abstract class BasicDataAccessService <T extends NamedEntity>{
 
-	protected int getCurrentId(){
-		return StateService.getInstance().getCurrentState().getUniqueId();
-	}
+	private State dataState;
 	
 	protected abstract Repository<T> list();
+	
+	public BasicDataAccessService(State currentState){
+		dataState = currentState;
+	}
+	
+	protected int getCurrentId(){
+		return dataState.getUniqueId();
+	}
+	
+	public State getState(){
+		return dataState;
+	}
 	
 	public void update(T entity){
 		list().update(entity);

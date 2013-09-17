@@ -16,7 +16,7 @@ public class ReportService {
 	private ClassService classService;
 	
 	public ReportService(){
-		classService = new ClassService();
+		classService = ClassService.createServiceFromCurrentState();
 	}
 	
 	public List<ProfessorWorkload> calculateProfessorWorkload(){

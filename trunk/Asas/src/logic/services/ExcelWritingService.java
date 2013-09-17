@@ -65,7 +65,7 @@ public class ExcelWritingService {
 	}
 	
 	public void writeProfessorOnly(){
-		ProfessorService profs = new ProfessorService();
+		ProfessorService profs = ProfessorService.createServiceFromCurrentState();
 		for(Professor p : profs.all()){
 			try {
 				profWriter.Write(p);
@@ -74,7 +74,7 @@ public class ExcelWritingService {
 	}
 	
 	public void writeClassesOnly(){
-		ClassService classService = new ClassService();
+		ClassService classService = ClassService.createServiceFromCurrentState();
 		for(Class c : classService.all()){
 			try {
 				classWriter.Write(c);

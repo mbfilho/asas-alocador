@@ -36,7 +36,7 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 	private JCheckBox externalCheck;
 
 	public ClassroomLayout() {
-		classroomService = new ClassroomService();
+		classroomService = ClassroomService.createServiceFromCurrentState();
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
