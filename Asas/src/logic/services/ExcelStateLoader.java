@@ -43,7 +43,6 @@ public class ExcelStateLoader {
 		ProfessorService profService = new ProfessorService(theNewState);
 		
 		for(WorkloadReport load : workloadService.calculateProfessorWorkload()){
-			System.out.println("excelstateloader 46: |" + load.professor.getName() + "|" + load.workload);
 			profService.setPreviousLoad(load.professor.getName(), load.workload);
 		}
 	}
@@ -53,7 +52,6 @@ public class ExcelStateLoader {
 		lastSemester.classrooms = theNewState.classrooms;
 		lastSemester.professors = theNewState.professors;
 		lastSemester.excelPrefs = theNewState.excelPrefs;
-		System.out.println(excelReader.getPreviousSheetName());
 		new ExcelClassReader(lastSemester, excelReader, excelReader.getPreviousSheetName()).read();
 		return lastSemester;
 	}
