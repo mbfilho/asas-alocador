@@ -2,6 +2,8 @@ package data.readers.excelReaders;
 
 import java.util.Vector;
 
+import utilities.StringUtil;
+
 import logic.services.ProfessorService;
 import logic.services.StateService;
 
@@ -24,9 +26,9 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 	private ExcelPreferences prefs;
 	//Nome	E-mail	Cargo	Depto
 
-	public ExcelProfessorReader(State dataState, ExcelPreferences prefs, WorkbookReader excelReader){
+	public ExcelProfessorReader(State dataState, WorkbookReader excelReader){
 		this.reader = excelReader;
-		this.prefs = prefs;
+		this.prefs = dataState.excelPrefs;
 		profService = new ProfessorService(dataState);
 	}
 	
@@ -51,7 +53,7 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 			if(reader.hasNextRow()) reader.goToNextRow();
 			else break;
 			String name = reader.readString();
-			if(name.equals("??")) continue;
+			if(StringUtil.isNullOrEmpty(name) || name.equals("??")) continue;
 			Professor prof = new Professor();
 			prof.setName(name);
 			prof.setEmail(reader.readString());

@@ -6,6 +6,7 @@ import java.util.List;
 
 import utilities.StringUtil;
 
+import logic.dto.WorkloadReport;
 import logic.html.BTag;
 import logic.html.BrTag;
 import logic.html.FontTag;
@@ -28,11 +29,13 @@ public class ProfessorAllocation {
 	private Professor professor;
 	private List<Class> classes;
 	private ProfessorPictureDictionary profPictures;
+	private WorkloadReport professorWorkload;
 	
-	public ProfessorAllocation(ProfessorPictureDictionary pictures, Professor p){
-		professor = p;
+	public ProfessorAllocation(ProfessorPictureDictionary pictures, WorkloadReport workload){
 		classes = new LinkedList<Class>();
+		professorWorkload = workload;
 		profPictures = pictures;
+		professor = workload.professor;
 	}
 	
 	public void addClass(Class c){
@@ -55,18 +58,6 @@ public class ProfessorAllocation {
 	
 	public List<Class> getClasses(){
 		return classes;
-	}
-	
-	public double getCurrentCh(){
-		double ch = 0;
-		for(Class c : classes){
-			if(c.getCh2() == 45 || !getOtherProfessors(c).isEmpty()) 
-				ch += 0.5;
-			else
-				ch += 1;
-		}
-		
-		return ch;
 	}
 
 	public HtmlElement getHtmlRepresentation() {
@@ -115,8 +106,16 @@ public class ProfessorAllocation {
 		
 		FontTag font = FontTag.defaultFontTag();
 		font.addInnerText("Carga Atual: ");
-		font.addChildElement(new BTag(getCurrentCh() + ""));
+		font.addChildElement(new BTag(professorWorkload.workload + ""));
 		ch.addChildElement(font);
+		
+		TdTag previousCh = new TdTag();
+		row.addChildElement(previousCh);
+		
+		font = FontTag.defaultFontTag();
+		font.addInnerText("Carga Anterior: ");
+		font.addChildElement(new BTag(professorWorkload.professor.getLastSemesterWorkload() + ""));
+		previousCh.addChildElement(font);
 	}
 
 	private HtmlElement createClassesCell() {

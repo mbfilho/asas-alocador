@@ -16,22 +16,11 @@ import utilities.CollectionUtil;
 
 import logic.dataUpdateSystem.DataUpdateCentral;
 
-import data.DataValidation;
 import data.configurations.ExcelPreferences;
 import data.configurations.StateDescription;
-import data.persistentEntities.Class;
 import data.persistentEntities.State;
-import data.readers.excelReaders.ExcelClassReader;
-import data.readers.excelReaders.ExcelProfessorReader;
-import data.readers.excelReaders.WorkbookReader;
-import data.readers.fileReaders.FileClassRoomReader;
-import data.repository.Repository;
 import data.writers.SingleObjectFileWriter;
 import data.writers.Writer;
-
-
-
-
 
 import exceptions.StateIOException;
 import exceptions.WritingException;
@@ -155,30 +144,17 @@ public class StateService {
 		}
 	}
 	
-	private void completeSwitchingToExcelState(State read) throws IOException, StateIOException{
-		setState(read);
-		states.add(currentState.description);
-		
-		saveCurrentState();
-		flushDescriptions();
-		
-		DataUpdateCentral.registerUpdate("Estado carregado do excel");
-		ConfigurationService.getInstance().saveExcelPreferences(read.excelPrefs);
-	}
-	
 	public List<String> loadStateFromExcel(ExcelPreferences prefs, StateDescription desc) throws StateIOException{
 		try{
-			State theNewState = new State(desc);
-			theNewState.setExcelPreferences(prefs);
+			ExcelStateLoader loader = new ExcelStateLoader(prefs, desc);
+			setState(loader.loadState());
+			states.add(currentState.description);
+			saveCurrentState();
+			flushDescriptions();
+			DataUpdateCentral.registerUpdate("Estado carregado do excel");
+			ConfigurationService.getInstance().saveExcelPreferences(currentState.excelPrefs);
 			
-			WorkbookReader excelReader = new WorkbookReader(prefs.getFileLocation());
-			ExcelClassReader classReader = new ExcelClassReader(theNewState, prefs, excelReader);
-			new ExcelProfessorReader(theNewState, prefs, excelReader).read();
-			new FileClassRoomReader(theNewState).read();
-			DataValidation<Repository<Class>> validation = classReader.read();
-			
-			completeSwitchingToExcelState(theNewState);
-			return validation.validation;
+			return loader.getErrors();
 		}catch(Exception ex){
 			ex.printStackTrace();
 			return CollectionUtil.createList("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
