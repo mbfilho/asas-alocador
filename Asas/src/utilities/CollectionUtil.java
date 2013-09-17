@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Vector;
 
 import data.NamedEntity;
-import data.persistentEntities.Classroom;
 
 public class CollectionUtil {
 	public static <T> Vector<T> intersectLists(Collection<T> listA, Collection<T> listB){
