@@ -35,11 +35,7 @@ public class ProfessorWorkLoadService {
 		WorkloadReportList result = new WorkloadReportList();
 		
 		for(Class c : classService.all()){
-			System.out.println("|> " + c.getName());
 			for(Professor p : c.getProfessors()){
-				if(p.getName().equals("André Santos")){
-					System.out.println("andré " + c.getName());
-				}
 				double value = 0;
 				value = c.getCh() / c.getProfessors().size();
 				addWorkload(p, value);
