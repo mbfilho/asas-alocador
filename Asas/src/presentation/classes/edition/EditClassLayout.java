@@ -193,7 +193,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		contentPane.add(courseText, gbc_txtCourse);
 		courseText.setColumns(10);
 		
-		professorList = new EditableJList<Professor>("Professores", new ProfessorService().all());
+		professorList = new EditableJList<Professor>("Professores", ProfessorService.createServiceFromCurrentState().all());
 		GridBagConstraints gbc_profList = new GridBagConstraints();
 		gbc_profList.gridwidth = 6;
 		gbc_profList.fill = GridBagConstraints.BOTH;

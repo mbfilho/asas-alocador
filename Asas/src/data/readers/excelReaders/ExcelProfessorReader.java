@@ -9,6 +9,7 @@ import data.DataValidation;
 import data.configurations.ExcelPreferences;
 import data.persistentEntities.ExcelMetadata;
 import data.persistentEntities.Professor;
+import data.persistentEntities.State;
 import data.readers.DataReader;
 import data.repository.Repository;
 
@@ -23,10 +24,10 @@ public class ExcelProfessorReader implements DataReader<Professor> {
 	private ExcelPreferences prefs;
 	//Nome	E-mail	Cargo	Depto
 
-	public ExcelProfessorReader(ExcelPreferences prefs, WorkbookReader excelReader){
+	public ExcelProfessorReader(State dataState, ExcelPreferences prefs, WorkbookReader excelReader){
 		this.reader = excelReader;
 		this.prefs = prefs;
-		profService = new ProfessorService();
+		profService = new ProfessorService(dataState);
 	}
 	
 	private boolean isTemporaryCargo(String cargo){

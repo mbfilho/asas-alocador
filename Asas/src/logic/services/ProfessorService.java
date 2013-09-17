@@ -1,21 +1,22 @@
 package logic.services;
 
 import data.persistentEntities.Professor;
+import data.persistentEntities.State;
 import data.repository.Repository;
-import data.repository.SimpleRepository;
 
 
 public class ProfessorService extends BasicDataAccessService<Professor> {
 
-	private StateService stateService;
+	public static ProfessorService createServiceFromCurrentState(){
+		return new ProfessorService(StateService.getInstance().getCurrentState());
+	}
 	
-	public ProfessorService(){
-		stateService = StateService.getInstance();
+	public ProfessorService(State dataState){
+		super(dataState);
 	}
 	
 	protected Repository<Professor> list(){
-		if(stateService.hasValidState()) return stateService.getCurrentState().professors;
-		else return new SimpleRepository<Professor>();
+		return getState().professors;
 	}
 	
 	public boolean exists(String profName) {

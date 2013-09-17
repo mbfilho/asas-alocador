@@ -13,19 +13,19 @@ import logic.dto.ProfessorIndisponibility;
 import logic.schedule.formatting.detailing.Details;
 import logic.schedule.formatting.detailing.DetailsOfSlotDisponibility;
 import logic.schedule.formatting.detailing.ScheduleSlotDetails;
-import logic.services.ConflictService;
+import logic.services.DisponibilityService;
 
 public class SlotDisponibilityFormatter implements ScheduleFormatter{
 
 	private final int NO_CONFLICT = 0, ROOM_OCCUPIED = 1 << 0, PROFESSOR_CONFLICT = 1 << 1;
-	private ConflictService conflictService;
+	private DisponibilityService conflictService;
 	private Class theClass;
 	private Classroom theClassroom;
 	
 	public SlotDisponibilityFormatter(Class theClass, Classroom room){
 		this.theClass = theClass;
 		theClassroom = room;
-		conflictService = new ConflictService();
+		conflictService = new DisponibilityService();
 	}
 	
 	public static List<SlotDisponibilityFormatter> getFormatterForThisClassAndSlots(Class theClass, Iterable<SlotRange> slots){

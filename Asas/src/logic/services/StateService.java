@@ -12,6 +12,8 @@ import java.util.List;
 
 import javax.swing.Timer;
 
+import utilities.CollectionUtil;
+
 import logic.dataUpdateSystem.DataUpdateCentral;
 
 import data.DataValidation;
@@ -35,7 +37,8 @@ import exceptions.StateIOException;
 import exceptions.WritingException;
 
 public class StateService {
-	private State currentState = null;
+	private final State currentState;
+	private boolean hasValidState;
 	
 	private final String fileName = String.format("configs%ssavedStates.config", File.separator);
 	private List<StateDescription> states;
@@ -48,6 +51,9 @@ public class StateService {
 	
 	@SuppressWarnings("unchecked")
 	private StateService(){
+		currentState = new State();
+		hasValidState = false;
+		
 		states = new LinkedList<StateDescription>();
 		try {
 			ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName));
@@ -78,15 +84,26 @@ public class StateService {
 	}
 
 	public boolean hasValidState(){
-		return currentState != null;
+		return hasValidState;
 	}
 	
 	public State getCurrentState(){
 		return currentState;
 	}
 	
+	private void setState(State theState){
+		hasValidState = true;
+		currentState.allowedWarnings = theState.allowedWarnings;
+		currentState.classes = theState.classes;
+		currentState.classrooms = theState.classrooms;
+		currentState.description = theState.description;
+		currentState.excelFileHash = theState.excelFileHash;
+		currentState.excelPrefs = theState.excelPrefs;
+		currentState.professors = theState.professors;
+	}
+	
 	public synchronized void setCurrentState(StateDescription s) throws StateIOException{
-		currentState = loadState(s);
+		setState(loadState(s));
 		DataUpdateCentral.registerUpdate("Novo estado");
 	}
 	
@@ -116,7 +133,7 @@ public class StateService {
 
 	public synchronized void saveCurrentState() throws StateIOException {
 		if(hasValidState())
-			flushState(getCurrentState());
+			flushState(currentState);
 	}
 
 	public State loadState(StateDescription stateDescription) throws StateIOException {
@@ -138,43 +155,38 @@ public class StateService {
 		}
 	}
 	
-	private void completeSwitchingToExcelState(ExcelPreferences toSave) throws IOException, StateIOException{
-		currentState.setExcelPreferences(toSave);
-		saveCurrentState();
-		
+	private void completeSwitchingToExcelState(State read) throws IOException, StateIOException{
+		setState(read);
 		states.add(currentState.description);
+		
+		saveCurrentState();
 		flushDescriptions();
 		
 		DataUpdateCentral.registerUpdate("Estado carregado do excel");
-		ConfigurationService.getInstance().saveExcelPreferences(toSave);
+		ConfigurationService.getInstance().saveExcelPreferences(read.excelPrefs);
 	}
 	
 	public List<String> loadStateFromExcel(ExcelPreferences prefs, StateDescription desc) throws StateIOException{
-		State old = currentState;
-		currentState = new State();
-		currentState.description = desc;
 		try{
+			State theNewState = new State(desc);
+			theNewState.setExcelPreferences(prefs);
+			
 			WorkbookReader excelReader = new WorkbookReader(prefs.getFileLocation());
-			ExcelClassReader classReader = new ExcelClassReader(prefs, excelReader);
-			new ExcelProfessorReader(prefs, excelReader).read();
-			new FileClassRoomReader().read();
+			ExcelClassReader classReader = new ExcelClassReader(theNewState, prefs, excelReader);
+			new ExcelProfessorReader(theNewState, prefs, excelReader).read();
+			new FileClassRoomReader(theNewState).read();
 			DataValidation<Repository<Class>> validation = classReader.read();
-			completeSwitchingToExcelState(prefs);
+			
+			completeSwitchingToExcelState(theNewState);
 			return validation.validation;
 		}catch(Exception ex){
-			try {
-				if(old != null)
-					setCurrentState(old.description);
-			} catch (StateIOException e) {}
 			ex.printStackTrace();
-			List<String> erro = new LinkedList<String>();
-			erro.add("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
-			return erro;
+			return CollectionUtil.createList("Não foi possível carregar o novo estado a partir do excel. O estado anterior foi restaurado.");
 		}
 	}
 
 	public synchronized void setCurrentState(State state) {
-		this.currentState = state;
+		setState(state);
 		DataUpdateCentral.registerUpdate("Novo estado setado");
 	}
 	

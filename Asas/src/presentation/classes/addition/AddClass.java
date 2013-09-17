@@ -62,8 +62,8 @@ public class AddClass extends DisposableOnEscFrame implements Updatable{
 	public AddClass(WarningGeneratorService warningService) {
 		DataUpdateCentral.signIn(this, CustomerType.Gui);
 		setTitle("Adição de turma");
-		classService = new ClassService();
-		professorService = new ProfessorService();
+		classService = ClassService.createServiceFromCurrentState();
+		professorService = ProfessorService.createServiceFromCurrentState();
 		configureElements(warningService);
 	}
 	

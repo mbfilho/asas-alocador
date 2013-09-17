@@ -15,7 +15,8 @@ import data.persistentEntities.Classroom;
 import data.persistentEntities.ExcelMetadata;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
-import data.readers.ClassReader;
+import data.persistentEntities.State;
+import data.readers.DataReader;
 import data.repository.Repository;
 
 import exceptions.InvalidInputException;
@@ -23,7 +24,7 @@ import utilities.Constants;
 import utilities.Pair;
 import utilities.StringUtil;
 
-public class ExcelClassReader extends ClassReader{
+public class ExcelClassReader implements DataReader<Class>{
 
 	private WorkbookReader reader;
 	private ExcelPreferences excelPrefs; 
@@ -32,12 +33,12 @@ public class ExcelClassReader extends ClassReader{
 	private ClassroomService roomService;
 	private List<String> errors;
 	
-	public ExcelClassReader(ExcelPreferences prefs, WorkbookReader excelReader){
+	public ExcelClassReader(State dataState, ExcelPreferences prefs, WorkbookReader excelReader){
 		excelPrefs = prefs;
-		service = new ClassService();
+		service = new ClassService(dataState);
 		errors = new LinkedList<String>();
-		profService = new ProfessorService();
-		roomService = new ClassroomService();
+		profService = new ProfessorService(dataState);
+		roomService = new ClassroomService(dataState);
 		reader = excelReader;
 	}
 	

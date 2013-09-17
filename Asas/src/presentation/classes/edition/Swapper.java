@@ -32,7 +32,7 @@ public abstract class Swapper extends SwapperLayout{
 	
 	public Swapper(JFrame parent, Class selectedClass){
 		super(parent, selectedClass);
-		classService = new ClassService();
+		classService = ClassService.createServiceFromCurrentState();
 		theClassId = selectedClass.getId();
 		swapOccured = false;
 		

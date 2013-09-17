@@ -6,20 +6,17 @@ import javax.swing.JComboBox;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 
 import presentation.NamedPair;
 
 import utilities.GuiUtil;
 
-import data.NamedEntity;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.Collection;
 import java.util.Vector;
 
 import logic.dataUpdateSystem.CustomerType;
@@ -234,29 +231,15 @@ public abstract class GroupSelectorPanel extends JPanel implements Updatable{
 	}
 	
 	private void refreshProfessors(){
-		ProfessorService profService = new ProfessorService();
-		reloadCBox(professorCBox, profService.all(), new NamedPair<Professor>("Todos", null));
+		ProfessorService profService = ProfessorService.createServiceFromCurrentState();
+		GuiUtil.reloadCBox(professorCBox, profService.all(), new NamedPair<Professor>("Todos", null));
 	}
 	
 	private void refreshRooms(){
-		ClassroomService roomService = new ClassroomService();
-		reloadCBox(roomCBox, roomService.allNonExternals(), new NamedPair<Classroom>("Todas", null));
+		ClassroomService roomService = ClassroomService.createServiceFromCurrentState();
+		GuiUtil.reloadCBox(roomCBox, roomService.allNonExternals(), new NamedPair<Classroom>("Todas", null));
 	}
 	
-	private <T extends NamedEntity> void reloadCBox(JComboBox<NamedPair<T>> cbox, Collection<T> allElements, NamedPair<T> first){
-		T selected = GuiUtil.getSelectedItem(cbox);
-		DefaultComboBoxModel<NamedPair<T>> model = (DefaultComboBoxModel<NamedPair<T>>) cbox.getModel();
-		model.removeAllElements();
-		NamedPair<T> newSelected = first;
-		model.addElement(first);
-		for(T elementToAdd : allElements){
-			NamedPair<T> toAdd = new NamedPair<T>(elementToAdd.getName(), elementToAdd);
-			if(selected != null && elementToAdd.getName().equals(selected.getName())) newSelected = toAdd;
-			model.addElement(toAdd);
-		}
-		cbox.setSelectedItem(newSelected);
-	}
-
 	public void dispose(){
 		DataUpdateCentral.signOut(this);
 	}

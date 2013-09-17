@@ -1,6 +1,5 @@
 package logic.services;
 
-
 import java.awt.Color;
 import java.util.List;
 
@@ -10,25 +9,27 @@ import logic.historySystem.HistoryService;
 import data.persistentEntities.Class;
 import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
+import data.persistentEntities.State;
 import data.repository.Repository;
-import data.repository.SimpleRepository;
 
 
 import utilities.ColorUtil;
 
 public class ClassService extends BasicDataAccessService<Class>{
 
-	private StateService stateService;
 	private final Color BASE_COLOR = Color.white;
 	private double MIN_COLOR_DISTANCE = 0.2;
 			
-	public ClassService(){
-		stateService = StateService.getInstance();
+	public static ClassService createServiceFromCurrentState(){
+		return new ClassService(StateService.getInstance().getCurrentState());
+	}
+	
+	public ClassService(State dataState){
+		super(dataState);
 	}
 	
 	protected Repository<Class> list(){
-		if(stateService.hasValidState()) return stateService.getCurrentState().classes;
-		else return new SimpleRepository<Class>();
+		return getState().classes;
 	}
 	
 	public void add(Class c){

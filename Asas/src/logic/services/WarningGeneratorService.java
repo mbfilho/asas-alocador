@@ -32,8 +32,8 @@ public class WarningGeneratorService {
 	protected AllowedWarningsService allowedWarningService;
 	
 	public WarningGeneratorService(){
-		classService = new ClassService();
-		professorService = new ProfessorService();
+		classService = ClassService.createServiceFromCurrentState();
+		professorService = ProfessorService.createServiceFromCurrentState();
 		allowedWarningService = new AllowedWarningsService();
 	}
 	

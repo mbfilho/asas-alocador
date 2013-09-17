@@ -4,11 +4,11 @@ import java.util.Collection;
 import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTabbedPane;
 
 import presentation.NamedPair;
-
 
 import data.NamedEntity;
 
@@ -55,5 +55,19 @@ public class GuiUtil {
 		int selectedIndex = pane.getSelectedIndex();
 		if(selectedIndex == -1) return null;
 		return pane.getTitleAt(selectedIndex);
+	}
+
+	public static <T extends NamedEntity> void reloadCBox(JComboBox<NamedPair<T>> cbox, Collection<T> allElements, NamedPair<T> first){
+		T selected = GuiUtil.getSelectedItem(cbox);
+		DefaultComboBoxModel<NamedPair<T>> model = (DefaultComboBoxModel<NamedPair<T>>) cbox.getModel();
+		model.removeAllElements();
+		NamedPair<T> newSelected = first;
+		model.addElement(first);
+		for(T elementToAdd : allElements){
+			NamedPair<T> toAdd = new NamedPair<T>(elementToAdd.getName(), elementToAdd);
+			if(selected != null && elementToAdd.getName().equals(selected.getName())) newSelected = toAdd;
+			model.addElement(toAdd);
+		}
+		cbox.setSelectedItem(newSelected);
 	}
 }

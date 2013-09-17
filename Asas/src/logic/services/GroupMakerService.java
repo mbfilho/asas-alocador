@@ -25,7 +25,7 @@ public class GroupMakerService {
 	private TreeSet<Group> generatedGroupsSet;
 	
 	public GroupMakerService(){
-		classService = new ClassService();
+		classService = ClassService.createServiceFromCurrentState();
 		generatedGroupsSet = new TreeSet<Group>(new Comparator<Group>() {
 			public int compare(Group g1, Group g2) {
 				return g1.getName().compareTo(g2.getName());

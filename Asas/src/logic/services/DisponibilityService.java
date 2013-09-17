@@ -10,11 +10,11 @@ import data.persistentEntities.Professor;
 import data.persistentEntities.SlotRange;
 
 
-public class ConflictService {
+public class DisponibilityService {
 	private ClassService classService;
 	
-	public ConflictService(){
-		classService = new  ClassService();
+	public DisponibilityService(){
+		classService = ClassService.createServiceFromCurrentState();
 	}
 	
 	public boolean isClassroomFreeForThisClass(Class thisClass, Classroom room, SlotRange range){

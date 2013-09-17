@@ -31,8 +31,8 @@ public class AllocationPerProfessor {
 	
 	public AllocationPerProfessor(){
 		profPictures = new ProfessorPictureDictionary();
-		classService = new ClassService();
-		professorService = new ProfessorService();
+		classService = ClassService.createServiceFromCurrentState();
+		professorService = ProfessorService.createServiceFromCurrentState();
 		fillProfessorAllocation();
 	}
 

@@ -6,20 +6,21 @@ import java.util.List;
 
 import logic.dataUpdateSystem.DataUpdateCentral;
 import data.persistentEntities.Classroom;
+import data.persistentEntities.State;
 import data.repository.Repository;
-import data.repository.SimpleRepository;
 
 public class ClassroomService extends BasicDataAccessService<Classroom>{
-
-	private StateService stateService;
 	
-	public ClassroomService(){
-		stateService = StateService.getInstance();
+	public static ClassroomService createServiceFromCurrentState(){
+		return new ClassroomService(StateService.getInstance().getCurrentState());
+	}
+	
+	public ClassroomService(State dataState){
+		super(dataState);
 	}
 	
 	protected Repository<Classroom> list(){
-		if(stateService.hasValidState()) return stateService.getCurrentState().classrooms;
-		else return new SimpleRepository<Classroom>();
+		return getState().classrooms;
 	}
 	
 	public List<Classroom> allNonExternals(){
