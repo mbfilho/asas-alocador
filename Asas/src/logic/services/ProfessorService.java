@@ -22,4 +22,10 @@ public class ProfessorService extends BasicDataAccessService<Professor> {
 	public boolean exists(String profName) {
 		return list().exists(profName);
 	}
+
+	public void setPreviousLoad(String profName, double workload) {
+		Professor prof = getByName(profName);
+		if(prof != null)
+			prof.setLastSemesterWorkload(workload);
+	}
 }

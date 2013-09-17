@@ -45,10 +45,10 @@ import logic.dataUpdateSystem.CustomerType;
 import logic.dataUpdateSystem.DataUpdateCentral;
 import logic.dataUpdateSystem.Updatable;
 import logic.dataUpdateSystem.UpdateDescription;
-import logic.dto.ProfessorWorkload;
+import logic.dto.WorkloadReport;
 import logic.reports.AllocationPerProfessor;
 import logic.reports.AllocationPerSemester;
-import logic.services.ReportService;
+import logic.services.ProfessorWorkLoadService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
 
@@ -200,11 +200,11 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmWorkload = new JMenuItem("Carga Horária");
 		mntmWorkload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ReportService reportService = new ReportService();
-				List<ProfessorWorkload> workload = reportService.calculateProfessorWorkload();
+				ProfessorWorkLoadService reportService = ProfessorWorkLoadService.createServiceFromCurrentState();
+				List<WorkloadReport> workload = reportService.calculateProfessorWorkload();
 				Object rowData[][] = new Object[workload.size()][2];
 				int row = 0;
-				for(ProfessorWorkload load : workload){
+				for(WorkloadReport load : workload){
 					rowData[row][0] = load.professor.getName();
 					rowData[row++][1] = load.workload;
 				}

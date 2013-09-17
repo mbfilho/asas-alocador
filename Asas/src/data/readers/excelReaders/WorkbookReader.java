@@ -39,6 +39,12 @@ public class WorkbookReader {
 		setCurrentSheet(workbook.getSheetAt(newSheetNumber));
 	}
 	
+	public String getPreviousSheetName(){
+		String sheetName = currentRow.getSheet().getSheetName();
+		int sheetIndex = workbook.getSheetIndex(sheetName);
+		return workbook.getSheetAt(sheetIndex-1).getSheetName();
+	}
+	
 	public void goToNextRow(){
 		currentRow = rows.next();
 		currentCellNumber = 0;

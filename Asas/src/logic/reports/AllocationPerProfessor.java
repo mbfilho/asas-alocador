@@ -10,6 +10,7 @@ import data.persistentEntities.Professor;
 import data.persistentEntities.Class;
 import data.readers.ProfessorPictureDictionary;
 
+import logic.dto.WorkloadReportList;
 import logic.html.BTag;
 import logic.html.BrTag;
 import logic.html.FontTag;
@@ -21,6 +22,7 @@ import logic.html.TdTag;
 import logic.html.TrTag;
 import logic.services.ClassService;
 import logic.services.ProfessorService;
+import logic.services.ProfessorWorkLoadService;
 
 public class AllocationPerProfessor {
 	private List<ProfessorAllocation> allocatedProfessors;
@@ -39,9 +41,12 @@ public class AllocationPerProfessor {
 	private void fillProfessorAllocation() {
 		allocatedProfessors = new LinkedList<ProfessorAllocation>();
 		notAllocatedProfessors = new LinkedList<Professor>();
+		WorkloadReportList workloadList = ProfessorWorkLoadService.createServiceFromCurrentState()
+					.calculateProfessorWorkload();
 		
 		for(Professor prof : professorService.all()){
-			ProfessorAllocation alloc = new ProfessorAllocation(profPictures, prof);
+			System.out.println(prof.getName() + " - " + workloadList.getReportFor(prof));
+			ProfessorAllocation alloc = new ProfessorAllocation(profPictures, workloadList.getReportFor(prof));
 			for(Class c : classService.all()){
 				if(c.getProfessors().contains(prof))
 					alloc.addClass(c);

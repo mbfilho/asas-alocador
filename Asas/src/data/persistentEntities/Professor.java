@@ -13,11 +13,15 @@ public class Professor implements NamedEntity, Serializable{
 	private String email;
 	private boolean temporary;
 	private boolean away;
+	private double lastSemesterWorkload;
 	private ExcelMetadata excelMetadata;
 	
-	public Professor(){}
+	public Professor(){
+		lastSemesterWorkload = -1;
+	}
 	
 	public Professor(String name, String email, String cargo, String dpto, boolean tmp, boolean away){
+		this();
 		this.name = name;
 		this.email = email;
 		this.cargo = cargo;
@@ -84,5 +88,13 @@ public class Professor implements NamedEntity, Serializable{
 	
 	public ExcelMetadata getExcelMetadata(){
 		return excelMetadata;
+	}
+	
+	public void setLastSemesterWorkload(double load){
+		lastSemesterWorkload = load;
+	}
+	
+	public double getLastSemesterWorkload(){
+		return lastSemesterWorkload;
 	}
 }

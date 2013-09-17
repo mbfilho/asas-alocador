@@ -2,13 +2,13 @@ package logic.dto;
 
 import data.persistentEntities.Professor;
 
-public class ProfessorWorkload {
+public class WorkloadReport {
 	public Professor professor;
 	public double workload;
 	
-	public ProfessorWorkload(){}
+	public WorkloadReport(){}
 	
-	public ProfessorWorkload(Professor prof, double sum){
+	public WorkloadReport(Professor prof, double sum){
 		professor = prof;
 		workload = sum;
 	}

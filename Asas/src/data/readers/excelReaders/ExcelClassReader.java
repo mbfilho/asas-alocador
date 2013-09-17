@@ -32,19 +32,20 @@ public class ExcelClassReader implements DataReader<Class>{
 	private ProfessorService profService;
 	private ClassroomService roomService;
 	private List<String> errors;
+	private String classesSheet;
 	
-	public ExcelClassReader(State dataState, ExcelPreferences prefs, WorkbookReader excelReader){
-		excelPrefs = prefs;
+	public ExcelClassReader(State dataState, WorkbookReader excelReader, String sheet){
+		excelPrefs = dataState.excelPrefs;
 		service = new ClassService(dataState);
 		errors = new LinkedList<String>();
 		profService = new ProfessorService(dataState);
 		roomService = new ClassroomService(dataState);
 		reader = excelReader;
+		classesSheet = sheet;
 	}
 	
 	public DataValidation<Repository<Class>> read()	throws InvalidInputException {
-		reader.changeSheet(excelPrefs.getClassesSheet());
-		
+		reader.changeSheet(classesSheet);
 		ignoreUntil(excelPrefs.getRequiredByGraduationMarker());
 		
 		if(excelPrefs.isRequiredByGraduationEnabled()){
