@@ -26,7 +26,6 @@ public class FileClassRoomReader implements DataReader<Classroom> {
 	}
 	
 	public DataValidation<Repository<Classroom>> read() throws InvalidInputException {
-		roomService = ClassroomService.createServiceFromCurrentState();
 		try {
 			Scanner sc = new Scanner(new File(ConfigurationService.CLASSROOMS_FILENAME));
 			LineReader reader = new LineReader();

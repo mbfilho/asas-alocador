@@ -4,9 +4,9 @@ import java.awt.Color;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import data.NamedEntity;
 
@@ -16,20 +16,21 @@ public class Class implements NamedEntity, Serializable{
 	private static final long serialVersionUID = -4317770498263255354L;
 	
 	private String name;
-	private Vector<Professor> professors;
+	private List<Professor> professors;
 	private double ch;
 	private int ccSemester, ecSemester;
 	private String course;
-	private Vector<SlotRange> slots;
+	private List<SlotRange> slots;
 	private int ch2;
 	private String code;
 	private Color color;
 	private int id;
+	private Class alias;
 	private ExcelMetadata excelMetadata;
 	
 	public Class(){
-		this.professors = new Vector<Professor>();
-		this.slots = new Vector<SlotRange>();
+		this.professors = new LinkedList<Professor>();
+		this.slots = new LinkedList<SlotRange>();
 		ccSemester = ecSemester = -1;
 	}
 		
@@ -103,18 +104,20 @@ public class Class implements NamedEntity, Serializable{
 	
 	public void addSlot(SlotRange slot){
 		this.slots.add(slot);
+		Collections.sort(slots);
 	}
 	
 	public Collection<SlotRange> getSlots(){
-		return slots;
+		return Collections.unmodifiableList(slots);
 	}
 	
 	public List<Professor> getProfessors(){
-		return professors;
+		return Collections.unmodifiableList(professors);
 	}
 	
 	public void addProfessor(Professor prof){
 		this.professors.add(prof);
+		sortProfessors();
 	}
 	
 	public String getName() {
@@ -124,11 +127,21 @@ public class Class implements NamedEntity, Serializable{
 	public void setProfessors(Iterable<Professor> profs) {
 		professors.clear();
 		for(Professor p : profs) professors.add(p);
+		
 	}
-
+	
+	private void sortProfessors(){
+		Collections.sort(professors, new Comparator<Professor>() {
+			public int compare(Professor p1, Professor p2) {
+				return p1.getName().compareTo(p2.getName());
+			}
+		});
+	}
+	
 	public void setSlots(Iterable<SlotRange> newSlots) {
 		slots.clear();
 		for(SlotRange s : newSlots) slots.add(s);
+		Collections.sort(slots);
 	}
 
 	public void setColor(Color color){
@@ -179,8 +192,8 @@ public class Class implements NamedEntity, Serializable{
 		return rooms;
 	}
 	
-	public Vector<Classroom> getAllRooms(){
-		Vector<Classroom> rooms = new Vector<Classroom>();
+	public List<Classroom> getAllRooms(){
+		List<Classroom> rooms = new LinkedList<Classroom>();
 		for(SlotRange r : getSlots()) if(r.getClassroom() != null) rooms.add(r.getClassroom());
 		return rooms;
 	}

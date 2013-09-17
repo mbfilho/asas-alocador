@@ -113,7 +113,6 @@ public class StateService {
 		Writer<State> stateWriter = new SingleObjectFileWriter<State>(s.description.getFile());
 		try {
 			stateWriter.Write(s);
-			ConfigurationService.getInstance().saveClassrooms();
 		} catch (WritingException e) {
 			e.printStackTrace();
 			throw new StateIOException("Ocorreu um erro ao salvar o estado atual.", e);

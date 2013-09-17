@@ -15,8 +15,7 @@ import javax.swing.JSpinner;
 import javax.swing.JComboBox;
 
 import java.util.Collection;
-import java.util.Vector;
-
+import java.util.List;
 
 import javax.swing.JButton;
 
@@ -24,7 +23,6 @@ import utilities.Constants;
 import utilities.DisposableOnEscFrame;
 
 import javax.swing.DefaultComboBoxModel;
-
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -212,8 +210,8 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 		
 		if(isEditingExistingSlot()) fillWithSelectedSlot();
 		else{
-			Vector<Classroom> rooms = selectedClass.getAllRooms();
-			if(!rooms.isEmpty()) selectClassroom(rooms.firstElement());
+			List<Classroom> rooms = selectedClass.getAllRooms();
+			if(!rooms.isEmpty()) selectClassroom(rooms.get(0));
 		}
 		
 		setVisible(true);
