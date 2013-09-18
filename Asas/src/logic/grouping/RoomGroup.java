@@ -20,9 +20,11 @@ public class RoomGroup extends Group{
 	}
 
 	public void addClassToGroup(Class c){
-		for(SlotRange slot : c.getSlots()){
-			if(slot.getClassroom() == theRoom)
-				schedule.addClassToThisRange(c, slot);
+		if(!schedule.containsThisClass(c.getAlias())){ 
+			for(SlotRange slot : c.getSlots()){
+				if(slot.getClassroom() == theRoom)
+					schedule.addClassToThisRange(c, slot);
+			}
 		}
 	}
 	

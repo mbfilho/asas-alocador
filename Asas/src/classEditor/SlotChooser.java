@@ -51,7 +51,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	private JComboBox<NamedPair<Classroom>> classrooms;
 	private JComboBox<String> days;
 	private SlotRange slotToEdit;
-	private DisponibilityService conflictService;
+	private DisponibilityService diponibilityService;
 	
 	private void configureElements(){
 		contentPane = new JPanel();
@@ -200,7 +200,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 	public SlotChooser(WarningGeneratorService warning, Class selectedClass, SlotRange toEdit) {
 		setTitle("Edição de Horários");
 		this.slotToEdit = toEdit;
-		conflictService = new DisponibilityService();
+		diponibilityService = new DisponibilityService();
 		this.selectedClass = selectedClass;
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -253,7 +253,7 @@ public abstract class SlotChooser extends DisposableOnEscFrame {
 			
 			String fontColor = "green";
 			SlotRange slot = getSelectedSlot();
-			if(!conflictService.isClassroomFreeForThisClass(selectedClass, room, slot))
+			if(!diponibilityService.isClassroomFreeForThisClass(selectedClass, room, slot))
 				fontColor = "red";
 			
 			classroomCBModel.getElementAt(i).name = "<html><p style='color:" + fontColor + "'>"+room.getName()+"</p></html>";

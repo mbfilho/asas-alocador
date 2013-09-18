@@ -45,7 +45,6 @@ public class AllocationPerProfessor {
 					.calculateProfessorWorkload();
 		
 		for(Professor prof : professorService.all()){
-			System.out.println(prof.getName() + " - " + workloadList.getReportFor(prof));
 			ProfessorAllocation alloc = new ProfessorAllocation(profPictures, workloadList.getReportFor(prof));
 			for(Class c : classService.all()){
 				if(c.getProfessors().contains(prof))

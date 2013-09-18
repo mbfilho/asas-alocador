@@ -2,7 +2,7 @@ package logic.schedule.formatting.detailing;
 
 import java.awt.Color;
 
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 public class FormattedDetail {
 	

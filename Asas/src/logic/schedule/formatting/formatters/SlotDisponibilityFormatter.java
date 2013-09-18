@@ -92,6 +92,7 @@ public class SlotDisponibilityFormatter implements ScheduleFormatter{
 
 	private void getRoomOnlyConflict(int slot, int day, List<String> content) {
 		List<Class> otherClasses = conflictService.getClassesOccupingThisRoom(new SlotRange(day, slot, slot, theClassroom));
+		 
 		for(Class c : otherClasses) 
 			content.add(c.getName());
 	}

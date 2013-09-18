@@ -32,6 +32,15 @@ public abstract class BasicDataAccessService <T extends NamedEntity>{
 		return list().get(name);
 	}
 	
+	public T getOtherWithThisName(T except, String name){
+		for(T entity : list()){
+			if(entity == except) continue;
+			if(entity.getName().equals(name))
+				return entity;
+		}
+		return null;
+	}
+	
 	//TODO: retornar lista imutável
 	public Collection<T> all(){
 		return list().all();

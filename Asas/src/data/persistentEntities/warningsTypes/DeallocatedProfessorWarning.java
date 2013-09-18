@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 
 import data.persistentEntities.Class;

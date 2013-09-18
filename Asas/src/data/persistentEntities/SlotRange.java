@@ -55,9 +55,7 @@ public class SlotRange implements NamedEntity, Serializable, Comparable<SlotRang
 	}
 	
 	public String toString(){
-		String rep = Constants.days[day] + ", ";
-		rep += (start + 7) + "-" + (end + 8);
-		return rep;
+		return String.format("%s, %d-%d", Constants.days[day], start + Constants.FIRST_INITIAL_HOUR, end + 1 + Constants.FIRST_INITIAL_HOUR);
 	}
 	
 	public boolean equals(Object obj){
@@ -148,6 +146,5 @@ public class SlotRange implements NamedEntity, Serializable, Comparable<SlotRang
 		if(getClassroom() == null && other.getClassroom() != null) return -1;
 		if(getClassroom() != null && other.getClassroom() == null) return 1;
 		return getClassroom().getName().compareTo(other.getClassroom().getName());
-
 	}
 }

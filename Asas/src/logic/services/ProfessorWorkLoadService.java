@@ -1,6 +1,7 @@
 package logic.services;
 
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.Map.Entry;
 
@@ -33,13 +34,17 @@ public class ProfessorWorkLoadService {
 			}
 		});
 		WorkloadReportList result = new WorkloadReportList();
+		HashSet<Class> mk = new HashSet<Class>();
 		
 		for(Class c : classService.all()){
+			if(mk.contains(c.getAlias())) continue;
+			
 			for(Professor p : c.getProfessors()){
 				double value = 0;
 				value = c.getCh() / c.getProfessors().size();
 				addWorkload(p, value);
 			}
+			mk.add(c);
 		}
 		
 		handleNonAllocatedProfessors();

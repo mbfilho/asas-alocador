@@ -2,10 +2,9 @@ package data.persistentEntities.warningsTypes;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
@@ -22,10 +21,10 @@ public class SameProfessorsWarning extends Warning{
 	private static final long serialVersionUID = -151872803891658353L;
 	
 	private Class oneClass, otherClass;
-	private Vector<Professor> professors;
-	private Vector<SlotRange> slots;
+	private List<Professor> professors;
+	private List<SlotRange> slots;
 	
-	public SameProfessorsWarning(Class c1, Class c2, Vector<Professor> profs, Vector<SlotRange> ranges){
+	public SameProfessorsWarning(Class c1, Class c2, List<Professor> profs, List<SlotRange> ranges){
 		oneClass = c1;
 		otherClass = c2;
 		professors = profs;
@@ -33,24 +32,26 @@ public class SameProfessorsWarning extends Warning{
 	}
 	
 	public String getMessage() {
-		return String.format("<html>Professor(es) <b>%s</b> nas turmas <b>%s</b> e <b>%s</b>, <b>%s</b></html>",
+		return String.format("<html>Professor(es) <b>%s</b> nas turmas <b>%s<i>%s</i></b> e <b>%s<i>%s</i></b>, <b>%s</b></html>",
 					StringUtil.joinListWithSeparator(professors, "/"), 
 					oneClass.getName(), 
+					oneClass.getFormattedAliasName(),
 					otherClass.getName(),
+					otherClass.getFormattedAliasName(),
 					StringUtil.joinListWithSeparator(slots, "/")
 				);
 	}
 	
-	public Vector<SlotRange> getSlots(){
+	public List<SlotRange> getSlots(){
 		return slots;
 	}
 	
-	public Vector<Professor> getProfessors(){
+	public List<Professor> getProfessors(){
 		return professors;
 	}
 	
-	public Vector<Class> getClasses(){
-		Vector<Class> classes = new Vector<Class>();
+	public List<Class> getClasses(){
+		List<Class> classes = new LinkedList<Class>();
 		classes.add(oneClass); classes.add(otherClass);
 		return classes;
 	}
@@ -72,7 +73,7 @@ public class SameProfessorsWarning extends Warning{
 	}
 	public InitialEditState getInfoToSolve(Class selected) {
 		InitialEditState initialState = 
-				new InitialEditState(selected, getFirstRoomInConflictedSlots(), professors.firstElement());
+				new InitialEditState(selected, getFirstRoomInConflictedSlots(), professors.get(0));
 		return initialState;
 	}
 

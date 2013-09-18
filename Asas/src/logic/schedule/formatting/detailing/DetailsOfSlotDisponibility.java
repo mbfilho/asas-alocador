@@ -9,7 +9,7 @@ import data.persistentEntities.Class;
 public class DetailsOfSlotDisponibility extends Details{
 
 	public void addProfessorsIndisponibility(List<ProfessorIndisponibility> indisponibility){
-		addTitle("Conflito do(s) Professor(es):", null, Color.red);
+		addTitle("Professor(es) já ocupado(s) nesse horário:", null, Color.red);
 		for(ProfessorIndisponibility inds : indisponibility){
 			String content = String.format("- %s [%s]", inds.professor.getName(), inds.classTaught.completeName());
 			addDetail(content, Color.black);
@@ -17,7 +17,7 @@ public class DetailsOfSlotDisponibility extends Details{
 	}
 	
 	public void addConflictingClasses(List<Class> conflictingClasses){
-		addTitle("Conflito com a(s) turma(s):", null, Color.red);
+		addTitle("Turma(s) nesse horário e sala:", null, Color.red);
 		for(Class c : conflictingClasses)
 			addDetail(String.format("- %s", c.getName()), Color.black);
 	}

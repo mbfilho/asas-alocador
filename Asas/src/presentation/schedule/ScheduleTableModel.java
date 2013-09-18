@@ -2,7 +2,6 @@ package presentation.schedule;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -10,11 +9,10 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import javax.swing.JPopupMenu;
 import javax.swing.table.AbstractTableModel;
 
-import presentation.classes.edition.EditClass;
+import presentation.classes.EditClass;
 
 import logic.schedule.formatting.detailing.Details;
 import logic.schedule.formatting.detailing.FormattedDetail;
@@ -48,11 +46,11 @@ public class ScheduleTableModel extends AbstractTableModel{
 	}
 	
 	private void configSlotsColumn(){
-		for(int i = Constants.FIRST_INITIAL_HOUR; i <= Constants.LAST_INITIAL_HOUR; ++i){
-			cellState[i-7][0].setValue(String.format("%d-%d", i, i+1));
-			cellState[i-7][0].setBackColor(ColorUtil.mixColors(Color.gray, Color.white, Color.white));
-			cellState[i-7][0].setFontColor(Color.black);
-			cellState[i-7][0].setTooltip("");
+		for(int i = 0; i < Constants.SLOTS; ++i){
+			cellState[i][0].setValue((i + Constants.FIRST_INITIAL_HOUR) + "-" + (i+1+Constants.FIRST_INITIAL_HOUR));
+			cellState[i][0].setBackColor(ColorUtil.mixColors(Color.gray, Color.white, Color.white));
+			cellState[i][0].setFontColor(Color.black);
+			cellState[i][0].setTooltip("");
 		}		
 	}
 	
@@ -104,6 +102,7 @@ public class ScheduleTableModel extends AbstractTableModel{
 		for(Details classDetail : slotDetails){
 			for(FormattedDetail detail : classDetail)
 				createSlotDetailsComponents(popupComponents, detail);
+			popupComponents.add(new JPopupMenu.Separator());
 		}
 		
 		return popupComponents;
@@ -112,12 +111,8 @@ public class ScheduleTableModel extends AbstractTableModel{
 	private void createSlotDetailsComponents(List<Component> listOfComponents, FormattedDetail detail) {
 		Component line = null;
 		if(detail.isTitle()){
-			if(!listOfComponents.isEmpty())
-				listOfComponents.add(createSeparator());
 			line = createTitleLabel(detail.getContent(), detail.getBackgroundColor(), detail.getForegroundColor());
 		}else if(detail.isLinkToClassEdition()){
-			if(!listOfComponents.isEmpty())
-				listOfComponents.add(createSeparator());
 			line = createLink(detail);
 		}else			
 			line = createColoredLabel(detail.getContent(), detail.getBackgroundColor(), detail.getForegroundColor());
@@ -125,12 +120,12 @@ public class ScheduleTableModel extends AbstractTableModel{
 	}
 
 	private JMenuItem createLink(final FormattedDetail detail) {
-		JMenuItem item = new JMenuItem(detail.getContent());
+		String content = String.format("<html><i>(clique aqui) </i><b>%s</b></html>", detail.getContent());
+		JMenuItem item = new JMenuItem(content);
 		item.setOpaque(true);
 		item.setBackground(detail.getBackgroundColor());
 		item.setForeground(detail.getForegroundColor());
-		Font theFont = item.getFont().deriveFont(Font.ITALIC).deriveFont(Font.BOLD);
-		item.setFont(theFont);
+		item.setBorder(null);
 		
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -151,9 +146,4 @@ public class ScheduleTableModel extends AbstractTableModel{
 	private JLabel createTitleLabel(String text, Color bg, Color font){
 		return createColoredLabel("<html><b>" + text + "</b></html>", bg, font);
 	}
-	
-	private Component createSeparator(){
-		return new JSeparator(SwingConstants.HORIZONTAL);
-	}
-
 }

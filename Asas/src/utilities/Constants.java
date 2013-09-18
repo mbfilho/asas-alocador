@@ -8,4 +8,5 @@ public interface Constants {
 	public int FIRST_INITIAL_HOUR = 7;
 	public int LAST_INITIAL_HOUR = 7 + 15;
 	public static String days[] = {"domingo", "segunda", "terça", "quarta", "quinta", "sexta", "sábado"};
+	
 }
