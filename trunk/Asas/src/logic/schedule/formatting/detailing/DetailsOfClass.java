@@ -1,7 +1,7 @@
 package logic.schedule.formatting.detailing;
 
 
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Professor;
@@ -14,7 +14,8 @@ public class DetailsOfClass extends Details{
 		this.theClass = theClass;
 		
 		addLink(theClass.completeName(), null, null, new InitialEditState(theClass));
-		
+		if(theClass.getAlias() != null)
+			addLink(theClass.getAlias().completeName(), null, null, new InitialEditState(theClass.getAlias()));
 		addProfessors();
 		addSlotRanges();
 	}

@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import data.NamedEntity;
 

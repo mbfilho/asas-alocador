@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 public class Details implements Iterable<FormattedDetail>{
 	private List<FormattedDetail> details;

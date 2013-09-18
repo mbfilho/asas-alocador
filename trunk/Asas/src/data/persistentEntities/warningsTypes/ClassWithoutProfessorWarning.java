@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import utilities.CollectionUtil;
 
@@ -25,7 +25,9 @@ public class ClassWithoutProfessorWarning extends Warning{
 	}
 	
 	public String getMessage() {
-		return theClass.completeName();
+		return String.format("<html><b>%s<i>%s</i></b></html>", 
+				theClass.completeName(),
+				theClass.getFormattedAliasName());
 	}
 
 	public boolean equals(Object obj) {

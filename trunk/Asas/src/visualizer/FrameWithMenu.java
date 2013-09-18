@@ -22,8 +22,7 @@ import exceptions.StateIOException;
 import javax.swing.KeyStroke;
 
 import presentation.ExcelWritingDialog;
-import presentation.classes.addition.AddClass;
-import presentation.classes.edition.EditClass;
+import presentation.classes.EditClass;
 import presentation.classrooms.AddClassroom;
 import presentation.classrooms.EditClassroom;
 import presentation.excelPreferences.EditExcelPreferences;
@@ -174,14 +173,6 @@ public class FrameWithMenu extends JFrame implements Updatable{
 			}
 		});
 		mnAdicionar.add(mntmSala);
-		
-		JMenuItem mntmTurma = new JMenuItem("Turma");
-		mntmTurma.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				new AddClass(warningService);
-			}
-		});
-		mnAdicionar.add(mntmTurma);
 		
 		warningMenuItem = new JMenu("Alertas");
 		menuBar.add(warningMenuItem);

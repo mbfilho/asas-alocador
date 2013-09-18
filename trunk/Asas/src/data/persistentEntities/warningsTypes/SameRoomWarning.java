@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Vector;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
@@ -45,9 +45,11 @@ public class SameRoomWarning extends Warning {
 	
 	public String getMessage() {
 		return String.format(
-					"<html>Turmas <b>%s</b> e <b>%s</b> na sala <b>%s</b> no horário <b>%s</b> </html>",
+					"<html>Turmas <b>%s<i>%s</i></b> e <b>%s<i>%s</i></b> na sala <b>%s</b> no horário <b>%s</b> </html>",
 					oneClass.getName(),
+					oneClass.getFormattedAliasName(),
 					anotherClass.getName(),
+					anotherClass.getFormattedAliasName(),
 					theRoom.getName(), 
 					slotRange.toString()
 				);

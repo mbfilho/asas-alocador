@@ -1,7 +1,9 @@
 package data.readers.excelReaders;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import logic.services.ClassService;
@@ -33,6 +35,7 @@ public class ExcelClassReader implements DataReader<Class>{
 	private ClassroomService roomService;
 	private List<String> errors;
 	private String classesSheet;
+	private HashMap<Class, String> aliasMapping;
 	
 	public ExcelClassReader(State dataState, WorkbookReader excelReader, String sheet){
 		excelPrefs = dataState.excelPrefs;
@@ -42,6 +45,7 @@ public class ExcelClassReader implements DataReader<Class>{
 		roomService = new ClassroomService(dataState);
 		reader = excelReader;
 		classesSheet = sheet;
+		aliasMapping = new HashMap<Class, String>();
 	}
 	
 	public DataValidation<Repository<Class>> read()	throws InvalidInputException {
@@ -71,11 +75,27 @@ public class ExcelClassReader implements DataReader<Class>{
 		if(excelPrefs.isElectivesFromPosGraduationEnabled())
 			readElectivesFromPosGraduation();
 		
+		createLinksBetweenAlias();
 		DataValidation<Repository<Class>> x = new DataValidation<Repository<Class>>();
 		x.validation = new Vector<String>(errors);
 		return x;
 	}
 	
+	private void createLinksBetweenAlias() {
+		for(Entry<Class, String> pair : aliasMapping.entrySet()){
+			Class one = pair.getKey(), another = service.getOtherWithThisName(one, pair.getValue());
+			if(another == null){
+				errors.add(String.format("A disciplina '%s' é conjunta com '%s' mas " +
+						"não pôde ser encontrada na listagem.", pair.getValue(), one.completeName()));
+			}else if(one.canBeAliasOf(another))
+				one.setAlias(another);
+			else{
+				errors.add(String.format("As disciplinas '%s' e '%s' são conjuntas mas possuem informações conflitantes." +
+						" Para evitar perda de dados, a aplicação não as considerará como conjuntas.", one.getName(), another.getName()));
+			}
+		}
+	}
+
 	private void ignoreUntil(String expected){
 		while(!reader.readString().equals(expected))
 			ignoreRow();
@@ -141,8 +161,9 @@ public class ExcelClassReader implements DataReader<Class>{
 		
 		readSemesterToClass(theClass);
 		
-		//TODO: tratar disciplina conjunta
-		reader.readString();
+		String aliasName = reader.readString();
+		if(!StringUtil.isNullOrEmpty(aliasName))
+			aliasMapping.put(theClass, aliasName);
 
 		readCodeToClass(theClass);
 		//TODO: tratar nome efetivo da disciplina

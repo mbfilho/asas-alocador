@@ -45,4 +45,15 @@ public class Schedule {
 	public Class getSingleClass(int slot, int day) {
 		return schedule[slot][day].getClassesReadOnly().get(0);
 	}
+	
+	public boolean containsThisClass(Class c){
+		if(c == null) return false;
+		for(SlotRange slot : c.getSlots()){
+			for(int s = slot.getStartSlot(); s <= slot.getEndSlot(); ++s){
+				if(schedule[s][slot.getDay()].containsThisClass(c))
+					return true;
+			}
+		}
+		return false;
+	}
 }

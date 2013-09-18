@@ -23,5 +23,9 @@ public class ScheduleSlot {
 	public List<Class> getClassesReadOnly() {
 		return Collections.unmodifiableList(classes);
 	}
+
+	public boolean containsThisClass(Class c) {
+		return classes.contains(c);
+	}
 	
 }

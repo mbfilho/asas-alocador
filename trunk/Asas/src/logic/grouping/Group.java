@@ -23,7 +23,8 @@ public class Group implements NamedEntity{
 	}
 	
 	public void addClassToGroup(Class c){
-		schedule.addClass(c);
+		if(!schedule.containsThisClass(c.getAlias()))
+			schedule.addClass(c);
 	}
 	
 	public Object clone() throws CloneNotSupportedException{

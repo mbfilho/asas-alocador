@@ -141,8 +141,9 @@ public class ProfessorAllocation {
 
 	private void addSlotsLine(HtmlElement cell, Class c) {
 		cell.addInnerText(" - Horários: ");
-		for(SlotRange r : c.getSlots())
+		for(SlotRange r : c.getSlots()){
 			cell.addChildElement(new ITag(r.toString()));
+		}
 	}
 
 	private void addOthersProfessorsLine(HtmlElement cell, Class c) {

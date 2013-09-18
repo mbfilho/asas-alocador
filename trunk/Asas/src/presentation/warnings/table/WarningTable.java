@@ -16,7 +16,7 @@ import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
 
 import presentation.NamedPair;
-import presentation.classes.edition.EditClass;
+import presentation.classes.EditClass;
 
 import logic.services.AllowedWarningsService;
 

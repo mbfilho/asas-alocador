@@ -10,27 +10,26 @@ import java.util.List;
 
 import data.NamedEntity;
 
+import utilities.CollectionUtil;
 import utilities.StringUtil;
 
 public class Class implements NamedEntity, Serializable{
-	private static final long serialVersionUID = -4317770498263255354L;
+	private static final long serialVersionUID = 8593555577464830048L;
 	
 	private String name;
-	private List<Professor> professors;
 	private double ch;
 	private int ccSemester, ecSemester;
 	private String course;
-	private List<SlotRange> slots;
 	private int ch2;
 	private String code;
 	private Color color;
 	private int id;
-	private Class alias;
 	private ExcelMetadata excelMetadata;
+	private Class alias;
+	private AliasSharedData aliasSharedData;
 	
 	public Class(){
-		this.professors = new LinkedList<Professor>();
-		this.slots = new LinkedList<SlotRange>();
+		aliasSharedData = new AliasSharedData();
 		ccSemester = ecSemester = -1;
 	}
 		
@@ -103,20 +102,20 @@ public class Class implements NamedEntity, Serializable{
 	}
 	
 	public void addSlot(SlotRange slot){
-		this.slots.add(slot);
-		Collections.sort(slots);
+		aliasSharedData.slots.add(slot);
+		Collections.sort(aliasSharedData.slots);
 	}
 	
 	public Collection<SlotRange> getSlots(){
-		return Collections.unmodifiableList(slots);
+		return Collections.unmodifiableList(aliasSharedData.slots);
 	}
 	
 	public List<Professor> getProfessors(){
-		return Collections.unmodifiableList(professors);
+		return Collections.unmodifiableList(aliasSharedData.professors);
 	}
 	
 	public void addProfessor(Professor prof){
-		this.professors.add(prof);
+		aliasSharedData.professors.add(prof);
 		sortProfessors();
 	}
 	
@@ -125,13 +124,13 @@ public class Class implements NamedEntity, Serializable{
 	}
 
 	public void setProfessors(Iterable<Professor> profs) {
-		professors.clear();
-		for(Professor p : profs) professors.add(p);
+		aliasSharedData.professors.clear();
+		for(Professor p : profs) aliasSharedData.professors.add(p);
 		
 	}
 	
 	private void sortProfessors(){
-		Collections.sort(professors, new Comparator<Professor>() {
+		Collections.sort(aliasSharedData.professors, new Comparator<Professor>() {
 			public int compare(Professor p1, Professor p2) {
 				return p1.getName().compareTo(p2.getName());
 			}
@@ -139,9 +138,9 @@ public class Class implements NamedEntity, Serializable{
 	}
 	
 	public void setSlots(Iterable<SlotRange> newSlots) {
-		slots.clear();
-		for(SlotRange s : newSlots) slots.add(s);
-		Collections.sort(slots);
+		aliasSharedData.slots.clear();
+		for(SlotRange s : newSlots) aliasSharedData.slots.add(s);
+		Collections.sort(aliasSharedData.slots);
 	}
 
 	public void setColor(Color color){
@@ -181,7 +180,7 @@ public class Class implements NamedEntity, Serializable{
 	}
 	
 	public List<Classroom> getRoomsOrderedBySlot(){
-		List<SlotRange> slots = new LinkedList<SlotRange>(this.slots);
+		List<SlotRange> slots = new LinkedList<SlotRange>(aliasSharedData.slots);
 		List<Classroom> rooms = new LinkedList<Classroom>();
 		Collections.sort(slots);
 		
@@ -205,4 +204,70 @@ public class Class implements NamedEntity, Serializable{
 	public ExcelMetadata getExcelMetadata(){
 		return excelMetadata;
 	}
+	
+	public void setAlias(Class other){
+		this.alias = other;
+		if(other.getAlias() != this){
+			other.setAlias(this);
+			
+			if(getSlots().isEmpty()) 
+				aliasSharedData.slots = other.aliasSharedData.slots;
+			if(getProfessors().isEmpty()) 
+				aliasSharedData.professors = other.aliasSharedData.professors;
+			
+			other.aliasSharedData = aliasSharedData;
+		}
+	}
+	
+	public Class getAlias(){
+		return alias;
+	}
+	
+	public String getFormattedAliasName(){
+		if(alias != null) 
+			return String.format("[%s]", alias.completeName());
+		return "";
+	}
+
+	public boolean canBeAliasOf(Class another) {
+		return aliasSharedData.isCompatibleWith(another.aliasSharedData);
+	}
 }
+
+class AliasSharedData implements Serializable{
+	private static final long serialVersionUID = -7071841203665546844L;
+	
+	public List<Professor> professors;
+	public List<SlotRange> slots;
+	
+	public AliasSharedData(){
+		professors = new LinkedList<Professor>();
+		slots = new LinkedList<SlotRange>();
+	}
+
+	public boolean isCompatibleWith(AliasSharedData another) {
+		return areTheSlotsCompatible(another) && areTheProfessorsCompatible(another);
+	}
+	
+	private boolean areTheSlotsCompatible(AliasSharedData another){
+		boolean compatible = true;
+		
+		if(!slots.isEmpty() && !another.slots.isEmpty()){
+			List<SlotRange> other = another.slots;
+			if(slots.size() != other.size()) compatible = false;
+			else{
+				for(int i = 0; i < slots.size(); ++i){
+					SlotRange r1 = slots.get(i), r2 = other.get(i);
+					if(!r1.equals(r2) || r1.getClassroom() != r2.getClassroom()) compatible = false;
+				}
+			}
+		}
+		
+		return compatible;
+	}
+	
+	private boolean areTheProfessorsCompatible(AliasSharedData another){
+		return CollectionUtil.equalsWithoutOrder(professors, another.professors);
+	}
+}
+

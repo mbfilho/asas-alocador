@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import presentation.NamedPair;
-import presentation.classes.edition.InitialEditState;
+import presentation.classes.InitialEditState;
 
 import data.persistentEntities.Class;
 import data.persistentEntities.Warning;
@@ -19,7 +19,9 @@ public class ClassWithoutSlotWarning extends Warning {
 	}
 	
 	public String getMessage() {
-		return theClass.completeName();
+		return String.format("<html><b>%s<i>%s</i></b></html>", 
+				theClass.completeName(),
+				theClass.getFormattedAliasName());
 	}
 	
 	public Class getTheClass(){
