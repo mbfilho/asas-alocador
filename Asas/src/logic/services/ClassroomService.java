@@ -34,8 +34,14 @@ public class ClassroomService extends BasicDataAccessService<Classroom>{
 		return filtered;
 	}
 	
+	public void add(Classroom room){
+		super.add(room);
+		ConfigurationService.getInstance().saveClassrooms();
+	}
+	
 	public void update(Classroom room){
 		super.update(room);
+		ConfigurationService.getInstance().saveClassrooms();
 		DataUpdateCentral.registerUpdate("Informações de sala editadas");
 	}
 }
