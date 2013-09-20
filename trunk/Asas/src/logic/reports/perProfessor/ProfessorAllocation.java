@@ -1,4 +1,4 @@
-package logic.reports;
+package logic.reports.perProfessor;
 
 import java.awt.Color;
 import java.util.HashSet;
@@ -73,7 +73,7 @@ public class ProfessorAllocation {
 
 	private HtmlElement createProfessorCell(){
 		TdTag profInfoCell = new TdTag();
-		profInfoCell.setPaddingTop("20px");
+		profInfoCell.addCssClass(CssRulesForTableCreator.getProfessorCellClassName());
 
 		ImgTag img = new ImgTag();
 		img.setBorder(0);
@@ -100,7 +100,7 @@ public class ProfessorAllocation {
 
 	private HtmlElement createClassesCell(boolean isEven) {
 		TdTag classCell = new TdTag();
-		classCell.setTextAlign(CssConstants.TEXT_ALIGN_LEFT).setLeftPadding("20px");
+		classCell.addCssClass(CssRulesForTableCreator.getProfessorDetailsCellClassName());
 		for(Class c : classes){
 			classCell.addChildElement(new BTag(c.completeName()));
 			classCell.addInnerText(c.getCourse());
@@ -114,12 +114,11 @@ public class ProfessorAllocation {
 			classCell.addChildElement(new BrTag()).addChildElement(new BrTag());
 		}
 
-		classCell.setBorderRadius(5);
 
 		if(isEven)
-			classCell.setBackgroundColor(new Color(177, 207, 245));
+			classCell.addCssClass(CssRulesForTableCreator.getEvenRowClassName());
 		else
-			classCell.setBackgroundColor(new Color(87, 174, 223));
+			classCell.addCssClass(CssRulesForTableCreator.getOddRowClassName());
 
 		
 		addChInformation(classCell);

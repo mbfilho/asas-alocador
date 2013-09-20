@@ -1,4 +1,4 @@
-package logic.reports;
+package logic.reports.perProfessor;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -13,6 +13,8 @@ import data.readers.ProfessorPictureDictionary;
 import logic.dto.WorkloadReportList;
 import logic.html.BTag;
 import logic.html.BrTag;
+import logic.html.CssConstants;
+import logic.html.DivTag;
 import logic.html.FontTag;
 import logic.html.HTag;
 import logic.html.HtmlDocument;
@@ -57,11 +59,12 @@ public class AllocationPerProfessor {
 				notAllocatedProfessors.add(prof);
 		}
 	}
-		
 	
 	public HtmlDocument getHtmlRepresentation(){
 		HtmlDocument html = new HtmlDocument();
 		html.setTitle("Universidade Federal de Pernambuco");
+		html.addToHead(new CssRulesForTableCreator().getStyleTag());
+		
 		addHead(html);
 		createAllocatedTable(html);
 		createNotAllocatedTable(html);
@@ -105,7 +108,15 @@ public class AllocationPerProfessor {
 	}
 
 	private void addHead(HtmlDocument html){
-		
+		html.addChildElement(new HTag(1).addInnerText("Universidade Federal de Pernambuco - UFPE").setTextAlign(CssConstants.TEXT_ALIGN_CENTER));
+		html.addChildElement(new HTag(2).addInnerText("Centro de Informática - CIn").setTextAlign(CssConstants.TEXT_ALIGN_CENTER));
+		DivTag logoWrapper = new DivTag();
+		logoWrapper.setOverflow(CssConstants.OVERFLOW_HIDDEN).setWidth("285px").setMargin(CssConstants.MARGIN_AUTO);
+		ImgTag cinLogo = new ImgTag();
+		cinLogo.setSrc("http://www2.cin.ufpe.br/site/uploads/arquivos/18/20090831100653_marca_cin_producao.jpg");
+		cinLogo.setWidth(300).setMargin("-10px");
+		logoWrapper.addChildElement(cinLogo);
+		html.addChildElement(logoWrapper);
 	}
 	
 	private void createTableTitle(HtmlDocument doc, String titleText){
@@ -124,12 +135,9 @@ public class AllocationPerProfessor {
 		
 		TableTag table = new TableTag();
 		table.setBorder(0);
-//		table.setWidth("100%");
 		table.addStyle("text-align", "center");
 		
 		doc.addChildElement(table);
-		
-		//table.addChildElement(createTableHeader("Professor", "Alocação"));
 		
 		int count = 0;
 		for(ProfessorAllocation alloc : allocatedProfessors){
