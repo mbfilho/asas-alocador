@@ -1,4 +1,4 @@
-package presentation.classes.edition;
+package presentation.classes;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collection;

@@ -1,4 +1,4 @@
-package presentation.classes.edition;
+package presentation.classes;
 import data.persistentEntities.Class;
 import data.persistentEntities.Classroom;
 import data.persistentEntities.Professor;

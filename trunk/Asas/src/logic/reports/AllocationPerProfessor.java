@@ -122,13 +122,20 @@ public class AllocationPerProfessor {
 	private void createAllocatedTable(HtmlDocument doc) {
 		createTableTitle(doc, "Relatório de Alocação de Disciplinas");
 		
-		TableTag table = TableTag.defaulTable();
+		TableTag table = new TableTag();
+		table.setBorder(0);
+//		table.setWidth("100%");
+		table.addStyle("text-align", "center");
+		
 		doc.addChildElement(table);
 		
-		table.addChildElement(createTableHeader("Professor", "Alocação"));
+		//table.addChildElement(createTableHeader("Professor", "Alocação"));
 		
-		for(ProfessorAllocation alloc : allocatedProfessors)
-			table.addChildElement(alloc.getHtmlRepresentation());
+		int count = 0;
+		for(ProfessorAllocation alloc : allocatedProfessors){
+			table.addChildElement(alloc.getHtmlRepresentation(count % 2 == 0));
+			++count;
+		}
 	}
 
 	private TrTag createTableHeader(String leftCol, String rightCol) {

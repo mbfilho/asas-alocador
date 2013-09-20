@@ -1,4 +1,4 @@
-package presentation.classes.edition;
+package presentation.classes;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -12,9 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-
-import classEditor.EditableJList;
-import classEditor.EditableSlotList;
 
 import presentation.NamedPair;
 
@@ -52,6 +49,8 @@ public class EditClassLayout extends DisposableOnEscFrame{
 	protected JButton okButton;
 	private JLabel changesHappenedwarningLabel;
 	private JButton swapsButton;
+	private JLabel aliasLabel;
+	private JTextField aliasText;
 	
 	public EditClassLayout(){
 		setTitle("Edição de disciplinas/turmas");
@@ -63,10 +62,10 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		GridBagLayout gbl_contentPane = new GridBagLayout();
-		gbl_contentPane.columnWidths = new int[]{95, 0, 44, 0, 47, 161, 302, 0};
-		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 148, 0, 161, 0, 95, 0};
+		gbl_contentPane.columnWidths = new int[]{95, 22, 44, 0, 62, 168, 302, 0};
+		gbl_contentPane.rowHeights = new int[]{26, -48, 0, 0, 0, 0, 0, 148, 0, 161, 0, 95, 0};
 		gbl_contentPane.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
 		
@@ -91,7 +90,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		
 		disponibilityTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbc_disponibilityTabbedPane = new GridBagConstraints();
-		gbc_disponibilityTabbedPane.gridheight = 11;
+		gbc_disponibilityTabbedPane.gridheight = 12;
 		gbc_disponibilityTabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_disponibilityTabbedPane.gridx = 6;
 		gbc_disponibilityTabbedPane.gridy = 0;
@@ -133,12 +132,31 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		contentPane.add(codeText, gbc_txtCode);
 		codeText.setColumns(10);
 		
+		aliasLabel = new JLabel("Conjunta");
+		GridBagConstraints gbc_aliasLabel = new GridBagConstraints();
+		gbc_aliasLabel.anchor = GridBagConstraints.WEST;
+		gbc_aliasLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_aliasLabel.gridx = 0;
+		gbc_aliasLabel.gridy = 4;
+		contentPane.add(aliasLabel, gbc_aliasLabel);
+		
+		aliasText = new JTextField();
+		aliasText.setEditable(false);
+		GridBagConstraints gbc_aliasText = new GridBagConstraints();
+		gbc_aliasText.gridwidth = 5;
+		gbc_aliasText.insets = new Insets(0, 0, 5, 5);
+		gbc_aliasText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_aliasText.gridx = 1;
+		gbc_aliasText.gridy = 4;
+		contentPane.add(aliasText, gbc_aliasText);
+		aliasText.setColumns(10);
+		
 		semesterLabel = new JLabel("Período");
 		GridBagConstraints gbc_semesterLabel = new GridBagConstraints();
 		gbc_semesterLabel.anchor = GridBagConstraints.WEST;
 		gbc_semesterLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_semesterLabel.gridx = 0;
-		gbc_semesterLabel.gridy = 4;
+		gbc_semesterLabel.gridy = 5;
 		contentPane.add(semesterLabel, gbc_semesterLabel);
 		
 		ccLabel = new JLabel("cc");
@@ -146,7 +164,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_ccLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_ccLabel.anchor = GridBagConstraints.EAST;
 		gbc_ccLabel.gridx = 1;
-		gbc_ccLabel.gridy = 4;
+		gbc_ccLabel.gridy = 5;
 		contentPane.add(ccLabel, gbc_ccLabel);
 		
 		ccText = new JTextField();
@@ -154,7 +172,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_txtCc.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCc.gridx = 2;
-		gbc_txtCc.gridy = 4;
+		gbc_txtCc.gridy = 5;
 		contentPane.add(ccText, gbc_txtCc);
 		ccText.setColumns(10);
 		
@@ -163,7 +181,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_ecLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_ecLabel.anchor = GridBagConstraints.EAST;
 		gbc_ecLabel.gridx = 3;
-		gbc_ecLabel.gridy = 4;
+		gbc_ecLabel.gridy = 5;
 		contentPane.add(ecLabel, gbc_ecLabel);
 		
 		ecText = new JTextField();
@@ -171,7 +189,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_txtEc.insets = new Insets(0, 0, 5, 5);
 		gbc_txtEc.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtEc.gridx = 4;
-		gbc_txtEc.gridy = 4;
+		gbc_txtEc.gridy = 5;
 		contentPane.add(ecText, gbc_txtEc);
 		ecText.setColumns(10);
 		
@@ -180,7 +198,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_courseLabel.anchor = GridBagConstraints.WEST;
 		gbc_courseLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_courseLabel.gridx = 0;
-		gbc_courseLabel.gridy = 5;
+		gbc_courseLabel.gridy = 6;
 		contentPane.add(courseLabel, gbc_courseLabel);
 		
 		courseText = new JTextField();
@@ -189,7 +207,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_txtCourse.insets = new Insets(0, 0, 5, 5);
 		gbc_txtCourse.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtCourse.gridx = 1;
-		gbc_txtCourse.gridy = 5;
+		gbc_txtCourse.gridy = 6;
 		contentPane.add(courseText, gbc_txtCourse);
 		courseText.setColumns(10);
 		
@@ -199,14 +217,14 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_profList.fill = GridBagConstraints.BOTH;
 		gbc_profList.insets = new Insets(0, 0, 5, 5);
 		gbc_profList.gridx = 0;
-		gbc_profList.gridy = 6;
+		gbc_profList.gridy = 7;
 		contentPane.add(professorList, gbc_profList);
 		
 		swapsButton = new JButton("Swaps...");
 		GridBagConstraints gbc_swapsButton = new GridBagConstraints();
 		gbc_swapsButton.insets = new Insets(0, 0, 5, 5);
 		gbc_swapsButton.gridx = 0;
-		gbc_swapsButton.gridy = 7;
+		gbc_swapsButton.gridy = 8;
 		contentPane.add(swapsButton, gbc_swapsButton);
 		
 		slotList = new EditableSlotList("Horários (duplo clique para editar)", warningService){
@@ -221,7 +239,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_slotList.fill = GridBagConstraints.BOTH;
 		gbc_slotList.insets = new Insets(0, 0, 5, 5);
 		gbc_slotList.gridx = 0;
-		gbc_slotList.gridy = 8;
+		gbc_slotList.gridy = 9;
 		contentPane.add(slotList, gbc_slotList);
 		
 		changesHappenedwarningLabel = new JLabel("* Existem alterações não salvas ainda. Clique em Salvar.");
@@ -231,7 +249,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_changesHappenedwarningLabel.gridwidth = 6;
 		gbc_changesHappenedwarningLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_changesHappenedwarningLabel.gridx = 0;
-		gbc_changesHappenedwarningLabel.gridy = 9;
+		gbc_changesHappenedwarningLabel.gridy = 10;
 		changesHappenedwarningLabel.setVisible(false);
 		contentPane.add(changesHappenedwarningLabel, gbc_changesHappenedwarningLabel);
 		
@@ -241,7 +259,7 @@ public class EditClassLayout extends DisposableOnEscFrame{
 		gbc_okButton.anchor = GridBagConstraints.SOUTH;
 		gbc_okButton.insets = new Insets(0, 0, 0, 5);
 		gbc_okButton.gridx = 0;
-		gbc_okButton.gridy = 10;
+		gbc_okButton.gridy = 11;
 		contentPane.add(okButton, gbc_okButton);
 	}
 	
@@ -251,5 +269,8 @@ public class EditClassLayout extends DisposableOnEscFrame{
 	
 	protected JButton getSwapsButton() {
 		return swapsButton;
+	}
+	protected JTextField getAliasText() {
+		return aliasText;
 	}
 }

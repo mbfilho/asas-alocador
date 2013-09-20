@@ -7,7 +7,7 @@ public class TableTag extends HtmlElement{
 	public TableTag(){
 		super("table");
 	}
-	
+
 	public static TableTag defaulTable(){
 		TableTag table = new TableTag();
 		table.setBorder(1);

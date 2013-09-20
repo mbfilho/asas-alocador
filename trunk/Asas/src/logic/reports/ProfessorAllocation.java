@@ -1,5 +1,6 @@
 package logic.reports;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -7,15 +8,15 @@ import java.util.List;
 import utilities.StringUtil;
 
 import logic.dto.WorkloadReport;
+import logic.html.ATag;
 import logic.html.BTag;
 import logic.html.BrTag;
-import logic.html.FontTag;
+import logic.html.CssConstants;
 import logic.html.HtmlElement;
 import logic.html.HtmlPlainContent;
 import logic.html.ITag;
 import logic.html.ImgTag;
 import logic.html.PTag;
-import logic.html.TableTag;
 import logic.html.TdTag;
 import logic.html.TrTag;
 
@@ -30,113 +31,105 @@ public class ProfessorAllocation {
 	private List<Class> classes;
 	private ProfessorPictureDictionary profPictures;
 	private WorkloadReport professorWorkload;
-	
+
 	public ProfessorAllocation(ProfessorPictureDictionary pictures, WorkloadReport workload){
 		classes = new LinkedList<Class>();
 		professorWorkload = workload;
 		profPictures = pictures;
 		professor = workload.professor;
 	}
-	
+
 	public void addClass(Class c){
 		classes.add(c);
 	}
-	
+
 	public Professor getProfessor(){
 		return professor;
 	}
-	
+
 	public List<Professor> getOtherProfessors(Class c){
 		List<Professor> others = new LinkedList<Professor>();
 		for(Professor p : c.getProfessors()){
 			if(p != professor)
 				others.add(p);
 		}
-		
+
 		return others;
 	}
-	
+
 	public List<Class> getClasses(){
 		return classes;
 	}
 
-	public HtmlElement getHtmlRepresentation() {
+	public HtmlElement getHtmlRepresentation(boolean isEvenRow) {
 		TrTag tr = new TrTag();
-		tr.addAttribute("bgcolor", "FFFF99");
+		if(professor.getEmail() != null)
+			tr.setId(professor.getEmail());
 		tr.addChildElement(createProfessorCell());
-		tr.addChildElement(createClassesCell());
-		
+		tr.addChildElement(createClassesCell(isEvenRow));
+
 		return tr;
 	}
 
 	private HtmlElement createProfessorCell(){
 		TdTag profInfoCell = new TdTag();
-		
+		profInfoCell.setPaddingTop("20px");
+
 		ImgTag img = new ImgTag();
 		img.setBorder(0);
 		img.setWidth(97);
 		img.setHeight(123);
 		img.setSrc(profPictures.getPicture(professor.getEmail()));
+
+		PTag paragraph = new PTag();
+
+		paragraph.addChildElement(new BTag(professor.getName()));
+		paragraph.addChildElement(new BrTag());
+		paragraph.addInnerText("Departamento: " + professor.getDpto());
 		
-		BrTag br = new BrTag();
-		
-		BTag name = new BTag(professor.getName() + " -- Dpto: " + professor.getDpto());
-		HtmlPlainContent cargo = new HtmlPlainContent(professor.getCargo());
-		
+		if(!StringUtil.isNullOrEmpty(professor.getCargo())){
+			paragraph.addChildElement(new BrTag());
+			paragraph.addInnerText(professor.getCargo());
+		}
+
 		profInfoCell.addChildElement(img);
-		profInfoCell.addChildElement(br);
-		profInfoCell.addChildElement(name);
-		profInfoCell.addChildElement(br);
-		profInfoCell.addChildElement(cargo);
+		profInfoCell.addChildElement(paragraph);
 
 		return profInfoCell;
 	}
-	
-	private void addChLine(TdTag cell) {
-		TableTag table = new TableTag();
-		table.setBorder(0);
-		table.setWidth("100%");
-		cell.addChildElement(table);
-		
-		TrTag row = new TrTag();
-		table.addChildElement(row);
-		
-		TdTag ch = new TdTag();
-		row.addChildElement(ch);
-		
-		FontTag font = FontTag.defaultFontTag();
-		font.addInnerText("Carga Atual: ");
-		font.addChildElement(new BTag(professorWorkload.workload + ""));
-		ch.addChildElement(font);
-		
-		TdTag previousCh = new TdTag();
-		row.addChildElement(previousCh);
-		
-		font = FontTag.defaultFontTag();
-		font.addInnerText("Carga Anterior: ");
-		font.addChildElement(new BTag(professorWorkload.professor.getLastSemesterWorkload() + ""));
-		previousCh.addChildElement(font);
-	}
 
-	private HtmlElement createClassesCell() {
+	private HtmlElement createClassesCell(boolean isEven) {
 		TdTag classCell = new TdTag();
-		classCell.addStyle("text-align", "left");
-		
+		classCell.setTextAlign(CssConstants.TEXT_ALIGN_LEFT).setLeftPadding("20px");
 		for(Class c : classes){
 			classCell.addChildElement(new BTag(c.completeName()));
 			classCell.addInnerText(c.getCourse());
 			classCell.addChildElement(new BrTag());
-			
+
 			addOthersProfessorsLine(classCell, c);
 			classCell.addInnerText("Sala: " + getRooms(c));
-			
+
 			addSlotsLine(classCell, c);
-			
-			classCell.addChildElement(new PTag());
+
+			classCell.addChildElement(new BrTag()).addChildElement(new BrTag());
 		}
+
+		classCell.setBorderRadius(5);
+
+		if(isEven)
+			classCell.setBackgroundColor(new Color(177, 207, 245));
+		else
+			classCell.setBackgroundColor(new Color(87, 174, 223));
+
 		
-		addChLine(classCell);
+		addChInformation(classCell);
 		return classCell;
+	}
+	
+	private void addChInformation(TdTag classCell) {
+		classCell.addChildElement(new HtmlPlainContent("Carga Atual: ")).addChildElement(new BTag(professorWorkload.workload + ""));
+		classCell.addChildElement(new BrTag());
+		classCell.addChildElement(new HtmlPlainContent("Carga Anterior: ")).addChildElement(new BTag(professorWorkload.professor.getLastSemesterWorkload() + ""));
 	}
 
 	private void addSlotsLine(HtmlElement cell, Class c) {
@@ -151,7 +144,7 @@ public class ProfessorAllocation {
 		if(!others.isEmpty()){
 			cell.addInnerText(" [com ");
 			for(Professor ot : others)
-				cell.addChildElement(new ITag(ot.getName()));
+				cell.addChildElement(new ATag(ot.getName()).setLinkToOtherElement(ot.getEmail()));
 			cell.addInnerText("]");
 			cell.addChildElement(new BrTag());
 		}		
@@ -164,7 +157,7 @@ public class ProfessorAllocation {
 			roomNames.add(room.getName());
 			mark.add(room.getName());
 		}
-		
+
 		if(mark.size() == 1)
 			return roomNames.get(0);
 		else

@@ -1,4 +1,4 @@
-package presentation.classes.edition;
+package presentation.classes;
 
 import javax.swing.JFrame;
 
