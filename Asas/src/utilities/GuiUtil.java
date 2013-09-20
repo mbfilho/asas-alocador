@@ -1,11 +1,14 @@
 package utilities;
 
+import java.awt.Component;
+import java.io.File;
 import java.util.Collection;
 import java.util.Vector;
 
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JTabbedPane;
 
 import presentation.NamedPair;
@@ -69,5 +72,17 @@ public class GuiUtil {
 			model.addElement(toAdd);
 		}
 		cbox.setSelectedItem(newSelected);
+	}
+	
+	public static File promptForHtmlFileCreation(Component parent, File defaultLocation){
+		JFileChooser chooser = new JFileChooser(defaultLocation);
+		if(chooser.showSaveDialog(parent) == JFileChooser.APPROVE_OPTION){
+			File f = chooser.getSelectedFile();
+			String name = f.getAbsolutePath();
+			if(!(name.endsWith(".html") || name.endsWith(".html")))
+				f = new File(name + ".html");
+			return f;
+		}
+		return null;
 	}
 }

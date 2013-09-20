@@ -47,6 +47,7 @@ public class TableTag extends HtmlElement{
 
 	public HtmlElement showEmptyCells(boolean show) {
 		String value = show ? "show" : "hide";
-		return addStyle("empty-cells", value);
+		addStyle("empty-cells", value);
+		return this;
 	}
 }

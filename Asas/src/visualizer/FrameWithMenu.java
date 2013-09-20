@@ -3,7 +3,6 @@ package visualizer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -13,6 +12,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import utilities.DisposableOnEscFrame;
+import utilities.GuiUtil;
 
 import java.awt.GridBagLayout;
 
@@ -36,7 +36,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.InputEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.PrintWriter;
 import java.util.List;
 import javax.swing.JPanel;
 
@@ -47,6 +46,7 @@ import logic.dataUpdateSystem.UpdateDescription;
 import logic.dto.WorkloadReport;
 import logic.reports.AllocationPerSemester;
 import logic.reports.perProfessor.AllocationPerProfessor;
+import logic.services.ConfigurationService;
 import logic.services.ProfessorWorkLoadService;
 import logic.services.StateService;
 import logic.services.WarningGeneratorService;
@@ -110,7 +110,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		itemLoadFromExcel.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.CTRL_MASK));
 		menuState.add(itemLoadFromExcel);
 		
-		JMenuItem itemSaveToExcel = new JMenuItem("Back 2 Excel");
+		JMenuItem itemSaveToExcel = new JMenuItem("Salvar para Excel");
 		itemSaveToExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent a) {
 				ExcelPreferences prefs = StateService.getInstance().getCurrentState().excelPrefs;
@@ -212,14 +212,21 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmGo = new JMenuItem("Alocação por Professor");
 		mntmGo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFileChooser chooser = new JFileChooser();
-				if(chooser.showSaveDialog(FrameWithMenu.this) == JFileChooser.APPROVE_OPTION){
-					File f = chooser.getSelectedFile();
-					String name = f.getAbsolutePath();
-					if(!(name.endsWith(".html") || name.endsWith(".html")))
-						f = new File(name + ".html");
-					
-					new AllocationPerProfessor().saveToFile(f);
+				File previous = ConfigurationService.getLastFileLocationForProfessorReport();
+				File choosen = GuiUtil.promptForHtmlFileCreation(FrameWithMenu.this, previous);
+				
+				if(choosen != null){
+					try {
+						new AllocationPerProfessor().saveToFile(choosen);
+						ConfigurationService.setLastFileLocationForProfessorReport(choosen);
+					} catch (FileNotFoundException e1) {
+						e1.printStackTrace();
+						JOptionPane.showMessageDialog(
+								FrameWithMenu.this, 
+								"Ocorreu um erro ao salvar o arquivo. Certifique-se de ter inserido um nome válido.",
+								"Erro ao salvar o relatório",
+								JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 		});
@@ -229,15 +236,16 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem ccSemesters = new JMenuItem("Ciência da Computação");
 		ccSemesters.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					PrintWriter out = new PrintWriter(new File("cc.html"));
-					out.print(new AllocationPerSemester(true).getHtmlRepresentation().getHtmlString().toString());
-					out.close();
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
-				}
+				saveDocumentToFile(true);
 			}
 		});
+		JMenuItem ecSemesters = new JMenuItem("Engenharia da Computação");
+		ecSemesters.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				saveDocumentToFile(false);
+			}
+		});
+		allocPerSemesterMenu.add(ecSemesters);
 		allocPerSemesterMenu.add(ccSemesters);
 		mnRelatrios.add(allocPerSemesterMenu);
 		
@@ -254,6 +262,26 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		String text = "Alertas";
 		if(count != 0) text += "(" + count + ")";
 		warningMenuItem.setText(text);
+	}
+	
+	
+	private void saveDocumentToFile(boolean isCC){
+		File previous = ConfigurationService.getLastFileLocationForSemesterReport();
+		File choosen = GuiUtil.promptForHtmlFileCreation(FrameWithMenu.this, previous);
+		
+		try {
+			if(choosen != null){
+				new AllocationPerSemester(isCC).saveToFile(choosen);
+				ConfigurationService.setLastFileLocationForSemesterReport(choosen);
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+			JOptionPane.showMessageDialog(
+					FrameWithMenu.this, 
+					"Ocorreu um erro ao salvar o arquivo. Certifique-se de ter inserido um nome válido.",
+					"Erro ao salvar o relatório",
+					JOptionPane.ERROR_MESSAGE);
+		}	
 	}
 	
 	public void onDataUpdate(UpdateDescription desc) {
