@@ -1,4 +1,4 @@
-package classEditor;
+package presentation.classes;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,14 +11,11 @@ import logic.services.WarningGeneratorService;
 import data.persistentEntities.Class;
 import data.persistentEntities.SlotRange;
 
-
-
-
 public abstract class EditableSlotList extends EditableJList<SlotRange>{
 	private static final long serialVersionUID = -1251207105891014457L;
 
 	public abstract Class getSelectedClass();
-	
+
 	public EditableSlotList(String title, final WarningGeneratorService service) {
 		super(title, null);
 		for(ActionListener al : addButton.getActionListeners()) addButton.removeActionListener(al);
@@ -35,16 +32,16 @@ public abstract class EditableSlotList extends EditableJList<SlotRange>{
 				};
 			}
 		});
-		
+
 		list.addMouseListener(new MouseAdapter() {
-			  public void mouseClicked(java.awt.event.MouseEvent arg){
-				  if(arg.getClickCount() == 2){
-					  final NamedPair<SlotRange> selectedSlotRange = list.getSelectedValue();
-					  new SlotChooser(service, getSelectedClass(), selectedSlotRange.data) {
+			public void mouseClicked(java.awt.event.MouseEvent arg){
+				if(arg.getClickCount() == 2){
+					final NamedPair<SlotRange> selectedSlotRange = list.getSelectedValue();
+					new SlotChooser(service, getSelectedClass(), selectedSlotRange.data) {
 						/**
 						 * 
 						 */
-						private static final long serialVersionUID = -4297526863022915837L;
+						 private static final long serialVersionUID = -4297526863022915837L;
 
 						public void onChooseSlot(SlotRange chosen) {
 							selectedSlotRange.name = chosen.getName();
@@ -52,11 +49,11 @@ public abstract class EditableSlotList extends EditableJList<SlotRange>{
 							list.repaint();
 						}
 					};
-				  }
-			  }
+				}
+			}
 		});
 	}
-	
+
 	public void addElement(SlotRange range){
 		super.addElement((SlotRange) range.clone());
 	}

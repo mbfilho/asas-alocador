@@ -1,4 +1,4 @@
-package presentation.classes.edition;
+package presentation.classes;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -160,6 +160,7 @@ public class EditClass extends EditClassLayout implements Updatable{
 			professorList.clear();
 			professorList.addElements(selected.getProfessors());
 			
+			getAliasText().setText(selected.getAlias() == null ? "" : selected.getAlias().completeName());
 			generateDisponibilityTable();
 		}
 	}

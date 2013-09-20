@@ -74,6 +74,14 @@ public abstract class HtmlElement {
 		return addStyle("min-width", width);
 	}
 	
+	public HtmlElement setBorderRadius(int i) {
+		return addStyle("border-radius", i + "");
+	}
+	
+	public HtmlElement setPaddingTop(String value) {
+		return addStyle("padding-top", value);
+	}
+	
 	public HtmlElement setVisible(boolean visibility){
 		if(visibility)
 			return addStyle("display", CssConstants.DISPLAY_BLOCK.getValue());
@@ -118,6 +126,10 @@ public abstract class HtmlElement {
 	
 	public HtmlElement setFloatClear(CssConstants clear){
 		return addStyle("clear", clear.getValue());
+	}
+
+	public HtmlElement setLeftPadding(String value) {
+		return addStyle("padding-left", value);
 	}
 	
 	protected String colorToHex(Color color){
@@ -171,5 +183,5 @@ public abstract class HtmlElement {
 			buffer.append(String.format("%s=\"%s\" ", pair.getKey(), pair.getValue()));
 		return buffer;
 	}
-	
+
 }

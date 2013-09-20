@@ -8,12 +8,6 @@ public class FontTag extends HtmlElement{
 		super("font");
 	}
 	
-	public static FontTag defaultFontTag(){
-		FontTag theTag = new FontTag();
-		theTag.setFace("Arial");
-		theTag.setColor(Color.blue);
-		return theTag;
-	}
 	
 	public HtmlElement setSize(int size){
 		return addAttribute("size", size + "");

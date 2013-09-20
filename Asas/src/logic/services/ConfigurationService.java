@@ -16,25 +16,25 @@ import data.persistentEntities.Classroom;
 public class ConfigurationService {
 	private static final String EXCEL_PREFERENCES_FILENAME = String.format("configs%sexcelPreferences.config", File.separator);
 	public static final String CLASSROOMS_FILENAME = String.format("configs%sclassrooms.in", File.separator);
-	
+
 	private static ConfigurationService _instance;
-	
+
 	public static ConfigurationService getInstance(){
 		if(_instance == null)
 			_instance = new ConfigurationService();
 		return _instance;
 	}
-	
+
 	private ConfigurationService(){
-		
+
 	}
-	
+
 	public void saveExcelPreferences(ExcelPreferences prefs) throws IOException{
 		ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(EXCEL_PREFERENCES_FILENAME));
 		out.writeObject(prefs);
 		out.close();
 	}
-	
+
 	public ExcelPreferences loadExcelPreferencesOrDefault(){
 		ExcelPreferences prefs = ExcelPreferences.defaultPreferences();
 		try {
@@ -50,18 +50,20 @@ public class ConfigurationService {
 		}
 		return prefs;
 	}
-	
+
 	public void saveClassrooms(){
 		List<Classroom> rooms = StateService.getInstance().getCurrentState().classrooms.all();
 		try {
 			PrintWriter writer = new PrintWriter(new File(CLASSROOMS_FILENAME));
 			for(Classroom room : rooms){
-				int external = room.isExternal() ? 1 : 0;
+				int 	external = room.isExternal() ? 1 : 0;
 				writer.println(String.format("%s#%d#%d#", room.getName(), room.getCapacity(), external));
 			}
 			writer.close();
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
+
 }
