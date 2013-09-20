@@ -51,7 +51,14 @@ public abstract class HtmlElement {
 	
 	public HtmlElement setFloating(CssConstants flt){
 		return addStyle("float", flt.getValue());
+	}
 	
+	public HtmlElement setMargin(String value) {
+		return addStyle("margin", value);
+	}
+	
+	public HtmlElement setMargin(CssConstants margin){
+		return setMargin(margin.getValue());
 	}
 	
 	public HtmlElement setMarginBottom(String value){
@@ -74,12 +81,20 @@ public abstract class HtmlElement {
 		return addStyle("min-width", width);
 	}
 	
+	public HtmlElement setWidth(String value) {
+		return addStyle("width", value);
+	}
+	
 	public HtmlElement setBorderRadius(int i) {
 		return addStyle("border-radius", i + "");
 	}
 	
 	public HtmlElement setPaddingTop(String value) {
 		return addStyle("padding-top", value);
+	}
+	
+	public HtmlElement setOverflow(CssConstants overflow) {
+		return addStyle("overflow", overflow.getValue());
 	}
 	
 	public HtmlElement setVisible(boolean visibility){

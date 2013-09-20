@@ -11,7 +11,9 @@ public enum CssConstants {
 	DISPLAY_NONE("none"), 
 	BORDER_SOLID("solid"), 
 	CLEAR_BOTH("both"),
-	TABLE_BORDER_COLLAPSE("collapse");
+	TABLE_BORDER_COLLAPSE("collapse"), 
+	OVERFLOW_HIDDEN("hidden"), 
+	MARGIN_AUTO("auto");
 	
 	String value;
 	CssConstants(String a){
