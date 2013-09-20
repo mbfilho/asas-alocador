@@ -85,6 +85,10 @@ public abstract class HtmlElement {
 		return addStyle("width", value);
 	}
 	
+	public HtmlElement setFontWeight(CssConstants weight){
+		return addStyle("font-weight", weight.getValue());
+	}
+	
 	public HtmlElement setBorderRadius(int i) {
 		return addStyle("border-radius", i + "");
 	}

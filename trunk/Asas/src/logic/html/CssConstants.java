@@ -13,7 +13,8 @@ public enum CssConstants {
 	CLEAR_BOTH("both"),
 	TABLE_BORDER_COLLAPSE("collapse"), 
 	OVERFLOW_HIDDEN("hidden"), 
-	MARGIN_AUTO("auto");
+	MARGIN_AUTO("auto"), 
+	FONT_WEIGHT_BOLD("bold");
 	
 	String value;
 	CssConstants(String a){

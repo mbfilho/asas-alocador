@@ -1,6 +1,5 @@
 package logic.reports.perProfessor;
 
-import java.awt.Color;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +10,6 @@ import logic.dto.WorkloadReport;
 import logic.html.ATag;
 import logic.html.BTag;
 import logic.html.BrTag;
-import logic.html.CssConstants;
 import logic.html.HtmlElement;
 import logic.html.HtmlPlainContent;
 import logic.html.ITag;
@@ -65,15 +63,15 @@ public class ProfessorAllocation {
 		TrTag tr = new TrTag();
 		if(professor.getEmail() != null)
 			tr.setId(professor.getEmail());
-		tr.addChildElement(createProfessorCell());
+		tr.addChildElement(createProfessorCell(professor, profPictures));
 		tr.addChildElement(createClassesCell(isEvenRow));
 
 		return tr;
 	}
 
-	private HtmlElement createProfessorCell(){
+	public static TdTag createProfessorCell(Professor professor, ProfessorPictureDictionary profPictures){
 		TdTag profInfoCell = new TdTag();
-		profInfoCell.addCssClass(CssRulesForTableCreator.getProfessorCellClassName());
+		profInfoCell.addCssClass(CssRulesForTableCreator.getProfessorCellClassName()).setWidth("220px");
 
 		ImgTag img = new ImgTag();
 		img.setBorder(0);

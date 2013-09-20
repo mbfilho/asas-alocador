@@ -11,11 +11,8 @@ import data.persistentEntities.Class;
 import data.readers.ProfessorPictureDictionary;
 
 import logic.dto.WorkloadReportList;
-import logic.html.BTag;
-import logic.html.BrTag;
 import logic.html.CssConstants;
 import logic.html.DivTag;
-import logic.html.FontTag;
 import logic.html.HTag;
 import logic.html.HtmlDocument;
 import logic.html.ImgTag;
@@ -64,8 +61,7 @@ public class AllocationPerProfessor {
 		HtmlDocument html = new HtmlDocument();
 		html.setTitle("Universidade Federal de Pernambuco");
 		html.addToHead(new CssRulesForTableCreator().getStyleTag());
-		
-		addHead(html);
+		addDocumentHead(html);
 		createAllocatedTable(html);
 		createNotAllocatedTable(html);
 		return html;
@@ -73,31 +69,26 @@ public class AllocationPerProfessor {
 	
 	private void createNotAllocatedTable(HtmlDocument html) {
 		createTableTitle(html, "Relatório de Docentes Ausentes e Não Alocados");
-		TableTag table = TableTag.defaulTable();
-		table.addChildElement(createTableHeader("Professor", "Situação"));
+		TableTag table = new TableTag();
+		boolean isEvenRow = true;
 		
 		for(Professor p : notAllocatedProfessors){
+			isEvenRow = !isEvenRow;
+			
 			TrTag profRow = new TrTag();
-			profRow.setBackgroundColor("FFFF99");
-			TdTag profCell = new TdTag();
-			
-			ImgTag profImg = new ImgTag();
-			profImg.setHeight(123);
-			profImg.setWidth(97);
-			profImg.setSrc(profPictures.getPicture(p.getEmail()));
-			profCell.addChildElement(profImg);
-			
-			profCell.addChildElement(new BrTag());
-			profCell.addChildElement(new BTag(p.getName()));
-			
+			TdTag profCell = ProfessorAllocation.createProfessorCell(p, profPictures);
 			
 			TdTag situationCell = new TdTag();
 			if(p.isAway()) 
-				situationCell.addInnerText("Afastado(a) temporariamente");
+				situationCell.addInnerText("Afastado(a) temporariamente.");
 			else if(p.isTemporary())
-				situationCell.addInnerText("Professor(a) temporário");
+				situationCell.addInnerText("Professor(a) temporário.");
 			else
-				situationCell.addInnerText("Não alocado!");
+				situationCell.addInnerText("Professor(a) não alocado(a).").setFontWeight(CssConstants.FONT_WEIGHT_BOLD);
+			
+			situationCell.addCssClass(CssRulesForTableCreator.getProfessorDetailsCellClassName());
+			if(isEvenRow) situationCell.addCssClass(CssRulesForTableCreator.getEvenRowClassName());
+			else situationCell.addCssClass(CssRulesForTableCreator.getOddRowClassName());
 			
 			profRow.addChildElement(profCell);
 			profRow.addChildElement(situationCell);
@@ -107,7 +98,7 @@ public class AllocationPerProfessor {
 		html.addChildElement(table);
 	}
 
-	private void addHead(HtmlDocument html){
+	private void addDocumentHead(HtmlDocument html){
 		html.addChildElement(new HTag(1).addInnerText("Universidade Federal de Pernambuco - UFPE").setTextAlign(CssConstants.TEXT_ALIGN_CENTER));
 		html.addChildElement(new HTag(2).addInnerText("Centro de Informática - CIn").setTextAlign(CssConstants.TEXT_ALIGN_CENTER));
 		DivTag logoWrapper = new DivTag();
@@ -121,12 +112,8 @@ public class AllocationPerProfessor {
 	
 	private void createTableTitle(HtmlDocument doc, String titleText){
 		HTag title = new HTag(2);
-		title.addAttribute("align", "center");
-		FontTag font = new FontTag();
-		font.setFace("Arial");
-		font.setSize(4);
-		font.addInnerText(titleText);
-		title.addChildElement(font);
+		title.setTextAlign(CssConstants.TEXT_ALIGN_CENTER);
+		title.addInnerText(titleText);
 		doc.addChildElement(title);
 	}
 	
@@ -146,30 +133,10 @@ public class AllocationPerProfessor {
 		}
 	}
 
-	private TrTag createTableHeader(String leftCol, String rightCol) {
-		TrTag title = new TrTag();
-		title.addStyle("color", "yellow");
-		title.addStyle("background-color", "gray");
-		
-		TdTag profCell = new TdTag();
-		TdTag allocCell = new TdTag();
-		title.addChildElement(profCell);
-		title.addChildElement(allocCell);
-		
-		profCell.addInnerText(leftCol);
-		allocCell.addInnerText(rightCol);
-		return title;
-	}
-
-	public void saveToFile(File f){
+	public void saveToFile(File f) throws FileNotFoundException{
 		HtmlDocument doc = getHtmlRepresentation();
-		
-		try{
-			PrintWriter writer = new PrintWriter(f);
-			writer.print(doc.getHtmlString().toString());
-			writer.close();
-		}catch(FileNotFoundException ex){
-			ex.printStackTrace();
-		}
+		PrintWriter writer = new PrintWriter(f);
+		writer.print(doc.getHtmlString().toString());
+		writer.close();
 	}
 }

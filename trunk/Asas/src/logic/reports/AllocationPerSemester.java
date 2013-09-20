@@ -1,5 +1,8 @@
 package logic.reports;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.TreeMap;
@@ -41,6 +44,12 @@ public class AllocationPerSemester {
 	
 	public HtmlDocument getHtmlRepresentation(){
 		return new PerSemesterHtmlCreator(classesPerSemester).getHtmlRepresentation();
+	}
+	
+	public void saveToFile(File toSave) throws FileNotFoundException{
+		PrintWriter out = new PrintWriter(toSave);
+		out.println(getHtmlRepresentation().getHtmlString());
+		out.close();
 	}
 	
 }

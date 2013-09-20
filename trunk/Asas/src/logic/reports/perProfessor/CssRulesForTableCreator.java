@@ -10,7 +10,8 @@ public class CssRulesForTableCreator {
 				addCssRule(createRuleForEvenRows()).
 				addCssRule(createRuleForOddRows()).
 				addCssRule(createRuleForProfessorDetailsCell()).
-				addCssRule(createRuleForProfessorCell());
+				addCssRule(createRuleForProfessorCell()).
+				addCssRule(createRulesForSizeAndAlignment());
 	}
 	
 	public static String getProfessorCellClassName(){
@@ -30,7 +31,7 @@ public class CssRulesForTableCreator {
 	}
 	
 	private CssRule createRuleForProfessorCell(){
-		return new CssRule().addClassSelector(getProfessorCellClassName()).addStyle("paddin-top", "20px");
+		return new CssRule().addClassSelector(getProfessorCellClassName()).addStyle("padding-top", "20px");
 	}
 	
 	private CssRule createRuleForProfessorDetailsCell(){
@@ -53,6 +54,12 @@ public class CssRulesForTableCreator {
 		CssRule rule = new CssRule();
 		rule.addClassSelector(getOddRowClassName());
 		rule.addStyle("background-color", "b1cff5");
+		return rule;
+	}
+	
+	private CssRule createRulesForSizeAndAlignment(){
+		CssRule rule = new CssRule();
+		rule.addTagSelector("table").addStyle("width", "100%").addStyle("text-align", "center");
 		return rule;
 	}
 	
