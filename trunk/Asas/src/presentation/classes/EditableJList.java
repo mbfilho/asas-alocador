@@ -26,7 +26,8 @@ abstract class SelectElements<T extends NamedEntity> extends DisposableOnEscFram
 
 	public abstract void OnSelect(Vector<T> selecteds);
 
-	public SelectElements(Iterable<T> all){
+	public SelectElements(Iterable<T> all, String title){
+		setTitle(title);
 		setLayout(null);
 		setSize(400, 430);
 		configureElements(all);
@@ -90,7 +91,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		changeListener = listener;
 	}
 
-	private void configureElements(String title, final Iterable<T> objs) {
+	private void configureElements(final String title, final Iterable<T> objs) {
 		int y = 0, space = 10, height = 20;
 		titleLabel = new JLabel(title);
 		titleLabel.setBounds(0, y, 250, height);
@@ -117,7 +118,7 @@ public class EditableJList<T extends NamedEntity> extends JPanel{
 		addButton.setBounds(300+2*space, y+height+space, 45, height);
 		addButton.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				new SelectElements<T>(objs) {
+				new SelectElements<T>(objs, title) {
 					private static final long serialVersionUID = 3466522387972787027L;
 
 					public void OnSelect(Vector<T> selecteds) {
