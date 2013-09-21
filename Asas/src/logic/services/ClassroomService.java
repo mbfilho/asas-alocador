@@ -34,6 +34,11 @@ public class ClassroomService extends BasicDataAccessService<Classroom>{
 		return filtered;
 	}
 	
+	public void addAll(List<Classroom> rooms){
+		for(Classroom room : rooms)
+			super.add(room);
+	}
+	
 	public void add(Classroom room){
 		super.add(room);
 		ConfigurationService.getInstance().saveClassrooms();
