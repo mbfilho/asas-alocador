@@ -37,7 +37,7 @@ public class ExcelWritingDialogLayout extends JDialog {
 	public ExcelWritingDialogLayout(JFrame parentFrame) {
 		super(parentFrame, true);
 		
-		setTitle("Escrever para o Excel");
+		setTitle("Salvar dados no Excel.");
 		setBounds(100, 100, 547, 351);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
