@@ -37,13 +37,9 @@ public class State implements NamedEntity, Serializable{
 	}
 	
 	public String getName() {
-		return description.getName();
+		return "Estado criado em: " + description.getFormattedCreationTime();
 	}
 
-	public void setStateDescription(String name, String desc) {
-		description = new StateDescription(name, desc);
-	}
-	
 	public int getUniqueId(){
 		return _currentId++;
 	}
