@@ -50,7 +50,8 @@ public class EditExcelPreferences extends EditExcelPreferencesLayout {
 			public void actionPerformed(ActionEvent arg0) {
 				ExcelPreferences prefs = getPreferencesFromFields();
 				try {
-					List<String> result = StateService.getInstance().loadStateFromExcel(prefs, StateDescription.withTimeStamp("carregado-do-excel"));
+					StateDescription description = new StateDescription(prefs.getFileLocation(), prefs.getClassesSheet());
+					List<String> result = StateService.getInstance().loadStateFromExcel(prefs, description);
 					JDialog report = new ExcelReadingResults(EditExcelPreferences.this, result);
 					report.setVisible(true);
 					dispose();

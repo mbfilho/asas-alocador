@@ -29,7 +29,7 @@ import presentation.excelPreferences.EditExcelPreferences;
 import presentation.historySystem.HistoryTablePanel;
 import presentation.professors.AddProfessor;
 import presentation.professors.EditProfessor;
-import presentation.state.LoadStateFrame;
+import presentation.state.LoadState;
 import presentation.warnings.WarningsLayout;
 
 import java.awt.event.KeyEvent;
@@ -79,7 +79,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		mntmCarregar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
 		mntmCarregar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new LoadStateFrame();
+				new LoadState();
 			}
 		});
 		

@@ -136,10 +136,10 @@ public class StateService {
 			throw new StateIOException("Estado não encontrado", e);
 		} catch (IOException e) {
 			e.printStackTrace();
-			throw new StateIOException("Não foi possivel carregar o estado\"" + stateDescription.getName() + "\"", e);
+			throw new StateIOException("Não foi possivel carregar o estado selecionado.", e);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-			throw new StateIOException("Ocorreu um erro interno e não foi possivel carregar o estado\"" + stateDescription.getName() + "\"", e);
+			throw new StateIOException("Ocorreu um erro interno e não foi possivel carregar o estado selecionado.", e);
 		}
 	}
 	
@@ -167,5 +167,15 @@ public class StateService {
 	
 	public void updateExcelHash(){
 		currentState.updateExcelHash();
+	}
+
+	public void remove(StateDescription selected) {
+		states.remove(selected);
+		selected.getFile().delete();
+		try {
+			flushDescriptions();
+		} catch (StateIOException e) {
+			e.printStackTrace();
+		}
 	}
 }
