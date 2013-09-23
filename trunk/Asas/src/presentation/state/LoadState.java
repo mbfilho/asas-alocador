@@ -2,6 +2,9 @@ package presentation.state;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JOptionPane;
@@ -19,8 +22,18 @@ public class LoadState extends LoadStateLayout {
 		configureOkButton();
 		configureDoubleClick();
 		configureRemoveButton();
+		configureLoadOnEnter();
 	}
 	
+	private void configureLoadOnEnter() {
+		getStateTable().addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER)
+					loadSelectedState();
+			}
+		});
+	}
+
 	private void configureOkButton(){
 		getOkButton().addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
