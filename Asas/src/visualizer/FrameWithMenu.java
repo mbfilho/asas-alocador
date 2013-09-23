@@ -30,6 +30,7 @@ import presentation.historySystem.HistoryTablePanel;
 import presentation.professors.AddProfessor;
 import presentation.professors.EditProfessor;
 import presentation.reports.CreateAllocationReportPerProfessor;
+import presentation.reports.ProfessorWorkloadReportLayout;
 import presentation.state.LoadState;
 import presentation.warnings.WarningsLayout;
 
@@ -192,20 +193,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		JMenuItem mntmWorkload = new JMenuItem("Carga Horária");
 		mntmWorkload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ProfessorWorkLoadService reportService = ProfessorWorkLoadService.createServiceFromCurrentState();
-				List<WorkloadReport> workload = reportService.calculateProfessorWorkload();
-				Object rowData[][] = new Object[workload.size()][2];
-				int row = 0;
-				for(WorkloadReport load : workload){
-					rowData[row][0] = load.professor.getName();
-					rowData[row++][1] = load.workload;
-				}
-				JTable table = new JTable(rowData, new String[]{"Professor", "Carga Horária"});
-				JFrame frame = new DisposableOnEscFrame();
-				frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-				frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				frame.getContentPane().add(new JScrollPane(table));
-				frame.setVisible(true);
+				new ProfessorWorkloadReportLayout();
 			}
 		});
 		mnRelatrios.add(mntmWorkload);
