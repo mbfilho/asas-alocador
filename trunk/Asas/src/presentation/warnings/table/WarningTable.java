@@ -37,7 +37,7 @@ public class WarningTable extends JTable {
 		model = new WarningTableModel(allowService, warnings);
 		setModel(model);
 		
-		getColumnModel().getColumn(0).setPreferredWidth(700);
+		getColumnModel().getColumn(0).setPreferredWidth(900);
 		getColumnModel().getColumn(1).setPreferredWidth(30);
 		
 		getColumnModel().getColumn(1).setCellRenderer(new CheckboxCellRenderer());

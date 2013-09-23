@@ -33,6 +33,9 @@ public class LabelCellRenderer extends JLabel implements TableCellRenderer{
 		if(isSelected) back = ColorUtil.mixColors(back, Color.green, Color.white);
 		setText(war.getMessage());
 		setBackground(back);
+		
+		table.setRowHeight(row, Math.max(table.getRowHeight(), this.getPreferredSize().height));
+		
 		return this;
 	}
 	
