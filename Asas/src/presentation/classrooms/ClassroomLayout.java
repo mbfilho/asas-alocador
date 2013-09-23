@@ -9,6 +9,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JLabel;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -40,6 +41,7 @@ public abstract class ClassroomLayout extends DisposableOnEscFrame {
 		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setMinimumSize(new Dimension(350, 176));
 		setBounds(100, 100, 350, 176);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
