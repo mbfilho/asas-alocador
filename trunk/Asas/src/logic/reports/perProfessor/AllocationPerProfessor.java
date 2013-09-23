@@ -3,6 +3,8 @@ package logic.reports.perProfessor;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,13 +30,39 @@ public class AllocationPerProfessor {
 	private List<Professor> notAllocatedProfessors;
 	private ClassService classService;
 	private ProfessorService professorService;
-	ProfessorPictureDictionary profPictures;
+	private ProfessorPictureDictionary profPictures;
+	private Comparator<ProfessorAllocation> professorSorting;
 	
-	public AllocationPerProfessor(){
+	public AllocationPerProfessor(ProfessorSorting professorSorting){
 		profPictures = new ProfessorPictureDictionary();
 		classService = ClassService.createServiceFromCurrentState();
 		professorService = ProfessorService.createServiceFromCurrentState();
+		
+		createProfessorComparator(professorSorting);
 		fillProfessorAllocation();
+	}
+
+	private void createProfessorComparator(ProfessorSorting sortingPrefs) {
+		final int orderFactor = sortingPrefs.isSortingAscending() ? 1 : -1;
+		
+		if(sortingPrefs.isSortingByName()){
+			professorSorting = new Comparator<ProfessorAllocation>() {
+				public int compare(ProfessorAllocation o1,	ProfessorAllocation o2) {
+					int res = o1.getProfessor().getName().compareTo(o2.getProfessor().getName());
+					return orderFactor * res;
+				}
+			};
+		}else{
+			professorSorting = new Comparator<ProfessorAllocation>() {
+				public int compare(ProfessorAllocation o1, ProfessorAllocation o2) {
+					int res = orderFactor * ((Double)o1.getWorkload()).compareTo((Double)o2.getWorkload());
+					if(res == 0)
+						res = o1.getProfessor().getName().compareTo(o2.getProfessor().getName());
+					
+					return res;
+				}
+			};
+		}
 	}
 
 	private void fillProfessorAllocation() {
@@ -55,6 +83,8 @@ public class AllocationPerProfessor {
 			else
 				notAllocatedProfessors.add(prof);
 		}
+		
+		Collections.sort(allocatedProfessors, professorSorting);
 	}
 	
 	public HtmlDocument getHtmlRepresentation(){
