@@ -29,6 +29,7 @@ import presentation.excelPreferences.EditExcelPreferences;
 import presentation.historySystem.HistoryTablePanel;
 import presentation.professors.AddProfessor;
 import presentation.professors.EditProfessor;
+import presentation.reports.CreateAllocationReportPerProfessor;
 import presentation.state.LoadState;
 import presentation.warnings.WarningsLayout;
 
@@ -210,26 +211,7 @@ public class FrameWithMenu extends JFrame implements Updatable{
 		mnRelatrios.add(mntmWorkload);
 		
 		JMenuItem mntmGo = new JMenuItem("Alocação por Professor");
-		mntmGo.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				File previous = ConfigurationService.getLastFileLocationForProfessorReport();
-				File choosen = GuiUtil.promptForHtmlFileCreation(FrameWithMenu.this, previous);
-				
-				if(choosen != null){
-					try {
-						new AllocationPerProfessor().saveToFile(choosen);
-						ConfigurationService.setLastFileLocationForProfessorReport(choosen);
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-						JOptionPane.showMessageDialog(
-								FrameWithMenu.this, 
-								"Ocorreu um erro ao salvar o arquivo. Certifique-se de ter inserido um nome válido.",
-								"Erro ao salvar o relatório",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
+		mntmGo.addActionListener(new CreateAllocationReportPerProfessor(this));
 		mnRelatrios.add(mntmGo);
 		
 		JMenu allocPerSemesterMenu = new JMenu("Alocação por período");

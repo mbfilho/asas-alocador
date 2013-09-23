@@ -1,5 +1,6 @@
 package utilities;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -23,5 +24,7 @@ public class DisposableOnEscFrame extends JFrame{
 		}; 
 		getRootPane().getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW).put(escapeKeyStroke, "ESCAPE");
 		getRootPane().getActionMap().put("ESCAPE", escapeAction);
+		
+		setMinimumSize(new Dimension(400, 400));
 	}
 }

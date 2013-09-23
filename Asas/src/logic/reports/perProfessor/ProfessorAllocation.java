@@ -44,6 +44,10 @@ public class ProfessorAllocation {
 	public Professor getProfessor(){
 		return professor;
 	}
+	
+	public double getWorkload(){
+		return professorWorkload.workload;
+	}
 
 	public List<Professor> getOtherProfessors(Class c){
 		List<Professor> others = new LinkedList<Professor>();
