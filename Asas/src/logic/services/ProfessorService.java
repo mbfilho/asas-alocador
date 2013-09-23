@@ -1,5 +1,6 @@
 package logic.services;
 
+import data.persistentEntities.ExcelMetadata;
 import data.persistentEntities.Professor;
 import data.persistentEntities.State;
 import data.repository.Repository;
@@ -27,5 +28,19 @@ public class ProfessorService extends BasicDataAccessService<Professor> {
 		Professor prof = getByName(profName);
 		if(prof != null)
 			prof.setLastSemesterWorkload(workload);
+	}
+	
+	private int getLastUsedRow(){
+		int lastRow = 0;
+		for(Professor p : list())
+			lastRow = Math.max(lastRow, p.getExcelMetadata().getRow());
+		return lastRow;
+	}
+	
+	public void add(Professor prof){
+		if(prof.getExcelMetadata() == null){
+			prof.setExcelMetadata(new ExcelMetadata(getLastUsedRow() + 1));
+		}
+		super.add(prof);
 	}
 }

@@ -17,6 +17,8 @@ public abstract class ExcelWriter<T> implements Writer<T>{
 	
 	protected void goToRow(int row){
 		currentRow = currentSheet.getRow(row);
+		if(currentRow == null)
+			currentRow = currentSheet.createRow(row);
 		cellNumber = 0;
 	}
 	
