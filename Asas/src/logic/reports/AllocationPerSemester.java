@@ -43,7 +43,8 @@ public class AllocationPerSemester {
 	}
 	
 	public HtmlDocument getHtmlRepresentation(){
-		return new PerSemesterHtmlCreator(classesPerSemester).getHtmlRepresentation();
+		String course = isCc ? "Ciência da Computação" : "Engenharia da Computação";
+		return new PerSemesterHtmlCreator(course, classesPerSemester).getHtmlRepresentation();
 	}
 	
 	public void saveToFile(File toSave) throws FileNotFoundException{

@@ -23,13 +23,19 @@ import data.persistentEntities.SlotRange;
 public class PerSemesterHtmlCreator {
 	private TreeMap<Integer, List<Class>> classesPerSemester;
 	private ColorPoolForNames colorsToClasses;
+	private String course;
 	
-	public PerSemesterHtmlCreator(TreeMap<Integer, List<Class>> mapping) {
+	public PerSemesterHtmlCreator(String course, TreeMap<Integer, List<Class>> mapping) {
 		this.classesPerSemester = mapping;
+		this.course = course;
 	}
 	
 	public HtmlDocument getHtmlRepresentation(){
 		HtmlDocument document = new HtmlDocument();
+		HTag title = new HTag(2);
+		title.addInnerText("Relatório de Alocação de Disciplinas Obrigatórias do Curso de " + course);
+		title.setTextAlign(CssConstants.TEXT_ALIGN_CENTER);
+		document.addChildElement(title);
 		document.addChildElement(createBigTable());
 		return document;
 	}
