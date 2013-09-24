@@ -52,8 +52,7 @@ public abstract class ProfessorLayout extends DisposableOnEscFrame {
 	private void configureElements() {
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setMinimumSize(new Dimension(523, 278));
-		setBounds(100, 100, 523, 278);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);

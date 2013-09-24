@@ -1,6 +1,8 @@
 package presentation.professors;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,6 +24,10 @@ public class EditProfessor extends ProfessorLayout {
 	private JComboBox<NamedPair<Professor>> professorsCBox;
 	
 	public EditProfessor() {
+		setTitle("Editar Professores");
+		setMinimumSize(new Dimension(523, 300));
+		setBounds(100, 100, 523, 300);
+		
 		GridBagLayout gridBagLayout = (GridBagLayout) getContentPane().getLayout();
 		gridBagLayout.rowHeights = new int[]{52, 0, 0, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0};
