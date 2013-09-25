@@ -35,7 +35,7 @@ public class EditProfessor extends ProfessorLayout {
 		JLabel chooseProfessorLabel = new JLabel("Escolha um professor:");
 		GridBagConstraints gbc_chooseProfessorLabel = new GridBagConstraints();
 		gbc_chooseProfessorLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_chooseProfessorLabel.anchor = GridBagConstraints.EAST;
+		gbc_chooseProfessorLabel.anchor = GridBagConstraints.WEST;
 		gbc_chooseProfessorLabel.gridx = 1;
 		gbc_chooseProfessorLabel.gridy = 0;
 		getContentPane().add(chooseProfessorLabel, gbc_chooseProfessorLabel);

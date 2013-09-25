@@ -184,7 +184,8 @@ public class ExcelPreferences implements Serializable{
 				return pair.getKey();
 		}
 		
-		return null;
+		if(rooms.isEmpty()) return null;
+		return utilities.StringUtil.joinListWithSeparator(rooms, "/");
 	}
 
 	public void setSlotCount(int slotCount) {

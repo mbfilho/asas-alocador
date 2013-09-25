@@ -181,13 +181,19 @@ public class Class implements NamedEntity, Serializable{
 	
 	public List<Classroom> getRoomsOrderedBySlot(){
 		List<SlotRange> slots = new LinkedList<SlotRange>(aliasSharedData.slots);
-		List<Classroom> rooms = new LinkedList<Classroom>();
+		LinkedList<Classroom> rooms = new LinkedList<Classroom>();
 		Collections.sort(slots);
 		
 		for(SlotRange slot : slots){
 			if(slot.getClassroom() != null)
 				rooms.add(slot.getClassroom());
 		}
+		
+		if(CollectionUtil.distinct(rooms).size() == 1){
+			while(rooms.size() > 1)
+				rooms.removeLast();
+		}
+		
 		return rooms;
 	}
 	
