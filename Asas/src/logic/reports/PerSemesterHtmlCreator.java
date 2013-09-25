@@ -104,8 +104,6 @@ public class PerSemesterHtmlCreator {
 
 	private String formatRooms(Class c) {
 		List<Classroom> rooms = c.getRoomsOrderedBySlot();
-		if(CollectionUtil.distinct(rooms).size() == 1)
-			return rooms.get(0).getName();
 		
 		return StringUtil.joinListWithSeparator(rooms, "/");
 	}
